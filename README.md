@@ -1,4 +1,5 @@
-# MoreLang ![버전](https://img.shields.io/badge/%20version-1.0-green)
+![버전](https://img.shields.io/badge/%20version-1.0-green)
+# <span style="color:#6B66FF">More</span><span style="color:#FFE400">Lang</span>
 
 ## 프로젝트 소개
 
@@ -139,6 +140,10 @@
 ## 📺 화면 구성 (프로토 타이핑)
 ---
 ## 📚 DataBase 구조도
+
+### ERD - 1차
+
+![ERD - 1차](./resource/img/ERD초기.PNG)
 
 ---
 ## 📃 Api Reference
