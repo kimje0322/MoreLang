@@ -1,10 +1,9 @@
 <template>
-  <div class="shoppingDetail">    
+  <div class="channelDetail">    
     <div>
-    <!-- 상품 게시글 제목 -->
     <!-- 'url(' + picture + ')' -->
     <div
-      class="shoppingImg"
+      class="backImg"
       v-bind:style="{ 'background-image': 'url(https://boxmaster.co.kr/upload/magazine/5c99e01e4c37e.jpg)' }"
       style="
         height: 300px;
@@ -16,8 +15,8 @@
       <h2 class="intro">DEAR.JERRY</h2>
       <div class="img-cover"></div>
     </div>
-    <div class="shoppingInfoBox">
-      <div class="shoppingInfo">
+    <div class="channelInfoBox">
+      <div class="channelInfo">
         
         <div style="float: left; width: 50%">
           <h3 class="my-2">채널이름 Dear. Jerry</h3>
@@ -42,7 +41,7 @@ export default {
 </script>
 
 <style>
-.shoppingImg {
+.backImg {
   position: relative;
   background-size: cover;
   background-position: center center;
@@ -67,7 +66,7 @@ export default {
   text-align: center;
 }
 
-.shoppingInfoBox {
+.channelInfoBox {
   /* margin: 0 150px; */
   z-index: 3;
   position: absolute;
@@ -76,7 +75,7 @@ export default {
   padding: 0 17%;
   border-radius: 4px;
 }
-.shoppingInfo {
+.channelInfo {
   overflow: hidden;
   width: 100%;
   background: white;
