@@ -1,17 +1,19 @@
 <template>
-  <div id="app">
-    <div id="nav">
-    </div>
+  <v-app>
     <router-view />
-  </div>
+    <!-- <Home /> -->
+  </v-app>
 </template>
 
 <script>
+// import Home from "@/views/Home"
+
 
 export default {
   name: "App",
 
   components: {
+    // Home
   },
 
   data: () => ({

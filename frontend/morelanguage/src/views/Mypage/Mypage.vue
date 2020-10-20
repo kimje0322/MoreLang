@@ -1,9 +1,9 @@
 <template>
 
-  <div style="display:flex; padding: 5% 8%">
+  <div class="mypage" style="display:flex; padding: 5% 8%">
     <!-- 유저 정보 -->
     <div style="margin-right: 25px; width: 27%; text-align: center">
-      <v-icon style="margin-top: 120px; margin-bottom: 17px; font-size: 80px;">mdi-account-circle</v-icon>
+      <v-icon style="margin-top: 100px; margin-bottom: 17px; font-size: 80px;">mdi-account-circle</v-icon>
       <h4>당근이좋아 님</h4>
       <p style="margin-top:10px">500 point</p>
       <div>
@@ -24,7 +24,6 @@
     <!-- 탭 -->
     <!-- <v-card> -->
     <v-toolbar
-      color="cyan"
       flat
       style="height:70px"
     >
@@ -49,7 +48,7 @@
         :key="item"
       >
         <v-card flat>
-          <div v-if="item=='영상 학습'">
+          <div v-if="item=='영상학습'">
             <VideoLearning />
           </div>
           <div v-else-if="item=='스크랩'">
@@ -70,6 +69,7 @@
 import VideoLearning from "@/views/Mypage/VideoLearning";
 import Scrap from "@/views/Mypage/Scrap";
 import Liked from "@/views/Mypage/Liked";
+import "@/../public/css/Mypage.scss"
 
 export default {
   components: {
@@ -81,7 +81,7 @@ export default {
       return {
         tab: null,
         items: [
-          '영상 학습', '스크랩', '좋아요'
+          '영상학습', '스크랩', '좋아요'
         ],
       }
     },
@@ -93,14 +93,21 @@ export default {
     height: 0px !important;
   }
   .v-tab--active {
-  background-color:#FCE4EC;
+    text-decoration:none !important;
+    color: black !important;
+    background-color:#FCE4EC;
   /* rgba(173, 220, 254, 0.4); */
   }
   .mypageTabs {
+    /* padding: 0px 15px; */
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
   }
   .v-tabs-slider-wrapper {
     color: palevioletred;
+  }
+  .v-item-group{
+    color: black;
+    /* text-decoration:none !important; */
   }
 </style>
