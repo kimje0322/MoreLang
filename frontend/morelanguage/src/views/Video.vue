@@ -1,8 +1,8 @@
 <template>
   <div class="video">
-   <h3>비디오페이지</h3>
-   <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
-<button @click="playVideo">play</button>
+    <h3>비디오페이지</h3>
+    <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
+    <button @click="playVideo">play</button>
   </div>
 </template>
 
@@ -11,22 +11,22 @@
 
 export default {
   name: "Video",
-    data() {
+  data() {
     return {
-      videoId: 'lG0Ys-2d4MA'
-    }
+      videoId: "lG0Ys-2d4MA"
+    };
   },
   methods: {
     playVideo() {
-      this.player.playVideo()
+      this.player.playVideo();
     },
     playing() {
-      console.log(' we are watching!!!')
+      console.log(" we are watching!!!");
     }
   },
   computed: {
     player() {
-      return this.$refs.youtube.player
+      return this.$refs.youtube.player;
     }
   }
 };
