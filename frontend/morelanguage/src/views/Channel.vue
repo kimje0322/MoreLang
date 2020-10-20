@@ -70,7 +70,7 @@ export default {};
   /* margin: 0 150px; */
   z-index: 3;
   position: absolute;
-  width: 60%;
+  width: 100%;
   top: 250px;
   padding: 0 17%;
   border-radius: 4px;
@@ -79,6 +79,7 @@ export default {};
   overflow: hidden;
   width: 100%;
   background: white;
+   /* white; */
   padding: 2%;
 }
 </style>
