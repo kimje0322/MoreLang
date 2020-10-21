@@ -10,9 +10,9 @@
           style="margin: 0 100px; display: flex; align-items: center; justify-content: space-between;"
         >
           <div
-            style="top: 10px; font-size: 18px; pointer-event: none; font-family: SilkSerif; color: lightgray;"
+            style="top: 10px; font-weight: 600; font-size: 18px; pointer-event: none; font-family: 'Calibre',sans-serif; color: darkgray;"
           >
-            #morelang
+            #MORELANG
           </div>
 
           <!-- 구글 로그인 -->
@@ -63,30 +63,74 @@
           <div
             style="transform: translateY(250%); position: absolute; padding: 0 50px; z-index: 5; justify-content: space-between; align-items: center; display: flex; width: 100%;"
           >
-            <div>
-              <v-icon large>mdi-chevron-left</v-icon>
+            <div style="margin: 100px; color: darkgray;" class="swiper-button-prev">
+              <!-- <v-icon large>mdi-chevron-left</v-icon> -->
             </div>
-            <div>
-              <v-icon large>mdi-chevron-right</v-icon>
+            <div style="margin: 100px; color: darkgray; " class="swiper-button-next">
+              <!-- <v-icon large>mdi-chevron-right</v-icon> -->
             </div>
           </div>
           <!-- 채널 동그라미 -->
-          <div
-            data-scroll
+          <!-- style="transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 18.15, 0, 0, 1);" -->
+          <!-- data-scroll
             data-scroll-offset="100"
             data-scroll-speed="2"
-            data-scroll-direction="horizontal"
-            style="transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 18.15, 0, 0, 1);"
-          >
-            <div style="margin: 0 auto; transform: translate3d(-2160px, 0px, 0px); transition: all 0ms ease 0s;">
+            data-scroll-direction="horizontal" -->
+          <div class="swiper-container">
+            <!-- <div style="margin: 0 auto; transform: translate3d(-2160px, 0px, 0px); transition: all 0ms ease 0s;"> -->
+            <div class="swiper-wrapper" style="margin: 20px 150px;" data-aos="slide-left" aos-offset="300" data-aos-duration="3000">
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
+              <a href="/" style="width: 240px;">
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
+              </a>
               <a href="#" style="width: 240px;">
-                <div style="animation: float 2s ease-in-out infinite; ">
-                  <img src="../assets/img/channel0.jpg" alt="">
-                  dfad
-                </div>
-                adfasdf
+                <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
+                  <img src="../assets/img/channel0.jpg" alt="" />
+                </span>
               </a>
             </div>
+            <div class="swiper-pagination"></div>
           </div>
         </div>
       </div>
@@ -100,7 +144,53 @@
 <script>
 // @ is an alias to /src
 
+import {Swiper, Navigation, Pagination, Scrollbar} from 'swiper';
+// import 'swiper/swiper-bundle.css'
+
+Swiper.use([Navigation, Pagination, Scrollbar]);
+// var swiper = 
+new Swiper('.swiper-container',  {
+  // slidesPerView: 3,
+  // spaceBetween: 30,
+  // pagination: {
+  //   el: '.swiper-pagination',
+  //   clickable: true
+  // }
+  direction: 'horizontal',
+  loop: true,
+
+  slidesPerView: 6,
+  spaceBetween: 10,
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev'
+  },
+})
+
+// var menu = ['']
+// swiper.navigation();
+
 export default {
   name: "Home"
 };
 </script>
+
+<style>
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+
+</style>
