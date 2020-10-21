@@ -138,6 +138,33 @@
 ---
 
 ## 📺 화면 구성 (프로토 타이핑)
+
+### 와이어프레임
+
+- 메인 페이지
+
+![](resource/img/와이어프레임1.png)
+
+![와이어프레임2](resource/img/와이어프레임2.png)
+
+- 채널 디테일 페이지
+
+![와이어프레임5](resource/img/와이어프레임5.png)
+
+- 영상학습 페이지
+
+![와이어프레임3](resource/img/와이어프레임3.png)
+
+![와이어프레임4](resource/img/와이어프레임4.png)
+
+- 마이페이지
+
+![와이어프레임6](resource/img/와이어프레임6.png)
+
+![와이어프레임7](resource/img/와이어프레임7.png)
+
+![와이어프레임8](resource/img/와이어프레임8.png)
+
 ---
 ## 📚 DataBase 구조도
 
