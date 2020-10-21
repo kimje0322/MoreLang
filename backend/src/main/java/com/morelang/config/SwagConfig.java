@@ -41,7 +41,7 @@ public class SwagConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("ssalog.API").description("SSALOG API Reference for Developers")
+		return new ApiInfoBuilder().title("MoreLang.API").description("MoreLang API Reference for Developers")
 				.version("1.0").build();
 	}
 
