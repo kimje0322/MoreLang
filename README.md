@@ -179,7 +179,7 @@
 ## 📚 DataBase 구조도 (ERD)
 
 
-![ERD - 2차](./resource/img/ERD2차.PNG)
+![ERD - 2차](./resource/img/ERD2차.png)
 
 ---
 ## 📃 Api Reference
