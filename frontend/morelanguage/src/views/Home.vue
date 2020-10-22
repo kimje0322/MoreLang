@@ -38,7 +38,7 @@
 
       <!-- 추천 채널 -->
       <div style="padding: 50px 0; display: block;">
-        <div style="margin: 0 100px;">
+        <div style="margin: 0 100px;" data-aos="slide-right" aos-offset="300" data-aos-duration="1500">
           <h3>
             <span
               style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
@@ -78,7 +78,7 @@
             data-scroll-direction="horizontal" -->
           <div class="swiper-container">
             <!-- <div style="margin: 0 auto; transform: translate3d(-2160px, 0px, 0px); transition: all 0ms ease 0s;"> -->
-            <div class="swiper-wrapper" style="margin: 20px 150px;" data-aos="slide-left" aos-offset="300" data-aos-duration="3000">
+            <div class="swiper-wrapper" style="margin: 20px 150px;" data-aos="slide-left" aos-offset="300" data-aos-duration="2500">
               <a href="/" style="width: 240px;">
                 <span class="swiper-slide" style="animation: float 2s ease-in-out infinite; ">
                   <img src="../assets/img/channel0.jpg" alt="" />
