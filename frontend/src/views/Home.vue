@@ -102,7 +102,7 @@ export default {
       const fd = new FormData();
       fd.append("code", data.code);
       fd.append("redirect", window.location.href)
-      axios.post('http://localhost:8080/login',fd)
+      axios.post('https://morelang.gq/api/login',fd)
       .then((response)=>{
         console.log("성공!")
         this.member = response.data.member

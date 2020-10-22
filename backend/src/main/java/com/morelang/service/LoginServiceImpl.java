@@ -35,8 +35,6 @@ public class LoginServiceImpl implements LoginService{
 
 		String accessToken = tokenResponse.getAccessToken();
 		String refreshToken = tokenResponse.getRefreshToken();
-		System.out.println("ㅇㅇ? " + tokenResponse);
-		System.out.println(accessToken);
 		// Get profile info from ID token
 		GoogleIdToken idToken = tokenResponse.parseIdToken();
 		GoogleIdToken.Payload payload = idToken.getPayload();
