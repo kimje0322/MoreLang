@@ -13,7 +13,7 @@
 ### ✔ 주요기능(구현 예정)
 
 <details>
-<summary>1. 로그인 / 로그아웃</summary>
+<summary>1. 로그인 / 로그아웃 ✔</summary>
 
   - *Google Api를 활용한 구글 로그인 구현예정 ( 관심 영상을 파악하기 위해)*
 </details>
@@ -100,15 +100,40 @@
 ### 기획서 작성
 - [프로젝트 기획서](./resource/file/프로젝트기획서.docx)
 </details>
+<details>
+<summary>Week 2 :  2020.10.19(월) ~ 2020.10.25(일)</summary>
+
+### 이번주 한일
+
+### FrontEnd
+- 전체적인 흐름에 따른 페이지 구상 (와이어 프레임)
+- 메인 페이지 및 마이페이지 구조 형성 및 디자인
+- 채널 페이지 구조 형성 및 디자인
+- 메인 페이지 내 애니메이션 효과 적용
+- 구글 소셜 로그인 구현
+
+### BackEnd
+- 주제 구현을 위해 필요한 데이터를 위한 API 찾기(어렵당😓;)
+- Google API, Youtube API 사용법 및 API 조작법 숙지
+- 각 API에 따른 DTO 구현 및 DB 설계
+- 구글 소셜 로그인 구현
+- AWS 서버 구축
+- Docker를 활용한 무중단 배포 구현
+- NGINX, Jenkins 설정
+- 임시 도메인 주소 획득 및 HTTPS를 위한 SSL 설정
+
+### API 찾기
+- [API 조회](./resource/file/API정리.md)
+- [비디오페이지개발일지](./resource/file/비디오페이지개발일지.md)
+</details>
 
 ---
 ## 📁 Project Folder
 ```
-📁Mongo
 📁MySQL
 📁client
 ├── 📁src
-│   ├── App
+│   ├── 📁App
 │   ├── 📁assets
 │   ├── 📁components
 │   ├── 📁plugins
@@ -137,51 +162,39 @@
 
 ---
 
-## 📺 화면 구성 (프로토 타이핑)
+## 📺 화면 구성 (와이어 프레임)
 
-### 와이어프레임
 
+### Main function
 - 메인 페이지
+- 채널 디테일
+- 영상 학습
 
-![](resource/img/와이어프레임1.png)
+![와이어프레임2](resource/img/와이어프레임MAIN.png)
 
-![와이어프레임2](resource/img/와이어프레임2.png)
-
-- 채널 디테일 페이지
-
-![와이어프레임5](resource/img/와이어프레임5.png)
-
-- 영상학습 페이지
-
-![와이어프레임3](resource/img/와이어프레임3.png)
-
-![와이어프레임4](resource/img/와이어프레임4.png)
-
-- 마이페이지
-
-![와이어프레임6](resource/img/와이어프레임6.png)
-
-![와이어프레임7](resource/img/와이어프레임7.png)
-
-![와이어프레임8](resource/img/와이어프레임8.png)
+### MyPage
+![와이어프레임2](resource/img/와이어프레임MY.png)
 
 ---
-## 📚 DataBase 구조도
+## 📚 DataBase 구조도 (ERD)
 
-### ERD - 1차
 
-![ERD - 1차](./resource/img/ERD초기.PNG)
+![ERD - 2차](./resource/img/ERD2차.PNG)
 
 ---
 ## 📃 Api Reference
-
+- [API 정리서](./resource/file/API정리.md)
+- [비디오페이지개발일지](./resource/file/비디오페이지개발일지.md)
 ---
 ## 🔧 Tech Stack
+![기술스택](./resource/img/기술스택.png)
 
 ---
 ## 참고파일
 
 - [프로젝트 기획서](./resource/file/프로젝트기획서.docx)
+- [API 정리서](./resource/file/API정리.md)
+- [비디오페이지개발일지](./resource/file/비디오페이지개발일지.md)
 ---
 ## 👪Member
 
