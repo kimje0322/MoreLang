@@ -1,14 +1,12 @@
 <template>
 <div>
-  <!-- <Navbar /> -->
-  <div class="mypage" style="padding: 5% 8%">
-    
+  <Navbar />
+  <div class="mypage" style="padding: 0% 3%">
     <!-- 유저 정보 -->
-    <div style="margin-right: 25px; width: 27%; text-align: center">
-      <!-- 탭 -->
-      <v-tabs vertical style="margin: 10% 15%">
+    <div style="margin-right: 25px; ">
+      <v-tabs vertical style="margin: 3% 0%">
         <div style="color:black; margin: 15px 0px">
-        <h3>닉네임</h3>
+        <h3 style="text-align: center">닉네임</h3>
         <p style="margin-top:10px">500 point  
         <v-chip
         small
@@ -22,6 +20,7 @@
         </v-chip>
       </p> 
       </div>
+      <!-- 탭 -->
         <v-tab>
           <v-icon left>
             mdi-youtube
@@ -32,33 +31,33 @@
           <v-icon left>
             mdi-alphabetical-variant
           </v-icon>
-          스크랩
+          단어모음
         </v-tab>
         <v-tab>
           <v-icon left>
-            mdi-book-play-outline
+            mdi-book-open
           </v-icon>
-          좋아요
+          문장모음
         </v-tab>
 
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
+            <v-card-text style="margin-left:35px">
                <VideoLearning />
             </v-card-text>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              <Scrap />
+            <v-card-text style="margin-left:35px">
+              <MyWords />
             </v-card-text>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              <Liked />
+            <v-card-text style="margin-left:35px">
+              <MySentences />
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -70,8 +69,8 @@
 
 <script>
 import VideoLearning from "@/views/Mypage/VideoLearning";
-import Scrap from "@/views/Mypage/Scrap";
-import Liked from "@/views/Mypage/Liked";
+import MyWords from "@/views/Mypage/MyWords";
+import MySentences from "@/views/Mypage/MySentences";
 import Navbar from "@/components/Navbar";
 import "@/../public/css/Mypage.scss"
 
@@ -79,8 +78,8 @@ export default {
   components: {
     Navbar,
     VideoLearning,
-    Scrap,
-    Liked,
+    MyWords,
+    MySentences,
   },
   data () {
       return {
@@ -93,7 +92,7 @@ export default {
     },
   methods: {
     onCharge() {
-      console.log('충전하기')
+      alert('충전하시겠습니까?')
       },
     }
   }

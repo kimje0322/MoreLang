@@ -1,59 +1,30 @@
 <template>
 <!-- 상단 -->
   <div class="Navbar">
-    <v-app>
-      <div >
-          <!-- <div class="serviceName"> -->
-            <!-- <router-link to="/"> -->
-              <h2 style="text-align:center" class="py-5">Morelang</h2>
-            <!-- </router-link> -->
-          <!-- </div> -->
-      </div>
-  <!-- expand-on-hover  -->
-  <!-- drawer -->
-  <v-card>
-    <v-navigation-drawer
-      app right
-      permanent
-      expand-on-hover
-    >
-      <template v-slot:prepend>
-        <v-list-item two-line>
-          <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/women/81.jpg">
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>Jane Smith</v-list-item-title>
-            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-
-      <v-divider></v-divider>
-
-      <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </v-card>
-  </v-app>
+    <div >
+      <v-card-title>
+        <router-link to="/">
+          <h2 class="logo px-5 py-1" style="display:inline-block">Morelang</h2>
+        </router-link>
+        <div class="mx-auto" style="display:inline-block; width: 33%;"> 
+          <v-text-field
+            height="37"
+            hide-details=""
+            placeholder='키워드 검색'
+            outlined clearable
+            prepend-inner-icon="mdi-magnify"
+            
+          />
+          </div>
+        <span class="mr-5">로그아웃</span>
+      </v-card-title>
+    </div>
 </div>
 
 </template>
 
 <script scoped>
+import "@/../public/css/Navbar.scss"
   export default {
     data () {
       return {
@@ -68,5 +39,10 @@
 </script>
 
 <style scoped>
-
+  .logo {
+    font-family: 'Kaushan Script', cursive;
+  }
+  a {
+    color: black !important;
+  }
 </style>
