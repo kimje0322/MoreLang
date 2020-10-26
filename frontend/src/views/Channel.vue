@@ -15,7 +15,7 @@
         align-items: center;
       "
       >
-        <h2 class="intro">DEAR.JERRY</h2>
+        <h2 class="intro">채널 이름</h2>
         <div class="img-cover"></div>
       </div>
       <div class="channelInfoBox">
@@ -40,7 +40,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .backImg {
   position: relative;
   background-size: cover;
