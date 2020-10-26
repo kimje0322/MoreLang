@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <router-view></router-view>
     <!-- <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
@@ -35,13 +36,13 @@
     <!-- <v-main>
       <HelloWorld />
     </v-main> -->
-    <Home />
+    <!-- <Home /> -->
   </v-app>
 </template>
 
 <script>
 // import HelloWorld from "./components/HelloWorld";
-import Home from "@/views/Home"
+// import Home from "@/views/Home"
 
 
 export default {
@@ -49,7 +50,7 @@ export default {
 
   components: {
     // HelloWorld
-    Home
+    // Home
   },
 
   data: () => ({

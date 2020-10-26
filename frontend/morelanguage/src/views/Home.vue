@@ -6,18 +6,35 @@
       <header
         style="padding-top: 30px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
       >
-        <div
-          style="margin: 0 100px; display: flex; align-items: center; justify-content: space-between;"
-        >
+        <div class="navigation">
           <div
-            style="top: 10px; font-weight: 600; font-size: 18px; pointer-event: none; font-family: 'Calibre',sans-serif; color: darkgray;"
+            style="margin: 0 100px; display: flex; align-items: center; justify-content: space-between;"
           >
-            #MORELANG
+            <div
+              style="top: 10px; font-weight: 600; font-size: 18px; pointer-event: none; font-family: 'Calibre',sans-serif; color: darkgray;"
+            >
+              #MORELANG
+            </div>
+            <!-- 구글 로그인 -->
+            <div></div>
+
+            <!-- 검색 -->
+            <div>
+              <!-- <router-link to="/search" style="text-decoration: none;"> -->
+              <v-icon large @click="search = true">mdi-magnify</v-icon>
+              <!-- </router-link> -->
+            </div>
+            <div v-if="search" scroll="no">
+              <div style="visibility: visible; opacity: 1; transition-delay: 0s; width: 100%; height: 100vh; position: fixed; top: 0; left: 0; background-color: rgba(231,229,221,.95); transition: visibility .3s ease-in-out,opacity .3s ease-in-out; z-index: 15;">
+                <!-- <div style="justify-content: center; align-items: center;"> -->
+                  <div style="margin: 10% 20%;">
+                  <!-- <form action="/search" method="get"></form> -->
+                  <input type="search" placeholder="SEARCH" autofocus style="border-bottom: 1px solid #737475; font-size: 30px; letter-spacing: 0.075em; display: inline-block;" />
+                  <span style="display: inline-block" @click="search = false">X</span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <!-- 구글 로그인 -->
-          <div></div>
-
           <!-- 메뉴바 -->
           <!-- <div style="width: 50px; ">
             <v-icon>hamburger-menu</v-icon>
@@ -25,7 +42,7 @@
         </div>
       </header>
       <!-- 소개 영상 -->
-      <div style="width: 100%; height: 100vh;">
+      <div style="width: 100%; height: 100vh; display: block;">
         <video
           style="width: 100%;"
           muted
@@ -158,7 +175,7 @@
           style="margin: 0 100px;"
           data-aos="slide-right"
           aos-offset="300"
-          data-aos-duration="1500"
+          data-aos-duration="1000"
         >
           <h3>
             <span
@@ -172,13 +189,13 @@
           </h3>
         </div>
         <div class="example-3d">
-          <swiper class="swiper-video" :options="swiperVideo">
-            <swiper-slide class="swiper-slide-video">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide-video">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide-video">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide-video">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide-video">Slide 1</swiper-slide>
-            <div class="swiper-pagination-video" slot="pagination"></div>
+          <swiper class="swiper" :options="swiperOption">
+            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
         </div>
       </div>
@@ -199,6 +216,16 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 import "swiper/swiper-bundle.css";
 
+// 상단 네브바 고정
+var nav = document.getElementsByClassName("navigation");
+window.onscroll = function sticky() {
+  if (window.pageYOffset > nav[0].offsetTop) {
+    nav[0].classList.add("nav");
+  } else {
+    nav[0].classList.remove("nav");
+  }
+};
+
 export default {
   name: "Home",
   components: {
@@ -207,6 +234,7 @@ export default {
   },
   data() {
     return {
+      search: false,
       swiperVideo: {
         effect: "coverflow",
         grabCursor: true,
@@ -289,4 +317,14 @@ export default {
   font-weight: bold;
 }
 
+.nav {
+  position: fixed;
+  background: beige;
+  padding: 30px 0;
+}
+
+.navigation {
+  width: 100%;
+  top: 0;
+}
 </style>
