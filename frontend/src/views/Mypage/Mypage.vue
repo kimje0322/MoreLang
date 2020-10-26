@@ -1,5 +1,8 @@
 <template>
+<div>
+  <!-- <Navbar /> -->
   <div class="mypage" style="padding: 5% 8%">
+    
     <!-- 유저 정보 -->
     <div style="margin-right: 25px; width: 27%; text-align: center">
       <!-- 탭 -->
@@ -62,16 +65,19 @@
       </v-tabs>
   </div>
   </div>
+  </div>
 </template>
 
 <script>
 import VideoLearning from "@/views/Mypage/VideoLearning";
 import Scrap from "@/views/Mypage/Scrap";
 import Liked from "@/views/Mypage/Liked";
+import Navbar from "@/components/Navbar";
 import "@/../public/css/Mypage.scss"
 
 export default {
   components: {
+    Navbar,
     VideoLearning,
     Scrap,
     Liked,

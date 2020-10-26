@@ -243,7 +243,8 @@
   </div>
 </template>
 
-<script src="https://apis.google.com/js/platform.js">
+<script src="https://apis.google.com/js/platform.js"></script>
+<script>
 import axios from "axios"
 // @ is 0an alias to /src
 

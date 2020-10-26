@@ -4,9 +4,10 @@ import Home from "../views/Home.vue";
 import Video from "../views/Video.vue";
 import Channel from "../views/Channel.vue";
 import Search from "../views/Search.vue"
+import Mypage from "../views/Mypage/Mypage.vue"
 
 // import Swiper from "../views/Swiper.vue";
-import Channel from "../views/Channel";
+
 
 Vue.use(VueRouter);
 
