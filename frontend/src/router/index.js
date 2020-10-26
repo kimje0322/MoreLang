@@ -6,6 +6,7 @@ import Channel from "../views/Channel.vue";
 import Search from "../views/Search.vue"
 
 // import Swiper from "../views/Swiper.vue";
+import Channel from "../views/Channel";
 
 Vue.use(VueRouter);
 
@@ -28,8 +29,13 @@ const routes = [{
         path: "/search",
         name: "Search",
         component: Search,
-    }
+    },
+    {
 
+        path: "/mypage",
+        name: "Mypage",
+        component: Mypage
+    },
 ];
 
 const router = new VueRouter({

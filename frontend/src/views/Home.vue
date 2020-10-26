@@ -18,7 +18,31 @@
               </div>
             </router-link>
             <!-- 구글 로그인 -->
-            <div></div>
+            <div>
+              <div>
+            <v-btn text @click="login" v-if="!member.name">Login</v-btn>
+            <v-menu open-on-hover offset-y v-else-if="member.name" no-gutters>
+              <template v-slot:activator="{ on, attrs }">
+                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                  <v-row no-gutters>
+                    <v-col cols="4" class="d-nome d-md-flex">
+                      <v-avatar>
+                        <v-img max-height="100%" :src="member.profileImg" alt="유저썸네일"></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col cols="8">
+                      <div class="text-left subtitle">{{ member.name }}</div>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                </template>
+            </v-menu>
+          </div>
+          <div v-if="logout">
+
+          <button @click="logout">logout</button>
+          </div>
+            </div>
 
             <!-- 검색 -->
             <div>
@@ -219,8 +243,9 @@
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
+<script src="https://apis.google.com/js/platform.js">
+import axios from "axios"
+// @ is 0an alias to /src
 
 // import { Swiper, Navigation, Pagination, Scrollbar } from "swiper";
 
@@ -254,6 +279,12 @@ export default {
   },
   data() {
     return {
+      gauth: {},
+      member:{},
+      refreshToken:"",
+      user:{},
+
+      logout: false,
       search: false,
       swiperVideo: {
         effect: "coverflow",
@@ -290,15 +321,52 @@ export default {
       }
     };
   },
+  mounted(){
+    gapi.load('auth2', ()=> { 
+        this.gauth = gapi.auth2.init({
+          client_id: '258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com'
+        });      
+        this.gauth.then(function(){
+            console.log('init success');
+        }, function(){
+            console.error('init fail');
+        })
+    });
+  },
   methods: {
     prev() {
 			this.$refs.mySwiperRef.$swiper.slidePrev();
 		},
 		next() {
 			this.$refs.mySwiperRef.$swiper.slideNext();
-		}
+    },
+    login() {
+    this.gauth.grantOfflineAccess()
+    .then((data)=>{
+      console.log(data.code);
+      const fd = new FormData();
+      fd.append("code", data.code);
+      fd.append("redirect", window.location.href)
+      axios.post('https://morelang.gq/api/login',fd)
+      .then((response)=>{
+        console.log("성공!")
+        this.member = response.data.member
+        console.log(this.member)
+        this.refreshToken = response.data.refreshToken;
+      })
+    });
+    },
+    logout(){
+      this.user = this.gauth.currentUser.get()
+      this.user.disconnect()
+      .then(()=>{
+        this.member ={}
+        this.refreshToken = ""
+        this.user={}
+      });
+    },
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
