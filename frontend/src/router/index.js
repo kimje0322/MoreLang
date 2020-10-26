@@ -2,8 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Video from "../views/Video.vue";
+import Channel from "../views/Channel.vue";
+import Search from "../views/Search.vue"
+
+// import Swiper from "../views/Swiper.vue";
 import Channel from "../views/Channel";
-import Mypage from "../views/Mypage/Mypage";
 
 Vue.use(VueRouter);
 
@@ -18,15 +21,21 @@ const routes = [{
         component: Channel
     },
     {
+        path: "/video",
+        name: "Video",
+        component: Video
+    },
+    {
+        path: "/search",
+        name: "Search",
+        component: Search,
+    },
+    {
+
         path: "/mypage",
         name: "Mypage",
         component: Mypage
     },
-    {
-        path: "/video",
-        name: "Video",
-        component: Video
-    }
 ];
 
 const router = new VueRouter({
