@@ -17,7 +17,7 @@ import com.morelang.dto.Search;
 @Service
 public class SearchServiceImpl implements SearchService {
 	static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-	static final String WEB_DRIVER_PATH = "chromedriver.exe";
+	static final String WEB_DRIVER_PATH = "/driver/chromedriver";
 
 	@Override
 	public List<Search> search(String q, String start) throws Exception {
