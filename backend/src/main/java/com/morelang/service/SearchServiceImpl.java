@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import com.morelang.dto.Caption;
@@ -17,14 +18,18 @@ import com.morelang.dto.Search;
 @Service
 public class SearchServiceImpl implements SearchService {
 	static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-	static final String WEB_DRIVER_PATH = "/driver/chromedriver";
+	static final String WEB_DRIVER_PATH = "/usr/lib/chromium/chromedriver";
 
 	@Override
 	public List<Search> search(String q, String start) throws Exception {
 		List<Search> result = new ArrayList<>();
 
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-		WebDriver driver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless");
+		options.addArguments("--no-sandbox");
+		options.addArguments("--disable-dev-shm-usage");
+		WebDriver driver = new ChromeDriver(options);
 
 		try {
 			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q;
