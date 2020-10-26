@@ -10,11 +10,13 @@
           <div
             style="margin: 0 100px; display: flex; align-items: center; justify-content: space-between;"
           >
-            <div
-              style="top: 10px; font-weight: 600; font-size: 18px; pointer-event: none; font-family: 'Calibre',sans-serif; color: darkgray;"
-            >
-              #MORELANG
-            </div>
+            <router-link to="/" style="text-decoration: none;">
+              <div
+                style="top: 10px; font-weight: 600; font-size: 18px; pointer-event: none; font-family: 'Calibre', sans-serif; color: darkgray;"
+              >
+                #MORELANG
+              </div>
+            </router-link>
             <!-- 구글 로그인 -->
             <div></div>
 
@@ -25,13 +27,24 @@
               <!-- </router-link> -->
             </div>
             <div v-if="search" scroll="no">
-              <div style="visibility: visible; opacity: 1; transition-delay: 0s; width: 100%; height: 100vh; position: fixed; top: 0; left: 0; background-color: rgba(231,229,221,.95); transition: visibility .3s ease-in-out,opacity .3s ease-in-out; z-index: 15;">
+              <div
+                style="visibility: visible; opacity: 1; transition-delay: 0s; width: 100%; height: 100vh; position: fixed; top: 0; left: 0; background-color: rgba(231,229,221,.95); transition: visibility .3s ease-in-out,opacity .3s ease-in-out; z-index: 15;"
+              >
                 <!-- <div style="justify-content: center; align-items: center;"> -->
-                  <div style="margin: 10% 20%;">
-                  <!-- <form action="/search" method="get"></form> -->
-                  <input type="search" placeholder="SEARCH" autofocus style="border-bottom: 1px solid #737475; font-size: 30px; letter-spacing: 0.075em; display: inline-block;" />
-                  <span style="display: inline-block" @click="search = false">X</span>
-                </div>
+                <!-- <div style="margin: 10% 20%;"> -->
+                <form action="/search" method="get" style="margin: 10% 20%">
+                  <input
+                    id="search_word"
+                    type="search"
+                    placeholder="SEARCH"
+                    autofocus
+                    style="border-bottom: 1px solid #737475; font-size: 30px; letter-spacing: 0.075em; display: inline-block;"
+                  />
+                  <span style="display: inline-block" @click="search = false"
+                    >X</span
+                  >
+                </form>
+                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -85,11 +98,13 @@
           <div
             style="transform: translateY(250%); position: absolute; padding: 0 50px; z-index: 5; justify-content: space-between; align-items: center; display: flex; width: 100%;"
           >
+              <!-- @click="prev()" -->
             <div
               style="margin: 100px; color: darkgray;"
               class="swiper-button-prev"
               slot="button-prev"
             ></div>
+              <!-- @click="next()" -->
             <div
               style="margin: 100px; color: darkgray; "
               class="swiper-button-next"
@@ -112,6 +127,7 @@
             data-aos="slide-left"
             aos-offset="500"
             data-aos-duration="2500"
+            ref="mySwiperRef"
           >
             <!-- <a href="/" style="width: 240px;"> -->
             <!-- style="animation: float 2s ease-in-out infinite; " -->
@@ -212,9 +228,10 @@
 
 // Swiper.use([Navigation, Pagination, Scrollbar]);
 
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 import "swiper/swiper-bundle.css";
+// import { directive } from 'vue/types/umd';
 
 // 상단 네브바 고정
 var nav = document.getElementsByClassName("navigation");
@@ -231,6 +248,9 @@ export default {
   components: {
     Swiper,
     SwiperSlide
+  },
+  directives: {
+    mySwiperRef: directive
   },
   data() {
     return {
@@ -269,6 +289,14 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    prev() {
+			this.$refs.mySwiperRef.$swiper.slidePrev();
+		},
+		next() {
+			this.$refs.mySwiperRef.$swiper.slideNext();
+		}
   }
 };
 </script>
