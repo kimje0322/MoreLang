@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.morelang.dto.Search;
 import com.morelang.service.SearchService;
 
+import io.swagger.annotations.ApiOperation;
+
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 public class SearchController {
@@ -20,6 +22,7 @@ public class SearchController {
 	SearchService searchService;
 
 	@GetMapping("/search")
+	@ApiOperation(value = "start: 시작할 index(0/10/20/...10단위)")
 	public ResponseEntity<List<Search>> search(@RequestParam("q") String q, @RequestParam("start") String start) {
 		List<Search> result = null;
 		try {
