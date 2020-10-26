@@ -1,5 +1,6 @@
 <template>
   <div class="video">
+    <Navbar />
     <h3 id="page">비디오페이지</h3>
     <youtube id="ytp" :video-id="videoId" ref="youtube" :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
     <button @click="playVideo">play</button>  
@@ -44,6 +45,7 @@
 
 <script>
 // import $ from 'jquery';
+import Navbar from "@/components/Navbar";
 import axios from "axios";
 var convert = require('xml-js')
 
@@ -51,6 +53,9 @@ var convert = require('xml-js')
 // import $ from 'jquery';
 export default {
   name: "Video",
+  components: {
+    Navbar,
+  },
   data() {
     return {
       videoId: "DFjIi2hxxf0",
