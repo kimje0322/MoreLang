@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 style="margin-top: 25px; ">좋아요한 영상</h3>
+    <h3 class="title">좋아요한 영상</h3>
   </div>
 </template>
 
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>
-
+  .title {
+    color: black;
+  }
 </style>
