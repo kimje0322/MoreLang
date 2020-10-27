@@ -48,7 +48,7 @@ public class SearchServiceImpl implements SearchService {
 					videoUrl = videoUrl.substring(0, videoUrl.indexOf('&'));
 				}
 				String id = videoUrl.substring(videoUrl.indexOf("v=") + 2);
-				String imgUrl = "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
+				String imgUrl = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
 				String publishedAt = e.child(1).child(1).child(1).ownText();
 				publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
