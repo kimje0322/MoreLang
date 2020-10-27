@@ -82,6 +82,7 @@ public class SearchServiceImpl implements SearchService {
 			e.printStackTrace();
 			Webhook.send(this.getClass().toString(), e);
 		} finally {
+			driver.close();
 			driver.quit();
 		}
 
