@@ -8,7 +8,6 @@ import Mypage from "../views/Mypage/Mypage.vue"
 
 // import Swiper from "../views/Swiper.vue";
 
-
 Vue.use(VueRouter);
 
 const routes = [{
