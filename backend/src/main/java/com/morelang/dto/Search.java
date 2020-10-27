@@ -15,7 +15,8 @@ public class Search {
 	private String videoUrl;
 	private String imgUrl;
 	private String title;
-	private String description;
+	private String publishedAt;
+	private String channelTitle;
 	private List<Caption> captions;
 
 }
