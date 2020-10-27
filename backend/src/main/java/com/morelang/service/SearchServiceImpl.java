@@ -19,6 +19,7 @@ import com.morelang.dto.Search;
 public class SearchServiceImpl implements SearchService {
 	static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
 	static final String WEB_DRIVER_PATH = "/usr/lib/chromium/chromedriver";
+//	static final String WEB_DRIVER_PATH = "chromedriver.exe";
 
 	@Override
 	public List<Search> search(String q, String start) throws Exception {
@@ -51,7 +52,9 @@ public class SearchServiceImpl implements SearchService {
 				String id = videoUrl.substring(videoUrl.indexOf("v=") + 2);
 				String imgUrl = "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
-				String description = e.child(1).child(1).text();
+				String publishedAt = e.child(1).child(1).child(1).ownText();
+				publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
+				String channelTitle = e.child(1).child(1).child(1).getElementsByTag("span").text();
 
 				d = Jsoup.connect("http://video.google.com/timedtext?type=list&v=" + id).userAgent("Mozilla/5.0").get();
 				Elements tracks = d.getElementsByTag("track");
@@ -69,7 +72,8 @@ public class SearchServiceImpl implements SearchService {
 				s.setVideoUrl(videoUrl);
 				s.setImgUrl(imgUrl);
 				s.setTitle(title);
-				s.setDescription(description);
+				s.setPublishedAt(publishedAt);
+				s.setChannelTitle(channelTitle);
 				s.setCaptions(captions);
 				result.add(s);
 			}
