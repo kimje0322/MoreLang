@@ -1,5 +1,6 @@
 <template>
   <div class="channelDetail">
+    <Navbar />
     <div>
       <!-- 'url(' + picture + ')' -->
       <div
@@ -15,7 +16,7 @@
         align-items: center;
       "
       >
-        <h2 class="intro">DEAR.JERRY</h2>
+        <h2 class="intro">채널 이름</h2>
         <div class="img-cover"></div>
       </div>
       <div class="channelInfoBox">
@@ -37,10 +38,16 @@
 </template>
 
 <script>
-export default {};
+import Navbar from "@/components/Navbar";
+export default {
+  components: {
+    Navbar,
+  }
+};
+
 </script>
 
-<style>
+<style scoped>
 .backImg {
   position: relative;
   background-size: cover;
