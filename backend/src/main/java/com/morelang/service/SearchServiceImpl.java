@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
+import com.morelang.config.Webhook;
 import com.morelang.dto.Caption;
 import com.morelang.dto.Search;
 
@@ -33,11 +34,11 @@ public class SearchServiceImpl implements SearchService {
 		WebDriver driver = new ChromeDriver(options);
 
 		try {
-			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q + " site:youtube.com";
+			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q
+					+ " site:youtube.com";
 			driver.get(url);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);
-			System.out.println(d);
 			Elements videos = d.getElementsByClass("rc");
 
 			for (Element e : videos) {
@@ -79,6 +80,7 @@ public class SearchServiceImpl implements SearchService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Webhook.send(this.getClass().toString(), e);
 		} finally {
 			driver.quit();
 		}
