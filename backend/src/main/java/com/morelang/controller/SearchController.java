@@ -22,7 +22,7 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 
-	@GetMapping("/api/search")
+	@GetMapping("/search")
 	@ApiOperation(value = "start: 시작할 index(0/10/20/...10단위)")
 	public ResponseEntity<List<Search>> search(@RequestParam("q") String q, @RequestParam("start") String start) {
 

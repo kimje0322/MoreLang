@@ -18,7 +18,7 @@ public class TranslateServiceImpl implements TranslateService {
 
 	@Override
 	public String translate(String src_lang, String target_lang, String query) throws Exception {
-		String s = "";
+		String s = null;
 
 		JSONObject json = null;
 		URL url = new URL("https://dapi.kakao.com/v2/translation/translate?" + "src_lang=" + src_lang + "&target_lang="
