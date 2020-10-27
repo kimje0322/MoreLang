@@ -37,6 +37,7 @@ public class SearchServiceImpl implements SearchService {
 			driver.get(url);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);
+			System.out.println(d);
 			Elements videos = d.getElementsByClass("rc");
 
 			for (Element e : videos) {
