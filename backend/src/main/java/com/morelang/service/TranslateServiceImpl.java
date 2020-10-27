@@ -24,8 +24,8 @@ public class TranslateServiceImpl implements TranslateService {
 		props.put("Authorization", "KakaoAK " + REST_API_KEY);
 		JSONObject obj = new JSONObject(Https.get(url, props));
 
-		String s = obj.toString();
-		s = s.substring(22, s.length() - 4);
+		String s = obj.toString().replace("\"", "");
+		s = s.substring(19, s.length() - 3);
 
 		return s;
 	}

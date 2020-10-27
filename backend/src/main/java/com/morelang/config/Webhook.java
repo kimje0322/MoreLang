@@ -18,7 +18,7 @@ public class Webhook {
 	public static void send(String location, Exception e) {
 		IncomingWebhookClient client = new IncomingWebhookClient(_WEBHOOK_URL);
 		IncomingWebhookRequest payload = new IncomingWebhookRequest();
-		payload.setText("@jyp5826                      👆Click\n");
+		payload.setText("@jyp5826                      👆\n");
 		payload.setUsername("Override Username");
 		SlackAttachment sa = new SlackAttachment();
 		sa.setColor("#FF0000");
@@ -31,7 +31,7 @@ public class Webhook {
 		Map<String, String> props = new HashMap<>();
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		props.put("card", sw.toString().substring(0, 6000) + "...");
+		props.put("card", sw.toString().substring(0, 6000) + "\n... more");
 		payload.setProps(props);
 		client.postByIncomingWebhook(payload);
 	}
