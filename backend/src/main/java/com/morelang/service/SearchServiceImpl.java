@@ -33,7 +33,7 @@ public class SearchServiceImpl implements SearchService {
 		WebDriver driver = new ChromeDriver(options);
 
 		try {
-			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q;
+			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q + " site:youtube.com";
 			driver.get(url);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);
