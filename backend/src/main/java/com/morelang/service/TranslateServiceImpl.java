@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.morelang.util.Https;
@@ -21,7 +22,9 @@ public class TranslateServiceImpl implements TranslateService {
 		Map<String, String> props = new HashMap<>();
 		props.put("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 		props.put("Authorization", "KakaoAK " + REST_API_KEY);
-		String s = Https.get(url, props);
+		JSONObject obj = new JSONObject(Https.get(url, props));
+
+		String s = obj.toString();
 		s = s.substring(22, s.length() - 4);
 
 		return s;
