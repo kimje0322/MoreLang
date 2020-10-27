@@ -79,7 +79,7 @@ public class SearchServiceImpl implements SearchService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			driver.close();
+			driver.quit();
 		}
 
 		return result;
