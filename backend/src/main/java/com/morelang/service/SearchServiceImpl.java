@@ -43,8 +43,6 @@ public class SearchServiceImpl implements SearchService {
 				Search s = new Search();
 
 				String videoUrl = e.child(0).child(0).attr("href");
-				if (!videoUrl.startsWith("https://www.youtube"))
-					continue;
 
 				if (videoUrl.contains("&")) {
 					videoUrl = videoUrl.substring(0, videoUrl.indexOf('&'));
