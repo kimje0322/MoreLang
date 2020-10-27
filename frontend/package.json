@@ -14,6 +14,7 @@
         "vue": "^2.6.11",
         "vue-awesome-swiper": "^4.1.1",
         "vue-gapi": "^0.3.1",
+        "vue-infinite-loading": "^2.4.5",
         "vue-router": "^3.2.0",
         "vue-youtube": "^1.4.0",
         "vuetify": "^2.2.11",
