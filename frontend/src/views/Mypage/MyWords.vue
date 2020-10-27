@@ -6,8 +6,19 @@
 </template>
 
 <script>
-export default {
+// import axios from "axios";
+// const SERVER_URL = "https://morelang.gq/api"
 
+export default {
+  mounted() {
+    // axios
+    //   .get(`${SERVER_URL}/translate?query=""`)
+  },
+  data() {
+    return {
+
+    }
+  },
 }
 </script>
 
