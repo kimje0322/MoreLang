@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.morelang.config.Webhook;
 import com.morelang.service.TranslateService;
 
 import io.swagger.annotations.ApiOperation;
@@ -23,11 +24,13 @@ public class TranslateController {
 	public ResponseEntity<String> translate(@RequestParam("src_lang") String src_lang,
 			@RequestParam("target_lang") String target_lang, @RequestParam("query") String query) {
 
-		String s = "";
+		String s = null;
 		try {
 			s = translateService.translate(src_lang, target_lang, query);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Webhook.send(this.getClass().toString(), e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<>(s, HttpStatus.OK);

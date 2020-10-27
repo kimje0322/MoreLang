@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.morelang.config.Webhook;
 import com.morelang.dto.Search;
 import com.morelang.service.SearchService;
 
@@ -21,15 +22,17 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 
-	@GetMapping("/search")
+	@GetMapping("/api/search")
 	@ApiOperation(value = "start: 시작할 index(0/10/20/...10단위)")
-	public ResponseEntity<?> search(@RequestParam("q") String q, @RequestParam("start") String start) {
+	public ResponseEntity<List<Search>> search(@RequestParam("q") String q, @RequestParam("start") String start) {
+
 		List<Search> result = null;
 		try {
 			result = searchService.search(q, start);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+			Webhook.send(this.getClass().toString(), e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
