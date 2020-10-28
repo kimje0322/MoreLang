@@ -15,5 +15,6 @@ public class PlaylistItem {
 	private String description;
 	private String publishedAt;
 	private String imgUrl;
+	private String videoUrl;
 
 }

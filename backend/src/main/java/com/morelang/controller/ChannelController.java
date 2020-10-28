@@ -43,6 +43,7 @@ public class ChannelController {
 
 		Playlist playlist = null;
 		try {
+			playlist = channelService.getItems(id, token);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Webhook.send(this.getClass().toString(), e);
