@@ -31,8 +31,8 @@ public class Webhook {
 		Map<String, String> props = new HashMap<>();
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		props.put("card",
-				query + "\n" + sw.toString().substring(0, 6000) + (sw.toString().length() < 6000 ? "" : "..."));
+		props.put("card", (sw.toString().length() < 6000 ? sw.toString() : sw.toString().substring(0, 6000))
+				+ "...\nquery={" + query + "}");
 		payload.setProps(props);
 		client.postByIncomingWebhook(payload);
 	}
