@@ -2,103 +2,10 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <div style="width: 100%;">
-      <!-- 상단 로고 & 메뉴 -->
-      <header
-        style="padding-top: 30px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
-      >
-        <div class="navigation">
-          <div
-            style="margin: 0 100px; display: flex; align-items: center; justify-content: space-between;"
-          >
-            <router-link to="/" style="text-decoration: none;">
-              <div
-                style="top: 10px; font-weight: 600; font-size: 18px; pointer-event: none; font-family: 'Calibre', sans-serif; color: darkgray;"
-              >
-                #MORELANG
-              </div>
-            </router-link>
-            <!-- 검색 -->
-            <div>
-              <!-- <router-link to="/search" style="text-decoration: none;"> -->
-              <!-- <v-icon large @click="search = true">mdi-magnify</v-icon> -->
-              <form action="/search" method="get">
-                <input
-                  id="search_word"
-                  type="search"
-                  placeholder="SEARCH"
-                  autofocus
-                  style="border-bottom: 1px solid #737475; font-size: 30px; letter-spacing: 0.075em; display: inline-block;"
-                />
-                <v-icon large style="display: inline-block">mdi-magnify</v-icon>
-              </form>
+      <Navbar />
 
-              <!-- </router-link> -->
-            </div>
-            <div v-if="search" scroll="no">
-              <div
-                style="visibility: visible; opacity: 1; transition-delay: 0s; width: 100%; height: 100vh; position: fixed; top: 0; left: 0; background-color: rgba(231,229,221,.95); transition: visibility .3s ease-in-out,opacity .3s ease-in-out; z-index: 15;"
-              >
-                <form action="/search" method="get" style="margin: 10% 20%">
-                  <input
-                    id="search_word"
-                    type="search"
-                    placeholder="SEARCH"
-                    autofocus
-                    style="border-bottom: 1px solid #737475; font-size: 30px; letter-spacing: 0.075em; display: inline-block;"
-                  />
-                  <span style="display: inline-block" @click="search = false"
-                    >X</span
-                  >
-                </form>
-                <!-- </div> -->
-              </div>
-            </div>
-
-            <!-- 구글 로그인 -->
-            <div>
-              <div>
-                <v-btn text @click="login" v-if="!member.name">Login</v-btn>
-                <v-menu
-                  open-on-hover
-                  offset-y
-                  v-else-if="member.name"
-                  no-gutters
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-card color="transparent" v-bind="attrs" v-on="on" flat>
-                      <v-row no-gutters>
-                        <v-col cols="4" class="d-nome d-md-flex">
-                          <v-avatar>
-                            <v-img
-                              max-height="100%"
-                              :src="member.profileImg"
-                              alt="유저썸네일"
-                            ></v-img>
-                          </v-avatar>
-                        </v-col>
-                        <v-col cols="8">
-                          <div class="text-left subtitle">
-                            {{ member.name }}
-                          </div>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </template>
-                </v-menu>
-              </div>
-              <div v-if="logout">
-                <button @click="logout">logout</button>
-              </div>
-            </div>
-          </div>
-          <!-- 메뉴바 -->
-          <!-- <div style="width: 50px; ">
-            <v-icon>hamburger-menu</v-icon>
-          </div> -->
-        </div>
-      </header>
       <!-- 소개 영상 -->
-      <div style="width: 100%; height: 100vh; display: block; margin-top: 120px;">
+      <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
         <video
           style="width: 100%;"
           muted
@@ -273,26 +180,29 @@ import axios from "axios";
 
 // Swiper.use([Navigation, Pagination, Scrollbar]);
 
+import Navbar from "@/components/Navbar"
+
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 import "swiper/swiper-bundle.css";
 // import { directive } from 'vue/types/umd';
 
 // 상단 네브바 고정
-var nav = document.getElementsByClassName("navigation");
-window.onscroll = function sticky() {
-  if (window.pageYOffset > nav[0].offsetTop) {
-    nav[0].classList.add("nav");
-  } else {
-    nav[0].classList.remove("nav");
-  }
-};
+// var nav = document.getElementsByClassName("navigation");
+// window.onscroll = function sticky() {
+//   if (window.pageYOffset > nav[0].offsetTop) {
+//     nav[0].classList.add("nav");
+//   } else {
+//     nav[0].classList.remove("nav");
+//   }
+// };
 
 export default {
   name: "Home",
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
+    Navbar
   },
   directives: {
     mySwiperRef: directive
@@ -303,6 +213,7 @@ export default {
       member: {},
       refreshToken: "",
       user: {},
+      search_word: "",
 
       logout: false,
       search: false,
@@ -358,6 +269,9 @@ export default {
     });
   },
   methods: {
+    test(txt) {
+      console.log(txt)
+    },
     prev() {
       this.$refs.mySwiperRef.$swiper.slidePrev();
     },
@@ -434,14 +348,14 @@ export default {
   font-weight: bold;
 }
 
-.nav {
-  position: fixed;
-  background: beige;
-  padding: 30px 0;
-}
+// .nav {
+//   position: fixed;
+//   background: beige;
+//   padding: 30px 0;
+// }
 
-.navigation {
-  width: 100%;
-  top: 0;
-}
+// .navigation {
+//   width: 100%;
+//   top: 0;
+// }
 </style>
