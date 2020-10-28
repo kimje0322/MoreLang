@@ -30,7 +30,7 @@ public class ChannelController {
 			channel = channelService.getInfo(id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), e);
+			Webhook.send(this.getClass().toString(), id, e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -46,7 +46,7 @@ public class ChannelController {
 			playlist = channelService.getItems(id, token);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), e);
+			Webhook.send(this.getClass().toString(), id + " " + token, e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

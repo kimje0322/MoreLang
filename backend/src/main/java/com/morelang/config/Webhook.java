@@ -15,7 +15,7 @@ public class Webhook {
 
 	private final static String _WEBHOOK_URL = "https://meeting.ssafy.com/hooks/xhgq8imty7gmjy5obybx57wese";
 
-	public static void send(String location, Exception e) {
+	public static void send(String location, String query, Exception e) {
 		IncomingWebhookClient client = new IncomingWebhookClient(_WEBHOOK_URL);
 		IncomingWebhookRequest payload = new IncomingWebhookRequest();
 		payload.setText("@jyp5826                      👆\n");
@@ -31,7 +31,8 @@ public class Webhook {
 		Map<String, String> props = new HashMap<>();
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		props.put("card", sw.toString().substring(0, 6000) + (sw.toString().length() < 6000 ? "" : "..."));
+		props.put("card",
+				query + "\n" + sw.toString().substring(0, 6000) + (sw.toString().length() < 6000 ? "" : "..."));
 		payload.setProps(props);
 		client.postByIncomingWebhook(payload);
 	}
