@@ -13,6 +13,6 @@ import lombok.ToString;
 public class Playlist {
 
 	private String token;
-	private List<PlaylistItem> Items;
+	private List<PlaylistItem> items;
 
 }
