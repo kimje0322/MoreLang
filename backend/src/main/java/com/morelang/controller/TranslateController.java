@@ -29,7 +29,7 @@ public class TranslateController {
 			s = translateService.translate(src_lang, target_lang, query);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), src_lang + ", " + target_lang + ", " + query, e);
+			Webhook.send(this.getClass().toString(), e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

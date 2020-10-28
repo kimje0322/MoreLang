@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.morelang.config.Webhook;
 import com.morelang.dto.Channel;
 import com.morelang.dto.Playlist;
 import com.morelang.dto.PlaylistItem;
@@ -22,6 +23,7 @@ public class ChannelServiceImpl implements ChannelService {
 		URL url = new URL(
 				"https://www.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&id="
 						+ id);
+		Webhook.url = url.toString();
 		JSONObject obj = new JSONObject(Https.get(url)).getJSONArray("items").getJSONObject(0);
 
 		channel.setId(obj.getString("id"));
@@ -46,6 +48,7 @@ public class ChannelServiceImpl implements ChannelService {
 		URL url = new URL(
 				"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&playlistId="
 						+ id + "&pageToken=" + (token == null ? "" : token));
+		Webhook.url = url.toString();
 		JSONObject obj = new JSONObject(Https.get(url));
 
 		if (obj.keySet().contains("nextPageToken"))
