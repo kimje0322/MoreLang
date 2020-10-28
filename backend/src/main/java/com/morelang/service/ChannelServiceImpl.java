@@ -64,7 +64,7 @@ public class ChannelServiceImpl implements ChannelService {
 			item.setTitle(j.getString("title"));
 			item.setDescription(j.getString("description"));
 			item.setPublishedAt(j.getString("publishedAt"));
-			item.setImgUrl(j.getJSONObject("thumbnails").getJSONObject("high").getString("url"));
+			item.setImgUrl("https://i.ytimg.com/vi/" + item.getId() + "/maxresdefault.jpg");
 			item.setVideoUrl("https://www.youtube.com/watch?v=" + item.getId());
 			items.add(item);
 		}
