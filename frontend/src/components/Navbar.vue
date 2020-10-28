@@ -14,22 +14,24 @@
           </router-link>
           <div class="mx-auto mt-1">
             <!-- 검색창 -->
-            <form
+            <!-- <form
               style="display:inline-block; width:385px;"
               action="/search"
               method="get"
-            >
-              <v-text-field
-                v-model="keyword"
-                @keyup.enter="onSearch"
-                height="37"
-                hide-details=""
-                placeholder="키워드 검색"
-                outlined
-                clearable
-                prepend-inner-icon="mdi-magnify"
-              />
-            </form>
+            > -->
+            <v-text-field
+              style="display: inline-block;"
+              autocomplete="off"
+              v-model="keyword"
+              @keyup.enter="onSearch(keyword)"
+              height="37"
+              hide-details=""
+              placeholder="키워드 검색"
+              outlined
+              clearable
+              prepend-inner-icon="mdi-magnify"
+            />
+            <!-- </form> -->
             <!-- 번역버튼 -->
             <div class="mx-1" style="display:inline-block">
               <v-btn
@@ -140,6 +142,7 @@
 import "@/../public/css/Navbar.scss";
 import axios from "axios";
 const SERVER_URL = "https://morelang.gq/api";
+// import store from "@/../src/store/index.js";
 
 // 상단 네브바 고정
 var nav = document.getElementsByClassName("navigation");
@@ -150,7 +153,6 @@ window.onscroll = function sticky() {
     nav[0].classList.remove("nav");
   }
 };
-
 
 export default {
   updated() {
@@ -188,7 +190,26 @@ export default {
       }
     };
   },
+  // mounted() {
+  //   if(store.state.target != null) {
+  //     this.keyword = store.state.target
+  //     console.log("여기에 검색어 나와야됨")
+  //     console.log(this.keyword)
+  //   }
+  // },
   methods: {
+    onSearch(word) {
+      // store.state.target = word
+      // console.log("target")
+      // console.log(store.state.target)
+      // if (window.location.href.indexOf("search") > -1) {
+      //   console.log("현재페이지")
+      // }
+      // else {
+      this.$router.push({ name: "Search", params: { target: word } });
+      // }
+      this.keyword = word;
+    },
     beforeTrans() {
       if (this.keyword) {
         this.transDialog = true;
