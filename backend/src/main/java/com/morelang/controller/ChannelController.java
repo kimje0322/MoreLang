@@ -13,6 +13,8 @@ import com.morelang.dto.Channel;
 import com.morelang.dto.Playlist;
 import com.morelang.service.ChannelService;
 
+import io.swagger.annotations.ApiOperation;
+
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 public class ChannelController {
@@ -20,10 +22,12 @@ public class ChannelController {
 	ChannelService channelService;
 
 	@GetMapping("/channel")
+	@ApiOperation(value = "예)UCkuA_gDjISfGgbdp02BUwyQ")
 	public ResponseEntity<Channel> channel(@RequestParam("id") String id) {
 
 		Channel channel = null;
 		try {
+			channel = channelService.getInfo(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Webhook.send(this.getClass().toString(), e);
