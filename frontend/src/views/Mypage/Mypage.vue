@@ -1,7 +1,7 @@
 <template>
 <div>
   <Navbar />
-  <div class="mypage" style="padding: 0% 5%; margin-top: 5%;">
+  <div class="mypage" style="padding: 0% 5%; margin-top: 7%;">
     <!-- 유저 정보 -->
     <div style="margin-right: 25px; ">
       <v-tabs vertical style="margin: 3% 0%">
