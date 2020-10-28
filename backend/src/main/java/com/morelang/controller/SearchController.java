@@ -31,7 +31,7 @@ public class SearchController {
 			result = searchService.search(q, start);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(),q + " " + start, e);
+			Webhook.send(this.getClass().toString(),q + ", " + start, e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

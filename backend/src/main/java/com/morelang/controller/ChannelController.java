@@ -46,7 +46,7 @@ public class ChannelController {
 			playlist = channelService.getItems(id, token);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), id + " " + token, e);
+			Webhook.send(this.getClass().toString(), id + ", " + token, e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
