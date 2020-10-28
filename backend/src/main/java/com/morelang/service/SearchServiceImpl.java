@@ -45,11 +45,11 @@ public class SearchServiceImpl implements SearchService {
 				Search s = new Search();
 
 				String videoUrl = e.child(0).child(0).attr("href");
-
-				if (videoUrl.contains("&")) {
-					videoUrl = videoUrl.substring(0, videoUrl.indexOf('&'));
-				}
 				String id = videoUrl.substring(videoUrl.indexOf("v=") + 2);
+				if (id.contains("&")) {
+					id = id.substring(0, videoUrl.indexOf('&'));
+				}
+				videoUrl = "https://www.youtube.com/watch?v=" + id;
 				String imgUrl = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
 				String publishedAt = e.child(1).child(1).child(1).ownText();
