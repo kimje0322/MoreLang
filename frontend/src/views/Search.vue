@@ -44,7 +44,9 @@
 
     <!-- 검색어 -->
     <div style="display: flex; justify-content: center; margin: 50px 0;">
-      <h4 style="font-size: 18px;">Search results for " {{ search_word }} "...</h4>
+      <h4 style="font-size: 18px;">
+        Search results for " {{ search_word }} " ...
+      </h4>
     </div>
 
     <!-- 비디오 나오는 부분 -->
@@ -57,21 +59,35 @@
           style="width: clac(33.33% - 60px); margin: auto; display: inline-block;"
         >
           <div style="margin-bottom: 15px;">
-            <img
-              :src="video.imgUrl"
-              alt=""
-              width="330"
-            />
+            <img :src="video.imgUrl" alt="" width="330" />
           </div>
-          <h3 v-if="video.title.length > 20">{{ video.title.substring(0, 20) }} ...</h3>
+          <h3 v-if="video.title.length > 20">
+            {{ video.title.substring(0, 20) }} ...
+          </h3>
         </div>
       </div>
     </div>
+    <!-- 무한스크롤 -->
+    <infinite-loading v-if="click" @infinite="infiniteHandler" spinner="bubble">
+      <div
+        slot="no-more"
+        style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px"
+      >
+        No More
+      </div>
+      <div
+        slot="no-results"
+        style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px"
+      >
+        No Results
+      </div>
+    </infinite-loading>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import InfiniteLoading from "vue-infinite-loading";
 
 const SERVER_URL = "https://morelang.gq/api";
 // import axios from "axios";
@@ -82,20 +98,50 @@ const SERVER_URL = "https://morelang.gq/api";
 
 export default {
   name: "Search",
-  components: {},
+  components: {
+    InfiniteLoading
+  },
   data() {
     return {
       search_word: "",
-      videolst: []
+      videolst: [],
+      start: 0,
+      tmp: "",
+      next: 10,
+      click: false,
+      end: false,
     };
   },
   methods: {
     videoSearch(search) {
-      axios.get(`${SERVER_URL}/search?q=${search}&start=10`).then(res => {
-        console.log("asdf")
+      this.next = 10;
+      this.click = true;
+      this.tmp = search;
+      axios.get(`${SERVER_URL}/search?q=${search}&start=0`).then(res => {
+        // console.log("asdf")
         this.videolst = res.data;
         console.log(res);
+        // this.start = this.start + 10
       });
+    },
+    infiniteHandler($state) {
+      setTimeout(() => {
+        // const temp = [];
+        axios
+          .get(`${SERVER_URL}/search?q=${this.tmp}&start=${this.next}`)
+          .then(res => {
+            this.videolst = this.videolst.concat(res.data);
+            if (res.data.length != 10) {
+              this.end = true;
+            }
+          });
+        // console.log("이거는 this.search_word" + this.search_word)
+        this.next = this.next + 10;
+        $state.loaded();
+        if (this.end) {
+          $state.complete();
+        }
+      }, 1000);
     }
   }
 };
