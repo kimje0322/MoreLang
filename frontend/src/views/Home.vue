@@ -2,8 +2,37 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <div style="width: 100%;">
-      <Navbar />
+      <!-- <Navbar /> -->
 
+          <!-- 구글 로그인 -->
+          <div>
+            <v-btn text @click="login" v-if="!member">Login</v-btn>
+            <v-menu open-on-hover offset-y v-else-if="member" no-gutters>
+              <template v-slot:activator="{ on, attrs }">
+                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                  <v-row no-gutters>
+                    <v-col cols="4" class="d-nome d-md-flex">
+                      <v-avatar>
+                        <v-img max-height="100%" :src="member.profileImg" alt="유저썸네일"></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col cols="8">
+                      <div class="text-left subtitle">{{ member.name }}</div>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                </template>
+            </v-menu>
+          </div>
+
+          <!-- 메뉴바 -->
+          <!-- <div style="width: 50px; ">
+            <v-icon>hamburger-menu</v-icon>
+          </div> -->
+        </div>
+        <div>
+          <button @click="logout()">logout</button>
+        </div>
       <!-- 소개 영상 -->
       <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
         <video
@@ -165,7 +194,6 @@
           </swiper>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -197,6 +225,7 @@ import "swiper/swiper-bundle.css";
 //   }
 // };
 
+import { mapState } from "vuex";
 export default {
   name: "Home",
   components: {
@@ -209,13 +238,8 @@ export default {
   },
   data() {
     return {
-      gauth: {},
-      member: {},
-      refreshToken: "",
-      user: {},
       search_word: "",
-
-      logout: false,
+      // logout: false,
       search: false,
       swiperVideo: {
         effect: "coverflow",
@@ -252,25 +276,40 @@ export default {
       }
     };
   },
-  mounted() {
-    gapi.load("auth2", () => {
-      this.gauth = gapi.auth2.init({
-        client_id:
-          "258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com"
-      });
-      this.gauth.then(
-        function() {
-          console.log("init success");
-        },
-        function() {
-          console.error("init fail");
-        }
-      );
+  mounted(){
+    gapi.load('auth2', ()=> { 
+        this.$store.state.gauth = gapi.auth2.init({
+          client_id: '258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com'
+        });      
+        this.$store.state.gauth.then(function(){
+            console.log('init success');
+        }, function(){
+            console.error('init fail');
+        })
     });
+    console.log("hi");
+    console.log(this.$store.state.member)
   },
-  methods: {
-    test(txt) {
-      console.log(txt)
+  computed: mapState(['member','refreshToken']),
+  methods : {
+    async login() {
+    await this.$store.state.gauth.grantOfflineAccess()
+    .then((data)=>{
+      console.log(data.code);
+      const fd = new FormData();
+      axios.defaults.headers.common.Authorization = ``;
+      fd.append("code", data.code);
+      fd.append("redirect", window.location.href)
+//      axios.post(`${this.$store.state.LocalURL}/guest/login`,fd)
+       axios.post(`${this.$store.state.ServerURL}/guest/login`,fd)
+      .then((response)=>{
+        console.log("성공!")
+        // console.log(response.data.member);
+        // console.log(response.data.refreshToken);
+        this.$store.commit('setMember',response.data.member)
+        this.$store.commit('setRefreshToken', response.data.refreshToken)
+      })
+    });
     },
     prev() {
       this.$refs.mySwiperRef.$swiper.slidePrev();
@@ -278,27 +317,8 @@ export default {
     next() {
       this.$refs.mySwiperRef.$swiper.slideNext();
     },
-    login() {
-      this.gauth.grantOfflineAccess().then(data => {
-        console.log(data.code);
-        const fd = new FormData();
-        fd.append("code", data.code);
-        fd.append("redirect", window.location.href);
-        axios.post("https://morelang.gq/api/login", fd).then(response => {
-          console.log("성공!");
-          this.member = response.data.member;
-          console.log(this.member);
-          this.refreshToken = response.data.refreshToken;
-        });
-      });
-    },
     logout() {
-      this.user = this.gauth.currentUser.get();
-      this.user.disconnect().then(() => {
-        this.member = {};
-        this.refreshToken = "";
-        this.user = {};
-      });
+      this.$store.dispatch('Logout')
     }
   }
 };

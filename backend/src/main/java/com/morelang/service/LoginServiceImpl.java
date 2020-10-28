@@ -1,6 +1,9 @@
 package com.morelang.service;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -53,5 +57,23 @@ public class LoginServiceImpl implements LoginService{
 		map.put("member", m);
 		map.put("refreshToken", refreshToken);
 		return map;
+	}
+	
+	public Map<String,Object> refresh(String refreshToken) {
+		try {
+			GoogleTokenResponse refresh = new GoogleRefreshTokenRequest(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), refreshToken, "258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com", "H56LQIIC1wfc6_8x7WWhrXV3").execute();
+			
+			String accessToken = refresh.getAccessToken();
+			Map<String,Object> map = new HashMap<>();
+			map.put("accessToken", accessToken);
+			map.put("refreshToken", refreshToken);
+			map.put("success",true);
+			return map;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 }
