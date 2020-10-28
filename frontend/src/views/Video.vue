@@ -1,5 +1,7 @@
 <template>
   <div class="video">
+    
+    <button @click="increment">increment</button>
     <h3>비디오페이지</h3>
     <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
     <button @click="playVideo">play</button>
@@ -17,6 +19,10 @@ export default {
     };
   },
   methods: {
+    increment(){
+      this.$store.commit("increment")
+
+    },
     playVideo() {
       this.player.playVideo();
     },
