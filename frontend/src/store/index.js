@@ -1,11 +1,80 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createPersistedState from "vuex-persistedstate";
+ 
 Vue.use(Vuex);
+Vue.config.devtools = true
+// const getDefaultState = () => {
+//   return {
+    // member:null,
+    // gauth:null,
+    // refreshToken: null,
+    // ServerURL: "https://morelang.gq/api",
+    // LocalURL: "http://localhost:8080",
+    // alertColor: null,
+    // AlertMessage: "",
+    // showAlert: false,
+    // count : 0
+//   }
+
+// }
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  state: {
+    member:null,
+    gauth:null,
+    refreshToken: null,
+    ServerURL: "https://morelang.gq/api",
+    LocalURL: "http://localhost:8080",
+    alertColor: null,
+    AlertMessage: "",
+    showAlert: false,
+    count : 0
+  },
+  plugins: [createPersistedState()],
+  mutations: {
+    increment(state){
+      state.count++;
+
+    },
+    setMember(state, member) {
+      // console.log(member);
+      state.member = member;
+    },
+    setRefreshToken(state, refreshToken){
+      // console.log(refreshToken);
+      state.refreshToken = refreshToken
+    },
+    setToken(state, Token){
+      state.member.accessToken = Token.accessToken;
+      state.refreshToken = Token.refreshToken;
+    },
+    ShowAlert(state, payload) {
+      state.AlertMessage = payload.msg;
+      state.alertColor = payload.color;
+      state.showAlert = payload.flag;
+    }
+  },
+  actions: {
+    Logout({state,commit}){
+      var user = state.gauth.currentUser.get()
+      user.disconnect()
+      .then(()=>{
+        commit('setMember',null)
+        commit('setRefreshToken', null);
+      });
+        commit("ShowAlert", {
+        flag: true,
+        msg: "로그아웃 되었습니다.",
+        color: "info"
+      });
+      setTimeout(() => {
+        commit("ShowAlert", {
+          flag: false,
+          msg: ""
+        });
+        window.location.reload();
+      }, 1000);
+    }
+  }
 });
