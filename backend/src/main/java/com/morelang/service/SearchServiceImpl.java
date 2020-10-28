@@ -36,6 +36,7 @@ public class SearchServiceImpl implements SearchService {
 		try {
 			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q
 					+ " site:youtube.com";
+			Webhook.url = url;
 			driver.get(url);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);

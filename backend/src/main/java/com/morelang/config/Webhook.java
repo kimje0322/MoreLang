@@ -14,6 +14,7 @@ import net.bis5.mattermost.model.SlackAttachment;
 public class Webhook {
 
 	private final static String _WEBHOOK_URL = "https://meeting.ssafy.com/hooks/xhgq8imty7gmjy5obybx57wese";
+	public static String url;
 
 	public static void send(String location, Exception e) {
 		IncomingWebhookClient client = new IncomingWebhookClient(_WEBHOOK_URL);
@@ -22,7 +23,7 @@ public class Webhook {
 		payload.setUsername("Override Username");
 		SlackAttachment sa = new SlackAttachment();
 		sa.setColor("#FF0000");
-		sa.setText(location + "\n" + e.toString());
+		sa.setText(url + "\n" + location + "\n" + e.toString());
 		sa.setAuthorName("Backend Exception!");
 		sa.setAuthorIcon("https://t1.daumcdn.net/cfile/tistory/99DA853359891D8A09");
 		List<SlackAttachment> li = new ArrayList<>();
@@ -31,7 +32,7 @@ public class Webhook {
 		Map<String, String> props = new HashMap<>();
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		props.put("card", sw.toString().substring(0, 6000) + (sw.toString().length() < 6000 ? "" : "..."));
+		props.put("card", (sw.toString().length() < 6000 ? sw.toString() : sw.toString().substring(0, 6000) + "..."));
 		payload.setProps(props);
 		client.postByIncomingWebhook(payload);
 	}

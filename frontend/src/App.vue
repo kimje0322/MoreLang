@@ -1,41 +1,10 @@
 <template>
   <v-app>
-    <router-view></router-view>
-    <!-- <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar> -->
-    <!-- <v-main>
-      <HelloWorld />
-    </v-main> -->
+    <v-snackbar :color="alertColor" :value="showAlert" centered multi-line>
+        {{ AlertMessage }}
+      </v-snackbar>
+    <router-view/>
+      
     <!-- <Home /> -->
   </v-app>
 </template>
@@ -43,8 +12,8 @@
 <script>
 // import HelloWorld from "./components/HelloWorld";
 // import Home from "@/views/Home"
-
-
+import axios from "axios";
+import { mapState } from "vuex";
 export default {
   name: "App",
 
@@ -52,9 +21,18 @@ export default {
     // HelloWorld
     // Home
   },
-
+  computed: mapState(["showAlert","AlertMessage", "alertColor"]),
   data: () => ({
     //
-  })
+  }),
+  created() {
+    if (this.$store.state.accessToken) {
+      if (this.$store.state.accessToken) {
+        // 갱신 후에도 토큰이 유효하다면
+        axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.accessToken}`;
+      }
+    }
+  },
+
 };
 </script>
