@@ -31,7 +31,7 @@ public class Webhook {
 		Map<String, String> props = new HashMap<>();
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		props.put("card", sw.toString().substring(0, 6000) + "\n... more");
+		props.put("card", sw.toString().substring(0, 6000) + "... more");
 		payload.setProps(props);
 		client.postByIncomingWebhook(payload);
 	}
