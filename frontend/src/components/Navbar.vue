@@ -1,37 +1,50 @@
 <template>
-<!-- 상단 -->
-  <div class="Navbar">
-    <div>
-      <v-card-title>
-        <router-link to="/">
-          <h2 class="logo px-5 py-1" style="display:inline-block">Morelang</h2>
-        </router-link>
-        <div class="mx-auto mt-1">
-          <!-- 검색창 -->
-          <form style="display:inline-block; width:385px;" action="/search" method="get">
+  <!-- 상단 -->
+  <div
+    class="Navbar"
+    style="padding-top: 5px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
+  >
+    <div class="navigation">
+      <div>
+        <v-card-title>
+          <router-link to="/">
+            <h2 class="logo px-5 py-1" style="display:inline-block">
+              Morelang
+            </h2>
+          </router-link>
+          <div class="mx-auto mt-1">
+            <!-- 검색창 -->
+            <!-- <form
+              style="display:inline-block; width:385px;"
+              action="/search"
+              method="get"
+            > -->
             <v-text-field
+              style="display: inline-block;"
+              autocomplete="off"
               v-model="keyword"
-              @keyup.enter="onSearch"
+              @keyup.enter="onSearch(keyword)"
               height="37"
               hide-details=""
-              placeholder='키워드 검색'
-              outlined clearable
+              placeholder="키워드 검색"
+              outlined
+              clearable
               prepend-inner-icon="mdi-magnify"
             />
-          </form>
-          <!-- 번역버튼 -->
-          <div class="mx-1"  style="display:inline-block">
-            <v-btn
-              @click="beforeTrans"
-              class="py-4 mb-2"
-              x-small
-              color="#43A047"
-              dark
-            >
-              <v-icon>mdi-google-translate</v-icon>
-            </v-btn>
+            <!-- </form> -->
+            <!-- 번역버튼 -->
+            <div class="mx-1" style="display:inline-block">
+              <v-btn
+                @click="beforeTrans"
+                class="py-4 mb-2"
+                x-small
+                color="#43A047"
+                dark
+              >
+                <v-icon>mdi-google-translate</v-icon>
+              </v-btn>
+            </div>
           </div>
-        </div>
           <router-link to="/mypage">
             <p class="navBtn my-auto mr-3">마이페이지</p>
             <!-- <v-avatar class="mr-3" color="indigo" size="38">
@@ -40,158 +53,284 @@
               </v-icon>
             </v-avatar> -->
           </router-link>
-          <p class="navBtn mr-2 my-auto">로그아웃</p>
+          <!-- 구글 로그인 -->
+          <div>
+            <v-btn text @click="login" v-if="!member">Login</v-btn>
+            <v-menu open-on-hover offset-y v-else-if="member" no-gutters>
+              <template v-slot:activator="{ on, attrs }">
+                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                  <v-row no-gutters>
+                    <v-col cols="4" class="d-nome d-md-flex">
+                      <v-avatar>
+                        <v-img max-height="100%" :src="member.profileImg" alt="유저썸네일"></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col cols="5">
+                      <div class="text-left subtitle">{{ member.name }}</div>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                  <v-row no-gutters>
+                    <v-col cols="5">
+                      <v-btn @click="logout()">logout</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                </template>
+            </v-menu>
+          </div>
+          <!-- <p class="navBtn mr-2 my-auto">로그아웃</p> -->
           <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
-      </v-card-title>
-    </div>
+        </v-card-title>
+      </div>
 
-    <!-- 검색어 없이 번역버튼 눌렀을 경우 스낵바 -->
-    <v-container
-      fluid
-      class="text-center"
-      style="height:1px; padding-bottom:0px"
-    >
-      <!-- <v-row
+      <!-- 검색어 없이 번역버튼 눌렀을 경우 스낵바 -->
+      <v-container
+        fluid
+        class="text-center"
+        style="height:1px; padding-bottom:0px"
+      >
+        <!-- <v-row
         class="flex"
         justify="space-between"
       > -->
-        <v-col
-          cols="12"
-          class="mt-2"
-          style="height:0px!important;"
-        >
-          <v-tooltip
-            v-model="errSnackbar"
-            top
-          >
+        <v-col cols="12" class="mt-2" style="height:0px!important;">
+          <v-tooltip v-model="errSnackbar" top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                icon
-                v-bind="attrs"
-                v-on="on"
-              >
-              </v-btn>
+              <v-btn icon v-bind="attrs" v-on="on"> </v-btn>
             </template>
             <v-icon color="white" class="mr-1">mdi-alert-circle-outline</v-icon>
             <span>검색어를 입력해주세요</span>
           </v-tooltip>
         </v-col>
-      <!-- </v-row> -->
-    </v-container>
+        <!-- </v-row> -->
+      </v-container>
 
-    <!-- 번역 언어 모달 -->
-    <v-dialog v-model="transDialog" scrollable max-width="300px">
-    <v-card>
-      <v-toolbar
-        color="#43A047"
-        dark
-      >
-        <v-toolbar-title class="toolbarTitle">
-          <p class="my-auto" style="margin-left: 85px; text-align:center!important">검색어 번역</p>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon>
-        </v-btn>
-      </v-toolbar>
-      <v-card-text style="height: 300px;"> 
-        <v-card class="mx-auto mt-5" max-width="500" flat>
-          <v-row justify="center">
-            <v-container class="language" style="text-align:center;">
-              <v-row no-gutters>
-                <!-- 언어 선택 -->
-                <v-col v-for="(kr, en) in language" :key="en" cols="12" sm="12">
-                  <v-card
-                    @click="onTranslate(en)"
-                    class="pa-2 selectLang"
-                    outlined
-                    tile
-                  >
-                    <p class="my-auto">{{kr}}</p>
-                  </v-card>
-                </v-col>
+      <!-- 번역 언어 모달 -->
+      <v-dialog v-model="transDialog" scrollable max-width="300px">
+        <v-card>
+          <v-toolbar color="#43A047" dark>
+            <v-toolbar-title class="toolbarTitle">
+              <p
+                class="my-auto"
+                style="margin-left: 85px; text-align:center!important"
+              >
+                검색어 번역
+              </p>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon> </v-btn>
+          </v-toolbar>
+          <v-card-text style="height: 300px;">
+            <v-card class="mx-auto mt-5" max-width="500" flat>
+              <v-row justify="center">
+                <v-container class="language" style="text-align:center;">
+                  <v-row no-gutters>
+                    <!-- 언어 선택 -->
+                    <v-col
+                      v-for="(kr, en) in language"
+                      :key="en"
+                      cols="12"
+                      sm="12"
+                    >
+                      <v-card
+                        @click="onTranslate(en)"
+                        class="pa-2 selectLang"
+                        outlined
+                        tile
+                      >
+                        <p class="my-auto">{{ kr }}</p>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-row>
-            </v-container>
-          </v-row>
+            </v-card>
+          </v-card-text>
+          <v-divider class="mb-0"></v-divider>
+          <v-card-actions>
+            <v-btn
+              color="black"
+              text
+              block
+              class="mx-auto"
+              @click="transDialog = false"
+              >닫기</v-btn
+            >
+          </v-card-actions>
         </v-card>
-        </v-card-text>
-        <v-divider class="mb-0"></v-divider>
-        <v-card-actions>
-          <v-btn color="black" text block class="mx-auto" @click="transDialog = false">닫기</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </v-dialog>
+    </div>
   </div>
-
 </template>
 
+<script src="https://apis.google.com/js/platform.js"></script>
 <script scoped>
-import "@/../public/css/Navbar.scss"
+import "@/../public/css/Navbar.scss";
 import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api"
+import { mapState } from "vuex";
+const SERVER_URL = "https://morelang.gq/api";
+// import store from "@/../src/store/index.js";
 
-  export default {  
-    updated() {
-      if (this.errSnackbar && this.keyword) {
-        this.errSnackbar = false;
+// 상단 네브바 고정
+var nav = document.getElementsByClassName("navigation");
+window.onscroll = function sticky() {
+  if (window.pageYOffset > nav[0].offsetTop) {
+    nav[0].classList.add("nav");
+  } else {
+    nav[0].classList.remove("nav");
+  }
+};
+
+export default {
+  updated() {
+    if (this.errSnackbar && this.keyword) {
+      this.errSnackbar = false;
+    }
+  },
+  data() {
+    return {
+      keyword: "",
+      transDialog: false,
+      errSnackbar: false,
+      timeout: 1500,
+      errtext: "검색어를 입력해주세요",
+      language: {
+        kr: "한국어",
+        en: "영어",
+        jp: "일본어",
+        cn: "중국어",
+        vi: "베트남어",
+        id: "인도네시아어",
+        ar: "아랍어",
+        bn: "뱅갈어",
+        de: "독일어",
+        es: "스페인어",
+        fr: "프랑스어",
+        hi: "힌디어",
+        it: "이탈리아어",
+        ms: "말레이시아어",
+        nl: "네덜란드어",
+        pt: "포르투갈어",
+        ru: "러시아",
+        th: "태국어",
+        tr: "터키어"
+      },
+      gauth: {}
+    };
+  },
+  mounted() {
+    // if(store.state.target != null) {
+    //   this.keyword = store.state.target
+    //   console.log("여기에 검색어 나와야됨")
+    //   console.log(this.keyword)
+    // }
+    gapi.load('auth2', ()=> { 
+        this.gauth = gapi.auth2.init({
+          client_id: '258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com'
+        });      
+        this.gauth.then(function(){
+            console.log('init success');
+        }, function(){
+            console.error('init fail');
+        })
+    });
+    console.log(this.$store.state.member)
+  },
+  computed: mapState(['member','refreshToken']),
+  methods: {
+    async login() {
+    await this.gauth.grantOfflineAccess()
+    .then((data)=>{
+      console.log(data.code);
+      const fd = new FormData();
+      axios.defaults.headers.common.Authorization = ``;
+      fd.append("code", data.code);
+      fd.append("redirect", window.location.href)
+//      axios.post(`${this.$store.state.LocalURL}/guest/login`,fd)
+       axios.post(`${this.$store.state.ServerURL}/guest/login`,fd)
+      .then((response)=>{
+        console.log("성공!")
+        // console.log(response.data.member);
+        // console.log(response.data.refreshToken);
+        console.log(response)
+        this.$store.commit('setUser',this.gauth.currentUser.get());
+        this.$store.commit('setMember',response.data.member);
+        this.$store.commit('setRefreshToken', response.data.refreshToken);
+      })
+    });
+    },
+    logout() {
+      this.$store.dispatch('Logout')
+    },
+    onSearch(word) {
+      // store.state.target = word
+      // console.log("target")
+      // console.log(store.state.target)
+      // if (window.location.href.indexOf("search") > -1) {
+      //   console.log("현재페이지")
+      // }
+      // else {
+      this.$router.push({ name: "Search", params: { target: word } });
+      // }
+      this.keyword = word;
+    },
+    beforeTrans() {
+      if (this.keyword) {
+        this.transDialog = true;
+      } else {
+        this.errSnackbar = true;
       }
     },
-    data () {
-      return {
-        keyword:'',
-        transDialog: false,
-        errSnackbar: false,
-        timeout: 1500,
-        errtext:'검색어를 입력해주세요',
-        language: {kr:'한국어', en:'영어', jp: '일본어', cn: '중국어', vi: '베트남어', id:'인도네시아어', ar: '아랍어', bn:'뱅갈어', de:'독일어', es: '스페인어', fr:'프랑스어', hi:'힌디어', it: '이탈리아어', ms:'말레이시아어', nl:'네덜란드어', pt:'포르투갈어', ru:'러시아', th:'태국어', tr: '터키어'}
-      }
-    },
-    methods: {
-      beforeTrans() {
-        if (this.keyword) {
-          this.transDialog = true
-        } else {
-          this.errSnackbar = true;
-        }
-        
-      },
-      onTranslate(lang) {
-        
-        axios
-          .get(`${SERVER_URL}/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`)
-          .then((res) => {
-            this.keyword = res.data
-          })
-      },
+    onTranslate(lang) {
+      axios
+        .get(
+          `${SERVER_URL}/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
+        )
+        .then(res => {
+          this.keyword = res.data;
+        });
     }
   }
+};
 </script>
 
 <style scoped>
-  .logo {
-    font-family: 'Kaushan Script', cursive;
-  }
-  a {
-    color: black !important;
-    text-decoration: none !important;
-  }
-  .navBtn {
-    font-family: 'Nanum Gothic', sans-serif;
-    /* font-family: 'Do Hyeon', sans-serif; */
-    font-size: 17.5px;
-    color: #616161
-  }
-  .selectLang:hover {
-    background-color: #def5df;
-  }
-  .language {
-    font-family: 'Nanum Gothic', sans-serif;
-  }
-  .v-snack__wrapper {
-    min-width: none;
-    min-height: none;
-    }
-  .container text-center container--fluid {
-    min-height: none;
-  }
+.logo {
+  font-family: "Kaushan Script", cursive;
+}
+a {
+  color: black !important;
+  text-decoration: none !important;
+}
+.navBtn {
+  font-family: "Nanum Gothic", sans-serif;
+  /* font-family: 'Do Hyeon', sans-serif; */
+  font-size: 17.5px;
+  color: #616161;
+}
+.selectLang:hover {
+  background-color: #def5df;
+}
+.language {
+  font-family: "Nanum Gothic", sans-serif;
+}
+.v-snack__wrapper {
+  min-width: none;
+  min-height: none;
+}
+.container text-center container--fluid {
+  min-height: none;
+}
+.nav {
+  position: fixed;
+  background: beige;
+  padding: 0;
+}
 
+.navigation {
+  width: 100%;
+  top: 0;
+}
 </style>

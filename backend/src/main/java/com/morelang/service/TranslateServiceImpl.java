@@ -17,6 +17,10 @@ public class TranslateServiceImpl implements TranslateService {
 
 	@Override
 	public String translate(String src_lang, String target_lang, String query) throws Exception {
+		if (query.equals("")) {
+			return "";
+		}
+
 		URL url = new URL("https://dapi.kakao.com/v2/translation/translate?" + "src_lang=" + src_lang + "&target_lang="
 				+ target_lang + "&query=" + URLEncoder.encode(query, "utf-8"));
 		Map<String, String> props = new HashMap<>();

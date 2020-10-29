@@ -1,7 +1,5 @@
 package com.morelang.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +11,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.morelang.config.Webhook;
-import com.morelang.dto.Search;
-import com.morelang.service.SearchService;
+import com.morelang.dto.Video;
+import com.morelang.service.VideoService;
 
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
-public class SearchController {
+public class VideoController {
 	@Autowired
-	SearchService searchService;
+	VideoService videoService;
 
-	@GetMapping("/search")
-	@ApiOperation(value = "start: 시작할 index(0/10/20/...10단위)")
-	public ResponseEntity<List<Search>> search(@RequestParam("q") String q, @RequestParam("start") String start,
-			HttpServletRequest request) {
+	@GetMapping("/video")
+	@ApiOperation(value = "예)lutr9KxY-8s")
+	public ResponseEntity<Video> video(@RequestParam("id") String id, HttpServletRequest request) {
 
-		List<Search> result = null;
+		Video video = null;
 		try {
-			result = searchService.search(q, start);
+			video = videoService.getInfo(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Webhook.send(request, this.getClass().toString(), e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return new ResponseEntity<>(video, HttpStatus.OK);
 	}
 
 }

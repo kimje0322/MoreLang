@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
-import com.morelang.config.Webhook;
 import com.morelang.dto.Caption;
 import com.morelang.dto.Search;
 
@@ -20,7 +19,6 @@ import com.morelang.dto.Search;
 public class SearchServiceImpl implements SearchService {
 	static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
 	static final String WEB_DRIVER_PATH = "/usr/lib/chromium/chromedriver";
-//	static final String WEB_DRIVER_PATH = "chromedriver.exe";
 
 	@Override
 	public List<Search> search(String q, String start) throws Exception {
@@ -47,10 +45,10 @@ public class SearchServiceImpl implements SearchService {
 				String videoUrl = e.child(0).child(0).attr("href");
 				String id = videoUrl.substring(videoUrl.indexOf("v=") + 2);
 				if (id.contains("&")) {
-					id = id.substring(0, videoUrl.indexOf('&'));
+					id = id.substring(0, id.indexOf('&'));
 				}
 				videoUrl = "https://www.youtube.com/watch?v=" + id;
-				String imgUrl = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+				String imgUrl = "https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
 				String publishedAt = e.child(1).child(1).child(1).ownText();
 				publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
@@ -80,7 +78,7 @@ public class SearchServiceImpl implements SearchService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), e);
+			throw e;
 		} finally {
 			driver.close();
 			driver.quit();
