@@ -6,9 +6,13 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import com.morelang.config.Webhook;
+import com.morelang.dto.Caption;
 import com.morelang.dto.Channel;
 import com.morelang.dto.Playlist;
 import com.morelang.dto.PlaylistItem;
@@ -23,7 +27,6 @@ public class ChannelServiceImpl implements ChannelService {
 		URL url = new URL(
 				"https://www.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&id="
 						+ id);
-		Webhook.url = url.toString();
 		JSONObject obj = new JSONObject(Https.get(url)).getJSONArray("items").getJSONObject(0);
 
 		channel.setId(obj.getString("id"));
@@ -48,7 +51,6 @@ public class ChannelServiceImpl implements ChannelService {
 		URL url = new URL(
 				"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&playlistId="
 						+ id + "&pageToken=" + (token == null ? "" : token));
-		Webhook.url = url.toString();
 		JSONObject obj = new JSONObject(Https.get(url));
 
 		if (obj.keySet().contains("nextPageToken"))
@@ -66,6 +68,19 @@ public class ChannelServiceImpl implements ChannelService {
 			item.setPublishedAt(j.getString("publishedAt"));
 			item.setImgUrl("https://i.ytimg.com/vi/" + item.getId() + "/maxresdefault.jpg");
 			item.setVideoUrl("https://www.youtube.com/watch?v=" + item.getId());
+			Document d = Jsoup.connect("http://video.google.com/timedtext?type=list&v=" + item.getId())
+					.userAgent("Mozilla/5.0").get();
+			Elements tracks = d.getElementsByTag("track");
+			List<Caption> captions = new ArrayList<>();
+			for (Element track : tracks) {
+				Caption c = new Caption();
+				c.setId(track.attr("id"));
+				c.setLang_code(track.attr("lang_code"));
+				c.setLang_original(track.attr("lang_original"));
+				c.setLang_translated(track.attr("lang_translated"));
+				captions.add(c);
+			}
+			item.setCaptions(captions);
 			items.add(item);
 		}
 		playlist.setItems(items);

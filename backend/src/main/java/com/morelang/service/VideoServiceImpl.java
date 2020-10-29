@@ -5,7 +5,6 @@ import java.net.URL;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import com.morelang.config.Webhook;
 import com.morelang.dto.Video;
 import com.morelang.util.Https;
 
@@ -18,7 +17,6 @@ public class VideoServiceImpl implements VideoService {
 		URL url = new URL(
 				"https://www.googleapis.com/youtube/v3/videos?part=snippet&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&id="
 						+ id);
-		Webhook.url = url.toString();
 		JSONObject obj = new JSONObject(Https.get(url)).getJSONArray("items").getJSONObject(0);
 
 		video.setId(obj.getString("id"));
