@@ -292,7 +292,7 @@ export default {
     },
     async getCaptionsList(){
       // console.log(await this.player.getOption( "captions" , 'track'));
-      axios.get("http://video.google.com/timedtext?type=list",{
+      axios.get("https://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
         }
