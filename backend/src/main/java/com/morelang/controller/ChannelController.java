@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.api.client.http.HttpRequest;
 import com.morelang.config.Webhook;
 import com.morelang.dto.Channel;
 import com.morelang.dto.Playlist;
