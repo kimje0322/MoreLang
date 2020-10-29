@@ -57,7 +57,8 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text style="margin-left:35px">
-              <MySentences />
+              <!-- <MySentences /> -->
+              <Quiz />
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -70,7 +71,8 @@
 <script>
 import VideoLearning from "@/views/Mypage/VideoLearning";
 import MyWords from "@/views/Mypage/MyWords";
-import MySentences from "@/views/Mypage/MySentences";
+// import MySentences from "@/views/Mypage/MySentences";
+import Quiz from "@/components/Video/Quiz";
 import Navbar from "@/components/Navbar";
 import "@/../public/css/Mypage.scss"
 
@@ -79,7 +81,8 @@ export default {
     Navbar,
     VideoLearning,
     MyWords,
-    MySentences,
+    // MySentences,
+    Quiz,
   },
   data () {
       return {
