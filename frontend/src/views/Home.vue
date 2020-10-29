@@ -60,7 +60,7 @@
               >MORE</span
             >
             <strong
-              style="font-size: 40px; font-weight: 900; font-family:  'Calibre',sans-serif; line-height: 0.5;"
+              style="font-size: 40px; font-weight: 900; font-family: 'Calibre', sans-serif; line-height: 0.5;"
               >CHANNEL</strong
             >
           </h3>
