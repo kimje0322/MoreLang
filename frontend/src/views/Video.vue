@@ -1,42 +1,43 @@
 <template>
   <div class="video">
-    <Navbar />
-    
-    <button @click="changeMode(1)">Mode1</button>  
-    <button @click="changeMode(2)">Mode2</button>  
-    <button @click="changeMode(3)">Mode3</button>  
-  <input type="button" @click="increment()" value="increment"/>
-    <h3 id="page">비디오페이지</h3>
-    <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
-    <button @click="playVideo">play</button>  
-    <!-- <button @click="skipVideo">skip</button>   -->
-    <button @click="pauseVideo">pause</button>  
-    <div>   
-        <button @click="seekVideo(parseFloat(timer)-parseFloat(unit))">back</button>  
-        <input type="number" v-model="unit">
-        <button @click="seekVideo(parseFloat(timer)+parseFloat(unit))">forward</button>  
-    </div>
-    <div>timer: {{timer}}</div>
-    <div>state: {{state}}</div>
-    <div>mode: {{mode}}</div>
-    <button @click="beforeCaption">이전문장</button>  
-    <button @click="nextCaption">다음문장</button>  
-    <div><h2>  대사: {{nowText}}</h2></div>
-    <div><h2>  대사인덱스: {{nowIdx}}</h2></div>
-    
+        <Navbar />
+        <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
+        <button @click="changeMode(1)">Mode1</button>  
+        <button @click="changeMode(2)">Mode2</button>  
+        <button @click="changeMode(3)">Mode3</button>  
+      <input type="button" @click="increment()" value="increment"/>
+        <h3 id="page">비디오페이지</h3>
+        <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
+        <button @click="playVideo">play</button>  
+        <!-- <button @click="skipVideo">skip</button>   -->
+        <button @click="pauseVideo">pause</button>  
+        <div>   
+            <button @click="seekVideo(parseFloat(timer)-parseFloat(unit))">back</button>  
+            <input type="number" v-model="unit">
+            <button @click="seekVideo(parseFloat(timer)+parseFloat(unit))">forward</button>  
+        </div>
+        <div>timer: {{timer}}</div>
+        <div>state: {{state}}</div>
+        <div>mode: {{mode}}</div>
+        <button @click="beforeCaption">이전문장</button>  
+        <button @click="nextCaption">다음문장</button>  
+        <div><h2>  대사: {{nowText}}</h2></div>
+        <div><h2>  대사인덱스: {{nowIdx}}</h2></div>
+        
 
 
-    <select v-model="selectedLang" @change="onSelectClick($event)" >
-      <option disabled value="">Please select one</option>
-      <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option>
-    </select>
-    <span>선택함: {{ selectedLang }}</span>
+        <select v-model="selectedLang" @change="onSelectClick($event)" >
+          <option disabled value="">Please select one</option>
+          <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option>
+        </select>
+        <span>선택함: {{ selectedLang }}</span>
 
-    <ul id="example-2">
-      <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="subtitle" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
-        <!-- {{item._text}} -->
-      </li>
-    </ul>
+        <ul id="example-2">
+          <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="subtitle" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
+            <!-- {{item._text}} -->
+          </li>
+        </ul>
+      </div>
   </div>
 </template>
 
