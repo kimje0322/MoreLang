@@ -50,14 +50,15 @@
                 style="width: clac(25% - 60px); margin: auto; display: inline-block;"
               >
               
-                    <!-- @error="imgUrlAlt(video.imgUrl)" -->
                 <div style="margin-bottom: 15px;">
                   <img
                     :src="video.imgUrl"
+                    @error="$event.target.src = video.imgUrl.substring(0, 35) + 'mqdefault.jpg'"
                     alt=""
                     width="290"
                   />
                 </div>
+                    <!-- id="video_img" -->
                 <h3 v-if="video.title.length > 22">
                   {{ video.title.substring(0, 22) }} ...
                 </h3>
@@ -105,8 +106,8 @@ export default {
       videolst: [],
       token: "",
       end: false,
-      // newimg: "",
-      // img: "",
+      newimg: "",
+      img: "",
     };
   },
   components: {
@@ -129,11 +130,13 @@ export default {
     });
   },
   methods: {
-    // imgUrlAlt(img){
-      // console.log('여기')
-      // console.log(img)
-      // this.newimg = img.replace("maxres", "mq")
-      // event.target.src = "this.newimg"
+    // imgUrlAlt(event){
+    //   console.log("이미지에러")
+    //   // console.log(img)
+    //   var video_img = document.getElementById('video_img')
+    //   event.target.src = video_img.replace("maxres", "mq")
+    //   // this.newimg = img.replace("maxres", "mq")
+    //   // event.target.src = "this.newimg"
     // },
     infiniteHandler($state) {
       setTimeout(() => {
@@ -142,8 +145,8 @@ export default {
             `${SERVER_URL}/playlist?id=${this.channelInfo.uploads}&token=${this.token}`
           )
           .then(res => {
-            console.log("infinitehandler");
-            console.log(res);
+            // console.log("infinitehandler");
+            // console.log(res);
             this.videolst = this.videolst.concat(res.data.items);
             this.token = res.data.token;
             if (res.data.items.length != 50) {
