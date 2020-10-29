@@ -33,7 +33,7 @@
     <span>선택함: {{ selectedLang }}</span>
 
     <ul id="example-2">
-      <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="subtitle" @click= "seekVideo(parseFloat(item._attributes.start))"  v-bind:key="index" v-html="item._text">
+      <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="subtitle" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
         <!-- {{item._text}} -->
       </li>
     </ul>
@@ -56,10 +56,12 @@ export default {
   },
   data() {
     return {
+      isPause : false,
       mode : 1,
       unit : 10,
       nowText : "",
-      nowIdx : 0,
+      nowIdx : -1,
+      preIdx : -1,
       elements : null,
       videoId: "DFjIi2hxxf0",
       selectedLang : "",
@@ -79,27 +81,47 @@ export default {
     };
   },
   methods: {
-        increment: function () {
-      this.$store.commit('increment')
+    captionClick(idx){
+      console.log("clickIdx =",idx);
+      // console.log("preIdx =",this.preIdx);
+      console.log("nowIdx =",this.nowIdx);
+      
+      if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current");
+      // this.preIdx = this.nowIdx;
+      this.nowIdx=idx;
+      // console.log("nowIdx = ",this.nowIdx);
+      
+      if(this.nowIdx != -1) this.elements[this.nowIdx].classList.add("current");
+      this.seekVideo(this.caption[this.nowIdx]._attributes.start);
     },
     changeMode(num){
       this.mode = num;
-      console.log("mode = ",this.mode);
+      // console.log("mode = ",this.mode);
 
     },
     nextCaption(){
-        console.log("다음문장idx",this.nowIdx+1);
+        // console.log("다음문장idx",this.nowIdx+1);
         // console.log(this.caption[this.nowIdx+1]._text);
         // console.log(this.caption[this.nowIdx+1]._attributes.start);
         if(this.nowIdx+1<this.caption.length){
-           this.seekVideo(this.caption[this.nowIdx+1]._attributes.start);
+          // this.preIdx = this.nowIdx;
+          if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current");
+          this.nowIdx ++; 
+          this.nowText=this.elements[this.nowIdx].innerHTML;
+          this.elements[this.nowIdx].classList.add("current");
+           this.seekVideo(this.caption[this.nowIdx]._attributes.start);
         }
         
     },
     beforeCaption(){
         // console.log("이전문장idx",this.nowIdx-1);
         if(this.nowIdx>0){
-         this.seekVideo(this.caption[this.nowIdx-1]._attributes.start);
+        // this.preIdx = this.nowIdx;
+        this.elements[this.nowIdx].classList.remove("current");
+        this.nowIdx--;
+        this.nowText=this.elements[this.nowIdx].innerHTML;
+        this.elements[this.nowIdx].classList.add("current");
+         this.seekVideo(this.caption[this.nowIdx]._attributes.start);
         }
     },
     onSelectClick(event){
@@ -135,9 +157,7 @@ export default {
     //             // module = data[0];
     //             })
     //           .catch(err => console.log(err));
-
-
-    // },  
+    // }, 
     
 
     playing() {
@@ -162,13 +182,13 @@ export default {
     
         var myTimer;
         // console.log('event:', event);
-        console.log('state data : ',event.data);
+        // console.log('state data : ',event.data);
         this.state = event.data;
         if(event.data==1) { // playing
             myTimer = setInterval(this.getCurrentTime, 100);
           }
         else { // not playing
-            console.log("여기들어옴");
+            // console.log("여기들어옴");
             clearInterval(myTimer);
         }
     },
@@ -186,19 +206,17 @@ export default {
        if(this.state==1){
         // this.timer =this.player.getCurrentTime();
         await this.player.getCurrentTime().then(data => this.timer=data);
-          
+        this.elements = document.querySelectorAll('.subtitle');
           // var tf = false;
           var tempIdx= -1;
           if(this.elements != null){
             // console.log(Array.from(this.elements));
+            
             Array.from(this.elements).some((el,i) =>{
-              if (el.dataset.start <= this.timer &&this.timer < el.dataset.end){
-                el.classList.add("current");
-                // console.log(this.elements[this.nowIdx].className);
+              if (el.dataset.start < this.timer &&this.timer < el.dataset.end){
+                // this.elements[this.preIdx].classList.remove("current");
+                // this.nowText = el.innerHTML;
                 // this.elements[this.nowIdx].classList.remove("current");
-                
-
-                this.nowText = el.innerHTML;
                 // this.nowIdx = i;
                 tempIdx = i;
                 // tf = true;
@@ -207,33 +225,69 @@ export default {
               // else el.classList.remove("current");
              
             });
-            if(tempIdx != -1){
-              // console.log("-1아니네?")
-              if(tempIdx != this.nowIdx){
+            if(tempIdx != -1){                              ///말하는중
+                this.isPause = false;
+
+
                 if(this.mode == 2){
-                  this.seekVideo(this.caption[this.nowIdx]._attributes.start);
-                  
+                  this.elements[this.nowIdx].classList.add("current");  
+                  if(tempIdx != this.nowIdx){
+                    if(this.nowIdx != -1){
+                      this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+                      this.nowText=this.elements[this.nowIdx].innerHTML;
+                    }else{
+                      this.nowIdx=tempIdx;
+                    }
+                  }
+                }
+                else if(this.mode == 3){
+                    if(tempIdx != this.nowIdx){                              /// 새로운 대사 칠떄
+                        console.log("tempIdx = ",tempIdx);
+                        if(this.nowIdx != -1 && this.isPause ==false) {
+                          this.pauseVideo();
+                          this.isPause=true;
+                        }
+                        if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
+                    }else{                                                        // 기존의 말 할때 
+                      if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
+                      this.elements[this.nowIdx].classList.add("current");
+                    }
                 }else{
-                  
-                  this.elements[this.nowIdx].classList.remove("current");
+                  if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
+                  this.preIdx = this.nowIdx;
                   this.nowIdx = tempIdx;
                   this.elements[this.nowIdx].classList.add("current");
+                  this.nowText=this.elements[this.nowIdx].innerHTML;
                 }
-              }
-            }else{
+            }else{                                           //정적이 흐르는중
               console.log("아무말도안하나");
-              this.nowText="";
-              this.elements[this.nowIdx].classList.remove("current");
+              if(this.mode == 2){
+                  this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+                  this.nowText=this.elements[this.nowIdx].innerHTML;
+                  if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
+              }
+              else if(this.mode ==3 && this.isPause == false){
+                  this.pauseVideo();
+                  this.nowText=this.elements[this.nowIdx].innerHTML;
+                  this.isPause =true;
+              }else{
+                this.nowText="";
+                if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
+              }
               // this.seekVideo(this.caption[this.nowIdx]._attributes.start);
             }
           
           }
           // if(tf == false)this.nowText="";
           // console.log(this.caption[this.nowIdx]._text);
-          if(this.elements != null){
-            // console.log(this.elements);
-            console.log(this.elements[this.nowIdx].innerHTML);
-          }
+          // if(this.elements != null){
+          //   // console.log(this.elements);
+          //   // console.log(this.elements[this.nowIdx].innerHTML);
+            
+          //     this.elements[this.nowIdx].classList.add("current");
+          //     this.nowText=this.elements[this.nowIdx].innerHTML;
+              
+          // }
        }
     },
     async getCaptionsList(){
@@ -277,9 +331,13 @@ export default {
       // console.log("바뀜!!")
       this.getCaption();
     },
+    preIdx : function(){
+      // console.log("preIdx",this.preIdx);
+    },
     nowIdx : function(){
-      console.log("문장바뀜");
+      // console.log("nowIdx",this.nowIdx);
     }
+    
 
   },
   computed: {
