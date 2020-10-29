@@ -1,5 +1,7 @@
 package com.morelang.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +24,14 @@ public class VideoController {
 
 	@GetMapping("/video")
 	@ApiOperation(value = "예)lutr9KxY-8s")
-	public ResponseEntity<Video> video(@RequestParam("id") String id) {
+	public ResponseEntity<Video> video(@RequestParam("id") String id, HttpServletRequest request) {
 
 		Video video = null;
 		try {
 			video = videoService.getInfo(id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), e);
+			Webhook.send(request, this.getClass().toString(), e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
