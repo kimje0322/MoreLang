@@ -1,27 +1,24 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import createPersistedState from "vuex-persistedstate";
- 
+import createPersistedState from 'vuex-persistedstate';
+
 Vue.use(Vuex);
-Vue.config.devtools = true
 
 export default new Vuex.Store({
   state: {
-    member:null,
-    gauth:null,
+    member:{},
+    user:{},
     refreshToken: null,
     ServerURL: "https://morelang.gq/api",
     LocalURL: "http://localhost:8080",
     alertColor: null,
     AlertMessage: "",
     showAlert: false,
-    count : 0
   },
   plugins: [createPersistedState()],
   mutations: {
-    increment(state){
-      state.count++;
-
+    setUser(state, user) {
+      state.user = user;
     },
     setMember(state, member) {
       console.log(member);
@@ -43,10 +40,9 @@ export default new Vuex.Store({
   },
   actions: {
     Logout({state,commit}){
-      var user = state.gauth.currentUser.get()
-      user.disconnect()
+      state.user.disconnect()
       .then(()=>{
-        commit('setMember',null)
+        commit('setMember',null);
         commit('setRefreshToken', null);
       });
         commit("ShowAlert", {

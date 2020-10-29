@@ -53,7 +53,34 @@
               </v-icon>
             </v-avatar> -->
           </router-link>
-          <p class="navBtn mr-2 my-auto">로그아웃</p>
+          <!-- 구글 로그인 -->
+          <div>
+            <v-btn text @click="login" v-if="!member">Login</v-btn>
+            <v-menu open-on-hover offset-y v-else-if="member" no-gutters>
+              <template v-slot:activator="{ on, attrs }">
+                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                  <v-row no-gutters>
+                    <v-col cols="4" class="d-nome d-md-flex">
+                      <v-avatar>
+                        <v-img max-height="100%" :src="member.profileImg" alt="유저썸네일"></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-col cols="5">
+                      <div class="text-left subtitle">{{ member.name }}</div>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                  <v-row no-gutters>
+                    <v-col cols="5">
+                      <v-btn @click="logout()">logout</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
+                </template>
+            </v-menu>
+          </div>
+          <!-- <p class="navBtn mr-2 my-auto">로그아웃</p> -->
           <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
         </v-card-title>
       </div>
@@ -138,9 +165,11 @@
   </div>
 </template>
 
+<script src="https://apis.google.com/js/platform.js"></script>
 <script scoped>
 import "@/../public/css/Navbar.scss";
 import axios from "axios";
+import { mapState } from "vuex";
 const SERVER_URL = "https://morelang.gq/api";
 // import store from "@/../src/store/index.js";
 
@@ -187,17 +216,54 @@ export default {
         ru: "러시아",
         th: "태국어",
         tr: "터키어"
-      }
+      },
+      gauth: {}
     };
   },
-  // mounted() {
-  //   if(store.state.target != null) {
-  //     this.keyword = store.state.target
-  //     console.log("여기에 검색어 나와야됨")
-  //     console.log(this.keyword)
-  //   }
-  // },
+  mounted() {
+    // if(store.state.target != null) {
+    //   this.keyword = store.state.target
+    //   console.log("여기에 검색어 나와야됨")
+    //   console.log(this.keyword)
+    // }
+    gapi.load('auth2', ()=> { 
+        this.gauth = gapi.auth2.init({
+          client_id: '258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com'
+        });      
+        this.gauth.then(function(){
+            console.log('init success');
+        }, function(){
+            console.error('init fail');
+        })
+    });
+    console.log(this.$store.state.member)
+  },
+  computed: mapState(['member','refreshToken']),
   methods: {
+    async login() {
+    await this.gauth.grantOfflineAccess()
+    .then((data)=>{
+      console.log(data.code);
+      const fd = new FormData();
+      axios.defaults.headers.common.Authorization = ``;
+      fd.append("code", data.code);
+      fd.append("redirect", window.location.href)
+//      axios.post(`${this.$store.state.LocalURL}/guest/login`,fd)
+       axios.post(`${this.$store.state.ServerURL}/guest/login`,fd)
+      .then((response)=>{
+        console.log("성공!")
+        // console.log(response.data.member);
+        // console.log(response.data.refreshToken);
+        console.log(response)
+        this.$store.commit('setUser',this.gauth.currentUser.get());
+        this.$store.commit('setMember',response.data.member);
+        this.$store.commit('setRefreshToken', response.data.refreshToken);
+      })
+    });
+    },
+    logout() {
+      this.$store.dispatch('Logout')
+    },
     onSearch(word) {
       // store.state.target = word
       // console.log("target")
