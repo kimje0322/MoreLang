@@ -33,19 +33,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// disables cors and csrf
 		http
 		.cors().and()
-		.csrf().disable(). 
-		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-		and().
-			authorizeRequests().
-			antMatchers("/guest/**","/swagger-ui.html").permitAll().
-		and().
-			authorizeRequests().
-			antMatchers("/user/**").hasRole("USER").
-		and().
-			authorizeRequests().
-			anyRequest().
-			authenticated().
-		and().
-			addFilterBefore(loginfilter, BasicAuthenticationFilter.class);
+		.csrf()
+		.disable();
+		http.authorizeRequests().antMatchers("/**").permitAll();
+//		http
+//		.cors().and()
+//		.csrf().disable(). 
+//		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+//		and().
+//			authorizeRequests().
+//			antMatchers("/guest/**","/swagger-ui.html").permitAll().
+//		and().
+//			authorizeRequests().
+//			antMatchers("/user/**").hasRole("USER").
+//		and().
+//			authorizeRequests().
+//			anyRequest().
+//			authenticated().
+//		and().
+//			addFilterBefore(loginfilter, BasicAuthenticationFilter.class);
 	}
 }

@@ -24,11 +24,11 @@ export default new Vuex.Store({
 
     },
     setMember(state, member) {
-      // console.log(member);
+      console.log(member);
       state.member = member;
     },
     setRefreshToken(state, refreshToken){
-      // console.log(refreshToken);
+      console.log(refreshToken);
       state.refreshToken = refreshToken
     },
     setToken(state, Token){

@@ -2,7 +2,7 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <div style="width: 100%;">
-      <!-- <Navbar /> -->
+      <Navbar />
 
           <!-- 구글 로그인 -->
           <div>
@@ -26,13 +26,14 @@
           </div>
 
           <!-- 메뉴바 -->
-          <!-- <div style="width: 50px; ">
+          <div style="width: 50px; ">
             <v-icon>hamburger-menu</v-icon>
-          </div> -->
+          </div>
         </div>
         <div>
           <button @click="logout()">logout</button>
         </div>
+        
       <!-- 소개 영상 -->
       <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
         <video
@@ -306,8 +307,11 @@ export default {
         console.log("성공!")
         // console.log(response.data.member);
         // console.log(response.data.refreshToken);
-        this.$store.commit('setMember',response.data.member)
-        this.$store.commit('setRefreshToken', response.data.refreshToken)
+        console.log(response)
+        this.$store.state.refreshToken = 1;
+        //this.$store.commit('setMember',1)
+        //this.$store.commit('setRefreshToken', 2)
+        
       })
     });
     },
