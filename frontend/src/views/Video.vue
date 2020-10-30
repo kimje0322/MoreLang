@@ -6,12 +6,14 @@
         <button @click="changeMode(2)">Mode2</button>  
         <button @click="changeMode(3)">Mode3</button>  
         <h3 id="page">비디오페이지</h3>
-        <div>{{videoInfo}}</div>
-        <!-- <h4>제목 : {{videoInfo.title}}</h4>
+        <template v-if="videoInfo != null">
+        <h4>제목 : {{videoInfo.title}}</h4>
         <h4>설명 : {{videoInfo.description}}</h4>
         <h4>업로드일 : {{videoInfo.publishedAt}}</h4>
         <h4>채널 : {{videoInfo.channelTitle}}</h4>
-        <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4> -->
+        <h4>채널ID : {{videoInfo.channelId}}</h4>
+        <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4>
+        </template>
         
         
         
@@ -228,7 +230,6 @@ export default {
     async setCCLanguage(){
       await this.player.setOption( "captions" , 'track' , { 'languageCode' : this.selectedLang } );
     },
-    
    async  youtubeStateChange (event) {
         var myTimer;
         var setMode;
@@ -244,8 +245,6 @@ export default {
             clearInterval(setMode);
         }
     },
-
-
     async getCaptionsList(){
       // console.log(await this.player.getOption( "captions" , 'track'));
       axios.get("https://video.google.com/timedtext?type=list",{
@@ -327,7 +326,6 @@ export default {
       // console.log("바뀜!!")
       this.getCaption();
     }
-    
 
   },
   computed: {
