@@ -1,8 +1,12 @@
 package com.morelang.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.morelang.dto.History;
@@ -64,5 +68,18 @@ public class HistoryServiceImpl implements HistoryService{
 			return "fail";
 		}
 	}
-
+	
+	@Override
+	public List<HistoryVideo> myVideoList(String accessToken,Pageable pageable){
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			List<History> history = historyRepository.findByMember_userid(m.get().getUserid(),pageable);
+			List<Long> viewId = new ArrayList<>();
+			for(int i=0; i<history.size(); i++) {
+				viewId.add(Long.valueOf(history.get(i).getVideo().getVideoId()));
+			}
+			return historyVideoRepository.findByVideoIdIn(viewId);
+		}
+		return null;
+	}
 }
