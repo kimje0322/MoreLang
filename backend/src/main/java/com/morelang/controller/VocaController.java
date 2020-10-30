@@ -31,7 +31,7 @@ public class VocaController {
 	@Autowired
 	VocaService vocaService;
 	
-	@PostMapping("/registvoca")
+	@PostMapping("/regist-voca")
 	@ApiOperation(value = "[단어등록]단어장에 단어 등록하기")
 	public ResponseEntity<?> registVoca(HttpServletResponse response, @RequestBody Voca voca) {
 		String accessToken = response.getHeader("accessToken");
@@ -65,7 +65,7 @@ public class VocaController {
 		vocaService.makeLearn(accessToken, vocaId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	@GetMapping("/vocaQuize")
+	@GetMapping("/vocaquize")
 	@ApiOperation(value = "[단어 퀴즈 만들기] 내 단어장에서 학습 안한 걸로 단어퀴즈 만들기, 해당 나라를 주면 해당 나라거만 가져옴")
 	public ResponseEntity<?> vocaQuize(HttpServletResponse response, @RequestParam(required = false) String country) {
 		String accessToken = response.getHeader("accessToken");

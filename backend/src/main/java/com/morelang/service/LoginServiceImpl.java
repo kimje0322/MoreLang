@@ -51,7 +51,7 @@ public class LoginServiceImpl implements LoginService{
 		String name = (String) payload.get("name");
 		String pictureUrl = (String) payload.get("picture");
 
-		Member m = new Member(userId,name,pictureUrl,"Google",email,accessToken);
+		Member m = new Member(userId,name,pictureUrl,"Google",email,accessToken,0);
 		memberRepository.save(m);
 		Map<String,Object> map = new HashMap<>();
 		map.put("member", m);
