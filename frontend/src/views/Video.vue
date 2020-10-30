@@ -1,11 +1,10 @@
 <template>
   <div class="video">
         <Navbar />
-        <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
+        <div style="width: 100%; height: 100vh; display: block; margin-top: 10%;">
         <button @click="changeMode(1)">Mode1</button>  
         <button @click="changeMode(2)">Mode2</button>  
         <button @click="changeMode(3)">Mode3</button>  
-      <input type="button" @click="increment()" value="increment"/>
         <h3 id="page">비디오페이지</h3>
         <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
         <button @click="playVideo">play</button>  
@@ -43,13 +42,9 @@
 </template>
 
 <script>
-// import $ from 'jquery';
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 var convert = require('xml-js')
-
-
-
 
 export default {
   name: "Video",
@@ -83,12 +78,16 @@ export default {
     };
   },
   methods: {
+    removeAll(){
+             Array.from(this.elements).some((el) =>{
+               if(el.classList.contains("current")){
+                 el.classList.remove("current");
+                 return true;
+               }
+              });
+    },
     captionClick(idx){
-      console.log("clickIdx =",idx);
-      console.log("nowIdx =",this.nowIdx);
-      if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current");
-      if(this.preIdx != -1) this.elements[this.preIdx].classList.remove("current");
-      
+      this.removeAll();
       this.preIdx = this.nowIdx;
       this.nowIdx=idx;
       if(this.nowIdx != -1) this.elements[this.nowIdx].classList.add("current");
@@ -99,7 +98,7 @@ export default {
     },
     nextCaption(){
         if(this.nowIdx+1<this.caption.length){
-          if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current")
+          this.removeAll();
           this.preIdx = this.nowIdx;
           this.nowIdx ++; 
           this.nowText=this.elements[this.nowIdx].innerHTML;
@@ -109,7 +108,7 @@ export default {
     },
     beforeCaption(){
         if(this.nowIdx>0){
-        this.elements[this.nowIdx].classList.remove("current");
+        this.removeAll();
         this.preIdx = this.nowIdx;
         this.nowIdx--;
         this.nowText=this.elements[this.nowIdx].innerHTML;
@@ -123,27 +122,11 @@ export default {
             if(this.elements != null){
               Array.from(this.elements).some((el,i) =>{
                 if (el.dataset.start < this.timer &&this.timer < el.dataset.end){
-                  // this.elements[this.preIdx].classList.remove("current");
-                  // this.nowText = el.innerHTML;
-                  // this.elements[this.nowIdx].classList.remove("current");
-                  // this.nowIdx = i;
                   tempIdx = i;
-                  
-                  // tf = true;
                   return true;
                 } 
-                // else el.classList.remove("current");
-               
               });
-  
-              console.log("tempIdx=",tempIdx);
-              console.log("nowIdx=",this.nowIdx);
-
-
               if(tempIdx != -1){                              ///말하는중
-                  this.isBlank = false;
-
-  
                   if(this.mode == 2 && tempIdx != this.nowIdx){     //현재 대사 반복 재생  == 현재 인덱스 반복 재생   //새로운 대사 시작?  => 기존의 인덱스 시작으로 넘어가야함(이때 인덱스 -1 은 예외 처리)
                       if(this.nowIdx != -1){
                         this.seekVideo(this.caption[this.nowIdx]._attributes.start);
@@ -157,72 +140,53 @@ export default {
                   else if(this.mode == 3){                          //현재 문장 끝나면 일시 정지 시키기 
                     if(tempIdx != this.nowIdx){
 
-                      if(this.nowIdx != -1){
-                        // console.log("tempIdx = ",tempIdx);
+                      if(this.nowIdx != -1 &&  this.isBlank ==false){
                             this.pauseVideo();
                             await this.sleep(100);
                             this.preIdx  = this.nowIdx;
                             this.nowIdx=tempIdx;
-                            // this.isBlank=true;
-                            // if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
                       }
                       else{
                         this.nowIdx=tempIdx;
-                        // this.elements[this.nowIdx].classList.add("current");  
-                        // this.nowText=this.elements[this.nowIdx].innerHTML;
                       }
-                    }else{                                                              //새대사?
-                        console.log("진입혀ㅑㅆ다ㅣ")
-                        if(this.preIdx != -1)this.elements[this.preIdx].classList.remove("current");
+                    }else{                                                              //새 대사?
+                        this.removeAll();
                         if(this.nowIdx != -1)this.elements[this.nowIdx].classList.add("current");  
                         this.nowText=this.elements[this.nowIdx].innerHTML;
                     }
-                      // else{                                                        // 기존의 말 할때 
-                      //   if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
-                      //   this.elements[this.nowIdx].classList.add("current");
-                      // }
+                 
                   }else if(this.mode == 1 && this.nowIdx != tempIdx){
                     if(this.nowIdx != -1){
-                      this.elements[this.nowIdx].classList.remove("current");
+                      this.removeAll();
                       this.preIdx = this.nowIdx;
                     }
                     this.nowIdx = tempIdx;
                     this.elements[this.nowIdx].classList.add("current");
                     this.nowText=this.elements[this.nowIdx].innerHTML;
                   }
+
+                  this.isBlank = false;
               }
               
               else if(this.isBlank == false){                                           //정적이 흐르는중
-                console.log("아무말도안하나");
                 this.isBlank = true;
                 if(this.mode == 2){
                     this.seekVideo(this.caption[this.nowIdx]._attributes.start);
-                    // this.nowText=this.elements[this.nowIdx].innerHTML;
-                    // if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
                 }
                 else if(this.mode ==3){
                     this.pauseVideo();
-                    // this.nowText=this.elements[this.nowIdx].innerHTML;
-                    // this.isBlank =true;
                 }else if(this.mode ==1) {
                   this.nowText="";
                   this.preIdx = this.nowIdx;
-                  if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
+                  this.removeAll();
                 }
-                // this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+              }else if(this.mode ==3){
+                this.nowText="";
+                this.removeAll();
+                this.preIdx = this.nowIdx;
               }
             
             }
-            // if(tf == false)this.nowText="";
-            // console.log(this.caption[this.nowIdx]._text);
-            // if(this.elements != null){
-            //   // console.log(this.elements);
-            //   // console.log(this.elements[this.nowIdx].innerHTML);
-              
-            //     this.elements[this.nowIdx].classList.add("current");
-            //     this.nowText=this.elements[this.nowIdx].innerHTML;
-                
-            // },
             
          }
       },
@@ -351,12 +315,6 @@ export default {
     selectedLang : function(){
       // console.log("바뀜!!")
       this.getCaption();
-    },
-    preIdx : function(){
-      // console.log("preIdx",this.preIdx);
-    },
-    nowIdx : function(){
-      // console.log("nowIdx",this.nowIdx);
     }
     
 
