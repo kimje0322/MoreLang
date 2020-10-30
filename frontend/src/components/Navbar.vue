@@ -197,7 +197,6 @@ export default {
       timeout: 1500,
       errtext: "검색어를 입력해주세요",
       language: {
-        kr: "한국어",
         en: "영어",
         jp: "일본어",
         cn: "중국어",
