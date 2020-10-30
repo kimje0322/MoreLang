@@ -6,6 +6,16 @@
         <button @click="changeMode(2)">Mode2</button>  
         <button @click="changeMode(3)">Mode3</button>  
         <h3 id="page">비디오페이지</h3>
+        <div>{{videoInfo}}</div>
+        <!-- <h4>제목 : {{videoInfo.title}}</h4>
+        <h4>설명 : {{videoInfo.description}}</h4>
+        <h4>업로드일 : {{videoInfo.publishedAt}}</h4>
+        <h4>채널 : {{videoInfo.channelTitle}}</h4>
+        <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4> -->
+        
+        
+        
+        
         <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
         <button @click="playVideo">play</button>  
         <!-- <button @click="skipVideo">skip</button>   -->
@@ -53,6 +63,7 @@ export default {
   },
   data() {
     return {
+      videoInfo :  null,
       isBlank : true,
       mode : 1,
       unit : 10,
@@ -60,7 +71,7 @@ export default {
       nowIdx : -1,
       preIdx : -1,
       elements : null,
-      videoId: "DFjIi2hxxf0",
+      videoId: "",
       selectedLang : "",
       state : 0,
       playerVars: {
@@ -323,6 +334,20 @@ export default {
     player() {
       return this.$refs.youtube.player;
     }
+  },
+  created(){
+    console.log(this.videoId);
+    this.videoId=this.$route.params.vid
+      axios.get("https://morelang.gq/api/video",{
+        params: {
+          id : this.videoId
+        }
+      })
+      .then((res) => {
+        this.videoInfo = res.data;
+        console.log(this.videoInfo);
+        
+        });
   },
   mounted(){
     // console.log("mounted!!");
