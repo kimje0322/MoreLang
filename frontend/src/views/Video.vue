@@ -22,7 +22,8 @@
         <button @click="beforeCaption">이전문장</button>  
         <button @click="nextCaption">다음문장</button>  
         <div><h2>  대사: {{nowText}}</h2></div>
-        <div><h2>  대사인덱스: {{nowIdx}}</h2></div>
+        <div><h3>  대사인덱스: {{nowIdx}}</h3></div>
+        <div><h3>  이전인덱스: {{preIdx}}</h3></div>
         
 
 
@@ -33,7 +34,7 @@
         <span>선택함: {{ selectedLang }}</span>
 
         <ul id="example-2">
-          <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="subtitle" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
+          <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="script" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
             <!-- {{item._text}} -->
           </li>
         </ul>
@@ -57,7 +58,7 @@ export default {
   },
   data() {
     return {
-      isPause : false,
+      isBlank : true,
       mode : 1,
       unit : 10,
       nowText : "",
@@ -84,56 +85,154 @@ export default {
   methods: {
     captionClick(idx){
       console.log("clickIdx =",idx);
-      // console.log("preIdx =",this.preIdx);
       console.log("nowIdx =",this.nowIdx);
-      
       if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current");
-      // this.preIdx = this.nowIdx;
-      this.nowIdx=idx;
-      // console.log("nowIdx = ",this.nowIdx);
+      if(this.preIdx != -1) this.elements[this.preIdx].classList.remove("current");
       
+      this.preIdx = this.nowIdx;
+      this.nowIdx=idx;
       if(this.nowIdx != -1) this.elements[this.nowIdx].classList.add("current");
       this.seekVideo(this.caption[this.nowIdx]._attributes.start);
     },
-    changeMode(num){
+    changeMode(num){ 
       this.mode = num;
-      // console.log("mode = ",this.mode);
-
     },
     nextCaption(){
-        // console.log("다음문장idx",this.nowIdx+1);
-        // console.log(this.caption[this.nowIdx+1]._text);
-        // console.log(this.caption[this.nowIdx+1]._attributes.start);
         if(this.nowIdx+1<this.caption.length){
-          // this.preIdx = this.nowIdx;
-          if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current");
+          if(this.nowIdx != -1) this.elements[this.nowIdx].classList.remove("current")
+          this.preIdx = this.nowIdx;
           this.nowIdx ++; 
           this.nowText=this.elements[this.nowIdx].innerHTML;
           this.elements[this.nowIdx].classList.add("current");
            this.seekVideo(this.caption[this.nowIdx]._attributes.start);
         }
-        
     },
     beforeCaption(){
-        // console.log("이전문장idx",this.nowIdx-1);
         if(this.nowIdx>0){
-        // this.preIdx = this.nowIdx;
         this.elements[this.nowIdx].classList.remove("current");
+        this.preIdx = this.nowIdx;
         this.nowIdx--;
         this.nowText=this.elements[this.nowIdx].innerHTML;
         this.elements[this.nowIdx].classList.add("current");
          this.seekVideo(this.caption[this.nowIdx]._attributes.start);
         }
     },
-    onSelectClick(event){
-        // console.log(event.target.value);
-        this.selectedLang = event.target.value;
-        this.getCaption();
-        // this.setCCLanguage();
-    },
-    async sayHi() {
-      console.log("Hi");
-    },
+    async playMode(){
+         if(this.state==1){
+            var tempIdx= -1;
+            if(this.elements != null){
+              Array.from(this.elements).some((el,i) =>{
+                if (el.dataset.start < this.timer &&this.timer < el.dataset.end){
+                  // this.elements[this.preIdx].classList.remove("current");
+                  // this.nowText = el.innerHTML;
+                  // this.elements[this.nowIdx].classList.remove("current");
+                  // this.nowIdx = i;
+                  tempIdx = i;
+                  
+                  // tf = true;
+                  return true;
+                } 
+                // else el.classList.remove("current");
+               
+              });
+  
+              console.log("tempIdx=",tempIdx);
+              console.log("nowIdx=",this.nowIdx);
+
+
+              if(tempIdx != -1){                              ///말하는중
+                  this.isBlank = false;
+
+  
+                  if(this.mode == 2 && tempIdx != this.nowIdx){     //현재 대사 반복 재생  == 현재 인덱스 반복 재생   //새로운 대사 시작?  => 기존의 인덱스 시작으로 넘어가야함(이때 인덱스 -1 은 예외 처리)
+                      if(this.nowIdx != -1){
+                        this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+                        this.nowText=this.elements[this.nowIdx].innerHTML;
+                      }else{
+                        this.nowIdx=tempIdx;
+                        this.elements[this.nowIdx].classList.add("current");  
+                        this.nowText=this.elements[this.nowIdx].innerHTML;
+                      }
+                  }
+                  else if(this.mode == 3){                          //현재 문장 끝나면 일시 정지 시키기 
+                    if(tempIdx != this.nowIdx){
+
+                      if(this.nowIdx != -1){
+                        // console.log("tempIdx = ",tempIdx);
+                            this.pauseVideo();
+                            await this.sleep(100);
+                            this.preIdx  = this.nowIdx;
+                            this.nowIdx=tempIdx;
+                            // this.isBlank=true;
+                            // if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
+                      }
+                      else{
+                        this.nowIdx=tempIdx;
+                        // this.elements[this.nowIdx].classList.add("current");  
+                        // this.nowText=this.elements[this.nowIdx].innerHTML;
+                      }
+                    }else{                                                              //새대사?
+                        console.log("진입혀ㅑㅆ다ㅣ")
+                        if(this.preIdx != -1)this.elements[this.preIdx].classList.remove("current");
+                        if(this.nowIdx != -1)this.elements[this.nowIdx].classList.add("current");  
+                        this.nowText=this.elements[this.nowIdx].innerHTML;
+                    }
+                      // else{                                                        // 기존의 말 할때 
+                      //   if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
+                      //   this.elements[this.nowIdx].classList.add("current");
+                      // }
+                  }else if(this.mode == 1 && this.nowIdx != tempIdx){
+                    if(this.nowIdx != -1){
+                      this.elements[this.nowIdx].classList.remove("current");
+                      this.preIdx = this.nowIdx;
+                    }
+                    this.nowIdx = tempIdx;
+                    this.elements[this.nowIdx].classList.add("current");
+                    this.nowText=this.elements[this.nowIdx].innerHTML;
+                  }
+              }
+              
+              else if(this.isBlank == false){                                           //정적이 흐르는중
+                console.log("아무말도안하나");
+                this.isBlank = true;
+                if(this.mode == 2){
+                    this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+                    // this.nowText=this.elements[this.nowIdx].innerHTML;
+                    // if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
+                }
+                else if(this.mode ==3){
+                    this.pauseVideo();
+                    // this.nowText=this.elements[this.nowIdx].innerHTML;
+                    // this.isBlank =true;
+                }else if(this.mode ==1) {
+                  this.nowText="";
+                  this.preIdx = this.nowIdx;
+                  if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
+                }
+                // this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+              }
+            
+            }
+            // if(tf == false)this.nowText="";
+            // console.log(this.caption[this.nowIdx]._text);
+            // if(this.elements != null){
+            //   // console.log(this.elements);
+            //   // console.log(this.elements[this.nowIdx].innerHTML);
+              
+            //     this.elements[this.nowIdx].classList.add("current");
+            //     this.nowText=this.elements[this.nowIdx].innerHTML;
+                
+            // },
+            
+         }
+      },
+      
+      async getCurrentTime(){
+         if(this.state==1){
+          await this.player.getCurrentTime().then(data => this.timer=data);
+         }
+      },
+    
     async playVideo() {
       await this.player.playVideo();
     },
@@ -150,147 +249,28 @@ export default {
       await this.player.seekTo(t, true);
       await this.playVideo();
     },
-    // async getOption() {                                     //현재 재생되고 있는 영상 자막이있는지 없는지 판별 가능 
-    //    var promise =this.player.getOptions();
-    //    promise
-    //           .then(function(data){
-    //             console.dir(data[0]);
-    //             // module = data[0];
-    //             })
-    //           .catch(err => console.log(err));
-    // }, 
-    
 
-    playing() {
-      console.log(" start play");
-    },
     async setCCLanguage(){
-      // console.log("cc호출");
       await this.player.setOption( "captions" , 'track' , { 'languageCode' : this.selectedLang } );
     },
-    // async getTracklist(){
-    //     this.items = await this.player.getOption( "captions" , 'tracklist');
-    //     console.log(this.items);
-    // },
-
-
-    // async getTrack(){
     
-    // var temp = await this.player.getOption( "captions" , 'track');
-    //  console.log(temp.languageCode);
-    // },
    async  youtubeStateChange (event) {
-    
         var myTimer;
+        var setMode;
         // console.log('event:', event);
         // console.log('state data : ',event.data);
         this.state = event.data;
         if(event.data==1) { // playing
             myTimer = setInterval(this.getCurrentTime, 100);
+            setMode = setInterval(this.playMode,1000);
           }
         else { // not playing
-            // console.log("여기들어옴");
             clearInterval(myTimer);
+            clearInterval(setMode);
         }
     },
-    async  youtubApiChange (youtubeState) {
-      
-      console.log("stateChange",youtubeState);
-      // var temp = await this.player.getOption( "captions" , 'track');
-      // this.selectedLang = temp.languageCode;
-            //  console.log(await this.player.getOptions()); 
-    //  console.log(await this.player.setOption( "captions" , 'reload'));
-         await this.player.setOption( "captions" , 'track',[]);
-    },
-
-    async getCurrentTime(){
-       if(this.state==1){
-        // this.timer =this.player.getCurrentTime();
-        await this.player.getCurrentTime().then(data => this.timer=data);
-        this.elements = document.querySelectorAll('.subtitle');
-          // var tf = false;
-          var tempIdx= -1;
-          if(this.elements != null){
-            // console.log(Array.from(this.elements));
-            
-            Array.from(this.elements).some((el,i) =>{
-              if (el.dataset.start < this.timer &&this.timer < el.dataset.end){
-                // this.elements[this.preIdx].classList.remove("current");
-                // this.nowText = el.innerHTML;
-                // this.elements[this.nowIdx].classList.remove("current");
-                // this.nowIdx = i;
-                tempIdx = i;
-                // tf = true;
-                return true;
-              } 
-              // else el.classList.remove("current");
-             
-            });
-            if(tempIdx != -1){                              ///말하는중
-                this.isPause = false;
 
 
-                if(this.mode == 2){
-                  this.elements[this.nowIdx].classList.add("current");  
-                  if(tempIdx != this.nowIdx){
-                    if(this.nowIdx != -1){
-                      this.seekVideo(this.caption[this.nowIdx]._attributes.start);
-                      this.nowText=this.elements[this.nowIdx].innerHTML;
-                    }else{
-                      this.nowIdx=tempIdx;
-                    }
-                  }
-                }
-                else if(this.mode == 3){
-                    if(tempIdx != this.nowIdx){                              /// 새로운 대사 칠떄
-                        console.log("tempIdx = ",tempIdx);
-                        if(this.nowIdx != -1 && this.isPause ==false) {
-                          this.pauseVideo();
-                          this.isPause=true;
-                        }
-                        if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
-                    }else{                                                        // 기존의 말 할때 
-                      if(this.nowIdx != -1)this.nowText=this.elements[this.nowIdx].innerHTML;
-                      this.elements[this.nowIdx].classList.add("current");
-                    }
-                }else{
-                  if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
-                  this.preIdx = this.nowIdx;
-                  this.nowIdx = tempIdx;
-                  this.elements[this.nowIdx].classList.add("current");
-                  this.nowText=this.elements[this.nowIdx].innerHTML;
-                }
-            }else{                                           //정적이 흐르는중
-              console.log("아무말도안하나");
-              if(this.mode == 2){
-                  this.seekVideo(this.caption[this.nowIdx]._attributes.start);
-                  this.nowText=this.elements[this.nowIdx].innerHTML;
-                  if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
-              }
-              else if(this.mode ==3 && this.isPause == false){
-                  this.pauseVideo();
-                  this.nowText=this.elements[this.nowIdx].innerHTML;
-                  this.isPause =true;
-              }else{
-                this.nowText="";
-                if(this.nowIdx != -1)this.elements[this.nowIdx].classList.remove("current");
-              }
-              // this.seekVideo(this.caption[this.nowIdx]._attributes.start);
-            }
-          
-          }
-          // if(tf == false)this.nowText="";
-          // console.log(this.caption[this.nowIdx]._text);
-          // if(this.elements != null){
-          //   // console.log(this.elements);
-          //   // console.log(this.elements[this.nowIdx].innerHTML);
-            
-          //     this.elements[this.nowIdx].classList.add("current");
-          //     this.nowText=this.elements[this.nowIdx].innerHTML;
-              
-          // }
-       }
-    },
     async getCaptionsList(){
       // console.log(await this.player.getOption( "captions" , 'track'));
       axios.get("https://video.google.com/timedtext?type=list",{
@@ -322,9 +302,49 @@ export default {
         // console.log(this.caption);
         });
         
-        this.elements = document.querySelectorAll('.subtitle');
+        this.elements = document.querySelectorAll('.script');
+        
     },
+    async  youtubApiChange (youtubeState) {
+      
+      console.log("stateChange",youtubeState);
+         await this.player.setOption( "captions" , 'track',[]);
+    },
+    onSelectClick(event){
+        this.selectedLang = event.target.value;
+        this.getCaption();
+    },
+    
+    playing() {
+      console.log(" start play");
+    },
+    async sayHi() {
+      console.log("Hi");
+    },
+    sleep(t){
+      return new Promise(resolve=>setTimeout(resolve,t));
+    },
+        // async getOption() {                                     //현재 재생되고 있는 영상 자막이있는지 없는지 판별 가능 
+    //    var promise =this.player.getOptions();
+    //    promise
+    //           .then(function(data){
+    //             console.dir(data[0]);
+    //             // module = data[0];
+    //             })
+    //           .catch(err => console.log(err));
+    // }, 
+    
+    // async getTracklist(){
+        //     this.items = await this.player.getOption( "captions" , 'tracklist');
+        //     console.log(this.items);
+        // },
+        
 
+        // async getTrack(){
+        
+        // var temp = await this.player.getOption( "captions" , 'track');
+        //  console.log(temp.languageCode);
+        // },
   },
 
   watch : {
@@ -354,6 +374,6 @@ export default {
 };
 </script>
 <style>
-.subtitle:hover { background: orange }
-.subtitle.current { background: skyblue }
+.script:hover { background: orange }
+.script.current { background: skyblue }
 </style>
