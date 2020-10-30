@@ -31,15 +31,18 @@ public class HistoryServiceImpl implements HistoryService{
 		if(m.isPresent()) {
 			Optional<HistoryVideo> video = historyVideoRepository.findByYoutubeUrl(watched.getYoutubeUrl());
 			boolean is_watch = false;
+			HistoryVideo info;
 			if(video.isPresent()) {
 				Optional<History> history = historyRepository.findByMember_useridAndVideo_videoId(m.get().getUserid(),video.get().getVideoId());
 				if(history.isPresent()) {
 					is_watch = true;
+					info = video.get();
+					info.setCount(info.getCount()+1);
+					historyVideoRepository.save(info);
 					return "success";
 				}
 			}
 			if(!is_watch && m.get().getPoint()>=POINT_VALUE) {
-				HistoryVideo info;
 				if(video.isPresent()) {
 					info = video.get();
 					info.setCount(info.getCount()+1);
