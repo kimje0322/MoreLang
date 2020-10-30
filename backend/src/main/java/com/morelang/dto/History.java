@@ -1,5 +1,7 @@
 package com.morelang.dto;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,9 +39,9 @@ public class History {
 
 	@Column
 	@UpdateTimestamp
-	private String viewDay;
+	private Date viewDay;
 	
-	public History(int historyId, Member member, HistoryVideo video, String viewDay) {
+	public History(int historyId, Member member, HistoryVideo video, Date viewDay) {
 		super();
 		this.historyId = historyId;
 		this.member = member;

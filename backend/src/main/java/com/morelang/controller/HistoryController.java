@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class HistoryController {
 	@Autowired
 	HistoryService historyService;
 	
-	@PutMapping("/watch-video")
+	@PostMapping("/watch-video")
 	@ApiOperation(value="[동영상 조회] 사용자가 동영상을 눌렀을 때, 조회수를 증가시키고, 100 포인트를 결제하는 행위 입니다. 이미 본건 결제 안함 [return] 성공하면 success, 사용자 인증에 실패하면 fail, 포인트가 없으면 잔액부족")
 	public ResponseEntity<String> watchVideo(HttpServletResponse response, @RequestBody HistoryVideo video){
 		String accessToken = response.getHeader("accessToken");
