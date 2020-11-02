@@ -6,8 +6,7 @@
       <div
         class="backImg"
         v-bind:style="{
-          'background-image':
-            'url(https://boxmaster.co.kr/upload/magazine/5c99e01e4c37e.jpg)'
+          'background-image': 'url(channelInfo.imgUrl)'
         }"
         style="
         height: 300px;
@@ -49,18 +48,24 @@
                 class="col"
                 style="width: clac(25% - 60px); margin: auto; display: inline-block;"
               >
-              
-                    <!-- @error="imgUrlAlt(video.imgUrl)" -->
                 <div style="margin-bottom: 15px;">
                   <img
                     :src="video.imgUrl"
+                    @error="
+                      $event.target.src =
+                        video.imgUrl.substring(0, 35) + 'mqdefault.jpg'
+                    "
                     alt=""
                     width="290"
                   />
                 </div>
-                <h3 v-if="video.title.length > 22">
-                  {{ video.title.substring(0, 22) }} ...
-                </h3>
+                <!-- id="video_img" -->
+                <!-- <h3 v-if="video.title.length > 15" style="">
+                  {{ video.title.substring(0, 15) }} ...
+                </h3> -->
+                <h4 class="videoTitle">
+                  {{ video.title }}
+                </h4>
               </div>
             </div>
           </div>
@@ -101,12 +106,13 @@ const SERVER_URL = "https://morelang.gq/api";
 export default {
   data() {
     return {
+      channelId: "",
       channelInfo: [],
       videolst: [],
       token: "",
       end: false,
-      // newimg: "",
-      // img: "",
+      newimg: "",
+      img: ""
     };
   },
   components: {
@@ -114,8 +120,14 @@ export default {
     InfiniteLoading
   },
   mounted() {
-    // console.log("adf");
-    axios.get(`${SERVER_URL}/channel?id=UCSGC87iX0QhnIfUOI_B_Rdg`).then(res => {
+    // this.channelId = this.$route.params.id;
+    var index = window.location.href.indexOf("channel");
+    var length = window.location.href.length;
+    this.channelId = window.location.href.substring(index + 8, length);
+    console.log("여기여기");
+    console.log(this.channelId);
+
+    axios.get(`${SERVER_URL}/channel?id=${this.channelId}`).then(res => {
       console.log(res);
       this.channelInfo = res.data;
       axios
@@ -129,11 +141,13 @@ export default {
     });
   },
   methods: {
-    // imgUrlAlt(img){
-      // console.log('여기')
-      // console.log(img)
-      // this.newimg = img.replace("maxres", "mq")
-      // event.target.src = "this.newimg"
+    // imgUrlAlt(event){
+    //   console.log("이미지에러")
+    //   // console.log(img)
+    //   var video_img = document.getElementById('video_img')
+    //   event.target.src = video_img.replace("maxres", "mq")
+    //   // this.newimg = img.replace("maxres", "mq")
+    //   // event.target.src = "this.newimg"
     // },
     infiniteHandler($state) {
       setTimeout(() => {
@@ -142,8 +156,8 @@ export default {
             `${SERVER_URL}/playlist?id=${this.channelInfo.uploads}&token=${this.token}`
           )
           .then(res => {
-            console.log("infinitehandler");
-            console.log(res);
+            // console.log("infinitehandler");
+            // console.log(res);
             this.videolst = this.videolst.concat(res.data.items);
             this.token = res.data.token;
             if (res.data.items.length != 50) {
@@ -205,5 +219,22 @@ export default {
   background: white;
   /* white; */
   padding: 2%;
+}
+.videoTitle {
+  /* font-weight: 300; */
+  display: inline-block;
+  width: 290px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  white-space: normal;
+  line-height: 1.2;
+  height: 2.4em;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
