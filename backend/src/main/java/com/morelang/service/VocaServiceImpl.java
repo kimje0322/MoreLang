@@ -50,10 +50,15 @@ public class VocaServiceImpl implements VocaService{
 	}
 	
 	@Override
-	public Page<VocaSub> MyVoca(String accessToken,Pageable pageable) {
+	public Page<VocaSub> MyVoca(String accessToken,Pageable pageable,String[] country) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Page<VocaSub> voca = vocaRepository.findByMember_userid(m.get().getUserid(),pageable);
+			Page<VocaSub> voca;
+			if(country == null || country.length == 0) {
+				voca = vocaRepository.findByMember_userid(m.get().getUserid(), pageable);
+			}else {
+				voca = vocaRepository.findByMember_useridAndCountryIn(m.get().getUserid(),country, pageable);
+			}
 			return voca;
 		}else {
 			return null;
@@ -70,7 +75,17 @@ public class VocaServiceImpl implements VocaService{
 			}
 		}
 	}
-	
+	@Override
+	public List<String> myVocaCountry(String accessToken) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		List<String> country = new ArrayList<>();
+		if(m.isPresent()) {
+			country = vocaRepository.findDistinctCountry(m.get().getUserid());
+			return country;
+		}else {
+			return null;
+		}
+	}
 	@Override
 	public void makeLearn(String accessToken, Long VocaId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);

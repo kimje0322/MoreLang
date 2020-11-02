@@ -48,15 +48,16 @@
                 class="col"
                 style="width: clac(25% - 60px); margin: auto; display: inline-block;"
               >
+                    <!-- @error="
+                      $event.target.src =
+                        video.imgUrl.substring(0, 35) + 'mqdefault.jpg'
+                    " -->
                 <div style="margin-bottom: 15px;">
                   <img
                     :src="video.imgUrl"
-                    @error="
-                      $event.target.src =
-                        video.imgUrl.substring(0, 35) + 'mqdefault.jpg'
-                    "
                     alt=""
                     width="290"
+                    @error="aaa"
                   />
                 </div>
                 <!-- id="video_img" -->
@@ -95,6 +96,7 @@
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import InfiniteLoading from "vue-infinite-loading";
+// import VueRouter from "vue-router"
 
 const SERVER_URL = "https://morelang.gq/api";
 
@@ -124,6 +126,10 @@ export default {
     var index = window.location.href.indexOf("channel");
     var length = window.location.href.length;
     this.channelId = window.location.href.substring(index + 8, length);
+    // if(this.channelId == null) {
+    //   alert("채널 아이디를 입력해주세요.")
+    //   // $router.go(-1)
+    // }
     console.log("여기여기");
     console.log(this.channelId);
 
@@ -141,6 +147,10 @@ export default {
     });
   },
   methods: {
+    aaa(e) {
+      console.log(e)
+      console.log("aldfjadl;kfja")
+    },
     // imgUrlAlt(event){
     //   console.log("이미지에러")
     //   // console.log(img)
