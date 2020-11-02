@@ -48,9 +48,8 @@
             </div>
           </div>
           <router-link to="/mypage">
-            <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
-              마이페이지
-            </p>
+
+            <p @click="gotoMypage" class="navBtn my-auto mr-3" style="font-size: 13px !important">마이페이지</p>
             <!-- <v-avatar class="mr-3" color="indigo" size="38">
               <v-icon dark>
                 mdi-account-circle
@@ -87,7 +86,7 @@
       </v-container>
 
       <!-- 번역 언어 모달 -->
-      <v-dialog v-model="transDialog" scrollable max-width="300px">
+      <v-dialog class="dialog" v-model="transDialog" scrollable max-width="300px">
         <v-card>
           <v-toolbar color="#43A047" dark>
             <v-toolbar-title class="toolbarTitle">
@@ -128,12 +127,15 @@
             </v-card>
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
-          <v-card-actions>
+          <v-card-actions class="mx-auto">
+            <!-- <v-btn
+              color="success"
+              @click="onSearch(keyword)"
+              >검색</v-btn
+            > -->
             <v-btn
               color="black"
               text
-              block
-              class="mx-auto"
               @click="transDialog = false"
               >닫기</v-btn
             >
@@ -195,7 +197,8 @@ export default {
         th: "태국어",
         tr: "터키어"
       },
-      gauth: {}
+      gauth: {},
+      userid: this.$store.state.member.userid 
     };
   },
   mounted() {
@@ -273,6 +276,10 @@ export default {
         .then(res => {
           this.keyword = res.data;
         });
+    },
+    gotoMypage() {
+      // path: 'mypage/${this.$store.state.member.userid}`'
+      this.$router.push({ name: 'Mypage', params: { userid: this.userid}})
     }
   }
 };
@@ -310,7 +317,6 @@ a {
   background: beige;
   padding: 0;
 }
-
 .navigation {
   width: 100%;
   top: 0;

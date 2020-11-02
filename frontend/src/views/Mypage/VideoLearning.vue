@@ -34,7 +34,7 @@ export default {
     axios
       .get(`${SERVER_URL}/search?q=glee&start=0`)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         this.videoLst = res.data;
       })
   },

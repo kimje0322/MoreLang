@@ -2,11 +2,14 @@
   <div class='wrap'>
     <div class="code-block-container">
     <h3>[공지] 수정중입니다! 임시로 여기서 작업중입니다.</h3>
+
       <!-- 단어 -->
       <img src="https://image.dongascience.com/Photo/2015/07/14370336879614[1].jpg" style="width:670px margin-left:15px;" alt="">
       <div class="code-box mx-auto" @drop="drop" @dragover="dragover">
         <div class="play-box mx-auto mt-5">
-          <p class="mx-auto mt-2" style="color:black; width: 92%;font-size: 16px;">{{quizText}}</p>
+          <span>___</span>
+          <p>phone at the Consumer</p>
+          <!-- <p class="mx-auto mt-2" style="color:black; width: 92%;font-size: 16px;">{{quizText}}</p> -->
         </div>
         <div class="block-box">
           <div v-show="isMove" class="block-list" >
@@ -49,6 +52,7 @@ export default {
       items: {
         block0: 1, block1: 1, block2: 1, block3: 1, block4: 1, block5: 1, block6: 1
       },
+      onQuiz: [],
       classId: 'a',
     }
   },
@@ -64,8 +68,8 @@ export default {
     axios.post(
       `${SERVER_URL}/guest/puzzletest?inputText=a`  
       ).then(res => {
-        console.log(res.data);
-        this.quizText = res.data.quizeText
+        // console.log(res.data);
+        this.quizText = res.data.quizeText;
       })
   },
   watch: {
