@@ -4,11 +4,11 @@
 
     <div
       class="Navbar"
-      style="padding-top: 5px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
+      style="padding-top: 0px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
     >
       <div class="navigation">
-        <div>
-          <v-card-title>
+        <div style="padding: 0">
+          <v-card-title style="padding: 10px 30px 0px;">
             <router-link to="/">
               <h2 class="logo px-5 py-1" style="display:inline-block">
                 Morelang
@@ -31,7 +31,8 @@
                 placeholder="키워드 검색"
                 outlined
                 clearable
-                prepend-inner-icon="mdi-magnify"
+                append-icon="mdi-magnify"
+                @click:append="videoSearch(keyword)"
               />
               <!-- </form> -->
               <!-- 번역버튼 -->
@@ -42,20 +43,25 @@
                   x-small
                   color="#43A047"
                   dark
+                  style="margin-bottom: 0 !important"
                 >
                   <v-icon>mdi-google-translate</v-icon>
                 </v-btn>
               </div>
             </div>
             <router-link to="/mypage">
-              <p class="navBtn my-auto mr-3">마이페이지</p>
+              <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
+                마이페이지
+              </p>
               <!-- <v-avatar class="mr-3" color="indigo" size="38">
               <v-icon dark>
                 mdi-account-circle
               </v-icon>
             </v-avatar> -->
             </router-link>
-            <p class="navBtn mr-2 my-auto">로그아웃</p>
+            <p class="navBtn mr-2 my-auto" style="font-size: 13px !important">
+              로그아웃
+            </p>
             <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
           </v-card-title>
         </div>
@@ -64,13 +70,13 @@
         <v-container
           fluid
           class="text-center"
-          style="height:1px; padding-bottom:0px"
+          style="height: 1px; padding-bottom: 0px"
         >
           <!-- <v-row
         class="flex"
         justify="space-between"
       > -->
-          <v-col cols="12" class="mt-2" style="height:0px!important;">
+          <v-col cols="12" class="mt-2" style="height: 0px!important;">
             <v-tooltip v-model="errSnackbar" top>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on"> </v-btn>
@@ -142,10 +148,10 @@
     </div>
 
     <!-- 검색어 -->
-    <div style="display: flex; justify-content: center; margin: 10% 0;">
-      <h4 style="font-size: 18px;">
+    <div style="display: flex; justify-content: center; margin: 3% 0;">
+      <!-- <h4 style="font-size: 18px;">
         Search results for " {{ search_word }} " ...
-      </h4>
+      </h4> -->
     </div>
 
     <!-- 비디오 나오는 부분 -->
@@ -157,9 +163,11 @@
           class="col"
           style="width: clac(33.33% - 60px); margin: auto; display: inline-block;"
         >
-          <div style="margin-bottom: 15px;">
-            <img :src="video.imgUrl" alt="" width="330" />
-          </div>
+          <router-link :to="{ name: 'Video', params: { vid: video.id } }">
+            <div style="margin-bottom: 15px;">
+              <img :src="video.imgUrl" alt="" width="330" />
+            </div>
+          </router-link>
           <h3 v-if="video.title.length > 20">
             {{ video.title.substring(0, 20) }} ...
           </h3>
@@ -199,7 +207,6 @@ const SERVER_URL = "https://morelang.gq/api";
 //   var searchValue = $('#search_word').val();
 // }
 
-
 // 상단 네브바 고정
 var nav = document.getElementsByClassName("navigation");
 window.onscroll = function sticky() {
@@ -212,12 +219,12 @@ window.onscroll = function sticky() {
 export default {
   name: "Search",
   components: {
-    InfiniteLoading,
+    InfiniteLoading
     // Navbar
   },
   data() {
     return {
-     keyword: "",
+      keyword: "",
       transDialog: false,
       errSnackbar: false,
       timeout: 1500,
@@ -260,13 +267,12 @@ export default {
     if (this.$route.params.target != null) {
       // console.log("parmas 받아옴")
       this.search_word = this.$route.params.target;
-      this.keyword = this.search_word
+      this.keyword = this.search_word;
       this.videoSearch(this.search_word);
-      
     }
   },
   methods: {
-     beforeTrans() {
+    beforeTrans() {
       if (this.keyword) {
         this.transDialog = true;
       } else {
@@ -284,8 +290,8 @@ export default {
     },
     videoSearch(search) {
       this.search_word = search;
-      console.log("이것은 keyword")
-      console.log(this.keyword)
+      console.log("이것은 keyword");
+      console.log(this.keyword);
       this.next = 10;
       this.click = true;
       this.tmp = search;

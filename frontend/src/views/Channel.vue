@@ -95,6 +95,7 @@
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import InfiniteLoading from "vue-infinite-loading";
+// import VueRouter from "vue-router"
 
 const SERVER_URL = "https://morelang.gq/api";
 
@@ -124,6 +125,10 @@ export default {
     var index = window.location.href.indexOf("channel");
     var length = window.location.href.length;
     this.channelId = window.location.href.substring(index + 8, length);
+    if(this.channelId == null) {
+      alert("채널 아이디를 입력해주세요.")
+      // $router.go(-1)
+    }
     console.log("여기여기");
     console.log(this.channelId);
 

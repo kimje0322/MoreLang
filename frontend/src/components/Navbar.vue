@@ -5,163 +5,140 @@
     style="padding-top: 5px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
   >
     <div class="navigation">
-      <div>
-        <v-card-title>
-          <router-link to="/">
-            <h2 class="logo px-5 py-1" style="display:inline-block">
-              Morelang
-            </h2>
-          </router-link>
-          <div class="mx-auto mt-1">
-            <!-- 검색창 -->
-            <!-- <form
+        <div style="padding: 0">
+          <v-card-title style="padding: 10px 30px 0px;">
+            <router-link to="/">
+              <h2 class="logo px-5 py-1" style="display:inline-block">
+                Morelang
+              </h2>
+            </router-link>
+            <div class="mx-auto mt-1">
+              <!-- 검색창 -->
+              <!-- <form
               style="display:inline-block; width:385px;"
               action="/search"
               method="get"
             > -->
-            <v-text-field
-              style="display: inline-block;"
-              autocomplete="off"
-              v-model="keyword"
-              @keyup.enter="onSearch(keyword)"
-              height="37"
-              hide-details=""
-              placeholder="키워드 검색"
-              outlined
-              clearable
-              prepend-inner-icon="mdi-magnify"
-            />
-            <!-- </form> -->
-            <!-- 번역버튼 -->
-            <div class="mx-1" style="display:inline-block">
-              <v-btn
-                @click="beforeTrans"
-                class="py-4 mb-2"
-                x-small
-                color="#43A047"
-                dark
-              >
-                <v-icon>mdi-google-translate</v-icon>
-              </v-btn>
+              <v-text-field
+                style="display: inline-block;"
+                autocomplete="off"
+                v-model="keyword"
+                @keyup.enter="onSearch(keyword)"
+                height="37"
+                hide-details=""
+                placeholder="키워드 검색"
+                outlined
+                clearable
+                append-icon="mdi-magnify"
+                @click:append="onSearch(keyword)"
+              />
+              <!-- </form> -->
+              <!-- 번역버튼 -->
+              <div class="mx-1" style="display:inline-block">
+                <v-btn
+                  @click="beforeTrans"
+                  class="py-4 mb-2"
+                  x-small
+                  color="#43A047"
+                  dark
+                  style="margin-bottom: 0 !important"
+                >
+                  <v-icon>mdi-google-translate</v-icon>
+                </v-btn>
+              </div>
             </div>
-          </div>
-          <router-link to="/mypage">
-            <p class="navBtn my-auto mr-3">마이페이지</p>
-            <!-- <v-avatar class="mr-3" color="indigo" size="38">
+            <router-link to="/mypage">
+              <p class="navBtn my-auto mr-3" style="font-size: 13px !important">마이페이지</p>
+              <!-- <v-avatar class="mr-3" color="indigo" size="38">
               <v-icon dark>
                 mdi-account-circle
               </v-icon>
             </v-avatar> -->
-          </router-link>
-          <!-- 구글 로그인 -->
-          <div>
-            <v-btn text @click="login" v-if="!member">Login</v-btn>
-            <v-menu open-on-hover offset-y v-else-if="member" no-gutters>
-              <template v-slot:activator="{ on, attrs }">
-                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
-                  <v-row no-gutters>
-                    <v-col cols="4" class="d-nome d-md-flex">
-                      <v-avatar>
-                        <v-img max-height="100%" :src="member.profileImg" alt="유저썸네일"></v-img>
-                      </v-avatar>
-                    </v-col>
-                    <v-col cols="5">
-                      <div class="text-left subtitle">{{ member.name }}</div>
-                    </v-col>
-                  </v-row>
-                </v-card>
-                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
-                  <v-row no-gutters>
-                    <v-col cols="5">
-                      <v-btn @click="logout()">logout</v-btn>
-                    </v-col>
-                  </v-row>
-                </v-card>
-                </template>
-            </v-menu>
-          </div>
-          <!-- <p class="navBtn mr-2 my-auto">로그아웃</p> -->
-          <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
-        </v-card-title>
-      </div>
+            </router-link>
+            <p class="navBtn mr-2 my-auto" style="font-size: 13px !important">로그아웃</p>
+            <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
+          </v-card-title>
+        </div>
 
-      <!-- 검색어 없이 번역버튼 눌렀을 경우 스낵바 -->
-      <v-container
-        fluid
-        class="text-center"
-        style="height:1px; padding-bottom:0px"
-      >
-        <!-- <v-row
+        <!-- 검색어 없이 번역버튼 눌렀을 경우 스낵바 -->
+        <v-container
+          fluid
+          class="text-center"
+          style="height: 1px; padding-bottom: 0px"
+        >
+          <!-- <v-row
         class="flex"
         justify="space-between"
       > -->
-        <v-col cols="12" class="mt-2" style="height:0px!important;">
-          <v-tooltip v-model="errSnackbar" top>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on"> </v-btn>
-            </template>
-            <v-icon color="white" class="mr-1">mdi-alert-circle-outline</v-icon>
-            <span>검색어를 입력해주세요</span>
-          </v-tooltip>
-        </v-col>
-        <!-- </v-row> -->
-      </v-container>
-
-      <!-- 번역 언어 모달 -->
-      <v-dialog v-model="transDialog" scrollable max-width="300px">
-        <v-card>
-          <v-toolbar color="#43A047" dark>
-            <v-toolbar-title class="toolbarTitle">
-              <p
-                class="my-auto"
-                style="margin-left: 85px; text-align:center!important"
+          <v-col cols="12" class="mt-2" style="height: 0px!important;">
+            <v-tooltip v-model="errSnackbar" top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on"> </v-btn>
+              </template>
+              <v-icon color="white" class="mr-1"
+                >mdi-alert-circle-outline</v-icon
               >
-                검색어 번역
-              </p>
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon> </v-btn>
-          </v-toolbar>
-          <v-card-text style="height: 300px;">
-            <v-card class="mx-auto mt-5" max-width="500" flat>
-              <v-row justify="center">
-                <v-container class="language" style="text-align:center;">
-                  <v-row no-gutters>
-                    <!-- 언어 선택 -->
-                    <v-col
-                      v-for="(kr, en) in language"
-                      :key="en"
-                      cols="12"
-                      sm="12"
-                    >
-                      <v-card
-                        @click="onTranslate(en)"
-                        class="pa-2 selectLang"
-                        outlined
-                        tile
+              <span>검색어를 입력해주세요</span>
+            </v-tooltip>
+          </v-col>
+          <!-- </v-row> -->
+        </v-container>
+
+        <!-- 번역 언어 모달 -->
+        <v-dialog v-model="transDialog" scrollable max-width="300px">
+          <v-card>
+            <v-toolbar color="#43A047" dark>
+              <v-toolbar-title class="toolbarTitle">
+                <p
+                  class="my-auto"
+                  style="margin-left: 85px; text-align:center!important"
+                >
+                  검색어 번역
+                </p>
+              </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon> </v-btn>
+            </v-toolbar>
+            <v-card-text style="height: 300px;">
+              <v-card class="mx-auto mt-5" max-width="500" flat>
+                <v-row justify="center">
+                  <v-container class="language" style="text-align:center;">
+                    <v-row no-gutters>
+                      <!-- 언어 선택 -->
+                      <v-col
+                        v-for="(kr, en) in language"
+                        :key="en"
+                        cols="12"
+                        sm="12"
                       >
-                        <p class="my-auto">{{ kr }}</p>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-row>
-            </v-card>
-          </v-card-text>
-          <v-divider class="mb-0"></v-divider>
-          <v-card-actions>
-            <v-btn
-              color="black"
-              text
-              block
-              class="mx-auto"
-              @click="transDialog = false"
-              >닫기</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
+                        <v-card
+                          @click="onTranslate(en)"
+                          class="pa-2 selectLang"
+                          outlined
+                          tile
+                        >
+                          <p class="my-auto">{{ kr }}</p>
+                        </v-card>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-row>
+              </v-card>
+            </v-card-text>
+            <v-divider class="mb-0"></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="black"
+                text
+                block
+                class="mx-auto"
+                @click="transDialog = false"
+                >닫기</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
   </div>
 </template>
 
