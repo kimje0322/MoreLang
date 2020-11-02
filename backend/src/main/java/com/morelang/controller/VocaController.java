@@ -40,7 +40,7 @@ public class VocaController {
 	}
 	@GetMapping("/myvoca")
 	@ApiOperation(value = "[내 단어장 보기- 페이징] 내 단어장 확인하기")
-	public ResponseEntity<?> MyVoca(HttpServletResponse response,List<String> country, PageRequest pageable) {
+	public ResponseEntity<?> MyVoca(HttpServletResponse response,@RequestParam(required=false) String[] country, PageRequest pageable) {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<Page<VocaSub>>(vocaService.MyVoca(accessToken, pageable.vocaof(), country),HttpStatus.OK);
 	}
