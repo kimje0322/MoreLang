@@ -50,10 +50,10 @@ public class VocaServiceImpl implements VocaService{
 	}
 	
 	@Override
-	public Page<VocaSub> MyVoca(String accessToken,Pageable pageable) {
+	public Page<VocaSub> MyVoca(String accessToken,Pageable pageable,List<String> country) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Page<VocaSub> voca = vocaRepository.findByMember_userid(m.get().getUserid(),pageable);
+			Page<VocaSub> voca = vocaRepository.findByMember_useridAndCountryIn(m.get().getUserid(),country, pageable);
 			return voca;
 		}else {
 			return null;
