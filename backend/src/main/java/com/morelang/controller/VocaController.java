@@ -77,4 +77,12 @@ public class VocaController {
 		vocaService.vocaMean(voca);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	
+	@GetMapping("/myvoca-country")
+	@ApiOperation(value = "[내 단어장에 저장된 국가들] 내 단어장에 저장된 국가 보기")
+	public ResponseEntity<?> vocaQuize(HttpServletResponse response)  {
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<List<String>>(vocaService.myVocaCountry(accessToken),HttpStatus.OK);
+
+	}
 }

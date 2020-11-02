@@ -17,4 +17,5 @@ public interface VocaService {
 	public void makeLearn(String accessToken, Long VocaId);
 	public List<String> vocaQuize(String accessToken,String country);
 	public void vocaMean(String voca) throws IOException;
+	public List<String> myVocaCountry(String accessToken);
 }

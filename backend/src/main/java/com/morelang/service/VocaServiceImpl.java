@@ -75,7 +75,17 @@ public class VocaServiceImpl implements VocaService{
 			}
 		}
 	}
-	
+	@Override
+	public List<String> myVocaCountry(String accessToken) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		List<String> country = new ArrayList<>();
+		if(m.isPresent()) {
+			country = vocaRepository.findDistinctCountry(m.get().getUserid());
+			return country;
+		}else {
+			return null;
+		}
+	}
 	@Override
 	public void makeLearn(String accessToken, Long VocaId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
