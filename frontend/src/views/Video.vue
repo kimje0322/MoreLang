@@ -354,7 +354,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .script:hover { background: orange }
 .script.current { background: skyblue }
 </style>
