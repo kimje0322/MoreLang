@@ -40,9 +40,9 @@ public class VocaController {
 	}
 	@GetMapping("/myvoca")
 	@ApiOperation(value = "[내 단어장 보기- 페이징] 내 단어장 확인하기")
-	public ResponseEntity<?> MyVoca(HttpServletResponse response,PageRequest pageable) {
+	public ResponseEntity<?> MyVoca(HttpServletResponse response,@RequestParam(required=false) String[] country, PageRequest pageable) {
 		String accessToken = response.getHeader("accessToken");
-		return new ResponseEntity<Page<VocaSub>>(vocaService.MyVoca(accessToken,pageable.vocaof()),HttpStatus.OK);
+		return new ResponseEntity<Page<VocaSub>>(vocaService.MyVoca(accessToken, pageable.vocaof(), country),HttpStatus.OK);
 	}
 	@PutMapping("/update-voca")
 	@ApiOperation(value = "[단어 갱신] 해당 단어 업데이트하기")
@@ -76,5 +76,13 @@ public class VocaController {
 	public ResponseEntity<?> vocaQuize(@RequestParam("voca") String voca) throws IOException {
 		vocaService.vocaMean(voca);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/myvoca-country")
+	@ApiOperation(value = "[내 단어장에 저장된 국가들] 내 단어장에 저장된 국가 보기")
+	public ResponseEntity<?> vocaQuize(HttpServletResponse response)  {
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<List<String>>(vocaService.myVocaCountry(accessToken),HttpStatus.OK);
+
 	}
 }

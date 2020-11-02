@@ -12,9 +12,10 @@ import com.morelang.dto.VocaSub;
 public interface VocaService {
 	public void registVoca(String accessToken,Voca input);
 	public void DeleteVoca(String accessToken, Long vocaId);
-	public Page<VocaSub> MyVoca(String accessToken,Pageable pageable);
+	public Page<VocaSub> MyVoca(String accessToken,Pageable pageable,String[] country);
 	public void updateVoca(String accessToken, Voca updateVoca);
 	public void makeLearn(String accessToken, Long VocaId);
 	public List<String> vocaQuize(String accessToken,String country);
 	public void vocaMean(String voca) throws IOException;
+	public List<String> myVocaCountry(String accessToken);
 }

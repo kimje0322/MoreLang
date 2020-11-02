@@ -66,7 +66,7 @@ public class ChannelServiceImpl implements ChannelService {
 			item.setTitle(j.getString("title"));
 			item.setDescription(j.getString("description"));
 			item.setPublishedAt(j.getString("publishedAt"));
-			item.setImgUrl("https://i.ytimg.com/vi/" + item.getId() + "/maxresdefault.jpg");
+			item.setImgUrl("https://i.ytimg.com/vi/" + item.getId() + "/mqdefault.jpg");
 			item.setVideoUrl("https://www.youtube.com/watch?v=" + item.getId());
 			Document d = Jsoup.connect("http://video.google.com/timedtext?type=list&v=" + item.getId())
 					.userAgent("Mozilla/5.0").get();

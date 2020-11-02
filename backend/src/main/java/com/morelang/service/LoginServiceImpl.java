@@ -36,7 +36,6 @@ public class LoginServiceImpl implements LoginService{
 						authCode,
 						redirect.substring(0,redirect.length()-1))    // requesturl, front 페이지임.  
 				.execute();
-
 		String accessToken = tokenResponse.getAccessToken();
 		String refreshToken = tokenResponse.getRefreshToken();
 		// Get profile info from ID token
