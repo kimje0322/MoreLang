@@ -1,6 +1,8 @@
 
 package com.morelang.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,5 +18,6 @@ public class PlaylistItem {
 	private String publishedAt;
 	private String imgUrl;
 	private String videoUrl;
+	private List<Caption> captions;
 
 }

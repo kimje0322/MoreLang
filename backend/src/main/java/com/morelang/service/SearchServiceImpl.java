@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
-import com.morelang.config.Webhook;
 import com.morelang.dto.Caption;
 import com.morelang.dto.Search;
 
@@ -20,7 +19,6 @@ import com.morelang.dto.Search;
 public class SearchServiceImpl implements SearchService {
 	static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
 	static final String WEB_DRIVER_PATH = "/usr/lib/chromium/chromedriver";
-//	static final String WEB_DRIVER_PATH = "chromedriver.exe";
 
 	@Override
 	public List<Search> search(String q, String start) throws Exception {
@@ -36,7 +34,6 @@ public class SearchServiceImpl implements SearchService {
 		try {
 			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q
 					+ " site:youtube.com";
-			Webhook.url = url;
 			driver.get(url);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);
@@ -81,7 +78,7 @@ public class SearchServiceImpl implements SearchService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Webhook.send(this.getClass().toString(), e);
+			throw e;
 		} finally {
 			driver.close();
 			driver.quit();

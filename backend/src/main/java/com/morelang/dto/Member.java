@@ -35,8 +35,11 @@ public class Member {
 	@Column
 	private String accessToken;
 	
+	@Column
+	private int point;
+	
 	public Member(String userid, String name, String profileImg, String providerName, String email,
-			String accessToken) {
+			String accessToken, int point) {
 		super();
 		this.userid = userid;
 		this.name = name;
@@ -44,5 +47,6 @@ public class Member {
 		this.providerName = providerName;
 		this.email = email;
 		this.accessToken = accessToken;
+		this.point = point;
 	}
 }
