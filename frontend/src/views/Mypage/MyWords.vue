@@ -7,15 +7,22 @@
           <!-- 정렬 맞추기 위해 왼쪽 빈칸 사용 -->
           <!-- <v-col cols="12" sm="1"></v-col> -->
           <!-- @click="onLanguage(category.name, category.key)" -->
-          <!-- <v-col v-for="(lang, i) in language" :key="i" cols="12" sm="1">
+          <!-- <v-col v-for="(lang, i) in langLst" :key="i" cols="12" sm="1">
             <v-card
               class="pa-2 categoryCard"
-              outlined
               tile
             >
-              <p class="categoryTag">{{lang}}</p>
+              <p class="mb-0 categoryTag">{{lang}}</p>
             </v-card>
           </v-col> -->
+          <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
+          <v-chip
+            color="green"
+            text-color="white"
+          >
+            {{lang}}
+          </v-chip>
+          </v-col>
         </v-row>
       </v-container>
 
@@ -77,14 +84,19 @@ const SERVER_URL = "https://morelang.gq/api"
 export default {
   mounted() {
     axios
+      .get(`${SERVER_URL}/myvoca-country`)
+      .then(res => {
+        console.log(res)
+      })
+    axios
       .get(`${SERVER_URL}/myvoca?country=en&direction=ASC&page=0&size=8`)
       .then(res => {
-        console.log('뭐야')
         console.log(res)
       })
   },
   data() {
     return {
+      langLst: ['영어', '일본어'],
       language: {
         en: "영어",
         jp: "일본어",
