@@ -15,11 +15,28 @@ public class VideoServiceImpl implements VideoService {
 	public Video getInfo(String id) throws Exception {
 		Video video = new Video();
 		URL url = new URL(
-				"https://www.googleapis.com/youtube/v3/videos?part=snippet&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&id="
+				"https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&key=AIzaSyDQ9s4NbYiufJwA6Q2BIT0lhguBoG49pWI&id="
 						+ id);
 		JSONObject obj = new JSONObject(Https.get(url)).getJSONArray("items").getJSONObject(0);
 
 		video.setId(obj.getString("id"));
+		long duration = 0;
+		String d = obj.getJSONObject("contentDetails").getString("duration");
+		d = d.substring(2);
+		if (d.contains("H")) {
+			String[] sp = d.split("H");
+			duration += Long.parseLong(sp[0]) * 3600000;
+			d = sp[1];
+		}
+		if (d.contains("M")) {
+			String[] sp = d.split("M");
+			duration += Long.parseLong(sp[0]) * 60000;
+			d = sp[1];
+		}
+		if (d.contains("S")) {
+			String[] sp = d.split("S");
+			duration += Long.parseLong(sp[0]) * 1000;
+		}
 		obj = obj.getJSONObject("snippet");
 		video.setTitle(obj.getString("title"));
 		video.setDescription(obj.getString("description"));
@@ -30,6 +47,7 @@ public class VideoServiceImpl implements VideoService {
 			video.setDefaultLanguage(obj.getString("defaultLanguage"));
 		if (obj.keySet().contains("defaultAudioLanguage"))
 			video.setDefaultAudioLanguage(obj.getString("defaultAudioLanguage"));
+		video.setDuration(duration);
 
 		return video;
 	}
