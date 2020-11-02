@@ -7,7 +7,7 @@
       <img src="https://image.dongascience.com/Photo/2015/07/14370336879614[1].jpg" style="width:670px margin-left:15px;" alt="">
       <div class="code-box mx-auto" @drop="drop" @dragover="dragover">
         <div class="play-box mx-auto mt-5">
-          <span>___</span>
+          <span class="droppable">_____</span>
           <p>phone at the Consumer</p>
           <!-- <p class="mx-auto mt-2" style="color:black; width: 92%;font-size: 16px;">{{quizText}}</p> -->
         </div>
@@ -96,12 +96,13 @@ export default {
     drop(event) {
       event.stopPropagation();
       event.preventDefault();
-      console.log('될거지?')
+
       console.log(event.pageX)
       let posX = event.pageX;
       let posY = event.pageY;
       // if (posX >= 300 && posX <= 1450) {
         // if (posY >= 113 && posY <= 520) {
+      if(event.target.classList && event.target.classList.contains("droppable")){
           document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
           document.querySelector(`.${this.targetClass}`).style.top = 0;
           document.querySelector(`.${this.targetClass}`).style.left = 0;
@@ -115,6 +116,7 @@ export default {
               this.targetFlag = true
             }
           }
+        }
         // }
       // }
       console.log(posX, posY, this.distX, this.distY)
