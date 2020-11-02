@@ -158,19 +158,56 @@
     <div
       style="padding: 0 90px; display: flex; flex-flow: row wrap; justify-content: space-between;"
     >
-      <div v-for="(video, i) in videolst" :key="i">
+      <div v-for="(video, i) in videolst" :key="i" style="margin-bottom: 10px;">
         <div
           class="col"
           style="width: clac(33.33% - 60px); margin: auto; display: inline-block;"
         >
           <router-link :to="{ name: 'Video', params: { vid: video.id } }">
-            <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 0px;">
               <img :src="video.imgUrl" alt="" width="330" />
             </div>
           </router-link>
-          <h3 v-if="video.title.length > 20">
+          <!-- <h3 v-if="video.title.length > 20">
             {{ video.title.substring(0, 20) }} ...
-          </h3>
+          </h3> -->
+          <h4 class="searchTitle">
+            {{ video.title }}
+          </h4>
+          <div>
+            <v-btn
+              v-for="(lang, j) in video.captions.slice(0, 4)"
+              :key="j"
+              rounded
+              color="primary"
+              dark
+              x-small
+              style="margin: 0 1px;"
+            >
+              <div v-if="lang.lang_translated.indexOf('(') > -1">
+                {{ lang.lang_translated.substring(0, lang.lang_translated.indexOf('(')) }}
+              </div>
+              <div v-else-if="lang.lang_translated.length > 10">
+                {{ lang.lang_translated.substring(0, 10)}}
+              </div>
+              <div v-else>
+                {{ lang.lang_translated }}
+              </div>
+              <!-- <div v-if="j > 5 && j==video.captions.length - 1">
+                + {{ video.captions.length - 5 }}
+              </div> -->
+            </v-btn>
+            <div v-if="video.captions.length > 4" @mouseover="hover=true" @mouseleave="hover=false">
+              + {{ video.captions.length - 4 }}
+            </div>
+            <!-- <span v-if="hover"> 
+            <div v-for="(lang, j) in video.captions"
+              :key="j">
+              {{ lang.lang_translated }}
+
+            </div> -->
+            <!-- </span> -->
+          </div>
         </div>
       </div>
     </div>
@@ -224,6 +261,7 @@ export default {
   },
   data() {
     return {
+      hover: false,
       keyword: "",
       transDialog: false,
       errSnackbar: false,
@@ -361,5 +399,22 @@ a {
 .navigation {
   width: 100%;
   top: 0;
+}
+
+.searchTitle {
+  display: inline-block;
+  width: 330px;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+
+  white-space: normal;
+  line-height: 1.2;
+  height: 2.4em;
+  text-align: left;
+  word-wrap: break-word;
+  /* display: -webkit-box; */
+  /* -webkit-line-clamp: 2; */
+  -webkit-box-orient: vertical;
 }
 </style>

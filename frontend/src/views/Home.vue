@@ -4,130 +4,134 @@
     <div style="width: 100%;">
       <Navbar />
 
-          
-
-          <!-- 메뉴바 -->
-          <!-- <div style="width: 50px; ">
+      <!-- 메뉴바 -->
+      <!-- <div style="width: 50px; ">
             <v-icon>hamburger-menu</v-icon>
           </div> -->
-        </div>
-        
-      <!-- 소개 영상 -->
-      <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
-        <video
-          style="width: 100%;"
-          muted
-          autoplay
-          loop
-          playsinline
-          src="../assets/video/투잡.mp4"
-        ></video>
+    </div>
+
+    <!-- 소개 영상 -->
+    <div style="width: 100%; height: 48%; display: block; margin-top: 5%;">
+      <video
+        style="width: 100%;"
+        muted
+        autoplay
+        loop
+        playsinline
+        src="../assets/video/투잡.mp4"
+      ></video>
+    </div>
+
+    <!-- 언어 필터링 -->
+    <div>
+      <div style="width: 30%; position: absolute; right: 20px;">
+        <v-select :items="language" label="language" v-model="selectlang"></v-select>
+      </div>
+    </div>
+    <!-- 추천 채널 -->
+    <div style="margin-top: 80px; padding: 0; display: block;">
+      <div
+        style="margin: 0 100px;"
+        data-aos="slide-right"
+        aos-offset="300"
+        data-aos-duration="1500"
+      >
+        <h3>
+          <span
+            style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
+            >MORE</span
+          >
+          <strong
+            style="font-size: 40px; font-weight: 900; font-family: 'Calibre', sans-serif; line-height: 0.5;"
+            >CHANNEL</strong
+          >
+        </h3>
       </div>
 
-      <!-- 추천 채널 -->
-      <div style="padding: 50px 0; display: block;">
-        <div
-          style="margin: 0 100px;"
-          data-aos="slide-right"
-          aos-offset="300"
-          data-aos-duration="1500"
-        >
-          <h3>
-            <span
-              style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
-              >MORE</span
-            >
-            <strong
-              style="font-size: 40px; font-weight: 900; font-family: 'Calibre', sans-serif; line-height: 0.5;"
-              >CHANNEL</strong
-            >
-          </h3>
-        </div>
-
-        <!-- 채널 목록 -->
-        <div
-          data-scroll
-          data-scroll-offset="100"
-          data-scroll-speed="2"
-          data-scroll-direction="horizontal"
-          style="position: relative; height: 240px;"
-        >
-          <!-- 채널 좌우바 -->
-          <div
+      <!-- 채널 목록 -->
+      <div
+        data-scroll
+        data-scroll-offset="100"
+        data-scroll-speed="2"
+        data-scroll-direction="horizontal"
+        style="position: relative; height: 240px;"
+      >
+        <!-- 채널 좌우바 -->
+        <!-- <div
             style="transform: translateY(250%); position: absolute; padding: 0 50px; z-index: 5; justify-content: space-between; align-items: center; display: flex; width: 100%;"
-          >
-            <!-- @click="prev()" -->
-            <div
+          > -->
+        <!-- @click="prev()" -->
+        <!-- <div
               style="margin: 100px; color: darkgray;"
               class="swiper-button-prev"
               slot="button-prev"
-            ></div>
-            <!-- @click="next()" -->
-            <div
+            ></div> -->
+        <!-- @click="next()" -->
+        <!-- <div
               style="margin: 100px; color: darkgray; "
               class="swiper-button-next"
               slot="button-next"
-            ></div>
-          </div>
-          <!-- 채널 동그라미 -->
-          <!-- style="transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 18.15, 0, 0, 1);" -->
-          <!-- data-scroll
+            ></div> -->
+        <!-- </div> -->
+        <!-- 채널 동그라미 -->
+        <!-- style="transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 18.15, 0, 0, 1);" -->
+        <!-- data-scroll
             data-scroll-offset="100"
             data-scroll-speed="2"
             data-scroll-direction="horizontal" -->
-          <!-- <div class="swiper-container"> -->
-          <!-- <div style="margin: 0 auto; transform: translate3d(-2160px, 0px, 0px); transition: all 0ms ease 0s;"> -->
-          <!-- style="margin: 20px 150px;" -->
-          <swiper
-            style="width: 80%; margin-top: 40px;"
-            class="swiper"
-            :options="swiperOption"
-            data-aos="slide-left"
-            aos-offset="500"
-            data-aos-duration="2500"
-            ref="mySwiperRef"
-          >
-            <!-- <a href="/" style="width: 240px;"> -->
-            <!-- style="animation: float 2s ease-in-out infinite; " -->
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="../assets/img/channel0.jpg" alt="" />
-            </swiper-slide>
+        <!-- <div class="swiper-container"> -->
+        <!-- <div style="margin: 0 auto; transform: translate3d(-2160px, 0px, 0px); transition: all 0ms ease 0s;"> -->
+        <!-- style="margin: 20px 150px;" -->
+        <swiper
+          style="width: 90%; margin-top: 40px;"
+          class="swiper"
+          :options="swiperOption"
+          data-aos="slide-left"
+          aos-offset="500"
+          data-aos-duration="2500"
+          ref="mySwiperRef"
+        >
+          <!-- <a href="/" style="width: 240px;"> -->
+          <!-- style="animation: float 2s ease-in-out infinite; " -->
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
+          <swiper-slide>
+            <img src="../assets/img/channel0.jpg" alt="" />
+          </swiper-slide>
 
-            <!-- <div class="swiper-button-prev" slot="button-prev"></div>
+          <!-- <div class="swiper-button-prev" slot="button-prev"></div>
             <div class="swiper-button-next" slot="button-next"></div> -->
 
-            <!-- </a> -->
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
-          <!-- </div> -->
-        </div>
+          <!-- </a> -->
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+        <!-- </div> -->
       </div>
+    </div>
 
-      <!-- <div style="margin: 100px;">
+    <!-- <div style="margin: 100px;">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide>Slide 1</swiper-slide>
           <swiper-slide>Slide 2</swiper-slide>
@@ -143,36 +147,42 @@
           <div class="swiper-button-next" slot="button-next"></div>
         </swiper>
       </div> -->
-      <!-- 인기 영상 -->
-      <div style="padding: 50px 0; display: block;">
-        <div
-          style="margin: 0 100px;"
-          data-aos="slide-right"
-          aos-offset="300"
-          data-aos-duration="1000"
-        >
-          <h3>
-            <span
-              style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
-              >Hot</span
-            >
-            <strong
-              style="font-size: 40px; font-weight: 900; font-family:  'Calibre',sans-serif; line-height: 0.5;"
-              >VIDEO</strong
-            >
-          </h3>
-        </div>
-        <div class="example-3d">
-          <swiper class="swiper" :options="swiperOption">
-            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-            <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
-        </div>
+    <!-- 인기 영상 -->
+    <div style="padding: 50px 0; display: block;">
+      <div
+        style="margin: 0 100px;"
+        data-aos="slide-right"
+        aos-offset="300"
+        data-aos-duration="1000"
+      >
+        <h3>
+          <span
+            style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
+            >Hot</span
+          >
+          <strong
+            style="font-size: 40px; font-weight: 900; font-family:  'Calibre',sans-serif; line-height: 0.5;"
+            >VIDEO</strong
+          >
+        </h3>
       </div>
+      <div class="example-3d">
+        <swiper
+          class="swiper"
+          :options="swiperOption"
+          data-aos="slide-left"
+          aos-offset="500"
+          data-aos-duration="2500"
+        >
+          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -184,7 +194,7 @@
 
 // Swiper.use([Navigation, Pagination, Scrollbar]);
 
-import Navbar from "@/components/Navbar"
+import Navbar from "@/components/Navbar";
 
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
@@ -201,7 +211,6 @@ import "swiper/swiper-bundle.css";
 //   }
 // };
 
-
 export default {
   name: "Home",
   components: {
@@ -214,6 +223,7 @@ export default {
   },
   data() {
     return {
+      selectlang: "",
       search_word: "",
       // logout: false,
       search: false,
@@ -248,11 +258,31 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
-        }
-      }
+        },
+      },
+          language: [
+            '영어',
+            '일본어',
+            '중국어',
+            '베트남어',
+            '인도네시아어',
+            '아랍어',
+            '뱅갈어',
+            '독일어',
+            '스페인어',
+            '프랑스어',
+            '힌디어',
+            "이탈리아어",
+            "말레이시아어",
+            "네덜란드어",
+            "포르투갈어",
+            "러시아",
+            "태국어",
+            "터키어"
+          ]
     };
   },
-  methods : {
+  methods: {
     prev() {
       this.$refs.mySwiperRef.$swiper.slidePrev();
     },
