@@ -2,55 +2,56 @@
   <v-container>
     <div class="video">
           <Navbar />
-            <div style="width: 100%; height: 100vh; display: block; margin-top: 10%;">
+            <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
               <v-row no-gutters>
                  <v-col  cols="8">
                
-                  <h2   v-if="videoInfo != null">{{videoInfo.title}}</h2>
-                  <button @click="changeMode(1)">Mode1</button>  
-                  <button @click="changeMode(2)">Mode2</button>  
-                  <button @click="changeMode(3)">Mode3</button>  
+                  <!-- <h2   v-if="videoInfo != null">{{videoInfo.title}}</h2> -->
+                  <!-- <button @click="changeMode(1)">Mode1</button>   -->
+                  <!-- <button @click="changeMode(2)">Mode2</button>   -->
+                  <!-- <button @click="changeMode(3)">Mode3</button>   -->
               
                   
                   
                   
+                  <v-card>
                   <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true" width="95%"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
-       
-                  <!-- <div><h3>  대사인덱스: {{nowIdx}}</h3></div> -->
-                  <!-- <div><h3>  이전인덱스: {{preIdx}}</h3></div> -->
-                  
-
-
-                  <select v-model="selectedLang" @change="onSelectClick($event)" >
-                    <option disabled value="">Please select one</option>
-                    <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option>
-                  </select>
-                  <span>선택함: {{ selectedLang }}</span>
+                  </v-card>
+                  <template v-if = "videoInfo != null">
+                    <v-slider
+                      v-model="timer"
+                      :max="videoInfo.duration/1000"
+                      @click="seekVideo(parseFloat(timer))"
+                      class="align-center"
+                    >
+                    </v-slider>
+                  </template>
+                 
                     <v-card>
                   
 
                     <v-tabs>
                       <v-tab>
                         <v-icon left>
-                          mdi-account
+                          mdi-comment-processing-outline
                         </v-icon>
-                        Basic
+                        Text
                       </v-tab>
                       <v-tab>
                         <v-icon left>
-                          mdi-lock
+                          mdi-help
                         </v-icon>
                         Quiz
                       </v-tab>
                       <v-tab>
                         <v-icon left>
-                          mdi-access-point
+                          mdi-text-to-speech
                         </v-icon>
                         Rec
                       </v-tab>
                       <v-tab>
                         <v-icon left>
-                          mdi-access-point
+                          mdi-information-outline
                         </v-icon>
                         Info
                       </v-tab>
@@ -58,7 +59,7 @@
                       <v-tab-item>
                         <v-card flat>
                           <v-card-text>
-                             <div><h2>  대사: {{nowText}}</h2></div>
+                             <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
                           </v-card-text>
                         </v-card>
                       </v-tab-item>
@@ -86,6 +87,8 @@
                     <h4>채널 : {{videoInfo.channelTitle}}</h4>
                     <h4>채널ID : {{videoInfo.channelId}}</h4>
                     <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4>
+                    <h4>재생시간 : {{videoInfo.duration/1000}}</h4>
+                    
                   </template>
                           </v-card-text>
                         </v-card>
@@ -98,12 +101,16 @@
                       <!-- <input type="number" v-model="unit"> -->
                       <!-- <button @click="seekVideo(parseFloat(timer)+parseFloat(unit))">forward</button>   -->
                   <!-- </div> -->
-                  <div>timer: {{timer}}</div>
+                  <!-- <div>timer: {{timer}}</div> -->
                   <!-- <div>state: {{state}}</div> -->
-                  <div>mode: {{mode}}</div>
+                  <!-- <div>mode: {{mode}}</div> -->
                   <!-- <button @click="beforeCaption">이전문장</button>   -->
                   <!-- <button @click="nextCaption">다음문장</button>   -->
-                
+                 <!-- <select v-model="selectedLang" @change="onSelectClick($event)" >
+                    <option disabled value="">Please select one</option>
+                    <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option>
+                  </select> -->
+                  <!-- <span>선택함: {{ selectedLang }}</span> -->
                 
                   
                  </v-col>
@@ -119,10 +126,68 @@
                   </v-col>
           </v-row>
         </div>
+        <v-row justify="center">
+            <v-dialog
+                  v-model="dialog"
+              scrollable
+              max-width="300px"
+            >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn fab dark large color="primary" fixed right bottom v-bind="attrs"  v-on="on" >
+                  <v-icon dark>{{ selectedLang }}</v-icon>
+              </v-btn>
+            </template>
+             <v-card>
+              <v-card-title>Select Language</v-card-title>
+              <v-divider></v-divider>
+              <v-card-text style="height: 300px;">
+                <v-radio-group
+                  v-model="selectedLang"
+                  column
+                >
+                    <!-- <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option> -->
+                  <template v-for="(item,index) in items" >
+                  <v-radio 
+                    v-bind:label="item._attributes.lang_translated"
+                    v-bind:value="item._attributes.lang_code"
+                     v-bind:key="index"
+                  ></v-radio>
+                  </template>
 
-          <v-btn fab dark large color="primary" fixed right bottom>
-              <v-icon dark>언어</v-icon>
+                
+                </v-radio-group>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                close
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+
+
+        
+        <div id="controller" style="bottom:270px">
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(1)">
+              <v-icon dark>mdi-trending-neutral</v-icon>
           </v-btn>
+        </div>  
+        <div id="controller" style="bottom:220px">
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(2)">
+              <v-icon dark> mdi-keyboard-tab</v-icon>
+          </v-btn>
+        </div>  
+        <div id="controller" style="bottom:170px">
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(3)">
+              <v-icon dark>mdi-refresh</v-icon>
+          </v-btn>
+        </div>  
         <div id="controller" style="bottom:110px">
           <v-btn class="ctrBtn" fab dark small color="primary"  @click="playVideo">
               <v-icon dark>mdi-play</v-icon>
@@ -132,12 +197,12 @@
           </v-btn>
         </div>
         <div id="controller" style="bottom:60px">
-          <v-btn class="ctrBtn" fab dark x-small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
-              <v-icon dark>mdi-arrow-left</v-icon>
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
+              <v-icon dark>mdi-chevron-left</v-icon>
           </v-btn>
-            <vue-numeric-input size="60px" :step="10"  v-model="unit" autofocus controls-type="updown"></vue-numeric-input>
-           <v-btn class="ctrBtn" fab dark x-small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
-              <v-icon dark> mdi-arrow-right</v-icon>
+            <!-- <vue-numeric-input size="60px" :step="10"  v-model="unit" autofocus controls-type="updown"></vue-numeric-input> -->
+           <v-btn class="ctrBtn" fab dark small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
+              <v-icon dark> mdi-chevron-right</v-icon>
           </v-btn>
         </div>
             <div id="controller" style="bottom:10px">
@@ -164,6 +229,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -214,8 +280,8 @@ export default {
           this.preIdx = this.nowIdx;
           this.nowIdx ++; 
           this.nowText=this.elements[this.nowIdx].innerHTML;
-          this.elements[this.nowIdx].classList.add("current");
            this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+          this.elements[this.nowIdx].classList.add("current");
         }
     },
     beforeCaption(){
@@ -224,8 +290,8 @@ export default {
         this.preIdx = this.nowIdx;
         this.nowIdx--;
         this.nowText=this.elements[this.nowIdx].innerHTML;
-        this.elements[this.nowIdx].classList.add("current");
          this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+        this.elements[this.nowIdx].classList.add("current");
         }
     },
     async playMode(){

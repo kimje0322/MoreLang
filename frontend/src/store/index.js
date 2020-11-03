@@ -39,11 +39,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    Logout({ state, commit }) {
-      state.user.disconnect().then(() => {
-        commit("setMember", null);
-        commit("setRefreshToken", null);
-      });
+    Logout({ commit }) {
+      // state.user.disconnect().then(() => {
+      // });
+      commit("setUser", null);
+      commit("setMember", null);
+      commit("setRefreshToken", null);
       commit("ShowAlert", {
         flag: true,
         msg: "로그아웃 되었습니다.",
