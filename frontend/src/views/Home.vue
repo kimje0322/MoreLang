@@ -215,7 +215,7 @@ import "swiper/swiper-bundle.css";
 //   }
 // };
 
-import store from "../store/index.js"
+import store from "../store/index.js";
 
 export default {
   name: "Home",
@@ -229,6 +229,7 @@ export default {
   },
   data() {
     return {
+      userid: "",
       selectlang: "",
       search_word: "",
       // logout: false,
@@ -278,8 +279,9 @@ export default {
     };
   },
   mounted() {
-    console.log("여기여기")
-    console.log(store.member)
+    console.log("여기여기");
+    this.userid = store.state.member.userid;
+    console.log(store.state.member.userid);
   },
   methods: {
     prev() {

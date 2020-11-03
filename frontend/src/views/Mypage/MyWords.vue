@@ -3,11 +3,11 @@
     <!-- <h3 class="title ml-3 px-5">스크랩한 단어</h3> -->
     <!-- 언어 필터링 -->
     <v-container style="text-align:center;">
-        <v-row no-gutters>
-          <!-- 정렬 맞추기 위해 왼쪽 빈칸 사용 -->
-          <!-- <v-col cols="12" sm="1"></v-col> -->
-          <!-- @click="onLanguage(category.name, category.key)" -->
-          <!-- <v-col v-for="(lang, i) in langLst" :key="i" cols="12" sm="1">
+      <v-row no-gutters>
+        <!-- 정렬 맞추기 위해 왼쪽 빈칸 사용 -->
+        <!-- <v-col cols="12" sm="1"></v-col> -->
+        <!-- @click="onLanguage(category.name, category.key)" -->
+        <!-- <v-col v-for="(lang, i) in langLst" :key="i" cols="12" sm="1">
             <v-card
               class="pa-2 categoryCard"
               tile
@@ -15,34 +15,26 @@
               <p class="mb-0 categoryTag">{{lang}}</p>
             </v-card>
           </v-col> -->
-          <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
-          <v-chip
-            color="green"
-            text-color="white"
-          >
-            {{lang}}
+        <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
+          <v-chip color="green" text-color="white" @click="wordList()">
+            {{ language[lang] }}
           </v-chip>
-          </v-col>
-        </v-row>
-      </v-container>
-
+        </v-col>
+      </v-row>
+    </v-container>
 
     <v-row class="px-5 mt-5 mx-3" justify="center">
-      <v-container >
-      <!-- 언어별 단어장 -->
-      <!-- expander 사용예정 / expand => 뜻/예문 보이기 -->
-        <h2 class="mb-3">영어</h2>
+      <v-container>
+        <!-- 언어별 단어장 -->
+        <!-- expander 사용예정 / expand => 뜻/예문 보이기 -->
+        <!-- <h2 class="mb-3">영어</h2>
         <v-row no-gutters style="text-align:center; width:70%;">
           <v-col v-for="i in 6" :key="i" cols="12" sm="6">
-            <v-card
-              class="pa-2 selectLang"
-              outlined
-              tile
-            >
-              <p class="my-auto">{{i}}</p>
+            <v-card class="pa-2 selectLang" outlined tile>
+              <p class="my-auto">{{ i }}</p>
             </v-card>
           </v-col>
-        </v-row>
+        </v-row> -->
         <h2 class="mt-5 mb-3">일본어</h2>
         <v-row no-gutters style="text-align:center; width:70%;">
           <v-col v-for="i in 6" :key="i" cols="12" sm="6">
@@ -52,23 +44,21 @@
               tile
               style="position:relative"
             >
-            <!-- append-icon="mdi-lead-pencil" label="복습" -->
-            <v-checkbox
-              
-              style="width: 27%;
+              <!-- append-icon="mdi-lead-pencil" label="복습" -->
+              <v-checkbox
+                style="width: 27%;
                 position: absolute;
                 bottom: 7px;
                 left: 5px;"
-              color="success"
-              value="success"
-              hide-details
+                color="success"
+                value="success"
+                hide-details
+              ></v-checkbox>
 
-            ></v-checkbox>
-            
-            <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+              <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-              <p class="my-auto">{{i}}</p>
+              <p class="my-auto">{{ i }}</p>
             </v-card>
           </v-col>
         </v-row>
@@ -79,24 +69,24 @@
 
 <script>
 import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api"
+const SERVER_URL = "https://morelang.gq/api";
 
 export default {
   mounted() {
-    axios
-      .get(`${SERVER_URL}/myvoca-country`)
-      .then(res => {
-        console.log(res)
-      })
-    axios
-      .get(`${SERVER_URL}/myvoca?country=en&direction=ASC&page=0&size=8`)
-      .then(res => {
-        console.log(res)
-      })
+    axios.get(`${SERVER_URL}/myvoca-country`).then(res => {
+      console.log("단어장에 저장된 국가들");
+      console.log(res);
+      this.langLst = res.data
+    });
+    // axios
+    //   .get(`${SERVER_URL}/myvoca?country=en&direction=ASC&page=0&size=8`)
+    //   .then(res => {
+    //     console.log(res);
+    //   });
   },
   data() {
     return {
-      langLst: ['영어', '일본어'],
+      langLst: [],
       language: {
         en: "영어",
         jp: "일본어",
@@ -116,14 +106,25 @@ export default {
         ru: "러시아",
         th: "태국어",
         tr: "터키어"
-      },
-    }
+      }
+    };
   },
-}
+  // mounted() {
+  //   axios.get(`${SERVER_URL}/myvoca-country`)
+  //   .then((res) => {
+  //     console.log("단어장에 저장된 국가들")
+  //     console.log(res)
+
+  //   })
+  // },
+  methods: {
+    // axios.get()
+  }
+};
 </script>
 
 <style scoped>
-  .title {
-    color: black;
-  }
+.title {
+  color: black;
+}
 </style>
