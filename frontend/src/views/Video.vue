@@ -132,12 +132,12 @@
           </v-btn>
         </div>
         <div id="controller" style="bottom:60px">
-          <v-btn class="ctrBtn" fab dark x-small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
-              <v-icon dark>mdi-arrow-left</v-icon>
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
+              <v-icon dark>mdi-chevron-left</v-icon>
           </v-btn>
-            <vue-numeric-input size="60px" :step="10"  v-model="unit" autofocus controls-type="updown"></vue-numeric-input>
-           <v-btn class="ctrBtn" fab dark x-small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
-              <v-icon dark> mdi-arrow-right</v-icon>
+            <!-- <vue-numeric-input size="60px" :step="10"  v-model="unit" autofocus controls-type="updown"></vue-numeric-input> -->
+           <v-btn class="ctrBtn" fab dark small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
+              <v-icon dark> mdi-chevron-right</v-icon>
           </v-btn>
         </div>
             <div id="controller" style="bottom:10px">
@@ -214,8 +214,8 @@ export default {
           this.preIdx = this.nowIdx;
           this.nowIdx ++; 
           this.nowText=this.elements[this.nowIdx].innerHTML;
-          this.elements[this.nowIdx].classList.add("current");
            this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+          this.elements[this.nowIdx].classList.add("current");
         }
     },
     beforeCaption(){
@@ -224,8 +224,8 @@ export default {
         this.preIdx = this.nowIdx;
         this.nowIdx--;
         this.nowText=this.elements[this.nowIdx].innerHTML;
-        this.elements[this.nowIdx].classList.add("current");
          this.seekVideo(this.caption[this.nowIdx]._attributes.start);
+        this.elements[this.nowIdx].classList.add("current");
         }
     },
     async playMode(){
