@@ -39,9 +39,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    Logout({ state, commit }) {
-      state.user.disconnect().then(() => {
-      });
+    Logout({ commit }) {
+      // state.user.disconnect().then(() => {
+      // });
       commit("setUser", null);
       commit("setMember", null);
       commit("setRefreshToken", null);
