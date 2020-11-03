@@ -5,6 +5,8 @@ import Video from "../views/Video.vue";
 import Channel from "../views/Channel.vue";
 import Search from "../views/Search.vue";
 import Mypage from "../views/Mypage/Mypage.vue";
+import Login from "../views/Login.vue";
+
 
 // import Swiper from "../views/Swiper.vue";
 
@@ -14,6 +16,11 @@ const routes = [{
         path: "/",
         name: "Home",
         component: Home,
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
     },
     {
         path: "/channel/:id?",

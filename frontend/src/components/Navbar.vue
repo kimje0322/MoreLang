@@ -152,17 +152,17 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <!-- <v-btn
+            <v-btn
               color="success"
               @click="onSearch(keyword)"
               >검색</v-btn
-            > -->
-            <v-btn
+            >
+            <!-- <v-btn
               color="black"
               text
               @click="transDialog = false"
               >닫기</v-btn
-            >
+            > -->
           </v-card-actions>
         </v-card>
       </v-dialog>
