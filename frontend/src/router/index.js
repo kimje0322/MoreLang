@@ -31,7 +31,7 @@ const routes = [{
         component: Search,
     },
     {
-        path: "/mypage",
+        path: "/mypage/:userid",
         name: "Mypage",
         component: Mypage,
     },
