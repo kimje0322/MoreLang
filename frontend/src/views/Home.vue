@@ -25,7 +25,11 @@
     <!-- 언어 필터링 -->
     <div>
       <div style="width: 30%; position: absolute; right: 20px;">
-        <v-select :items="language" label="language" v-model="selectlang"></v-select>
+        <v-select
+          :items="language"
+          label="language"
+          v-model="selectlang"
+        ></v-select>
       </div>
     </div>
     <!-- 추천 채널 -->
@@ -258,28 +262,17 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
-        },
+        }
       },
-          language: [
-            '영어',
-            '일본어',
-            '중국어',
-            '베트남어',
-            '인도네시아어',
-            '아랍어',
-            '뱅갈어',
-            '독일어',
-            '스페인어',
-            '프랑스어',
-            '힌디어',
-            "이탈리아어",
-            "말레이시아어",
-            "네덜란드어",
-            "포르투갈어",
-            "러시아",
-            "태국어",
-            "터키어"
-          ]
+      language: [
+        "영어",
+        "일본어",
+        "중국어",
+        "프랑스어",
+        "이탈리아어",
+        "포르투갈어",
+        "러시아"
+      ]
     };
   },
   methods: {
