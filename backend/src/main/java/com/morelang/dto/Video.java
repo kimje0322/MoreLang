@@ -18,5 +18,6 @@ public class Video {
 	private String channelTitle;
 	private String defaultLanguage;
 	private String defaultAudioLanguage;
+	private long duration;
 
 }

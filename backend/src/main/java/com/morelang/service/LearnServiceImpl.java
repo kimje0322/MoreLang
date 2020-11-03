@@ -80,8 +80,16 @@ public class LearnServiceImpl implements LearnService{
 				System.out.printf("단어: %s\n", subList.get(i).getLemma());
 				System.out.printf("품사: %s\n", subList.get(i).getTag());
 		}
+		StringTokenizer st = new StringTokenizer(result, " ", true);
+		String[] resultArray = new String[st.countTokens()];
+		int pas = 0;
+		while(st.hasMoreTokens()) {
+			resultArray[pas++] = st.nextToken();
+		}
+		
 		System.out.println(result);
 		Map<String,Object> m2 = new HashMap<>();
+		m2.put("inputTextArray",resultArray);
 		m2.put("inputText",input);
 		m2.put("original",complete);
 		m2.put("quizeText", result);
