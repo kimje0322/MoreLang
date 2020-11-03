@@ -86,8 +86,6 @@ public class LearnServiceImpl implements LearnService{
 		while(st.hasMoreTokens()) {
 			resultArray[pas++] = st.nextToken();
 		}
-		
-		System.out.println(result);
 		Map<String,Object> m2 = new HashMap<>();
 		m2.put("inputTextArray",resultArray);
 		m2.put("inputText",input);
