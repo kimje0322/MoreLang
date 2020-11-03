@@ -127,8 +127,9 @@
               max-width="300px"
             >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn fab dark large color="primary" fixed right bottom v-bind="attrs"  v-on="on" >
-                  <v-icon dark>{{ selectedLang }}</v-icon>
+              <v-btn  dark large color="primary" fixed right bottom v-bind="attrs"  v-on="on" >
+                  <!-- <v-icon dark>{{ selectedLang }}</v-icon> -->
+                  언어변경
               </v-btn>
             </template>
              <v-card>
@@ -140,11 +141,19 @@
                   column
                 >
                     <!-- <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option> -->
-                  <template v-for="(item,index) in items" >
-                  <v-radio 
-                    v-bind:label="item._attributes.lang_translated"
-                    v-bind:value="item._attributes.lang_code"
-                     v-bind:key="index"
+                  <template v-if="Array.isArray(this.items)">
+                    <template  v-for="(item,index) in items" >
+                    <v-radio 
+                      v-bind:label="item._attributes.lang_translated"
+                      v-bind:value="item._attributes.lang_code"
+                      v-bind:key="index"
+                    ></v-radio>
+                    </template>
+                  </template>
+                  <template v-else-if="items != null">
+                     <v-radio 
+                    v-bind:label="items._attributes.lang_translated"
+                    v-bind:value="items._attributes.lang_code"
                   ></v-radio>
                   </template>
 
@@ -441,9 +450,20 @@ export default {
       .then((res) => {
         var xml = res.data
         var json = convert.xml2json(xml, { compact: true })
+        console.log("json = ",json)
         this.items = JSON.parse(json).transcript_list.track;
         // console.log(this.items[0]._attributes.lang_code);
-        this.selectedLang=this.items[0]._attributes.lang_code;
+        // console.log("items = ",this.items.length)
+        // console.log("type = ",typeof this.items)
+        console.log(this.items);
+        console.log(this.items[0]);
+        console.log("isarray=",Array.isArray(this.items))
+        if(Array.isArray(this.items)){
+          this.selectedLang=this.items[0]._attributes.lang_code;
+        }else{
+           this.selectedLang=this.items._attributes.lang_code;
+        }
+        
 
         
         });
