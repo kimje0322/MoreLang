@@ -26,12 +26,14 @@ public class VideoServiceImpl implements VideoService {
 		if (d.contains("H")) {
 			String[] sp = d.split("H");
 			duration += Long.parseLong(sp[0]) * 3600000;
-			d = sp[1];
+			if (sp.length > 1)
+				d = sp[1];
 		}
 		if (d.contains("M")) {
 			String[] sp = d.split("M");
 			duration += Long.parseLong(sp[0]) * 60000;
-			d = sp[1];
+			if (sp.length > 1)
+				d = sp[1];
 		}
 		if (d.contains("S")) {
 			String[] sp = d.split("S");
