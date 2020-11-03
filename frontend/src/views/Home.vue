@@ -215,6 +215,8 @@ import "swiper/swiper-bundle.css";
 //   }
 // };
 
+import store from "../store/index.js"
+
 export default {
   name: "Home",
   components: {
@@ -274,6 +276,10 @@ export default {
         "러시아"
       ]
     };
+  },
+  mounted() {
+    console.log("여기여기")
+    console.log(store.member)
   },
   methods: {
     prev() {
