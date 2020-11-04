@@ -98,7 +98,7 @@ export default {
     VideoLearning,
     MyWords,
     MySentences,
-    MyPoint,
+    MyPoint
     // Quiz,
   },
   data() {
@@ -118,9 +118,8 @@ export default {
   },
   methods: {
     onCharge() {
-      alert('충전하시겠습니까?')
-      this.$router.push({ name: 'Pay'})
-      },
+      alert("충전하시겠습니까?");
+      this.$router.push({ name: "Pay" });
     }
   }
 };
