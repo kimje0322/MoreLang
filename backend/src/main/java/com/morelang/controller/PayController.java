@@ -1,6 +1,7 @@
 package com.morelang.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +37,13 @@ public class PayController {
 	}
 
 	@GetMapping("/pay/approve")
-	public ResponseEntity<PayApprove> approve(@RequestParam("tid") String tid,
+	public ResponseEntity<PayApprove> approve(HttpServletResponse response,@RequestParam("tid") String tid,
 			@RequestParam("pg_token") String pg_token, @RequestParam("total_amount") String total_amount,
 			HttpServletRequest request) {
-
+		String accessToken = response.getHeader("accessToken");
 		PayApprove payApprove = null;
 		try {
-			payApprove = payService.approve(tid, pg_token, total_amount);
+			payApprove = payService.approve(accessToken,tid, pg_token, total_amount);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
