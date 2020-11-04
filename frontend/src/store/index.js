@@ -14,7 +14,6 @@ export default new Vuex.Store({
     alertColor: null,
     AlertMessage: "",
     showAlert: false,
-    payReady: null,
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -37,9 +36,6 @@ export default new Vuex.Store({
       state.AlertMessage = payload.msg;
       state.alertColor = payload.color;
       state.showAlert = payload.flag;
-    },
-    setPayReady(state, payReady) {
-      state.payReady = payReady;
     },
   },
   actions: {
