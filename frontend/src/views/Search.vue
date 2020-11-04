@@ -163,11 +163,19 @@
           class="col"
           style="width: clac(33.33% - 60px); margin: auto; display: inline-block;"
         >
-          <router-link :to="{ name: 'Video', params: { vid: video.id } }">
-            <div style="margin-bottom: 0px;">
-              <img :src="video.imgUrl" alt="" width="330" />
-            </div>
-          </router-link>
+          <v-hover v-slot:default="{ hover }" close-delay="200">
+            <router-link :to="{ name: 'Video', params: { vid: video.id } }">
+              <div style="margin-bottom: 0px;">
+                <v-img
+                  :elevation="hover ? 16 : 2"
+                  :class="{ 'on-hover': hover }"
+                  :src="video.imgUrl"
+                  alt=""
+                  width="330"
+                />
+              </div>
+            </router-link>
+          </v-hover>
           <!-- <h3 v-if="video.title.length > 20">
             {{ video.title.substring(0, 20) }} ...
           </h3> -->
@@ -185,10 +193,15 @@
               style="margin: 0 1px;"
             >
               <div v-if="lang.lang_translated.indexOf('(') > -1">
-                {{ lang.lang_translated.substring(0, lang.lang_translated.indexOf('(')) }}
+                {{
+                  lang.lang_translated.substring(
+                    0,
+                    lang.lang_translated.indexOf("(")
+                  )
+                }}
               </div>
               <div v-else-if="lang.lang_translated.length > 10">
-                {{ lang.lang_translated.substring(0, 10)}}
+                {{ lang.lang_translated.substring(0, 10) }}
               </div>
               <div v-else>
                 {{ lang.lang_translated }}
@@ -197,7 +210,11 @@
                 + {{ video.captions.length - 5 }}
               </div> -->
             </v-btn>
-            <div v-if="video.captions.length > 4" @mouseover="hover=true" @mouseleave="hover=false">
+            <div
+              v-if="video.captions.length > 4"
+              @mouseover="hover = true"
+              @mouseleave="hover = false"
+            >
               + {{ video.captions.length - 4 }}
             </div>
             <!-- <span v-if="hover"> 
@@ -232,6 +249,7 @@
 <script>
 import axios from "axios";
 import InfiniteLoading from "vue-infinite-loading";
+import store from "../store/index.js";
 
 // import Navbar from "@/components/Navbar";
 
@@ -308,6 +326,11 @@ export default {
       this.keyword = this.search_word;
       this.videoSearch(this.search_word);
     }
+
+    else if (store.state.searchWord != null) {
+      this.keyword = store.state.searchWord
+      this.videoSearch(store.state.searchWord)
+    }
   },
   methods: {
     beforeTrans() {
@@ -339,6 +362,9 @@ export default {
         console.log(res);
         // this.start = this.start + 10
       });
+
+      store.state.searchWord = search;
+
     },
     infiniteHandler($state) {
       setTimeout(() => {

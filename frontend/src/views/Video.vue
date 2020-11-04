@@ -51,10 +51,30 @@
                       </v-tab>
 
                       <v-tab-item>
-                        <v-card flat>
+                        <v-card flat >
                           <v-card-text>
                              <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
                           </v-card-text>
+                          <v-card-actions >
+                            <v-row>
+                            <v-col cols="10">
+                              <h3><v-icon>mdi-google-translate</v-icon> : 
+                              {{translated}}
+                              </h3>
+                            </v-col>
+                            <v-col cols="2">
+                            <v-btn
+                              outlined
+                              rounded
+                              text
+                              color="primary"
+                              @click="translate"  
+                            >
+                              번역
+                            </v-btn>
+                            </v-col>
+                            </v-row>
+                          </v-card-actions>
                         </v-card>
                       </v-tab-item>
                       <v-tab-item>
@@ -67,7 +87,11 @@
                       <v-tab-item>
                         <v-card flat>
                           <v-card-text>
-                           
+                                <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
+                                <v-row  class=" mt-5"  justify="center" > 
+                                <vue-record-audio mode="press" @result="onResult" />
+                                <audio controls="" :src="audioURL"></audio>
+                                </v-row>
                           </v-card-text>
                         </v-card>
                       </v-tab-item>
@@ -106,7 +130,9 @@
                   </select> -->
                   
                   <!-- <span>선택단어: {{ word }}</span> -->
-                
+               
+
+               
                  </v-col>
 
                   <v-col  cols="4" >
@@ -177,19 +203,38 @@
 
         
         <div id="controller" style="bottom:270px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(1)">
+          
+    <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  v-bind:class="[mode==1 ? primary : '']" fab dark small   @click="changeMode(1)">
               <v-icon dark>mdi-trending-neutral</v-icon>
           </v-btn>
+            </template>
+      <span>연속 재생</span>
+    </v-tooltip>
         </div>  
         <div id="controller" style="bottom:220px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(2)">
+                  
+    <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==3 ? primary : '']" @click="changeMode(3)">
               <v-icon dark> mdi-keyboard-tab</v-icon>
           </v-btn>
+           </template>
+      <span>한 문장 듣기</span>
+    </v-tooltip>
         </div>  
         <div id="controller" style="bottom:170px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(3)">
+                  
+    <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==2 ? primary : '']" @click="changeMode(2)">
               <v-icon dark>mdi-refresh</v-icon>
+              
           </v-btn>
+            </template>
+      <span>문장 반복재생</span>
+    </v-tooltip>
         </div>  
         <div id="controller" style="bottom:110px">
           <v-btn class="ctrBtn" fab dark small color="primary"  @click="playVideo">
@@ -250,6 +295,10 @@ import Quiz from "@/components/Video/Quiz";
 
 var convert = require('xml-js')
 
+
+
+
+
 export default {
   name: "Video",
   components: {
@@ -258,16 +307,19 @@ export default {
   },
   data() {
     return {
+      primary :"primary",
+      context : null,
+      audioURL : "",
       dictUrl : "https://m.dic.daum.net/search.do?q=",
       word : "",
       dialog: false,
       dialog2: false,
-      
       videoInfo :  null,
       isBlank : true,
       mode : 1,
       unit : 10,
       nowText : "",
+      translated : "",
       nowIdx : -1,
       preIdx : -1,
       elements : null,
@@ -289,6 +341,43 @@ export default {
     };
   },
   methods: {
+      onResult (data) {
+      // console.log('The blob data:', data);
+      this.audioURL = window.URL.createObjectURL(data);
+      // console.log('Downloadable audio', this.audioURL);
+    },
+    translate(){
+      if(this.nowText != ""){
+        // console.log(this.nowText);
+        var temp2 = this.nowText.replace(/(\r\n|\n|\r)/gm,"");
+        // console.log(temp2);
+          var temp = this.selectedLang.substr(0, 2);
+          if(temp == 'ko'){
+            temp ='kr'
+          }else if(temp == 'ja'){
+            temp = 'jp'
+          }else if(temp == 'zh'){
+            temp = 'cn'
+          }
+          axios.get("https://morelang.gq/api/translate",{
+              params: {
+                query : temp2,
+                src_lang : temp,
+                target_lang : 'kr'
+              }
+            })
+            .then((res) => {
+              if (res.data == ""){
+                this.translated = "현재 언어는 번역이 지원되지 않습니다.";
+              }else{
+                // console.log("res = ",res);
+              this.translated = res.data;
+              }
+            });
+
+      }
+      
+    },
     removeAll(){
              Array.from(this.elements).some((el) =>{
                if(el.classList.contains("current")){
@@ -453,14 +542,14 @@ export default {
       .then((res) => {
         var xml = res.data
         var json = convert.xml2json(xml, { compact: true })
-        console.log("json = ",json)
+        // console.log("json = ",json)
         this.items = JSON.parse(json).transcript_list.track;
         // console.log(this.items[0]._attributes.lang_code);
         // console.log("items = ",this.items.length)
         // console.log("type = ",typeof this.items)
-        console.log(this.items);
-        console.log(this.items[0]);
-        console.log("isarray=",Array.isArray(this.items))
+        // console.log(this.items);
+        // console.log(this.items[0]);
+        // console.log("isarray=",Array.isArray(this.items))
         if(Array.isArray(this.items)){
           this.selectedLang=this.items[0]._attributes.lang_code;
         }else{
@@ -535,6 +624,10 @@ export default {
     selectedLang : function(){
       // console.log("바뀜!!")
       this.getCaption();
+    },
+    nowText : function(){
+      this.translated ="";
+      this.audioURL="";
     }
 
   },
@@ -558,11 +651,19 @@ export default {
         });
   },
   mounted(){
+    this.context = new AudioContext();
+    // One-liner to resume playback when user interacted with the page.
+document.querySelector('button').addEventListener('click', function() {
+  this.context.resume().then(() => {
+    console.log('Playback resumed successfully');
+  });
+});
+
     // console.log("mounted!!");
     this.player.addEventListener('onStateChange', this.youtubeStateChange)
     this.player.addEventListener('onApiChange', this.youtubApiChange)
     document.addEventListener('mouseup', event => {
-        console.log(event);
+        // console.log(event);
         this.word = window.getSelection().toString();
         var temp =document.getElementById("tool")
         // console.log(word != "");
@@ -630,5 +731,9 @@ export default {
   /* top:  512px; left: 178px; */
 }
 
+.i-am-active {
+  color: orange;
+  background: pink;
+}
 
 </style>

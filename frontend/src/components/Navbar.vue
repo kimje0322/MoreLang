@@ -6,7 +6,7 @@
   >
     <div class="navigation">
       <div style="padding: 0">
-        <v-card-title style="padding: 10px 30px 0px;">
+        <v-card-title style="padding: 0px 30px 0px;">
           <router-link to="/">
             <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang
@@ -48,8 +48,12 @@
             </div>
           </div>
           <router-link to="/mypage">
-
-            <p @click="gotoMypage" class="navBtn my-auto mr-3" style="font-size: 13px !important">마이페이지</p>
+            <!-- @click="gotoMypage" -->
+            <router-link :to="{ name: 'Mypage', params: { userid: userid } }">
+              <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
+                마이페이지
+              </p>
+            </router-link>
             <!-- <v-avatar class="mr-3" color="indigo" size="38">
               <v-icon dark>
                 mdi-account-circle
@@ -64,7 +68,11 @@
                   <v-row no-gutters>
                     <v-col cols="4" class="d-nome d-md-flex">
                       <v-avatar>
-                        <v-img max-height="100%" :src="member.profileImg" alt="유저썸네일"></v-img>
+                        <v-img
+                          max-height="100%"
+                          :src="member.profileImg"
+                          alt="유저썸네일"
+                        ></v-img>
                       </v-avatar>
                     </v-col>
                     <v-col cols="5">
@@ -79,7 +87,7 @@
                     </v-col>
                   </v-row>
                 </v-card>
-                </template>
+              </template>
             </v-menu>
           </div>
           <!-- <p class="navBtn mr-2 my-auto">로그아웃</p> -->
@@ -110,7 +118,12 @@
       </v-container>
 
       <!-- 번역 언어 모달 -->
-      <v-dialog class="dialog" v-model="transDialog" scrollable max-width="300px">
+      <v-dialog
+        class="dialog"
+        v-model="transDialog"
+        scrollable
+        max-width="300px"
+      >
         <v-card>
           <v-toolbar color="#43A047" dark>
             <v-toolbar-title class="toolbarTitle">
@@ -152,11 +165,8 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn
-              color="success"
-              @click="onSearch(keyword)"
-              >검색</v-btn
-            >
+            <v-btn color="success" @click="onSearch(keyword)">검색</v-btn>
+            <v-btn color="black" text @click="transDialog = false">닫기</v-btn>
             <!-- <v-btn
               color="black"
               text
@@ -177,6 +187,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 const SERVER_URL = "https://morelang.gq/api";
 // import store from "@/../src/store/index.js";
+import store from "../store/index.js";
 
 // 상단 네브바 고정
 var nav = document.getElementsByClassName("navigation");
@@ -196,6 +207,7 @@ export default {
   },
   data() {
     return {
+      // userid: "",
       keyword: "",
       transDialog: false,
       errSnackbar: false,
@@ -205,24 +217,24 @@ export default {
         en: "영어",
         jp: "일본어",
         cn: "중국어",
-        vi: "베트남어",
-        id: "인도네시아어",
-        ar: "아랍어",
-        bn: "뱅갈어",
-        de: "독일어",
-        es: "스페인어",
+        // vi: "베트남어",
+        // id: "인도네시아어",
+        // ar: "아랍어",
+        // bn: "뱅갈어",
+        // de: "독일어",
+        // es: "스페인어",
         fr: "프랑스어",
-        hi: "힌디어",
+        // hi: "힌디어",
         it: "이탈리아어",
-        ms: "말레이시아어",
-        nl: "네덜란드어",
+        // ms: "말레이시아어",
+        // nl: "네덜란드어",
         pt: "포르투갈어",
-        ru: "러시아",
-        th: "태국어",
-        tr: "터키어"
+        ru: "러시아"
+        // th: "태국어",
+        // tr: "터키어"
       },
       gauth: {},
-      userid: this.$store.state.member.userid 
+      userid: store.state.member.userid
     };
   },
   mounted() {
@@ -267,6 +279,9 @@ export default {
             this.$store.commit("setUser", this.gauth.currentUser.get());
             this.$store.commit("setMember", response.data.member);
             this.$store.commit("setRefreshToken", response.data.refreshToken);
+            axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.member.accessToken}`;
+            // this.userid = response.data.member.userid
+            // console.log()
           });
       });
     },
@@ -300,11 +315,13 @@ export default {
         .then(res => {
           this.keyword = res.data;
         });
-    },
-    gotoMypage() {
-      // path: 'mypage/${this.$store.state.member.userid}`'
-      this.$router.push({ name: 'Mypage', params: { userid: this.userid}})
     }
+    // gotoMypage() {
+    //   // path: 'mypage/${this.$store.state.member.userid}`'
+    //   console.log("userid")
+    //   console.log(this.userid)
+    //   this.$router.push({ name: 'Mypage', params: { userid: this.userid}})
+    // }
   }
 };
 </script>
