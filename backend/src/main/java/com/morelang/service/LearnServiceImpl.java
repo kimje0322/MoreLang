@@ -71,7 +71,7 @@ public class LearnServiceImpl implements LearnService{
 		for(Learn learn : LearnList) {
 			complete.put(k++,learn.getLemma());
 			if(learn.getTag().equals("NOUN") || learn.getTag().equals("VERB") || learn.getTag().equals("ADJ")) {
-	        	if(result.indexOf(learn.getLemma())!= -1) {
+	        	if(result.indexOf(learn.getLemma())!= -1 && !subList2.contains(learn.getLemma())) {
 	        		subList.add(learn);
 	        		subList2.add(learn.getLemma());
 	        	}
@@ -88,7 +88,7 @@ public class LearnServiceImpl implements LearnService{
 		}
 		int time = 1;
 		for(int i=0; i<num; i++) {
-			sub_answer.put(subList2.indexOf(subList.get(i).getLemma())	, subList.get(i).getLemma());
+			sub_answer.put(subList2.indexOf(subList.get(i).getLemma()), subList.get(i).getLemma());
 		}
 		for(Integer key : sub_answer.keySet()) {
 			answer.put(time++, sub_answer.get(key));
