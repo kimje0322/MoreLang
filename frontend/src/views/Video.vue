@@ -541,12 +541,6 @@ export default {
     async playVideo() {
       await this.player.playVideo();
     },
-    async skipVideo() {
-      await this.player.loadVideoById({videoId:'lG0Ys-2d4MA',
-                      startSeconds:1000,
-                      endSeconds:1005,
-                      suggestedQuality:'default'});
-    },
     async pauseVideo() {
       await this.player.pauseVideo();
     },
@@ -569,7 +563,7 @@ export default {
 
         if(event.data==1) { // playing
           console.log("setIneteval");
-            this.myTimer = setInterval(this.getCurrentTime, 300);
+            this.myTimer = setInterval(this.getCurrentTime, 100);
             this.setMode = setInterval(this.playMode,1000);
           }
         else { // not playing
