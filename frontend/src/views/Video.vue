@@ -5,13 +5,7 @@
             <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
               <v-row no-gutters>
                  <v-col  cols="8">
-               
-                  <!-- <h2   v-if="videoInfo != null">{{videoInfo.title}}</h2> -->
-                  <!-- <button @click="changeMode(1)">Mode1</button>   -->
-                  <!-- <button @click="changeMode(2)">Mode2</button>   -->
-                  <!-- <button @click="changeMode(3)">Mode3</button>   -->
-              
-                  
+             
                   
                   
                   <v-card>
@@ -110,9 +104,9 @@
                     <option disabled value="">Please select one</option>
                     <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option>
                   </select> -->
-                  <!-- <span>선택함: {{ selectedLang }}</span> -->
-                
                   
+                  <!-- <span>선택단어: {{ word }}</span> -->
+                
                  </v-col>
 
                   <v-col  cols="4" >
@@ -133,8 +127,9 @@
               max-width="300px"
             >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn fab dark large color="primary" fixed right bottom v-bind="attrs"  v-on="on" >
-                  <v-icon dark>{{ selectedLang }}</v-icon>
+              <v-btn  dark large color="primary" fixed right bottom v-bind="attrs"  v-on="on" >
+                  <!-- <v-icon dark>{{ selectedLang }}</v-icon> -->
+                  언어변경
               </v-btn>
             </template>
              <v-card>
@@ -146,11 +141,19 @@
                   column
                 >
                     <!-- <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option> -->
-                  <template v-for="(item,index) in items" >
-                  <v-radio 
-                    v-bind:label="item._attributes.lang_translated"
-                    v-bind:value="item._attributes.lang_code"
-                     v-bind:key="index"
+                  <template v-if="Array.isArray(this.items)">
+                    <template  v-for="(item,index) in items" >
+                    <v-radio 
+                      v-bind:label="item._attributes.lang_translated"
+                      v-bind:value="item._attributes.lang_code"
+                      v-bind:key="index"
+                    ></v-radio>
+                    </template>
+                  </template>
+                  <template v-else-if="items != null">
+                     <v-radio 
+                    v-bind:label="items._attributes.lang_translated"
+                    v-bind:value="items._attributes.lang_code"
                   ></v-radio>
                   </template>
 
@@ -214,6 +217,29 @@
           </v-btn>
         </div>
     </div>
+
+
+    <span id="tool">
+      <v-dialog v-model="dialog2"  width="30%"  hide-overlay    transition="dialog-bottom-transition">
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="primary" dark  v-bind="attrs" v-on="on">사전검색</v-btn>
+                    </template>
+                      <v-card >
+                      <iframe  width="100%" height= "500px" :src="dictUrl+word"></iframe>
+                      <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="dialog2 = false"
+                      >
+                        close
+                      </v-btn>
+                    </v-card-actions>
+                      </v-card>
+                </v-dialog>
+      <v-btn>단어장추가</v-btn>
+    </span>
   </v-container>
 </template>
 
@@ -229,7 +255,11 @@ export default {
   },
   data() {
     return {
+      dictUrl : "https://m.dic.daum.net/search.do?q=",
+      word : "",
       dialog: false,
+      dialog2: false,
+      
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -420,9 +450,20 @@ export default {
       .then((res) => {
         var xml = res.data
         var json = convert.xml2json(xml, { compact: true })
+        console.log("json = ",json)
         this.items = JSON.parse(json).transcript_list.track;
         // console.log(this.items[0]._attributes.lang_code);
-        this.selectedLang=this.items[0]._attributes.lang_code;
+        // console.log("items = ",this.items.length)
+        // console.log("type = ",typeof this.items)
+        console.log(this.items);
+        console.log(this.items[0]);
+        console.log("isarray=",Array.isArray(this.items))
+        if(Array.isArray(this.items)){
+          this.selectedLang=this.items[0]._attributes.lang_code;
+        }else{
+           this.selectedLang=this.items._attributes.lang_code;
+        }
+        
 
         
         });
@@ -484,6 +525,7 @@ export default {
         // var temp = await this.player.getOption( "captions" , 'track');
         //  console.log(temp.languageCode);
         // },
+ 
   },
 
   watch : {
@@ -516,8 +558,52 @@ export default {
     // console.log("mounted!!");
     this.player.addEventListener('onStateChange', this.youtubeStateChange)
     this.player.addEventListener('onApiChange', this.youtubApiChange)
+    document.addEventListener('mouseup', event => {
+        console.log(event);
+        this.word = window.getSelection().toString();
+        var temp =document.getElementById("tool")
+        // console.log(word != "");
+        if(this.word != "" && temp.style.display=="none"){
+          console.log(this.word);
+          temp.style.display = "block ";
+          temp.style.left=event.pageX+"px"
+          temp.style.top=event.pageY+"px"
+        }else if(this.word == ""){
+          temp.style.display = "none";
+        }
+    });
+    //  document.addEventListener('mousedown', function() {
+        // console.log(event);
+        // window.getSelection().empty();
+        // var word = window.getSelection().toString();
+        // var temp =document.getElementById("tool")
+        // console.log(word != "");
+        // if(word != ""){
+          // console.log(word);
+          // temp.style.display = "block ";
+          // temp.style.left=event.pageX+"px"
+          // temp.style.top=event.pageY+"px"
+        // }else{
+          // temp.style.display = "none";
+        // }
+    // });
   }
 };
+
+  //  function selectText() {
+  //               var selectionText = "";
+  //               if (document.getSelection) {
+  //                   selectionText = document.getSelection();
+  //               } else if (document.selection) {
+  //                   selectionText = document.selection.createRange().text;
+  //               }
+  //               return selectionText;
+  //           }
+           
+  //           document.onmouseup = function() {
+  //               document.getElementById("console").innerHTML = selectText();
+  //           }
+
 </script>
 <style scoped>
 .script:hover { background: orange }
@@ -532,5 +618,14 @@ export default {
 .ctrBtn {
   margin: 10px;
 }
+
+
+#tool{
+  /* background: orange; */
+  display: none;
+  position: absolute;
+  /* top:  512px; left: 178px; */
+}
+
 
 </style>

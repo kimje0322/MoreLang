@@ -1,30 +1,30 @@
 <template>
   <div class='wrap'>
     <div class="code-block-container">
-    <h3>[공지] 수정중입니다! 임시로 여기서 작업중입니다.</h3>
-
       <!-- 단어 -->
-      <img src="https://image.dongascience.com/Photo/2015/07/14370336879614[1].jpg" style="width:670px margin-left:15px;" alt="">
-      <div class="code-box mx-auto" @drop="drop" @dragover="dragover">
+      {{blankIndex}}
+      <!-- <img src="https://image.dongascience.com/Photo/2015/07/14370336879614[1].jpg" style="width:670px margin-left:15px;" alt=""> -->
+      <div class="code-box mx-auto" @dragover="dragover">
         <div class="play-box mx-auto mt-5">
-          <span class="droppable">_____</span>
-          <p>phone at the Consumer</p>
-          <!-- <p class="mx-auto mt-2" style="color:black; width: 92%;font-size: 16px;">{{quizText}}</p> -->
-        </div>
-        <div class="block-box">
-          <div v-show="isMove" class="block-list" >
-            <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div>
-            <div v-for="(item, index) in items.block1" :key="`b+${index}`" class="block block1" draggable="true" @dragstart="dragstart">Pichai</div>
-            <div v-for="(item, index) in items.block2" :key="`c+${index}`" class="block block2" draggable="true" @dragstart="dragstart">Sundar</div>
-            <div v-for="(item, index) in items.block3" :key="`d+${index}`" class="block block3" draggable="true" @dragstart="dragstart">new</div>
-            <div v-for="(item, index) in items.block4" :key="`e+${index}`" class="block block4" draggable="true" @dragstart="dragstart">love</div>
-            <div v-for="(item, index) in items.block5" :key="`f+${index}`" class="block block5" draggable="true" @dragstart="dragstart">Android</div>
-            <div v-for="(item, index) in items.block6" :key="`g+${index}`" class="block block6" draggable="true" @dragstart="dragstart">Consumer</div>
+          <!-- 퀴즈 텍스트 -->
+          <div style="display:inline-block"  :class="i" class="pr-1" v-for="(item, i) in quizBox" :key=i>
+            <div v-if="item!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
+              {{item}}
+            </div>
+            <div v-else class="blank droppable" @drop="drop">
+            </div>
           </div>
         </div>
-
-        <!-- <div class="play-box">
-        </div> -->
+        <div class="block-box">
+          <div class="block-list">
+            <div v-for="(keyword, i) in keyword" :key=i >
+              <span class="block block1" draggable="true" @dragstart="dragstart">{{keyword}}</span>
+            </div>
+            <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div>
+            <div v-for="(item, index) in items.block1" :key="`b+${index}`" class="block block1" draggable="true" @dragstart="dragstart">Pichai</div>
+            <div v-for="(item, index) in items.block6" :key="`g+${index}`" class="block block6" draggable="true" @dragstart="dragstart">Consumer</div> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -32,6 +32,8 @@
 
 <script>
 import axios from "axios";
+// import $ from 'jquery';
+
 const SERVER_URL = "https://morelang.gq/api";
 
 export default {
@@ -39,7 +41,9 @@ export default {
   data() {
     return {
       // quiz
-      quizText: [],
+      quizBox: [],
+      keyword: [],
+      blankIndex: [],
       // drag
       isMove: true,
       isObstacle: false,
@@ -68,8 +72,24 @@ export default {
     axios.post(
       `${SERVER_URL}/guest/puzzletest?inputText=a`  
       ).then(res => {
-        // console.log(res.data);
-        this.quizText = res.data.quizeText;
+        console.log(res.data);
+        // this.quizBox = res.data.quizeText;
+        var quizInput = res.data.inputTextArray;
+        this.keyword = res.data.keyword;
+        for (var i=0; i<quizInput.length; i++) {
+          // if (quizInput[i] === '______' || quizInput[i].includes('______')) {
+          if (quizInput[i] === '______') {
+              this.quizBox.push('blank');
+              this.blankIndex.push(i)
+          } else if (quizInput[i].startsWith('______')) {
+              this.quizBox.push('blank')
+              this.quizBox.push(quizInput[i].slice(6))
+              this.blankIndex.push(i)
+              // console.log(quizInput[i].slice(6));
+          } else {
+            this.quizBox.push(quizInput[i])    
+          }
+        }
       })
   },
   watch: {
@@ -96,8 +116,7 @@ export default {
     drop(event) {
       event.stopPropagation();
       event.preventDefault();
-
-      console.log(event.pageX)
+      // console.log(event.pageX)
       let posX = event.pageX;
       let posY = event.pageY;
       // if (posX >= 300 && posX <= 1450) {
@@ -108,12 +127,15 @@ export default {
           document.querySelector(`.${this.targetClass}`).style.left = 0;
           document.querySelector(`.${this.targetClass}`).style.marginLeft = posX + this.distX + 'px';
           document.querySelector(`.${this.targetClass}`).style.marginTop = posY + this.distY + 'px';
+          
+          document.querySelector(".i").style.width = 100 ;
+          // $('div.i').width( '100px' );
           const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
           for (let i=0; i<CLONE.length; i++) {
             if (CLONE[i].classList.length == 2) {
-              this.targetFlag = false
+              this.targetFlag = false;
             } else {
-              this.targetFlag = true
+              this.targetFlag = true;
             }
           }
         }
@@ -157,7 +179,7 @@ export default {
   display: flex;
 }
 .play-box {
-  width: 78%;
+  width: 88%;
   background-color: #def5df;
   border-radius: 7px;
   padding: 12px;
@@ -224,10 +246,16 @@ export default {
   height: 50px;
   background-color: bisque;
 }
-
 .code-block-container {
   width: 100%;
   height: 100%;
+}
+.blank {
+  border: dashed grey 1px;
+  border-radius: 3px;
+  /* background-color: lightgrey; */
+  width: 50px;
+  height: 20px;
 }
 
 </style>

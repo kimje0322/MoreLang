@@ -47,6 +47,9 @@ public class SearchServiceImpl implements SearchService {
 				if (id.contains("&")) {
 					id = id.substring(0, id.indexOf('&'));
 				}
+				if (id.contains("?")) {
+					id = id.substring(0, id.indexOf('?'));
+				}
 				videoUrl = "https://www.youtube.com/watch?v=" + id;
 				String imgUrl = "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
