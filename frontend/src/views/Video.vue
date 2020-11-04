@@ -2,7 +2,7 @@
   <v-container>
     <div class="video">
           <Navbar />
-            <div style="width: 100%; height: 100vh; display: block; margin-top: 7%;">
+            <div style="width: 100%; height: 85vh; display: block; margin-top: 7%;">
               <v-row no-gutters>
                  <v-col  cols="8">
              
@@ -237,29 +237,59 @@
     </v-tooltip>
         </div>  
         <div id="controller" style="bottom:110px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="playVideo">
+            <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  fab dark small color="primary"  @click="playVideo">
               <v-icon dark>mdi-play</v-icon>
           </v-btn>
-           <v-btn class="ctrBtn" fab dark small color="primary"   @click="pauseVideo">
+                    </template>
+      <span>재생</span>
+    </v-tooltip>
+            <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  fab dark small color="primary"   @click="pauseVideo">
               <v-icon dark>mdi-pause</v-icon>
           </v-btn>
+                    </template>
+      <span>일시정지</span>
+    </v-tooltip>
         </div>
         <div id="controller" style="bottom:60px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
+           <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
               <v-icon dark>mdi-chevron-left</v-icon>
           </v-btn>
+                    </template>
+      <span>10초 뒤로</span>
+    </v-tooltip>
             <!-- <vue-numeric-input size="60px" :step="10"  v-model="unit" autofocus controls-type="updown"></vue-numeric-input> -->
-           <v-btn class="ctrBtn" fab dark small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
+            <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
               <v-icon dark> mdi-chevron-right</v-icon>
           </v-btn>
+                    </template>
+      <span>10초 앞으로</span>
+    </v-tooltip>
         </div>
             <div id="controller" style="bottom:10px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="beforeCaption">
+           <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"  @click="beforeCaption">
               <v-icon dark>mdi-chevron-double-left</v-icon>
           </v-btn>
-           <v-btn class="ctrBtn" fab dark small color="primary"   @click="nextCaption">
+                    </template>
+      <span>이전 문장</span>
+    </v-tooltip>
+            <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"   @click="nextCaption">
               <v-icon dark>mdi-chevron-double-right</v-icon>
           </v-btn>
+                    </template>
+      <span>다음 문장</span>
+    </v-tooltip>
         </div>
     </div>
 
