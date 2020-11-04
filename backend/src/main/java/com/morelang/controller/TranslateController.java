@@ -32,7 +32,7 @@ public class TranslateController {
 		} catch (Exception e) {
 			e.printStackTrace();
 //			Webhook.send(request, this.getClass().toString(), e);
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		}
 
 		return new ResponseEntity<>(s, HttpStatus.OK);
