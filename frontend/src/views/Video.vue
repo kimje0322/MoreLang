@@ -126,7 +126,10 @@
                   </select> -->
                   
                   <!-- <span>선택단어: {{ word }}</span> -->
-                
+               
+
+               <vue-record-audio mode="press" @result="onResult" />
+
                  </v-col>
 
                   <v-col  cols="4" >
@@ -306,6 +309,10 @@ export default {
     };
   },
   methods: {
+      onResult (data) {
+      console.log('The blob data:', data);
+      console.log('Downloadable audio', window.URL.createObjectURL(data));
+    },
     translate(){
       if(this.nowText != ""){
         // console.log(this.nowText);
