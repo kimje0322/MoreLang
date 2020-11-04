@@ -96,7 +96,6 @@ export default {
   methods: {
     onCharge() {
       alert('충전하시겠습니까?')
-      this.$router.push({ name: 'Pay'})
       },
     }
   }
