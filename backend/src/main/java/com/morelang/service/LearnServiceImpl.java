@@ -91,7 +91,9 @@ public class LearnServiceImpl implements LearnService{
 				result = result.replaceFirst(subList.get(i).getLemma(), "______");
 				Map<String, Object> temp_m = new HashMap<>();
 				temp_m.put("original", subList2.indexOf(subList.get(i).getLemma()));
-				temp_m.put("keyword", subList.get(i).getLemma());
+				temp_m.put("random", i+1);
+				temp_m.put("key", subList.get(i).getLemma());
+				//temp_m.put(subList.get(i).getLemma(), i+1);
 				keyword.put(i+1,temp_m);
 				System.out.printf("단어: %s\n", subList.get(i).getLemma());
 				System.out.printf("품사: %s\n", subList.get(i).getTag());
