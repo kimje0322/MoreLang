@@ -304,6 +304,8 @@ export default {
   },
   data() {
     return {
+      myTimer : null,
+      setMode : null,
       primary :"primary",
       context : null,
       audioURL : "",
@@ -417,18 +419,23 @@ export default {
          if(this.state==1){
             var tempIdx= -1;
             if(this.elements != null){
-              Array.from(this.elements).some((el,i) =>{
+              await Array.from(this.elements).some((el,i) =>{
                 if (el.dataset.start < this.timer &&this.timer < el.dataset.end){
                   tempIdx = i;
+                  // console.log("빠져나간다 tempIDX=",tempIdx);
                   return true;
                 } 
+                  // console.log("아직 안빠져나갔다");
               });
               if(tempIdx != -1){                              ///말하는중
-                  if(this.mode == 2 && tempIdx != this.nowIdx){     //현재 대사 반복 재생  == 현재 인덱스 반복 재생   //새로운 대사 시작?  => 기존의 인덱스 시작으로 넘어가야함(이때 인덱스 -1 은 예외 처리)
+                // console.log("말하는중");
+                  if( tempIdx != this.nowIdx && this.mode == 2 ){     //현재 대사 반복 재생  == 현재 인덱스 반복 재생   //새로운 대사 시작?  => 기존의 인덱스 시작으로 넘어가야함(이때 인덱스 -1 은 예외 처리)
                       if(this.nowIdx != -1){
+                        // console.log("돌아가자")
                         this.seekVideo(this.caption[this.nowIdx]._attributes.start);
                         this.nowText=this.elements[this.nowIdx].innerHTML;
                       }else{
+                        // console.log("첫문장이구나");
                         this.nowIdx=tempIdx;
                         this.elements[this.nowIdx].classList.add("current");  
                         this.nowText=this.elements[this.nowIdx].innerHTML;
@@ -468,6 +475,7 @@ export default {
               else if(this.isBlank == false){                                           //정적이 흐르는중
                 this.isBlank = true;
                 if(this.mode == 2){
+                    // console.log("정적이 흐르나")
                     this.seekVideo(this.caption[this.nowIdx]._attributes.start);
                 }
                 else if(this.mode ==3){
@@ -507,6 +515,7 @@ export default {
       await this.player.pauseVideo();
     },
     async seekVideo(t) {
+      // console.log("시크비디오");
       await this.player.seekTo(t, true);
       await this.playVideo();
     },
@@ -515,23 +524,28 @@ export default {
       await this.player.setOption( "captions" , 'track' , { 'languageCode' : this.selectedLang } );
     },
    async  youtubeStateChange (event) {
-        var myTimer;
-        var setMode;
+        // var myTimer;
+        // var setMode;
         // console.log('event:', event);
         // console.log('state data : ',event.data);
         this.state = event.data;
+
+
         if(event.data==1) { // playing
-            myTimer = setInterval(this.getCurrentTime, 100);
-            setMode = setInterval(this.playMode,1000);
+          console.log("setIneteval");
+            this.myTimer = setInterval(this.getCurrentTime, 300);
+            this.setMode = setInterval(this.playMode,1000);
           }
         else { // not playing
-            clearInterval(myTimer);
-            clearInterval(setMode);
+        console.log("clearInterval")
+
+            clearInterval(this.myTimer);
+            clearInterval(this.setMode);
         }
     },
     async getCaptionsList(){
       // console.log(await this.player.getOption( "captions" , 'track'));
-      axios.get("https://video.google.com/timedtext?type=list",{
+      await axios.get("https://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
         }
