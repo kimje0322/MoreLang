@@ -308,6 +308,9 @@ export default {
   methods: {
     translate(){
       if(this.nowText != ""){
+        // console.log(this.nowText);
+        var temp2 = this.nowText.replace(/(\r\n|\n|\r)/gm,"");
+        // console.log(temp2);
           var temp = this.selectedLang.substr(0, 2);
           if(temp == 'ko'){
             temp ='kr'
@@ -318,7 +321,7 @@ export default {
           }
           axios.get("https://morelang.gq/api/translate",{
               params: {
-                query : this.nowText,
+                query : temp2,
                 src_lang : temp,
                 target_lang : 'kr'
               }
