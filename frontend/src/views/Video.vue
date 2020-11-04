@@ -80,7 +80,7 @@
                       <v-tab-item>
                         <v-card flat>
                           <v-card-text>
-                           
+                           <Quiz/>
                           </v-card-text>
                         </v-card>
                       </v-tab-item>
@@ -321,6 +321,8 @@
 <script>
 import Navbar from "@/components/Navbar";
 import axios from "axios";
+import Quiz from "@/components/Video/Quiz";
+
 var convert = require('xml-js')
 
 
@@ -331,6 +333,7 @@ export default {
   name: "Video",
   components: {
     Navbar,
+    Quiz,
   },
   data() {
     return {
