@@ -88,7 +88,7 @@
                         <v-card flat>
                           <v-card-text>
                                 <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
-                                <v-row  align="center mt-5"  justify="center" > 
+                                <v-row  class=" mt-5"  justify="center" > 
                                 <vue-record-audio mode="press" @result="onResult" />
                                 <audio controls="" :src="audioURL"></audio>
                                 </v-row>
