@@ -84,13 +84,15 @@ public class LearnServiceImpl implements LearnService{
 		for(int i=0; i<num; i++) {
 			sub_answer.put(subList2.indexOf(subList.get(i).getLemma()), subList.get(i).getLemma());
 		}
+		Map<String,Integer> searchMap = new HashMap<>();
 		for(Integer key : sub_answer.keySet()) {
-			answer.put(time++, sub_answer.get(key));
+			answer.put(time, sub_answer.get(key));
+			searchMap.put(sub_answer.get(key),time++);
 		}
 		for(int i=0; i<num; i++) {
 				result = result.replaceFirst(subList.get(i).getLemma(), "______");
 				Map<String, Object> temp_m = new HashMap<>();
-				temp_m.put("original", subList2.indexOf(subList.get(i).getLemma()));
+				temp_m.put("original", searchMap.get(subList.get(i).getLemma()));
 				temp_m.put("random", i+1);
 				temp_m.put("key", subList.get(i).getLemma());
 				//temp_m.put(subList.get(i).getLemma(), i+1);
