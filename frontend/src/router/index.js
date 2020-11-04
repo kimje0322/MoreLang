@@ -47,7 +47,7 @@ const routes = [{
     },
     {
         path: "/pay/pay",
-        name: "Pay",
+        name: "Pay/:point?",
         component: Pay,
     },
     {
