@@ -88,7 +88,7 @@
                         <v-card flat>
                           <v-card-text>
                                 <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
-                                <v-row  align="center mt-5"  justify="center" > 
+                                <v-row  class=" mt-5"  justify="center" > 
                                 <vue-record-audio mode="press" @result="onResult" />
                                 <audio controls="" :src="audioURL"></audio>
                                 </v-row>
@@ -203,19 +203,38 @@
 
         
         <div id="controller" style="bottom:270px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(1)">
+          
+    <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  v-bind:class="[mode==1 ? primary : '']" fab dark small   @click="changeMode(1)">
               <v-icon dark>mdi-trending-neutral</v-icon>
           </v-btn>
+            </template>
+      <span>연속 재생</span>
+    </v-tooltip>
         </div>  
         <div id="controller" style="bottom:220px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(3)">
+                  
+    <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==3 ? primary : '']" @click="changeMode(3)">
               <v-icon dark> mdi-keyboard-tab</v-icon>
           </v-btn>
+           </template>
+      <span>한 문장 듣기</span>
+    </v-tooltip>
         </div>  
         <div id="controller" style="bottom:170px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(2)">
+                  
+    <v-tooltip right>
+       <template v-slot:activator="{ on, attrs }">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==2 ? primary : '']" @click="changeMode(2)">
               <v-icon dark>mdi-refresh</v-icon>
+              
           </v-btn>
+            </template>
+      <span>문장 반복재생</span>
+    </v-tooltip>
         </div>  
         <div id="controller" style="bottom:110px">
           <v-btn class="ctrBtn" fab dark small color="primary"  @click="playVideo">
@@ -285,6 +304,7 @@ export default {
   },
   data() {
     return {
+      primary :"primary",
       context : null,
       audioURL : "",
       dictUrl : "https://m.dic.daum.net/search.do?q=",
@@ -708,5 +728,9 @@ document.querySelector('button').addEventListener('click', function() {
   /* top:  512px; left: 178px; */
 }
 
+.i-am-active {
+  color: orange;
+  background: pink;
+}
 
 </style>
