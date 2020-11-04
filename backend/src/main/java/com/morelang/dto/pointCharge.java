@@ -40,4 +40,8 @@ public class pointCharge {
 	@CreationTimestamp
 	private Date time;
 	
+	@Column
+	private boolean isCharge;
+	
+	
 }

@@ -3,6 +3,8 @@ package com.morelang.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -74,7 +76,25 @@ public class PayServiceImpl implements PayService {
 		chargePoint(accessToken,total_amount);
 		return payApprove;
 	}
-	
+	@Override
+	public Integer MyPoint(String accessToken) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			return m.get().getPoint();
+		}
+		return null;
+	}
+
+	@Override
+	public Page<pointCharge> PointLogs(String accessToken, Pageable pageable) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			Page<pointCharge> pointlogs = chargeRepository.findByMember_userid(m.get().getUserid(), pageable);
+			return pointlogs;
+		}else {
+			return null;
+		}
+	}
 	public void chargePoint(String accessToken, String mount) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		int amount = Integer.valueOf(mount)/100;
@@ -84,8 +104,10 @@ public class PayServiceImpl implements PayService {
 			pointCharge pc = new pointCharge();
 			pc.setMember(my);
 			pc.setChargeAmount(amount);
+			pc.setCharge(true);
 			chargeRepository.save(pc);
 		}
 	}
-
+	
+	
 }
