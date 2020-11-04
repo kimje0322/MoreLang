@@ -15,12 +15,7 @@
               <p class="mb-0 categoryTag">{{lang}}</p>
             </v-card>
           </v-col> -->
-        <v-col
-          v-for="(lang, i) in langLst"
-          :key="i"
-          sm="1"
-          
-        >
+        <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
           <v-chip color="green" text-color="white" @click="wordList(lang)">
             {{ language[lang] }}
           </v-chip>
@@ -47,6 +42,7 @@
           <v-row no-gutters style="text-align:center; width:70%;">
             <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
               <v-card
+                v-if="!word.isLearn"
                 class="pa-2 selectLang"
                 outlined
                 tile
@@ -66,7 +62,7 @@
                 <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                <p v-if="!word.isLearn" class="my-auto">{{ word.eachVoca }}</p>
+                <p class="my-auto">{{ word.eachVoca }}</p>
               </v-card>
             </v-col>
           </v-row>
@@ -77,6 +73,7 @@
           <v-row no-gutters style="text-align:center; width:70%;">
             <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
               <v-card
+                v-if="!word.isLearn"
                 class="pa-2 selectLang"
                 outlined
                 tile
@@ -96,7 +93,7 @@
                 <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                <p v-if="!word.isLearn" class="my-auto">{{ word.eachVoca }}</p>
+                <p class="my-auto">{{ word.eachVoca }}</p>
               </v-card>
             </v-col>
           </v-row>
