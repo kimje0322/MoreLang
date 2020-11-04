@@ -51,10 +51,30 @@
                       </v-tab>
 
                       <v-tab-item>
-                        <v-card flat>
+                        <v-card flat >
                           <v-card-text>
                              <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
                           </v-card-text>
+                          <v-card-actions >
+                            <v-row>
+                            <v-col cols="10">
+                              <h3><v-icon>mdi-google-translate</v-icon> : 
+                              {{translated}}
+                              </h3>
+                            </v-col>
+                            <v-col cols="2">
+                            <v-btn
+                              outlined
+                              rounded
+                              text
+                              color="primary"
+                              @click="translate"  
+                            >
+                              번역
+                            </v-btn>
+                            </v-col>
+                            </v-row>
+                          </v-card-actions>
                         </v-card>
                       </v-tab-item>
                       <v-tab-item>
@@ -259,12 +279,12 @@ export default {
       word : "",
       dialog: false,
       dialog2: false,
-      
       videoInfo :  null,
       isBlank : true,
       mode : 1,
       unit : 10,
       nowText : "",
+      translated : "",
       nowIdx : -1,
       preIdx : -1,
       elements : null,
@@ -286,6 +306,38 @@ export default {
     };
   },
   methods: {
+    translate(){
+      if(this.nowText != ""){
+        // console.log(this.nowText);
+        var temp2 = this.nowText.replace(/(\r\n|\n|\r)/gm,"");
+        // console.log(temp2);
+          var temp = this.selectedLang.substr(0, 2);
+          if(temp == 'ko'){
+            temp ='kr'
+          }else if(temp == 'ja'){
+            temp = 'jp'
+          }else if(temp == 'zh'){
+            temp = 'cn'
+          }
+          axios.get("https://morelang.gq/api/translate",{
+              params: {
+                query : temp2,
+                src_lang : temp,
+                target_lang : 'kr'
+              }
+            })
+            .then((res) => {
+              if (res.data == ""){
+                this.translated = "현재 언어는 번역이 지원되지 않습니다.";
+              }else{
+                // console.log("res = ",res);
+              this.translated = res.data;
+              }
+            });
+
+      }
+      
+    },
     removeAll(){
              Array.from(this.elements).some((el) =>{
                if(el.classList.contains("current")){
@@ -450,14 +502,14 @@ export default {
       .then((res) => {
         var xml = res.data
         var json = convert.xml2json(xml, { compact: true })
-        console.log("json = ",json)
+        // console.log("json = ",json)
         this.items = JSON.parse(json).transcript_list.track;
         // console.log(this.items[0]._attributes.lang_code);
         // console.log("items = ",this.items.length)
         // console.log("type = ",typeof this.items)
-        console.log(this.items);
-        console.log(this.items[0]);
-        console.log("isarray=",Array.isArray(this.items))
+        // console.log(this.items);
+        // console.log(this.items[0]);
+        // console.log("isarray=",Array.isArray(this.items))
         if(Array.isArray(this.items)){
           this.selectedLang=this.items[0]._attributes.lang_code;
         }else{
@@ -532,6 +584,9 @@ export default {
     selectedLang : function(){
       // console.log("바뀜!!")
       this.getCaption();
+    },
+    nowText : function(){
+      this.translated ="";
     }
 
   },
@@ -559,7 +614,7 @@ export default {
     this.player.addEventListener('onStateChange', this.youtubeStateChange)
     this.player.addEventListener('onApiChange', this.youtubApiChange)
     document.addEventListener('mouseup', event => {
-        console.log(event);
+        // console.log(event);
         this.word = window.getSelection().toString();
         var temp =document.getElementById("tool")
         // console.log(word != "");

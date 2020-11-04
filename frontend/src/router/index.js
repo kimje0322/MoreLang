@@ -7,6 +7,9 @@ import Search from "../views/Search.vue";
 import Mypage from "../views/Mypage/Mypage.vue";
 import Login from "../views/Login.vue";
 
+import Pay from "../views/Pay/Pay.vue";
+import Approve from "../views/Pay/Approve.vue";
+import Fail from "../views/Pay/Fail.vue";
 
 // import Swiper from "../views/Swiper.vue";
 
@@ -41,6 +44,21 @@ const routes = [{
         path: "/mypage/:userid?",
         name: "Mypage",
         component: Mypage,
+    },
+    {
+        path: "/pay/pay",
+        name: "Pay",
+        component: Pay,
+    },
+    {
+        path: "/pay/approve",
+        name: "Approve",
+        component: Approve,
+    },
+    {
+        path: "/pay/fail",
+        name: "Fail",
+        component: Fail,
     },
 ];
 
