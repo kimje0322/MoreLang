@@ -6,7 +6,6 @@
 <script>
 import axios from "axios";
 
-// const SERVER_URL = "http://localhost:8080";
 const SERVER_URL = "https://morelang.gq/api";
 
 export default {
@@ -23,7 +22,6 @@ export default {
     console.log(this.payReady)
     axios.get(`${SERVER_URL}/pay/approve?tid=${this.payReady.tid}&pg_token=${this.pg_token}&total_amount=${this.payReady.total_amount}`).then(res => {
       console.log(res)
-      // window.opener.location.href = "http://localhost:8080/mypage";
       window.opener.location.href = "https://morelang.gq/mypage";
       window.close()
     });
