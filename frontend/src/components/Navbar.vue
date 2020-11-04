@@ -6,7 +6,7 @@
   >
     <div class="navigation">
       <div style="padding: 0">
-        <v-card-title style="padding: 10px 30px 0px;">
+        <v-card-title style="padding: 0px 30px 0px;">
           <router-link to="/">
             <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang

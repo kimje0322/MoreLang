@@ -15,8 +15,13 @@
               <p class="mb-0 categoryTag">{{lang}}</p>
             </v-card>
           </v-col> -->
-        <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
-          <v-chip color="green" text-color="white" @click="wordList()">
+        <v-col
+          v-for="(lang, i) in langLst"
+          :key="i"
+          sm="1"
+          
+        >
+          <v-chip color="green" text-color="white" @click="wordList(lang)">
             {{ language[lang] }}
           </v-chip>
         </v-col>
@@ -35,33 +40,67 @@
             </v-card>
           </v-col>
         </v-row> -->
-        <h2 class="mt-5 mb-3">일본어</h2>
-        <v-row no-gutters style="text-align:center; width:70%;">
-          <v-col v-for="i in 6" :key="i" cols="12" sm="6">
-            <v-card
-              class="pa-2 selectLang"
-              outlined
-              tile
-              style="position:relative"
-            >
-              <!-- append-icon="mdi-lead-pencil" label="복습" -->
-              <v-checkbox
-                style="width: 27%;
+        <div v-if="wordlang">
+          <h2 class="mt-5 mb-3">{{ language[selectlang] }}</h2>
+          <h4>학습중</h4>
+
+          <v-row no-gutters style="text-align:center; width:70%;">
+            <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
+              <v-card
+                class="pa-2 selectLang"
+                outlined
+                tile
+                style="position:relative"
+              >
+                <!-- append-icon="mdi-lead-pencil" label="복습" -->
+                <v-checkbox
+                  style="width: 27%;
+                        position: absolute;
+                        bottom: 7px;
+                left: 5px;"
+                  color="success"
+                  value="success"
+                  hide-details
+                ></v-checkbox>
+
+                <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+              복습 -->
+
+                <p v-if="!word.isLearn" class="my-auto">{{ word.eachVoca }}</p>
+              </v-card>
+            </v-col>
+          </v-row>
+
+          <div style="height: 100px;"></div>
+
+          <h4>학습완료</h4>
+          <v-row no-gutters style="text-align:center; width:70%;">
+            <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
+              <v-card
+                class="pa-2 selectLang"
+                outlined
+                tile
+                style="position:relative"
+              >
+                <!-- append-icon="mdi-lead-pencil" label="복습" -->
+                <v-checkbox
+                  style="width: 27%;
                 position: absolute;
                 bottom: 7px;
                 left: 5px;"
-                color="success"
-                value="success"
-                hide-details
-              ></v-checkbox>
+                  color="success"
+                  value="success"
+                  hide-details
+                ></v-checkbox>
 
-              <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+                <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-              <p class="my-auto">{{ i }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
+                <p v-if="!word.isLearn" class="my-auto">{{ word.eachVoca }}</p>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
       </v-container>
     </v-row>
   </div>
@@ -76,7 +115,7 @@ export default {
     axios.get(`${SERVER_URL}/myvoca-country`).then(res => {
       console.log("단어장에 저장된 국가들");
       console.log(res);
-      this.langLst = res.data
+      this.langLst = res.data;
     });
     // axios
     //   .get(`${SERVER_URL}/myvoca?country=en&direction=ASC&page=0&size=8`)
@@ -86,6 +125,9 @@ export default {
   },
   data() {
     return {
+      wordlist: [],
+      selectlang: "",
+      wordlang: false,
       langLst: [],
       language: {
         en: "영어",
@@ -119,6 +161,24 @@ export default {
   // },
   methods: {
     // axios.get()
+    wordList(lang) {
+      if (lang == this.selectlang) {
+        console.log("여기");
+        this.wordlang = !this.wordlang;
+      } else {
+        this.wordlang = true;
+      }
+      this.selectlang = lang;
+      axios
+        .get(
+          `${SERVER_URL}/myvoca?country=${lang}&direction=ASC&page=0&size=10`
+        )
+        .then(res => {
+          console.log(res);
+          this.wordlist = res.data.content;
+          console.log("언어별 단어장");
+        });
+    }
   }
 };
 </script>

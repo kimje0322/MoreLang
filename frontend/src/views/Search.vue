@@ -249,6 +249,7 @@
 <script>
 import axios from "axios";
 import InfiniteLoading from "vue-infinite-loading";
+import store from "../store/index.js";
 
 // import Navbar from "@/components/Navbar";
 
@@ -325,6 +326,11 @@ export default {
       this.keyword = this.search_word;
       this.videoSearch(this.search_word);
     }
+
+    else if (store.state.searchWord != null) {
+      this.keyword = store.state.searchWord
+      this.videoSearch(store.state.searchWord)
+    }
   },
   methods: {
     beforeTrans() {
@@ -356,6 +362,9 @@ export default {
         console.log(res);
         // this.start = this.start + 10
       });
+
+      store.state.searchWord = search;
+
     },
     infiniteHandler($state) {
       setTimeout(() => {
