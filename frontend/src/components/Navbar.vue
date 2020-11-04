@@ -13,12 +13,6 @@
             </h2>
           </router-link>
           <div class="mx-auto mt-1">
-            <!-- 검색창 -->
-            <!-- <form
-              style="display:inline-block; width:385px;"
-              action="/search"
-              method="get"
-            > -->
             <v-text-field
               style="display: inline-block;"
               autocomplete="off"
@@ -32,8 +26,6 @@
               append-icon="mdi-magnify"
               @click:append="onSearch(keyword)"
             />
-            <!-- </form> -->
-            <!-- 번역버튼 -->
             <div class="mx-1" style="display:inline-block">
               <v-btn
                 @click="beforeTrans"
@@ -47,51 +39,46 @@
               </v-btn>
             </div>
           </div>
-          <router-link to="/mypage">
-            <!-- @click="gotoMypage" -->
-            <router-link :to="{ name: 'Mypage', params: { userid: userid } }">
-              <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
-                마이페이지
-              </p>
-            </router-link>
-            <!-- <v-avatar class="mr-3" color="indigo" size="38">
-              <v-icon dark>
-                mdi-account-circle
-              </v-icon>
-            </v-avatar> -->
-          </router-link>
-          <div>
+          <div style="width: 250px;">
             <v-btn text @click="login" v-if="!member">Login</v-btn>
             <v-menu open-on-hover offset-y v-else-if="member" no-gutters>
               <template v-slot:activator="{ on, attrs }">
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
-                    <v-col cols="4" class="d-nome d-md-flex">
-                      <v-avatar>
-                        <v-img
-                          max-height="100%"
-                          :src="member.profileImg"
-                          alt="유저썸네일"
-                        ></v-img>
-                      </v-avatar>
-                    </v-col>
-                    <v-col cols="5">
-                      <div class="text-left subtitle">{{ member.name }}</div>
-                    </v-col>
+                    <!-- <v-col cols="4" class="d-nome d-md-flex"> -->
+                    <v-avatar>
+                      <v-img
+                        max-height="100%"
+                        :src="member.profileImg"
+                        alt="유저썸네일"
+                      ></v-img>
+                    </v-avatar>
+                    <!-- </v-col> -->
+                    <!-- <v-col cols="5"> -->
+                    <!-- <div class="text-left subtitle" style="font-size: 15px; font-weight: 600; ">{{ member.name }}</div> -->
+                    <!-- </v-col> -->
+                    <router-link
+                      :to="{ name: 'Mypage', params: { userid: userid } }"
+                      style="align-self: center; margin-left: 15px;"
+                    >
+                      <p
+                        class="navBtn my-auto mr-3"
+                        style="font-size: 13px !important"
+                      >
+                        마이페이지
+                      </p>
+                    </router-link>
+                    
+                    <v-btn @click="logout()" style="align-self: center;">logout</v-btn>
                   </v-row>
                 </v-card>
-                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                <!-- <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
-                    <v-col cols="5">
-                      <v-btn @click="logout()">logout</v-btn>
-                    </v-col>
                   </v-row>
-                </v-card>
+                </v-card> -->
               </template>
             </v-menu>
           </div>
-          <!-- <p class="navBtn mr-2 my-auto">로그아웃</p> -->
-          <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
         </v-card-title>
       </div>
 
