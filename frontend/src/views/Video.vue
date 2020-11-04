@@ -87,7 +87,11 @@
                       <v-tab-item>
                         <v-card flat>
                           <v-card-text>
-                           
+                                <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
+                                <v-row  align="center mt-5"  justify="center" > 
+                                <vue-record-audio mode="press" @result="onResult" />
+                                <audio controls="" :src="audioURL"></audio>
+                                </v-row>
                           </v-card-text>
                         </v-card>
                       </v-tab-item>
@@ -128,8 +132,7 @@
                   <!-- <span>선택단어: {{ word }}</span> -->
                
 
-               <vue-record-audio mode="press" @result="onResult" />
-
+               
                  </v-col>
 
                   <v-col  cols="4" >
@@ -205,12 +208,12 @@
           </v-btn>
         </div>  
         <div id="controller" style="bottom:220px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(2)">
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(3)">
               <v-icon dark> mdi-keyboard-tab</v-icon>
           </v-btn>
         </div>  
         <div id="controller" style="bottom:170px">
-          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(3)">
+          <v-btn class="ctrBtn" fab dark small color="primary"  @click="changeMode(2)">
               <v-icon dark>mdi-refresh</v-icon>
           </v-btn>
         </div>  
@@ -271,6 +274,10 @@ import Navbar from "@/components/Navbar";
 import axios from "axios";
 var convert = require('xml-js')
 
+
+
+
+
 export default {
   name: "Video",
   components: {
@@ -278,6 +285,8 @@ export default {
   },
   data() {
     return {
+      context : null,
+      audioURL : "",
       dictUrl : "https://m.dic.daum.net/search.do?q=",
       word : "",
       dialog: false,
@@ -310,8 +319,9 @@ export default {
   },
   methods: {
       onResult (data) {
-      console.log('The blob data:', data);
-      console.log('Downloadable audio', window.URL.createObjectURL(data));
+      // console.log('The blob data:', data);
+      this.audioURL = window.URL.createObjectURL(data);
+      // console.log('Downloadable audio', this.audioURL);
     },
     translate(){
       if(this.nowText != ""){
@@ -594,6 +604,7 @@ export default {
     },
     nowText : function(){
       this.translated ="";
+      this.audioURL="";
     }
 
   },
@@ -617,6 +628,14 @@ export default {
         });
   },
   mounted(){
+    this.context = new AudioContext();
+    // One-liner to resume playback when user interacted with the page.
+document.querySelector('button').addEventListener('click', function() {
+  this.context.resume().then(() => {
+    console.log('Playback resumed successfully');
+  });
+});
+
     // console.log("mounted!!");
     this.player.addEventListener('onStateChange', this.youtubeStateChange)
     this.player.addEventListener('onApiChange', this.youtubApiChange)
