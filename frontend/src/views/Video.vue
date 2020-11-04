@@ -15,7 +15,7 @@
                     <v-slider
                       v-model="timer"
                       :max="videoInfo.duration/1000"
-                      @click="seekVideo(parseFloat(timer))"
+                      @click="sliderClick"
                       class="align-center"
                     >
                     </v-slider>
@@ -340,6 +340,12 @@ export default {
     };
   },
   methods: {
+    sliderClick(){
+      if(this.mode==2){
+        this.mode=1;
+      }
+      this.seekVideo(parseFloat(this.timer))
+    },
       onResult (data) {
       // console.log('The blob data:', data);
       this.audioURL = window.URL.createObjectURL(data);
