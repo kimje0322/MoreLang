@@ -61,7 +61,7 @@ public class LearnServiceImpl implements LearnService{
 	public Map<String,Object> puzzeltest(String input) {
 		List<Learn> LearnList =  learnRepository.findAll();
 		Map<Integer,String> complete = new HashMap<>();
-		Map<Integer,String> keyword = new HashMap<>();
+		Map<Integer,Object> keyword = new HashMap<>();
 		Map<Integer,String> sub_answer = new TreeMap<>();
 		Map<Integer,String> answer = new HashMap<>();
 		List<Learn> subList = new ArrayList<>();
@@ -80,12 +80,6 @@ public class LearnServiceImpl implements LearnService{
 		
 		Collections.shuffle(subList);
 		int num = (int)Math.ceil((double)subList.size()/2);
-		for(int i=0; i<num; i++) {
-				result = result.replaceFirst(subList.get(i).getLemma(), "______");
-				keyword.put(i+1,subList.get(i).getLemma());
-				System.out.printf("단어: %s\n", subList.get(i).getLemma());
-				System.out.printf("품사: %s\n", subList.get(i).getTag());
-		}
 		int time = 1;
 		for(int i=0; i<num; i++) {
 			sub_answer.put(subList2.indexOf(subList.get(i).getLemma()), subList.get(i).getLemma());
@@ -93,6 +87,16 @@ public class LearnServiceImpl implements LearnService{
 		for(Integer key : sub_answer.keySet()) {
 			answer.put(time++, sub_answer.get(key));
 		}
+		for(int i=0; i<num; i++) {
+				result = result.replaceFirst(subList.get(i).getLemma(), "______");
+				Map<String, Object> temp_m = new HashMap<>();
+				temp_m.put("original", subList2.indexOf(subList.get(i).getLemma()));
+				temp_m.put("keyword", subList.get(i).getLemma());
+				keyword.put(i+1,temp_m);
+				System.out.printf("단어: %s\n", subList.get(i).getLemma());
+				System.out.printf("품사: %s\n", subList.get(i).getTag());
+		}
+		
 		StringTokenizer st = new StringTokenizer(result, " ", true);
 		String[] resultArray = new String[st.countTokens()];
 		int pas = 0;
