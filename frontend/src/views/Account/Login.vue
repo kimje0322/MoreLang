@@ -12,7 +12,7 @@
             <h1 class="ma-0" style="font-family: 'Do Hyeon', sans-serif;">
               로그인
             </h1>
-            <v-btn fab dark>
+            <v-btn fab dark @click="$router.push({ name: 'Home' })">
               <v-icon>mdi-home-outline</v-icon>
             </v-btn>
           </v-card-title>
@@ -20,7 +20,7 @@
             <v-text-field
               class="my-3"
               v-model="loginData.username"
-              placeholder="hello@ssalog.com"
+              placeholder="hello@naver.com"
               label="이메일"
               required
               @keypress.enter="onSubmit()"
@@ -38,9 +38,8 @@
             </v-card-text>
             <v-card-actions class="px-0 mt-4">
               <v-btn
-                :class="`${isDark ? 'greenButton' : ''}`"
                 block
-                :color="isDark ? ColorSet.Sub : 'success'"
+                :color="'success'"
                 tile
                 @click="onSubmit()"
                 >로그인</v-btn
@@ -49,7 +48,7 @@
 
             <v-card-actions class="px-0 my-3">
               <v-btn
-                block :color="isDark ? ColorSet.Prime : 'primary'" tile @click="toRegister()"
+                block :color="'primary'" tile @click="toRegister()"
                 >회원 가입</v-btn
               >
             </v-card-actions>
@@ -125,8 +124,8 @@
 
 <script src="https://apis.google.com/js/platform.js"></script>
 <script>
+import Navbar from "@/components/Navbar";
 import { mapState } from "vuex";
-// import "@/assets/Main.css";
 import axios from "axios";
 export default {
   name: "Login",
@@ -143,7 +142,6 @@ export default {
       naverUrl: '',
     };
   },
-  computed: mapState(["isDark", "ColorSet"]),
   methods: {
     async onSubmit() {
       console.log("click")
@@ -199,13 +197,12 @@ export default {
         axios.defaults.headers.common.Authorization = ``;
         fd.append("code", data.code);
         fd.append("redirect", window.location.href);
-        //      axios.post(`${this.$store.state.LocalURL}/guest/login`,fd)
         axios
-          .post(`${this.$store.state.ServerURL}/guest/login`, fd)
+          .post(`${this.$store.state.ServerURL}/newuser/googlelogin`, fd)
           .then(response => {
             console.log("성공!");
             console.log(response);
-            this.$store.dispatch("LOGIN", this.loginData);
+            this.$store.dispatch("SocialLogin", response.data);
             if (this.$store.state.formerLink) {
               this.$router.push(this.$store.state.formerLink);
             } else {
@@ -221,38 +218,29 @@ export default {
     },
     GetMe(authObj) {
       console.log(authObj);
-      // console.log(authObj.access_token);
-      store.commit("setAccessToken", authObj.access_token);
       const fd = new FormData();
       fd.append("accessToken", authObj.access_token);
-
-      axios.post(`${SERVER_URL}/login/kakaologin`, fd).then((res) => {
-        this.login = true;
-        this.userInfo.login = true;
-        this.userInfo.id = res.data.oauthId;
-        this.userInfo.name = res.data.name;
-        if (res.data.profileImg == null) {
-          this.userInfo.img =
-            "https://file3.instiz.net/data/cached_img/upload/2020/02/26/12/f7975c2dacddf8bf521e7e6d7e4c02ee.jpg";
-        } else {
-          this.userInfo.img = res.data.profileImg;
-        }
-        store.commit("setUserInfo", this.userInfo);
+      axios.post(`${this.$store.state.ServerURL}/newuser/kakaologin`, fd)
+        .then((response) => {
+          console.log("성공!")
+          console.log(response)
+          this.$store.dispatch("SocialLogin", response.data);
+            if (this.$store.state.formerLink) {
+              this.$router.push(this.$store.state.formerLink);
+            } else {
+              this.$router.push({ name: "Home" });
+            }
       });
     },
     NaverLogin(){
       var clientId = "YOwQRknl_3ldIN3E5UQN";//애플리케이션 클라이언트 아이디값";
-      var redirectURI = "http://localhost:8081/Login"
+      var redirectURI = "http://localhost:8081/"
       var apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
       apiURL += "&client_id=" + clientId;
-      apiURL += "&redirect_uri=" + redirectURI;
+      apiURL += "&redirect_uri=" + redirectURI+"/oauth2/redirect";
       apiURL += "&state=" + 234235;
-      console.log(apiURL)
-      // return apiURL;
       this.naverUrl = apiURL;
-      // window.open(apiURL,"",
-      //   "width=600, height=800");
-    }
+    },
   }
 };
 </script>

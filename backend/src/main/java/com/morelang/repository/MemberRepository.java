@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.morelang.dto.Member;
 
+
+
 public interface MemberRepository extends JpaRepository<Member, String>{
 	public Optional<Member> findByAccessToken(String accessToken);
+	public Member findByUserid(String userid);
+	public Member findByName(String name);
 }

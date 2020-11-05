@@ -5,7 +5,10 @@ import Video from "../views/Video.vue";
 import Channel from "../views/Channel.vue";
 import Search from "../views/Search.vue";
 import Mypage from "../views/Mypage/Mypage.vue";
-import Login from "../views/Login.vue";
+import SignUp from "@/views/Account/SignUp.vue";
+import Login from "@/views/Account/Login.vue";
+import FindPass from "@/views/Account/FindPass.vue";
+import Oauth2redirect from "@/views/Account/oauth2redirect.vue";
 
 import Pay from "../views/Pay/Pay.vue";
 import Approve from "../views/Pay/Approve.vue";
@@ -19,11 +22,6 @@ const routes = [{
         path: "/",
         name: "Home",
         component: Home,
-    },
-    {
-        path: "/login",
-        name: "Login",
-        component: Login,
     },
     {
         path: "/channel/:id?",
@@ -60,6 +58,26 @@ const routes = [{
         name: "Fail",
         component: Fail,
     },
+    {
+        path: "/SignUp",
+        name: "SignUp",
+        component: SignUp
+    },
+    {
+        path: "/Login",
+        name: "Login",
+        component: Login
+    },
+    {
+        path: '/oauth2/redirect',
+        name: 'Oauth2redirect',
+        component: Oauth2redirect,
+    },
+    {
+        path: "/FindPass",
+        name: "FindPass",
+        component: FindPass
+    }
 ];
 
 const router = new VueRouter({

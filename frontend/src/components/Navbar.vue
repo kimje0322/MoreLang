@@ -60,36 +60,40 @@
               </v-icon>
             </v-avatar> -->
           </router-link>
-          <div>
-            <v-btn text @click="login" v-if="!member">Login</v-btn>
-            <v-menu open-on-hover offset-y v-else-if="member" no-gutters>
+          <v-col cols="8" sm="3" lg="2" class="text-center py-0">
+            <v-row no-gutters v-if="!$store.state.nickname">
+              <v-col cols="5">
+                <v-btn text @click="changeRoute('Login')" class="">로그인</v-btn>
+              </v-col>
+              <v-col cols="1" class=""><v-divider vertical></v-divider> </v-col>
+              <v-col cols="6">
+                <v-btn text @click="changeRoute('SignUp')" class="">회원가입</v-btn>
+              </v-col>
+            </v-row>
+            <v-menu open-on-hover offset-y v-if="$store.state.nickname" no-gutters>
               <template v-slot:activator="{ on, attrs }">
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
                     <v-col cols="4" class="d-nome d-md-flex">
                       <v-avatar>
-                        <v-img
-                          max-height="100%"
-                          :src="member.profileImg"
-                          alt="유저썸네일"
-                        ></v-img>
+                        <v-img max-height="100%" :src="userThumbnail" alt="유저썸네일"></v-img>
                       </v-avatar>
                     </v-col>
-                    <v-col cols="5">
-                      <div class="text-left subtitle">{{ member.name }}</div>
-                    </v-col>
-                  </v-row>
-                </v-card>
-                <v-card color="transparent" v-bind="attrs" v-on="on" flat>
-                  <v-row no-gutters>
-                    <v-col cols="5">
-                      <v-btn @click="logout()">logout</v-btn>
+                    <v-col cols="8">
+                      <div class="text-left subtitle">{{ nickname }} 님</div>
                     </v-col>
                   </v-row>
                 </v-card>
               </template>
+              <v-list >
+                <v-list-item-group color="primary">
+                  <v-list-item v-for="(item, i) in items" :key="i" @click="userMenu(i)">
+                    <v-list-item-title v-text="item"></v-list-item-title>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
             </v-menu>
-          </div>
+          </v-col>
           <!-- <p class="navBtn mr-2 my-auto">로그아웃</p> -->
           <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
         </v-card-title>
@@ -180,14 +184,12 @@
   </div>
 </template>
 
-<script src="https://apis.google.com/js/platform.js"></script>
 <script scoped>
 import "@/../public/css/Navbar.scss";
 import axios from "axios";
 import { mapState } from "vuex";
 const SERVER_URL = "https://morelang.gq/api";
 // import store from "@/../src/store/index.js";
-import store from "../store/index.js";
 
 // 상단 네브바 고정
 var nav = document.getElementsByClassName("navigation");
@@ -207,7 +209,7 @@ export default {
   },
   data() {
     return {
-      // userid: "",
+      userid: null,
       keyword: "",
       transDialog: false,
       errSnackbar: false,
@@ -233,61 +235,11 @@ export default {
         // th: "태국어",
         // tr: "터키어"
       },
-      gauth: {},
-      userid: store.state.member.userid
+      items: ["My Page", "계정설정", "로그아웃"]
     };
   },
-  mounted() {
-    // if(store.state.target != null) {
-    //   this.keyword = store.state.target
-    //   console.log("여기에 검색어 나와야됨")
-    //   console.log(this.keyword)
-    // }
-    gapi.load("auth2", () => {
-      this.gauth = gapi.auth2.init({
-        client_id:
-          "258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com"
-      });
-      this.gauth.then(
-        function() {
-          console.log("init success");
-        },
-        function() {
-          console.error("init fail");
-        }
-      );
-    });
-    console.log(this.$store.state.member);
-  },
-  computed: mapState(["member", "refreshToken"]),
+  computed: mapState(["userThumbnail", "nickname", "accessToken"]),
   methods: {
-    async login() {
-      await this.gauth.grantOfflineAccess().then(data => {
-        console.log(data.code);
-        const fd = new FormData();
-        axios.defaults.headers.common.Authorization = ``;
-        fd.append("code", data.code);
-        fd.append("redirect", window.location.href);
-        //      axios.post(`${this.$store.state.LocalURL}/guest/login`,fd)
-        axios
-          .post(`${this.$store.state.ServerURL}/guest/login`, fd)
-          .then(response => {
-            console.log("성공!");
-            // console.log(response.data.member);
-            // console.log(response.data.refreshToken);
-            console.log(response);
-            this.$store.commit("setUser", this.gauth.currentUser.get());
-            this.$store.commit("setMember", response.data.member);
-            this.$store.commit("setRefreshToken", response.data.refreshToken);
-            axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.member.accessToken}`;
-            // this.userid = response.data.member.userid
-            // console.log()
-          });
-      });
-    },
-    logout() {
-      this.$store.dispatch("Logout");
-    },
     onSearch(word) {
       // store.state.target = word
       // console.log("target")
@@ -315,13 +267,32 @@ export default {
         .then(res => {
           this.keyword = res.data;
         });
-    }
+    },
     // gotoMypage() {
     //   // path: 'mypage/${this.$store.state.member.userid}`'
     //   console.log("userid")
     //   console.log(this.userid)
     //   this.$router.push({ name: 'Mypage', params: { userid: this.userid}})
-    // }
+    // },
+    userMenu(idx) {
+      if (idx === 0) {
+        this.$router.push({
+          name: "Home",
+        });
+      } else if (idx === 1) {
+        this.$router.push({name: "Home"});
+      } else {
+        this.$store.dispatch("LOGOUT");
+      }
+    },
+    changeRoute(name) {
+      // console.log(this.$route.name === name);
+      if (this.$route.name === name) {
+        this.$router.go({ name });
+      } else {
+        this.$router.push({ name });
+      }
+    },
   }
 };
 </script>
