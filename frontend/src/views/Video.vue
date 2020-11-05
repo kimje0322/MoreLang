@@ -355,8 +355,22 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn>단어장추가</v-btn>
+      <v-btn @click="addVoca">단어장추가</v-btn>
     </span>
+
+        <v-snackbar
+      v-model="snackbar"
+      timeout=1000
+      class="align-center"
+      color="primary"
+      absolute
+      rounded="pill"
+    >
+    <p class="text-center">{{ text }}</p>
+     
+
+     
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -379,6 +393,8 @@ export default {
   },
   data() {
     return {
+      snackbar:false,
+      text: '',
       hide : true,
       myTimer : null,
       setMode : null,
@@ -416,6 +432,34 @@ export default {
     };
   },
   methods: {
+    addVoca(){
+      if(this.$store.state.nickname != null){
+        // alert("good!");
+        console.log(this.selectedLang.lang_translated);
+        console.log(this.word);
+        
+        const params = {
+             country : this.selectedLang.lang_translated,
+                eachVoca : this.word,
+                learn : false
+        };
+        
+        axios.post("https://morelang.gq/api/user/regist-voca",params,{
+               headers: {
+          'content-type': 'application/json',
+     },
+        })
+            .then((res) => {
+              console.log(res);
+              this.text="단어장 추가완료";
+              this.snackbar =true;
+            });
+
+      }else{
+        this.text="로그인이 필요한 기능입니다."
+        this.snackbar =true;
+      }
+    },
     sliderClick(){
       if(this.mode==2){
         this.mode=1;
@@ -661,6 +705,7 @@ export default {
       axios.defaults.headers.common = temp;
     },
     async getCaption(){
+      
       await axios.get("https://video.google.com/timedtext",{
         params:{
           v : this.videoId,
@@ -725,7 +770,10 @@ export default {
       // console.log("바뀜!!")
        handler : function(){
         //  console.log('The list of colours has changed!');
+              var temp = axios.defaults.headers.common ;
+      axios.defaults.headers.common = null;
          this.getCaption();
+         axios.defaults.headers.common =temp;
        },
        deep:true
     },
