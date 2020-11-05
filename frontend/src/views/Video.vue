@@ -626,7 +626,7 @@ export default {
       var temp = axios.defaults.headers.common ;
       axios.defaults.headers.common = null;
 
-      await axios.get("http://video.google.com/timedtext?type=list",{
+      await axios.get("https://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
         },
@@ -661,7 +661,7 @@ export default {
       axios.defaults.headers.common = temp;
     },
     async getCaption(){
-      await axios.get("http://video.google.com/timedtext",{
+      await axios.get("https://video.google.com/timedtext",{
         params:{
           v : this.videoId,
           lang : this.selectedLang.lang_code
