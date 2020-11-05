@@ -54,23 +54,91 @@
                           </v-card-text>
                           <v-card-actions >
                             <v-row>
-                            <v-col cols="10">
+                            <v-col cols="8">
                               <h3><v-icon>mdi-google-translate</v-icon> : 
                               {{translated}}
                               </h3>
                             </v-col>
+                            
+                            </v-row>
+                          </v-card-actions>
+                          <v-card-actions>
+                            <v-row >
+                              <v-spacer></v-spacer>
                             <v-col cols="2">
-                            <v-btn
-                              outlined
-                              rounded
-                              text
-                              color="primary"
-                              @click="translate"  
+                              <v-btn
+                                outlined
+                                rounded
+                                text
+                                color="primary"
+                                @click="translate"  
+                              >
+                                번역
+                              </v-btn>
+                            
+                            </v-col>
+                              <v-col cols="2">
+                               <v-dialog
+                              v-model="dialog3"
+                              persistent
+                              max-width="600px"
                             >
-                              번역
-                            </v-btn>
+                            
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                outlined
+                                rounded
+                                text
+                                color="green"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="pauseVideo"
+                              >
+                                스크랩
+                              </v-btn>
+                                </template>
+                              <v-card>
+                                <v-card-title>
+                                  <span class="headline">Scrap</span>
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+                                      <v-col cols="12">
+                                        <p class="subtitle-2">{{nowText}}</p>
+                                      </v-col>
+                                      <v-col cols="12">
+                                        <v-text-field
+                                           v-model="memo"
+                                          label="메모할 내용"
+                                        ></v-text-field>
+                                      </v-col>
+                                      
+                                    </v-row>
+                                  </v-container>
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog3close"
+                                  >
+                                    Close
+                                  </v-btn>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog3save"
+                                  >
+                                    Save
+                                  </v-btn>
+                                </v-card-actions>
+                              </v-card>
+                            </v-dialog>
                             </v-col>
                             </v-row>
+
                           </v-card-actions>
                         </v-card>
                       </v-tab-item>
@@ -393,6 +461,7 @@ export default {
   },
   data() {
     return {
+      memo : '',
       snackbar:false,
       text: '',
       hide : true,
@@ -405,6 +474,7 @@ export default {
       word : "",
       dialog: false,
       dialog2: false,
+      dialog3: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -432,6 +502,30 @@ export default {
     };
   },
   methods: {
+    dialog3close(){
+      this.dialog3=false;
+      this.memo="";
+    },
+    dialog3save(){
+       const params = {
+             country : this.selectedLang.lang_translated,
+                memo : this.memo,
+                sentence : this.nowText,
+                videourl : this.videoId
+        };
+      axios.post("https://morelang.gq/api/user/do-scrap",params,{
+               headers: {
+          'content-type': 'application/json',
+      },
+          })
+            .then((res) => {
+              console.log(res);
+              this.text="스크랩 완료";
+              this.snackbar =true;
+            });
+      this.dialog3=false;
+      this.memo="";
+    },
     addVoca(){
       if(this.$store.state.nickname != null){
         // alert("good!");
