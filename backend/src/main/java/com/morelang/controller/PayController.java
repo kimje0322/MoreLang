@@ -26,7 +26,7 @@ public class PayController {
 	@Autowired
 	PayService payService;
 
-	@GetMapping("/pay/ready")
+	@GetMapping("/user/pay/ready")
 	public ResponseEntity<PayReady> ready(@RequestParam("item_name") String item_name,
 			@RequestParam("total_amount") String total_amount, HttpServletRequest request) {
 
@@ -41,7 +41,7 @@ public class PayController {
 		return new ResponseEntity<>(payReady, HttpStatus.OK);
 	}
 
-	@GetMapping("/pay/approve")
+	@GetMapping("/user/pay/approve")
 	public ResponseEntity<PayApprove> approve(HttpServletResponse response,@RequestParam("tid") String tid,
 			@RequestParam("pg_token") String pg_token, @RequestParam("total_amount") String total_amount,
 			HttpServletRequest request) {
