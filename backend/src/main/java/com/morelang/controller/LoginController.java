@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.morelang.dto.Member;
 import com.morelang.service.LoginService;
 import com.morelang.util.Mail;
-
 import io.swagger.annotations.ApiOperation;
 
 
@@ -133,6 +132,12 @@ public class LoginController {
 	public ResponseEntity<?> naverlogin(@RequestParam("code") String code) throws IOException {
 		return new ResponseEntity<Map<String, Object>>(loginService.NaverLogin(code),HttpStatus.OK);
 	}
+	@ApiOperation(value = "[이미지 경로 얻기] (p-014_마이페이지) 기능 : 프로필 사진을 얻을 수 있는 url을 준다.ex) http://localhost:8080/upload/resources/upload/{이 요청으로 얻은 값}")
+	@GetMapping(path="/newuser/get_profile_img")
+	public ResponseEntity<String> get_profile_img(@RequestParam("username") String username){
+		return new ResponseEntity<String>(loginService.get_profile_img(username),HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "[메일보내기] 이메일 인증을 만들어서,해당 이메일에 random값으로 메일을 보내고 그 random값을 return한다. 클라이언트단에서 비교해서 같으면 true, 틀리면 false 처리해주면 될듯.")
 	@GetMapping(path="/newuser/check_email")
 	public ResponseEntity<String> sendmail(@RequestParam("reciver") String email) {

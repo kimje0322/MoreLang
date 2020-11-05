@@ -18,6 +18,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -39,6 +42,8 @@ import com.morelang.dto.Member;
 import com.morelang.jwt.JwtTokenUtil;
 import com.morelang.repository.MemberRepository;
 import com.morelang.util.Mail;
+
+import io.swagger.annotations.ApiOperation;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -105,6 +110,7 @@ public class LoginServiceImpl implements LoginService{
 		map.put("accessToken", accessToken);
 		map.put("refreshToken", refreshToken);
 		map.put("nickname", nickname);
+		map.put("userid", m.getUserid());
 		return map;
 	}
 	
@@ -130,7 +136,15 @@ public class LoginServiceImpl implements LoginService{
 		if (memberRepository.findByName(name) == null) return true;
 		else return false;
 	}
-	
+	@Override
+	public String get_profile_img(String username){
+		Member member = memberRepository.findByUserid(username);
+		if(member.getProfileImg() == null){
+			return "default";
+		}else {
+			return member.getProfileImg();
+		}
+	}
 	@Override
 	public Map<String,Object> Googlelogin(String authCode, String redirect) throws IOException {
 		GoogleTokenResponse tokenResponse =

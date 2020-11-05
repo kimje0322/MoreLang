@@ -16,4 +16,5 @@ public interface LoginService {
 	public Map<String,Object> KakaoLogin(String accessToken);
 	public Map<String,Object> NaverLogin(String code);
 	public Boolean find_pw(String username);
+	public String get_profile_img(String username);
 }
