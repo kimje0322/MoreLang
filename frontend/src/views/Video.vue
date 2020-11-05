@@ -135,7 +135,6 @@
                     <!-- <h4>채널ID : {{videoInfo.channelId}}</h4> -->
                     <!-- <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4> -->
                     <!-- <h4>재생시간 : {{videoInfo.duration/1000}}</h4> -->
-                    
                   </template>
                           </v-card-text>
                         </v-card>
@@ -465,6 +464,7 @@ export default {
       this.removeAll();
       this.preIdx = this.nowIdx;
       this.nowIdx=idx;
+      this.nowText=this.elements[this.nowIdx].innerHTML;
       if(this.nowIdx != -1) this.elements[this.nowIdx].classList.add("current");
       this.seekVideo(this.caption[this.nowIdx]._attributes.start);
     },
