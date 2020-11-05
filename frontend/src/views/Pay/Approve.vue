@@ -20,7 +20,7 @@ export default {
     this.pg_token = this.$route.query.pg_token;
     this.payReady = this.$store.state.payReady;
     console.log(this.payReady)
-    axios.get(`${SERVER_URL}/pay/approve?tid=${this.payReady.tid}&pg_token=${this.pg_token}&total_amount=${this.payReady.total_amount}`).then(res => {
+    axios.get(`${SERVER_URL}/user/pay/approve?tid=${this.payReady.tid}&pg_token=${this.pg_token}&total_amount=${this.payReady.total_amount}`).then(res => {
       console.log(res)
       window.opener.location.href = "https://morelang.gq/mypage";
       window.close()

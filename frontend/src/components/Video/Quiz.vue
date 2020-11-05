@@ -76,8 +76,7 @@ export default {
   mounted() {
     this.onMove();
     axios.post(
-      `${SERVER_URL}/newuser/puzzletest?inputText=a`
-      // `${SERVER_URL}/newuser/puzzletest?inputText=a`  
+      `${SERVER_URL}/newuser/puzzletest?inputText=a`  
       ).then(res => {
         this.answer = res.data.answer;
         // this.quizBox = res.data.quizeText;

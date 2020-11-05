@@ -24,7 +24,7 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 
-	@GetMapping("/search/block")
+	@GetMapping("/newuser/search")
 	@ApiOperation(value = "start: 시작할 index(0/10/20/...10단위)")
 	public ResponseEntity<List<Search>> search(@RequestParam("q") String q, @RequestParam("start") String start,
 			HttpServletRequest request) {

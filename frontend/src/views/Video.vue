@@ -5,9 +5,6 @@
             <div style="width: 100%; height: 85vh; display: block; margin-top: 7%;">
               <v-row no-gutters>
                  <v-col  cols="8">
-             
-                  
-                  
                   <v-card>
                   <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true" width="95%"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
                   </v-card>
@@ -99,14 +96,45 @@
                         <v-card flat>
                           <v-card-text>
                               <template v-if="videoInfo != null">
-                    <h4>제목 : {{videoInfo.title}}</h4>
-                    <h4>설명 : {{videoInfo.description}}</h4>
+                                  <v-card
+                    color="#26c6da"
+                    dark
+                  >
+                    <v-card-title>
+                      <v-icon
+                        large
+                        left
+                      >
+                        mdi-youtube
+                      </v-icon>
+                      <span class="title font-weight-light">{{videoInfo.title}}</span>
+                    </v-card-title>
+
+                    <v-card-text class=" font-weight-bold">
+                      {{videoInfo.description}}
+                     </v-card-text>
+                    <v-card-actions>
+                      <v-list-item class="grow">
+                        <v-list-item-content>
+                          <v-list-item-title ><v-btn rounded color="error"  @click="$router.push({name :'Channel',params:{id : videoInfo.channelId}})">{{videoInfo.channelTitle}}</v-btn></v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-row
+                          align="center"
+                          justify="end"
+                        >
+                          <span class="subheading mr-2">{{videoInfo.publishedAt}}</span>
+                        </v-row>
+                      </v-list-item>
+                    </v-card-actions>
+                  </v-card>
+                    <!-- <h3>{{videoInfo.title}}</h3>
+                    <h4>{{videoInfo.description}}</h4>
                     <h4>업로드일 : {{videoInfo.publishedAt}}</h4>
-                    <h4>채널 : {{videoInfo.channelTitle}}</h4>
-                    <h4>채널ID : {{videoInfo.channelId}}</h4>
-                    <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4>
-                    <h4>재생시간 : {{videoInfo.duration/1000}}</h4>
-                    
+                    <h4>채널 : {{videoInfo.channelTitle}}</h4> -->
+                    <!-- <h4>채널ID : {{videoInfo.channelId}}</h4> -->
+                    <!-- <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4> -->
+                    <!-- <h4>재생시간 : {{videoInfo.duration/1000}}</h4> -->
                   </template>
                           </v-card-text>
                         </v-card>
@@ -134,10 +162,23 @@
 
                
                  </v-col>
-
-                  <v-col  cols="4" >
-                    <v-card outlined height="600px"  class="scroll">
-                      <ul id="example-2">
+                  <v-col  cols="4">
+                    <v-row class="ml-5">
+                      <v-col cols="8">
+                      <v-btn @click="dialog = !dialog" v-html="selectedLang.lang_translated">언어</v-btn>
+                      </v-col>
+                      <v-col cols="4">
+                          <v-switch
+                          v-model="hide"
+                          label="script"
+                          color="red"
+                          value
+                          hide-details
+                        ></v-switch>
+                      </v-col>
+                    </v-row>
+                    <v-card   height="600px"  class="scroll" v-if="hide">
+                      <ul id="example-2"  >
                         <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="script" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
                           <!-- {{item._text}} -->
                         </li>
@@ -171,7 +212,7 @@
                     <template  v-for="(item,index) in items" >
                     <v-radio 
                       v-bind:label="item._attributes.lang_translated"
-                      v-bind:value="item._attributes.lang_code"
+                      v-bind:value="item._attributes"
                       v-bind:key="index"
                     ></v-radio>
                     </template>
@@ -337,6 +378,7 @@ export default {
   },
   data() {
     return {
+      hide : true,
       myTimer : null,
       setMode : null,
       primary :"primary",
@@ -356,7 +398,7 @@ export default {
       preIdx : -1,
       elements : null,
       videoId: "",
-      selectedLang : "",
+      selectedLang : {},
       state : 0,
       playerVars: {
           autoplay: 1,
@@ -389,7 +431,7 @@ export default {
         // console.log(this.nowText);
         var temp2 = this.nowText.replace(/(\r\n|\n|\r)/gm,"");
         // console.log(temp2);
-          var temp = this.selectedLang.substr(0, 2);
+          var temp = this.selectedLang.lang_code.substr(0, 2);
           if(temp == 'ko'){
             temp ='kr'
           }else if(temp == 'ja'){
@@ -397,7 +439,7 @@ export default {
           }else if(temp == 'zh'){
             temp = 'cn'
           }
-          axios.get("https://morelang.gq/api/translate",{
+          axios.get("https://morelang.gq/api/newuser/translate",{
               params: {
                 query : temp2,
                 src_lang : temp,
@@ -428,6 +470,7 @@ export default {
       this.removeAll();
       this.preIdx = this.nowIdx;
       this.nowIdx=idx;
+      this.nowText=this.elements[this.nowIdx].innerHTML;
       if(this.nowIdx != -1) this.elements[this.nowIdx].classList.add("current");
       this.seekVideo(this.caption[this.nowIdx]._attributes.start);
     },
@@ -554,7 +597,7 @@ export default {
     },
 
     async setCCLanguage(){
-      await this.player.setOption( "captions" , 'track' , { 'languageCode' : this.selectedLang } );
+      await this.player.setOption( "captions" , 'track' , { 'languageCode' : this.selectedLang.lang_code } );
     },
    async  youtubeStateChange (event) {
         // var myTimer;
@@ -595,9 +638,13 @@ export default {
         // console.log(this.items[0]);
         // console.log("isarray=",Array.isArray(this.items))
         if(Array.isArray(this.items)){
-          this.selectedLang=this.items[0]._attributes.lang_code;
+          this.selectedLang=this.items[0]._attributes;
+          console.log(this.selectedLang);
+          this.getCaption();
         }else{
-           this.selectedLang=this.items._attributes.lang_code;
+           this.selectedLang=this.items._attributes;
+          console.log(this.selectedLang);
+          this.getCaption();
         }
         
 
@@ -608,7 +655,7 @@ export default {
       await axios.get("https://video.google.com/timedtext",{
         params:{
           v : this.videoId,
-          lang : this.selectedLang
+          lang : this.selectedLang.lang_code
         }
       })
       .then((res) => {
@@ -626,10 +673,10 @@ export default {
       console.log("stateChange",youtubeState);
          await this.player.setOption( "captions" , 'track',[]);
     },
-    onSelectClick(event){
-        this.selectedLang = event.target.value;
-        this.getCaption();
-    },
+    // onSelectClick(event){
+    //     this.selectedLang = event.target.value;
+    //     this.getCaption();
+    // },
     
     playing() {
       console.log(" start play");
@@ -665,9 +712,13 @@ export default {
   },
 
   watch : {
-    selectedLang : function(){
+    selectedLang : {
       // console.log("바뀜!!")
-      this.getCaption();
+       handler : function(){
+        //  console.log('The list of colours has changed!');
+         this.getCaption();
+       },
+       deep:true
     },
     nowText : function(){
       this.translated ="";
@@ -683,7 +734,7 @@ export default {
   created(){
     console.log(this.videoId);
     this.videoId=this.$route.params.vid
-      axios.get("https://morelang.gq/api/video",{
+      axios.get("https://morelang.gq/api/newuser/video",{
         params: {
           id : this.videoId
         }
@@ -759,6 +810,22 @@ document.querySelector('button').addEventListener('click', function() {
 .scroll {
    overflow-y: scroll
 }
+
+
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+.scroll::-webkit-scrollbar-thumb {
+  background: #ff3c33;
+  border-radius: 40px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #eee;
+  border-radius: 40px;
+}
+
 #controller {
   position: fixed;
   left: 10px;
@@ -780,4 +847,17 @@ document.querySelector('button').addEventListener('click', function() {
   background: pink;
 }
 
+ul  {
+    list-style-type: "💬"; 
+}
+
+ul li:before {
+    content: "  ";
+    margin-left: 5px;
+}
+
+ul li {
+  margin-left: 5px;
+  margin-bottom : 10px;
+}
 </style>

@@ -343,7 +343,7 @@ export default {
     onTranslate(lang) {
       axios
         .get(
-          `${SERVER_URL}/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
+          `${SERVER_URL}/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
         )
         .then(res => {
           this.keyword = res.data;
@@ -356,7 +356,7 @@ export default {
       this.next = 10;
       this.click = true;
       this.tmp = search;
-      axios.get(`${SERVER_URL}/search?q=${search}&start=0`).then(res => {
+      axios.get(`${SERVER_URL}/newuser/search?q=${search}&start=0`).then(res => {
         // console.log("asdf")
         this.videolst = res.data;
         console.log(res);
@@ -370,7 +370,7 @@ export default {
       setTimeout(() => {
         // const temp = [];
         axios
-          .get(`${SERVER_URL}/search?q=${this.tmp}&start=${this.next}`)
+          .get(`${SERVER_URL}/newuser/search?q=${this.tmp}&start=${this.next}`)
           .then(res => {
             this.videolst = this.videolst.concat(res.data);
             if (res.data.length != 10) {

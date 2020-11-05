@@ -23,7 +23,7 @@ export default {
     console.log(this.$route)
     this.item_name = this.$route.params.point/100 + "보석"
     this.total_amount = this.$route.params.point;
-    axios.get(`${SERVER_URL}/pay/ready?item_name=${this.item_name}&total_amount=${this.total_amount}`).then(res => {
+    axios.get(`${SERVER_URL}/user/pay/ready?item_name=${this.item_name}&total_amount=${this.total_amount}`).then(res => {
       this.$store.commit('setPayReady', res.data);
       window.open(res.data.next_redirect_pc_url, "_blank", 'width=450, height=500');
     });

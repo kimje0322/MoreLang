@@ -23,7 +23,7 @@ public class ChannelController {
 	@Autowired
 	ChannelService channelService;
 
-	@GetMapping("/channel")
+	@GetMapping("/newuser/channel")
 	@ApiOperation(value = "예)UCkuA_gDjISfGgbdp02BUwyQ")
 	public ResponseEntity<Channel> channel(@RequestParam("id") String id, HttpServletRequest request) {
 
@@ -39,7 +39,7 @@ public class ChannelController {
 		return new ResponseEntity<>(channel, HttpStatus.OK);
 	}
 
-	@GetMapping("/playlist")
+	@GetMapping("/newuser/playlist")
 	public ResponseEntity<Playlist> playlist(@RequestParam("id") String id,
 			@RequestParam(value = "token", required = false) String token, HttpServletRequest request) {
 
