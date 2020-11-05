@@ -101,6 +101,7 @@ export default new Vuex.Store({
             });
             window.location.reload();
           }, 1000);
+          axios.defaults.headers.common.Authorization = null;
         },
         async SIGNUP({ dispatch }, signupData) {
           var memberData = {

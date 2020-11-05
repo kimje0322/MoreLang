@@ -102,7 +102,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				Authentication authen =  getAuthentication(jwtToken);
 				//만든 authentication 객체로 매번 인증받기
 				SecurityContextHolder.getContext().setAuthentication(authen);
-				response.setHeader("jwtToken", jwtToken);
+				response.setHeader("accessToken", jwtToken);
 				response.setHeader("username", username);
 			}
 			chain.doFilter(request, response);
