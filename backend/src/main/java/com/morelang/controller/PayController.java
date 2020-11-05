@@ -45,6 +45,7 @@ public class PayController {
 	public ResponseEntity<PayApprove> approve(HttpServletResponse response,@RequestParam("tid") String tid,
 			@RequestParam("pg_token") String pg_token, @RequestParam("total_amount") String total_amount,
 			HttpServletRequest request) {
+		System.out.println(response.getHeaderNames());
 		String accessToken = response.getHeader("accessToken");
 		PayApprove payApprove = null;
 		try {
@@ -57,7 +58,7 @@ public class PayController {
 		return new ResponseEntity<>(payApprove, HttpStatus.OK);
 	}
 	
-	@GetMapping("/pay/my-point")
+	@GetMapping("/user/pay/my-point")
 	@ApiOperation(value = "[포인트 조회] 내가 가지고 있는 포인트의 양을 조회함")
 	public ResponseEntity<Integer> MyPoint(HttpServletResponse response){
 		String accessToken = response.getHeader("accessToken");
@@ -65,7 +66,7 @@ public class PayController {
 		
 	}
 	
-	@GetMapping("/pay/my-pointlogs")
+	@GetMapping("/user/pay/my-pointlogs")
 	@ApiOperation(value = "[포인트 내역 조회] 포인트 충전, 사용등의 내역을 조회합니다.")
 	public ResponseEntity<Page<pointCharge>> MyPointLogs(HttpServletResponse response, PageRequest pageable){
 		String accessToken = response.getHeader("accessToken");

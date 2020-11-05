@@ -71,7 +71,7 @@ public class VocaController {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<List<String>>(vocaService.vocaQuize(accessToken, country),HttpStatus.OK);
 	}
-	@GetMapping("/vocamean")
+	@GetMapping("/user/vocamean")
 	@ApiOperation(value = "[단어 의미 보기] 단어에 대한 의미와 에문을 확인할 수 있습니다.")
 	public ResponseEntity<?> vocaQuize(@RequestParam("voca") String voca) throws IOException {
 		vocaService.vocaMean(voca);
