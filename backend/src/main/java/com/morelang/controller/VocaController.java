@@ -31,41 +31,41 @@ public class VocaController {
 	@Autowired
 	VocaService vocaService;
 	
-	@PostMapping("/regist-voca")
+	@PostMapping("/user/regist-voca")
 	@ApiOperation(value = "[단어등록]단어장에 단어 등록하기")
 	public ResponseEntity<?> registVoca(HttpServletResponse response, @RequestBody Voca voca) {
 		String accessToken = response.getHeader("accessToken");
 		vocaService.registVoca(accessToken, voca);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	@GetMapping("/myvoca")
+	@GetMapping("/user/myvoca")
 	@ApiOperation(value = "[내 단어장 보기- 페이징] 내 단어장 확인하기")
 	public ResponseEntity<?> MyVoca(HttpServletResponse response,@RequestParam(required=false) String[] country, PageRequest pageable) {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<Page<VocaSub>>(vocaService.MyVoca(accessToken, pageable.vocaof(), country),HttpStatus.OK);
 	}
-	@PutMapping("/update-voca")
+	@PutMapping("/user/update-voca")
 	@ApiOperation(value = "[단어 갱신] 해당 단어 업데이트하기")
 	public ResponseEntity<?> updateVoca(HttpServletResponse response, @RequestBody Voca voca) {
 		String accessToken = response.getHeader("accessToken");
 		vocaService.updateVoca(accessToken, voca);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	@DeleteMapping("/delete-voca")
+	@DeleteMapping("/user/delete-voca")
 	@ApiOperation(value = "[단어장에서 단어 제거] 단어장에서 해당 단어 제거")
 	public ResponseEntity<?> deleteVoca(HttpServletResponse response, @RequestParam("vocaId") Long vocaId) {
 		String accessToken = response.getHeader("accessToken");
 		vocaService.DeleteVoca(accessToken, vocaId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	@PutMapping("/islearn")
+	@PutMapping("/user/islearn")
 	@ApiOperation(value = "[단어 학습 완료 on/off] 해당 단어 학습했는지 안했는지 on/off하기")
 	public ResponseEntity<?> isLearn(HttpServletResponse response, @RequestParam("vocaId") Long vocaId) {
 		String accessToken = response.getHeader("accessToken");
 		vocaService.makeLearn(accessToken, vocaId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	@GetMapping("/vocaquize")
+	@GetMapping("/user/vocaquize")
 	@ApiOperation(value = "[단어 퀴즈 만들기] 내 단어장에서 학습 안한 걸로 단어퀴즈 만들기, 해당 나라를 주면 해당 나라거만 가져옴")
 	public ResponseEntity<?> vocaQuize(HttpServletResponse response, @RequestParam(required = false) String country) {
 		String accessToken = response.getHeader("accessToken");
@@ -78,7 +78,7 @@ public class VocaController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@GetMapping("/myvoca-country")
+	@GetMapping("/user/myvoca-country")
 	@ApiOperation(value = "[내 단어장에 저장된 국가들] 내 단어장에 저장된 국가 보기")
 	public ResponseEntity<?> vocaQuize(HttpServletResponse response)  {
 		String accessToken = response.getHeader("accessToken");

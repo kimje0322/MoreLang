@@ -24,12 +24,12 @@ public class LearnController {
 	@Autowired
 	LearnService learnService;
 	
-	@PostMapping("/guest/puzzle")
+	@PostMapping("/newuser/puzzle")
 	public ResponseEntity<?> WorkPuzzle(@RequestParam("inputText") String input) throws IOException {
 		return new ResponseEntity<Map<String,Object>>(learnService.WordPuzzle(input),HttpStatus.OK);
 	}
 	
-	@PostMapping("/guest/puzzletest")
+	@PostMapping("/newuser/puzzletest")
 	public ResponseEntity<?> Puzzletest(@RequestParam("inputText") String input) throws IOException {
 		return new ResponseEntity<Map<String,Object>>(learnService.puzzeltest(input),HttpStatus.OK);
 	}
