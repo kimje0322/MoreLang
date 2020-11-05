@@ -11,7 +11,7 @@
             outlined
             tile
             style="position:relative; margin-right: 50px; margin-bottom: 20px;"
-            @click="Charge(i + 1)"
+            @click="Charge(i)"
           >
             <p class="coin" :id="i" @click="Coin(i)"></p>
             <p class="my-auto">{{ 100 * i }} 포인트</p>
