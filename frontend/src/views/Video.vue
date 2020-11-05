@@ -433,7 +433,7 @@ export default {
           }else if(temp == 'zh'){
             temp = 'cn'
           }
-          axios.get("https://morelang.gq/api/translate",{
+          axios.get("https://morelang.gq/api/newuser/translate",{
               params: {
                 query : temp2,
                 src_lang : temp,
@@ -728,7 +728,7 @@ export default {
   created(){
     console.log(this.videoId);
     this.videoId=this.$route.params.vid
-      axios.get("https://morelang.gq/api/video",{
+      axios.get("https://morelang.gq/api/newuser/video",{
         params: {
           id : this.videoId
         }

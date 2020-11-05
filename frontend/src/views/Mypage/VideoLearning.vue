@@ -32,7 +32,7 @@ export default {
   },
   mounted() {
     axios
-      .get(`${SERVER_URL}/search?q=glee&start=0`)
+      .get(`${SERVER_URL}/newuser/search?q=glee&start=0`)
       .then((res) => {
         // console.log(res)
         this.videoLst = res.data;

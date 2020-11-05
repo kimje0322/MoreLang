@@ -262,7 +262,7 @@ export default {
     onTranslate(lang) {
       axios
         .get(
-          `${SERVER_URL}/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
+          `${SERVER_URL}/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
         )
         .then(res => {
           this.keyword = res.data;
