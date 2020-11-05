@@ -1,17 +1,24 @@
 package com.morelang.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.morelang.util.Loginfilter;
+import com.mylogin.jwt.JwtAuthenticationEntryPoint;
+import com.mylogin.jwt.JwtRequestFilter;
+
 
 
 
@@ -19,38 +26,57 @@ import com.morelang.util.Loginfilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
-	Loginfilter loginfilter;
-	
+	private JwtRequestFilter jwtRequestFilter;
+	@Autowired
+	private UserDetailsService jwtUserDetailsService;
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
 	// Swagger 관련 문서는 모두가 볼 수 있도록 설정하기 위해 WebSecurity ignore 설정 진행
 	@Override 	
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/webSocket/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// disables cors and csrf
-		http
-		.cors().and()
-		.csrf()
-		.disable();
-		http.authorizeRequests().antMatchers("/**").permitAll();
-//		http
-//		.cors().and()
-//		.csrf().disable(). 
-//		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-//		and().
-//			authorizeRequests().
-//			antMatchers("/guest/**","/swagger-ui.html").permitAll().
-//		and().
-//			authorizeRequests().
-//			antMatchers("/user/**").hasRole("USER").
-//		and().
-//			authorizeRequests().
-//			anyRequest().
-//			authenticated().
-//		and().
-//			addFilterBefore(loginfilter, BasicAuthenticationFilter.class);
+		http.
+		httpBasic().disable(). // 기본 제공해주는 로그인 페이지 사용 안함 (우리가 만든 로그인 페이지로 커스텀하기 위해서)
+		cors().and().		   
+		csrf().disable().	   // rest api 이므로, 페이지 구현을 안하므로, csrf 보안 사용 안함
+		sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS). // 우린 토큰 인증이므로 session 사용 안함
+		and().
+			authorizeRequests().	// 페이지별 접근 가능한 권한 설정
+			antMatchers("/newuser/**", "/swagger-ui.html").permitAll().
+		and().
+			authorizeRequests().	// 페이지별 접근 가능한 권한 설정
+			antMatchers("/user/**").hasAnyRole("USER", "ADMIN").
+		and().
+			authorizeRequests().
+			anyRequest().
+			authenticated().
+		and().
+			exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
+		and().
+			addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+	}
+
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
 	}
 }
