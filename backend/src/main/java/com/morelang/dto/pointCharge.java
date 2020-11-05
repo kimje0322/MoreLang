@@ -38,7 +38,7 @@ public class pointCharge {
 	private int chargeAmount;
 	
 	@CreationTimestamp
-	private Date time;
+	private Date chargeTime;
 	
 	@Column
 	private boolean isCharge;
