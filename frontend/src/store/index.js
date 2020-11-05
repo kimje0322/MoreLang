@@ -38,7 +38,7 @@ export default new Vuex.Store({
             axios.defaults.headers.common.Authorization = `Bearer ${state.accessToken}`;
         },
         Thumbnail(state, payload) {
-            state.userThumbnail = `${state.ImgURL}${payload}`;
+            state.userThumbnail = `${payload}`;
         },
         FormerLink(state, payload) {
             state.formerLink = payload;
@@ -142,6 +142,7 @@ export default new Vuex.Store({
               }
             }
           );
+          console.log(res.data);
           commit("Thumbnail", res.data);
           window.location.reload();
         }
