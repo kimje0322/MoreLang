@@ -96,13 +96,45 @@
                         <v-card flat>
                           <v-card-text>
                               <template v-if="videoInfo != null">
-                    <h4>제목 : {{videoInfo.title}}</h4>
-                    <h4>설명 : {{videoInfo.description}}</h4>
+                                  <v-card
+                    color="#26c6da"
+                    dark
+                  >
+                    <v-card-title>
+                      <v-icon
+                        large
+                        left
+                      >
+                        mdi-youtube
+                      </v-icon>
+                      <span class="title font-weight-light">{{videoInfo.title}}</span>
+                    </v-card-title>
+
+                    <v-card-text class=" font-weight-bold">
+                      {{videoInfo.description}}
+                     </v-card-text>
+                    <v-card-actions>
+                      <v-list-item class="grow">
+                        <v-list-item-content>
+                          <v-list-item-title ><v-btn rounded color="error"  @click="$router.push({name :'Channel',params:{id : videoInfo.channelId}})">{{videoInfo.channelTitle}}</v-btn></v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-row
+                          align="center"
+                          justify="end"
+                        >
+                          <span class="subheading mr-2">{{videoInfo.publishedAt}}</span>
+                        </v-row>
+                      </v-list-item>
+                    </v-card-actions>
+                  </v-card>
+                    <!-- <h3>{{videoInfo.title}}</h3>
+                    <h4>{{videoInfo.description}}</h4>
                     <h4>업로드일 : {{videoInfo.publishedAt}}</h4>
-                    <h4>채널 : {{videoInfo.channelTitle}}</h4>
-                    <h4>채널ID : {{videoInfo.channelId}}</h4>
-                    <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4>
-                    <h4>재생시간 : {{videoInfo.duration/1000}}</h4>
+                    <h4>채널 : {{videoInfo.channelTitle}}</h4> -->
+                    <!-- <h4>채널ID : {{videoInfo.channelId}}</h4> -->
+                    <!-- <h4>기본언어 : {{videoInfo.defaultLanguage}}</h4> -->
+                    <!-- <h4>재생시간 : {{videoInfo.duration/1000}}</h4> -->
                     
                   </template>
                           </v-card-text>
