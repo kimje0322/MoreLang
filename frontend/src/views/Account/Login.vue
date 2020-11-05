@@ -12,7 +12,7 @@
             <h1 class="ma-0" style="font-family: 'Do Hyeon', sans-serif;">
               로그인
             </h1>
-            <v-btn fab dark>
+            <v-btn fab dark @click="$router.push({ name: 'Home' })">
               <v-icon>mdi-home-outline</v-icon>
             </v-btn>
           </v-card-title>
@@ -124,6 +124,7 @@
 
 <script src="https://apis.google.com/js/platform.js"></script>
 <script>
+import Navbar from "@/components/Navbar";
 import { mapState } from "vuex";
 import axios from "axios";
 export default {

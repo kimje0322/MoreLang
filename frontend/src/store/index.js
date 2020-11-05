@@ -60,7 +60,7 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async LOGIN({ commit, dispatch }, loginData) {
+        async LOGIN({ state,commit, dispatch }, loginData) {
           axios.defaults.headers.common.Authorization = ``;
           const res = await axios.post(
             `${this.state.ServerURL}/newuser/login`,
@@ -83,6 +83,7 @@ export default new Vuex.Store({
               refreshToken: res.data.refreshToken
             });
             dispatch("Thumbnail", loginData.username);
+            axios.defaults.headers.common.Authorization = `Bearer ${state.accessToken}`;
           }
         },
         async LOGOUT({ commit }) {
@@ -122,7 +123,8 @@ export default new Vuex.Store({
             console.log("자동로그인중 오류 발생");
           }
         },
-        async SocialLogin({ commit, dispatch }, data){
+        async SocialLogin({ state, commit, dispatch }, data){
+            axios.defaults.headers.common.Authorization = ``;
             commit("LOGIN", {
                 nickname: data.nickname,
                 username: data.userid
@@ -132,6 +134,7 @@ export default new Vuex.Store({
                 refreshToken: data.refreshToken
             });
             dispatch("Thumbnail", data.userid);
+            axios.defaults.headers.common.Authorization = `Bearer ${state.accessToken}`;
         },
         async Thumbnail({ commit }, payload) {
           const res = await axios.get(

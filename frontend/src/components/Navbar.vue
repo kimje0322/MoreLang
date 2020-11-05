@@ -85,7 +85,7 @@
                   </v-row>
                 </v-card>
               </template>
-              <v-list :dark="isDark">
+              <v-list >
                 <v-list-item-group color="primary">
                   <v-list-item v-for="(item, i) in items" :key="i" @click="userMenu(i)">
                     <v-list-item-title v-text="item"></v-list-item-title>
@@ -209,6 +209,7 @@ export default {
   },
   data() {
     return {
+      userid: null,
       keyword: "",
       transDialog: false,
       errSnackbar: false,
