@@ -164,14 +164,21 @@
                  </v-col>
                   <v-col  cols="4">
                     <v-row class="ml-5">
-                      <v-col cols="6">
-                      <v-btn @click="dialog = !dialog">언어</v-btn>
-                      {{selectedLang.lang_translated}}
-                      </v-col><v-col cols="6">
-                      <v-btn @click="hide = !hide">대본</v-btn>
+                                <v-col cols="8">
+                      <v-btn @click="dialog = !dialog" v-html="selectedLang.lang_translated">언어</v-btn>
+                      </v-col>
+                      <v-col cols="4">
+                          <v-switch
+                          v-model="hide"
+                          label="script"
+                          color="red"
+                          value
+                          hide-details
+                        ></v-switch>
+
                       </v-col>
                     </v-row>
-                    <v-card  outlined height="600px"  class="scroll" v-if="hide">
+                    <v-card   height="600px"  class="scroll" v-if="hide">
                       <ul id="example-2"  >
                         <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="script" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
                           <!-- {{item._text}} -->
@@ -615,9 +622,16 @@ export default {
     },
     async getCaptionsList(){
       // console.log(await this.player.getOption( "captions" , 'track'));
-      await axios.get("https://video.google.com/timedtext?type=list",{
+
+      var temp = axios.defaults.headers.common ;
+      axios.defaults.headers.common = null;
+
+      await axios.get("http://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
+        },
+        headers: {
+          'Content-Type': null
         }
       })
       .then((res) => {
@@ -636,7 +650,7 @@ export default {
           console.log(this.selectedLang);
           this.getCaption();
         }else{
-           this.selectedLang=this.items._attributes;
+          this.selectedLang=this.items._attributes;
           console.log(this.selectedLang);
           this.getCaption();
         }
@@ -644,9 +658,10 @@ export default {
 
         
         });
+      axios.defaults.headers.common = temp;
     },
     async getCaption(){
-      await axios.get("https://video.google.com/timedtext",{
+      await axios.get("http://video.google.com/timedtext",{
         params:{
           v : this.videoId,
           lang : this.selectedLang.lang_code
@@ -804,6 +819,22 @@ document.querySelector('button').addEventListener('click', function() {
 .scroll {
    overflow-y: scroll
 }
+
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+.scroll::-webkit-scrollbar-thumb {
+  background: #ff3c33;
+  border-radius: 40px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #eee;
+  border-radius: 40px;
+}
+
+
 #controller {
   position: fixed;
   left: 10px;
