@@ -8,14 +8,13 @@
           <div style="color:black; margin: 15px 0px">
             <h3 style="text-align: center">닉네임</h3>
             <p style="margin-top:10px">
-              500 point
+              {{this.point}} 포인트
               <v-chip
                 small
                 class="ma-2"
                 color="green"
                 label
                 text-color="white"
-                @click="onCharge"
               >
                 충전
               </v-chip>
@@ -84,6 +83,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import VideoLearning from "@/views/Mypage/VideoLearning";
 import MyWords from "@/views/Mypage/MyWords";
 import MySentences from "@/views/Mypage/MySentences";
@@ -113,14 +113,23 @@ export default {
         "mdi-youtube",
         "mdi-alphabetical-variant",
         "mdi-book-play-outline"
-      ]
+      ],
+      point: null
     };
+  },
+  mounted() {
+    axios.get(
+         `https://morelang.gq/api/user/pay/my-point`
+      )
+      .then(res => {
+        this.point = res.data;
+      });
   },
   methods: {
     onCharge() {
       alert("충전하시겠습니까?");
       this.$router.push({ name: "Pay" });
-    }
+    },
   }
 };
 </script>
