@@ -22,7 +22,7 @@ public class VideoController {
 	@Autowired
 	VideoService videoService;
 
-	@GetMapping("/newuser/video")
+	@GetMapping("/video")
 	@ApiOperation(value = "예)lutr9KxY-8s")
 	public ResponseEntity<Video> video(@RequestParam("id") String id, HttpServletRequest request) {
 
