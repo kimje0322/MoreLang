@@ -1,34 +1,32 @@
 <template>
-  <!-- <div class='wrap'> -->
-    <!-- <div class="code-block-container"> -->
-      <!-- 단어 -->
-      <div class="code-box mx-auto" @dragover="dragover">
-        <div class="play-box mx-auto mt-5">
-          <!-- {{score}}<br> -->
-          <!-- 퀴즈 텍스트 -->
-          <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
-            <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
-              {{item.quiz}}
-            </div>
-            <div v-else id="blank" class="blank droppable" @drop="drop(item.index)">
-            </div>
-          </div>
+  <div class="code-box mx-auto" @dragover="dragover">
+    <!-- 퀴즈 Content -->
+    <div class="play-box mx-auto mt-5">
+      <h5>퀴즈 Content</h5>
+      <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
+        <!-- 퀴즈 내용 -->
+        <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
+          {{item.quiz}}
         </div>
-        <!-- 키워드 -->
-        <div class="block-box">
-          <div class="block-list mt-5 droppable" @drop="drop">
-          <div class="droppable " @drop="drop">
-            <div v-for="(keyword, i) in keyword" :key=i  style="display: inline">
-              <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original)">{{keyword.key}}</span>
-            </div>
-            <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
-          </div>
+        <!-- 퀴즈 속 빈칸 -->
+        <div @dragover="ondragover(item.index)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+        </div>
       </div>
+    </div>
+    <!-- 퀴즈 키워드 -->
+    <div class="block-box">
+      <div class="block-list mt-5 droppable" @drop="drop">
+      <h5>키워드</h5>
+        <div class="droppable" @drop="drop">
+          <div v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
+            <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original)">{{keyword.key}}</span>
+          </div>
         </div>
-      <!-- </div> -->
-    <!-- </div> -->
+      </div>
+    </div>
   </div>
 </template>
+<!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
 import axios from "axios";
@@ -40,7 +38,6 @@ export default {
   name: 'Quiz',
   data() {
     return {
-
       // quiz
       quizBox: [],
       keyword: [],
@@ -52,6 +49,7 @@ export default {
       score: 0,
       userAns: 0,
       rightAns: [],
+      keyIdx: '',
       // drag
       isMove: true,
       isObstacle: false,
@@ -78,7 +76,8 @@ export default {
   mounted() {
     this.onMove();
     axios.post(
-      `${SERVER_URL}/guest/puzzletest?inputText=a`  
+      `${SERVER_URL}/newuser/puzzletest?inputText=a`
+      // `${SERVER_URL}/newuser/puzzletest?inputText=a`  
       ).then(res => {
         this.answer = res.data.answer;
         // this.quizBox = res.data.quizeText;
@@ -121,6 +120,7 @@ export default {
       this.isMove = true; 
     },
     dragstart(ans) {
+      this.keyIdx = ans;
       // event.target.style.position = 'absolute';
       let posX = event.pageX;
       let posY = event.pageY;
@@ -134,26 +134,43 @@ export default {
       // 키워드 
       this.userAns = ans;
     },
+    ondragover(idx) {
+      // 사이즈 늘리기
+      // idx width를 this.keyIdx로 바꾸기
+      // this.keyIdx.clientWidth
+      // this.keyIdx.innerWidth() or .width()
+      // $('.idx').width( '`${this.keyIdx.clientWidth}px`' );
+      // var keyWidth = document.querySelector(`.k${this.keyIdx}`).width;
+      // document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
+
+      document.querySelector(`.k${this.keyIdx}`).style.width = 300 + 'px' ;
+      
+      // console.log(keyWidth)
+      console.log(idx, this.keyIdx)
+      console.log('내가 만든 드래그오버')
+
+      // document.querySelector(`.b+${idx}`).style.width = keyWidth;
+      // $("#blank").width($(""))
+    },
     dragover(event) {
-      event.stopPropagation();
+      event.stopPropagation();1
       event.preventDefault();
     },
     drop(idx) {
-      // idx: 빈칸이 몇번째 칸인지
-      // console.log(idx);
-      // console.log(this.keyword);
       // 정답처리
+      // idx: 빈칸이 몇번째 칸인지
       if (idx === this.userAns && !this.rightAns.includes(idx)) {
         if (this.score < Object.keys(this.answer).length) {
           this.score += 1;
         }
         this.rightAns.push(idx);
-        alert('정답!')
+        // alert('정답!')
       }
       if (this.score === Object.keys(this.answer).length) {
         alert('정답입니다.')}
       event.stopPropagation();
       event.preventDefault();
+      // 드롭
       let posX = event.pageX;
       let posY = event.pageY;
       // if (posX >= 300 && posX <= 1450) {
