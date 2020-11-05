@@ -1,4 +1,4 @@
-package com.mylogin.util;
+package com.morelang.util;
 
 import java.util.Properties;
 import java.util.Random;

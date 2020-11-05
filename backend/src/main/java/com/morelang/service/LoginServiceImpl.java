@@ -36,9 +36,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.morelang.dto.Member;
+import com.morelang.jwt.JwtTokenUtil;
 import com.morelang.repository.MemberRepository;
-import com.mylogin.jwt.JwtTokenUtil;
-import com.mylogin.util.Mail;
+import com.morelang.util.Mail;
 
 @Service
 public class LoginServiceImpl implements LoginService{

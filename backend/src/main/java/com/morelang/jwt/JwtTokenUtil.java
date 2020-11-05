@@ -1,4 +1,4 @@
-package com.mylogin.jwt;
+package com.morelang.jwt;
 
 import java.io.Serializable;
 import java.util.ArrayList;

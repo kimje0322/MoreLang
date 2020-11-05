@@ -1,4 +1,4 @@
-package com.mylogin.jwt;
+package com.morelang.jwt;
 
 import java.io.IOException;
 import java.util.ArrayList;
