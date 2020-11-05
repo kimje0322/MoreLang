@@ -98,9 +98,7 @@ public class PayServiceImpl implements PayService {
 	public void chargePoint(String accessToken, String mount) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		int amount = Integer.valueOf(mount)/100;
-		System.out.println("포인트 진입점");
 		if(m.isPresent()) {
-			System.out.println("포인트??");
 			Member my = m.get();
 			my.setPoint(my.getPoint()+amount);
 			pointCharge pc = new pointCharge();
