@@ -20,8 +20,13 @@ export default {
                 .then(response => {
                     console.log("성공!");
                     console.log(response);
+                    this.$store.dispatch("SocialLogin", response.data);
+                if (this.$store.state.formerLink) {
+                    this.$router.push(this.$store.state.formerLink);
+                } else {
+                    this.$router.push({ name: "Home" });
+                }
             });
-            this.$router.replace('/Login')
         }
         else {
             this.$router.replace("/")

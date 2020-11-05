@@ -6,10 +6,10 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 const getDefaultState = () => {
     return {
-        member: {},
 //       ServerURL: "https://morelang.gq/api",
         ServerURL: "http://localhost:8080",
         nickname: null,
+        username: null,
         alertColor: null,
         AlertMessage: "",
         showAlert: false,
@@ -121,6 +121,17 @@ export default new Vuex.Store({
           } else {
             console.log("자동로그인중 오류 발생");
           }
+        },
+        async SocialLogin({ commit, dispatch }, data){
+            commit("LOGIN", {
+                nickname: data.nickname,
+                username: data.userid
+            });
+            commit("TOKEN", {
+                accessToken: data.accessToken,
+                refreshToken: data.refreshToken
+            });
+            dispatch("Thumbnail", data.userid);
         },
         async Thumbnail({ commit }, payload) {
           const res = await axios.get(
