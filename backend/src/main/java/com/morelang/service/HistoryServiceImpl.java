@@ -48,7 +48,6 @@ public class HistoryServiceImpl implements HistoryService{
 				if(history.isPresent()) {
 					is_watch = true;
 					info = video.get();
-					info.setCount(info.getCount()+1);
 					historyVideoRepository.save(info);
 					return "success";
 				}
@@ -56,7 +55,6 @@ public class HistoryServiceImpl implements HistoryService{
 			if(!is_watch && m.get().getPoint()>=POINT_VALUE) {
 				if(video.isPresent()) {
 					info = video.get();
-					info.setCount(info.getCount()+1);
 					historyVideoRepository.save(info);
 				}else {
 					info = watched;
@@ -95,5 +93,30 @@ public class HistoryServiceImpl implements HistoryService{
 			return historyVideoRepository.findByVideoIdIn(viewId);
 		}
 		return null;
+	}
+	
+	@Override
+	public Boolean is_view(String accessToken,HistoryVideo watched) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			Optional<HistoryVideo> history_video =  historyVideoRepository.findByYoutubeUrl(watched.getYoutubeUrl());
+			if(history_video.isPresent()) {
+				HistoryVideo hvideo = history_video.get();
+				Optional<History> history= historyRepository.findByMember_useridAndVideo_videoId(m.get().getUserid(), history_video.get().getVideoId());
+				hvideo.setCount(hvideo.getCount()+1);
+				historyVideoRepository.save(hvideo);
+				if(history.isPresent()) {
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				watched.setCount(1);
+				historyVideoRepository.save(watched);
+				return false;
+			}
+		}else {
+			return null;
+		}
 	}
 }
