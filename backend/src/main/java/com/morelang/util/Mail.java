@@ -17,7 +17,7 @@ public class Mail {
 	public String sendMail(String reciver, int flag) {
 		String host = "smtp.gmail.com";
 		final String username = "ssalogofficial@gmail.com";
-		final String password = "gps@none.vat";
+		final String password = "gps@none.vat!";
 		int port = 465;
 
 		String recipient = reciver;
