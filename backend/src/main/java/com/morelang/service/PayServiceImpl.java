@@ -29,7 +29,7 @@ public class PayServiceImpl implements PayService {
 	private ChargeRepository chargeRepository;
 	
 	@Override
-	public PayReady ready(String item_name, String total_amount) throws Exception {
+	public PayReady ready(String item_name, String total_amount, String id) throws Exception {
 		RestTemplate template = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "KakaoAK fef33ec5acdbb638e3f4f80ad3f5a006");
@@ -42,10 +42,13 @@ public class PayServiceImpl implements PayService {
 		body.add("quantity", "1");
 		body.add("total_amount", total_amount);
 		body.add("tax_free_amount", "0");
-		body.add("approval_url", "https://morelang.gq/pay/approve");
+		if (id == null)
+			body.add("approval_url", "https://morelang.gq/pay/approve");
+		else
+			body.add("approval_url", "https://morelang.gq/pay/approve?id=" + id);
 		body.add("cancel_url", "https://morelang.gq/pay/fail");
 		body.add("fail_url", "https://morelang.gq/pay/fail");
-
+		
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
 		PayReady payReady = template.postForObject("https://kapi.kakao.com/v1/payment/ready", entity, PayReady.class);
 		payReady.setTotal_amount(total_amount);
