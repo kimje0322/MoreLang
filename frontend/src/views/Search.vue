@@ -164,17 +164,20 @@
           style="width: clac(33.33% - 60px); margin: auto; display: inline-block;"
         >
           <v-hover v-slot:default="{ hover }" close-delay="200">
-            <router-link :to="{ name: 'Video', params: { vid: video.id } }">
-              <div style="margin-bottom: 0px;">
-                <v-img
-                  :elevation="hover ? 16 : 2"
-                  :class="{ 'on-hover': hover }"
-                  :src="video.imgUrl"
-                  alt=""
-                  width="330"
-                />
-              </div>
-            </router-link>
+            <!-- <router-link :to="{ name: 'Video', params: { vid: video.id } }"> -->
+            <div
+              style="margin-bottom: 0px;"
+              @click="selectVideo(video.id, video.imgUrl)"
+            >
+              <v-img
+                :elevation="hover ? 16 : 2"
+                :class="{ 'on-hover': hover }"
+                :src="video.imgUrl"
+                alt=""
+                width="330"
+              />
+            </div>
+            <!-- </router-link> -->
           </v-hover>
           <!-- <h3 v-if="video.title.length > 20">
             {{ video.title.substring(0, 20) }} ...
@@ -250,7 +253,7 @@
 import axios from "axios";
 import InfiniteLoading from "vue-infinite-loading";
 import store from "../store/index.js";
-
+import Swal from "sweetalert2";
 // import Navbar from "@/components/Navbar";
 
 // import store from "@/../src/store/index.js";
@@ -325,14 +328,34 @@ export default {
       this.search_word = this.$route.params.target;
       this.keyword = this.search_word;
       this.videoSearch(this.search_word);
-    }
-
-    else if (store.state.searchWord != null) {
-      this.keyword = store.state.searchWord
-      this.videoSearch(store.state.searchWord)
+    } else if (store.state.searchWord != null) {
+      this.keyword = store.state.searchWord;
+      this.videoSearch(store.state.searchWord);
     }
   },
   methods: {
+    selectVideo(vid, vimg) {
+      Swal.fire({
+        title: "해당 영상을 구매하시겠습니까?",
+        text: "10 Point 결제 부탁드립니다.",
+        imageUrl: vimg,
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Video image",
+
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true
+      }, function() {
+        setTimeout(function () {
+          Swal("결제가 완료되었습니다!");
+        }, 2000);
+      });
+      setTimeout(function() {
+
+      }, 500)
+      this.$router.push({ name: "Video", params: { vid: vid } });
+    },
     beforeTrans() {
       if (this.keyword) {
         this.transDialog = true;
@@ -364,7 +387,6 @@ export default {
       });
 
       store.state.searchWord = search;
-
     },
     infiniteHandler($state) {
       setTimeout(() => {

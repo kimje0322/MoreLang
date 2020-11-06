@@ -65,11 +65,14 @@
                         class="navBtn my-auto mr-3"
                         style="font-size: 13px !important"
                       >
+                        <!-- {{ userid }} -->
                         마이페이지
                       </p>
                     </router-link>
-                    
-                    <v-btn @click="logout()" style="align-self: center;">logout</v-btn>
+
+                    <v-btn @click="logout()" style="align-self: center;"
+                      >logout</v-btn
+                    >
                   </v-row>
                 </v-card>
                 <!-- <v-card color="transparent" v-bind="attrs" v-on="on" flat>
@@ -221,7 +224,7 @@ export default {
         // tr: "터키어"
       },
       gauth: {},
-      userid: store.state.member.userid
+      userid: "",
     };
   },
   mounted() {
@@ -229,6 +232,10 @@ export default {
     //   this.keyword = store.state.target
     //   console.log("여기에 검색어 나와야됨")
     //   console.log(this.keyword)
+    // }
+    // if (!member) {
+
+    //   this.userid = store.state.member.userid
     // }
     gapi.load("auth2", () => {
       this.gauth = gapi.auth2.init({
@@ -269,6 +276,7 @@ export default {
             axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.member.accessToken}`;
             // this.userid = response.data.member.userid
             // console.log()
+            this.userid = response.data.member.userid;
           });
       });
     },
