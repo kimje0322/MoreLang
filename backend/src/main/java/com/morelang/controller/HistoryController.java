@@ -27,17 +27,24 @@ public class HistoryController {
 	@Autowired
 	HistoryService historyService;
 	
-	@PostMapping("/watch-video")
-	@ApiOperation(value="[동영상 조회] 사용자가 동영상을 눌렀을 때, 조회수를 증가시키고, 100 포인트를 결제하는 행위 입니다. 이미 본건 결제 안함 [return] 성공하면 success, 사용자 인증에 실패하면 fail, 포인트가 없으면 잔액부족")
+	@PostMapping("/user/watch-video")
+	@ApiOperation(value="[동영상 조회] 사용자가 동영상을 눌렀을 때, 100 포인트를 결제하는 행위 입니다. 이미 본건 결제 안함 [return] 성공하면 success, 사용자 인증에 실패하면 fail, 포인트가 없으면 잔액부족")
 	public ResponseEntity<String> watchVideo(HttpServletResponse response, @RequestBody HistoryVideo video){
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<String>(historyService.watchVideo(accessToken, video),HttpStatus.OK);
 	}
 	
-	@GetMapping("myvideo")
+	@GetMapping("/user/myvideo")
 	@ApiOperation(value="[결제한 동영상- 페이징 처리] 내가 결제한 동영상을 최신 순(DESC)/안본지 오래된(ASC) 순으로 가져옵니다.")
 	public ResponseEntity<List<HistoryVideo>> myVideo(HttpServletResponse response, PageRequest pageable){
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<List<HistoryVideo>>(historyService.myVideoList(accessToken, pageable.videoTime()),HttpStatus.OK);
+	}
+	
+	@GetMapping("/user/iswatched")
+	@ApiOperation(value="[결제한 동영상- 페이징 처리] 내가 본 동영상인지 아닌지 true/false return, 조회수 증가 여기서 처리했음")
+	public ResponseEntity<Boolean> iswatched(HttpServletResponse response, @RequestBody HistoryVideo video){
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<Boolean>(historyService.is_view(accessToken, video),HttpStatus.OK);
 	}
 }

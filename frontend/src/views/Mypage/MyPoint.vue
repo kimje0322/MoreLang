@@ -11,6 +11,7 @@
             outlined
             tile
             style="position:relative; margin-right: 50px; margin-bottom: 20px;"
+            @click="Charge(i)"
           >
             <!-- @click="Charge(i + 1)" -->
             <p class="coin" :id="i" @click="Coin(i)"></p>

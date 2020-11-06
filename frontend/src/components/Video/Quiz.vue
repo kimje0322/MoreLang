@@ -1,49 +1,53 @@
 <template>
-  <div class='wrap'>
-    <div class="code-block-container">
-      <!-- 단어 -->
-      {{blankIndex}}
-      <!-- <img src="https://image.dongascience.com/Photo/2015/07/14370336879614[1].jpg" style="width:670px margin-left:15px;" alt=""> -->
-      <div class="code-box mx-auto" @dragover="dragover">
-        <div class="play-box mx-auto mt-5">
-          <!-- 퀴즈 텍스트 -->
-          <div style="display:inline-block"  :class="i" class="pr-1" v-for="(item, i) in quizBox" :key=i>
-            <div v-if="item!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
-              {{item}}
-            </div>
-            <div v-else class="blank droppable" @drop="drop">
-            </div>
-          </div>
+  <div class="code-box mx-auto" @dragover="dragover">
+    <!-- 퀴즈 Content -->
+    <div class="play-box mx-auto mt-5">
+      <h5>퀴즈 Content</h5>
+      <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
+        <!-- 퀴즈 내용 -->
+        <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
+          {{item.quiz}}
         </div>
-        <div class="block-box">
-          <div class="block-list">
-            <div v-for="(keyword, i) in keyword" :key=i >
-              <span class="block block1" draggable="true" @dragstart="dragstart">{{keyword}}</span>
-            </div>
-            <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div>
-            <div v-for="(item, index) in items.block1" :key="`b+${index}`" class="block block1" draggable="true" @dragstart="dragstart">Pichai</div>
-            <div v-for="(item, index) in items.block6" :key="`g+${index}`" class="block block6" draggable="true" @dragstart="dragstart">Consumer</div> -->
+        <!-- 퀴즈 속 빈칸 -->
+        <div @dragover="ondragover(`b${item.index}`)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+        </div>
+      </div>
+    </div>
+    <!-- 퀴즈 키워드 -->
+    <div class="block-box">
+      <div class="block-list mt-5 droppable" @drop="drop">
+      <h5>키워드</h5>
+        <div class="droppable" @drop="drop">
+          <div v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
+            <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original, i)">{{keyword.key}}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
 import axios from "axios";
-// import $ from 'jquery';
+import $ from 'jquery';
 
 const SERVER_URL = "https://morelang.gq/api";
 
 export default {
-  name: 'CodeBlock',
+  name: 'Quiz',
   data() {
     return {
       // quiz
       quizBox: [],
       keyword: [],
-      blankIndex: [],
+      blankSize: '',
+      answer: {},
+      score: 0,
+      userAns: 0,
+      rightAns: [],
+      keyIdx: '',
+      keyIdxWidth: 0,
       // drag
       isMove: true,
       isObstacle: false,
@@ -70,35 +74,54 @@ export default {
   mounted() {
     this.onMove();
     axios.post(
-      `${SERVER_URL}/guest/puzzletest?inputText=a`  
+      `${SERVER_URL}/newuser/puzzletest?inputText=a`  
       ).then(res => {
-        console.log(res.data);
+        this.answer = res.data.answer;
         // this.quizBox = res.data.quizeText;
         var quizInput = res.data.inputTextArray;
         this.keyword = res.data.keyword;
+        var j = 1;
         for (var i=0; i<quizInput.length; i++) {
-          // if (quizInput[i] === '______' || quizInput[i].includes('______')) {
-          if (quizInput[i] === '______') {
-              this.quizBox.push('blank');
-              this.blankIndex.push(i)
+          if (quizInput[i] === '______') { 
+              this.quizBox.push({index: j++, quiz: 'blank'});
           } else if (quizInput[i].startsWith('______')) {
-              this.quizBox.push('blank')
-              this.quizBox.push(quizInput[i].slice(6))
-              this.blankIndex.push(i)
-              // console.log(quizInput[i].slice(6));
+              this.quizBox.push({index: j++, quiz: 'blank'})
+              this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
           } else {
-            this.quizBox.push(quizInput[i])    
+            this.quizBox.push({index: 0, quiz: quizInput[i]})    
           }
         }
       })
   },
+  // updated() {
+  //     $(".blank").css("width", "50px");
+  //   정답체크
+  //   console.log(this.userAns);
+  //     if (idx === this.userAns && !this.rightAns.includes(idx)) {
+  //       if (score < Object.keys(this.answer).length) {
+  //         this.score += 1;
+  //       }
+  //       this.rightAns.push(idx);
+  //       alert('정답')
+  //   }
+  // },
   watch: {
+    checkAnswer: function () {
+      if (this.score === this.keyword.length) {
+        // 정답입니다 텍스트 보여주기
+        console.log('정답')
+      }
+    }
   },
   methods: {
     onMove() {
       this.isMove = true; 
     },
-    dragstart(event) {
+    dragstart(ans, i) {
+      this.keyIdx = `k${i}`;
+      // var KI = $(`.${this.keyIdx}`).width() - 10;
+      console.log('드래그 시작, keyIdx가 생겨요');
+      console.log(this.keyIdx);
       // event.target.style.position = 'absolute';
       let posX = event.pageX;
       let posY = event.pageY;
@@ -108,15 +131,39 @@ export default {
       this.classId += '0'
       this.targetClass = event.target.classList[2]
       this.targetClass2 = event.target.classList[1]
+      // console.log(event.target)
+      // 키워드 
+      this.userAns = ans;
+    },
+    ondragover(idx) {
+      // 사이즈 변경
+      // idx width를 this.keyIdx로 바꾸기
+      console.log('키너비'+this.keyIdxWidth);
+      console.log('키워드 클래스'+ this.keyIdx);
+      this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 10;
+      $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
+      // document.querySelector(`.${idx}`).style.width = document.querySelector(`.${this.keyIdx}`).style.width + 'px' ;
+      console.log('드래그오버 중')
     },
     dragover(event) {
       event.stopPropagation();
       event.preventDefault();
     },
-    drop(event) {
+    drop(idx) {
+      // 정답처리
+      // idx: 빈칸이 몇번째 칸인지
+      if (idx === this.userAns && !this.rightAns.includes(idx)) {
+        if (this.score < Object.keys(this.answer).length) {
+          this.score += 1;
+        }
+        this.rightAns.push(idx);
+        // alert('정답!')
+      }
+      if (this.score === Object.keys(this.answer).length) {
+        alert('정답입니다.')}
       event.stopPropagation();
       event.preventDefault();
-      // console.log(event.pageX)
+      // 드롭
       let posX = event.pageX;
       let posY = event.pageY;
       // if (posX >= 300 && posX <= 1450) {
@@ -127,8 +174,9 @@ export default {
           document.querySelector(`.${this.targetClass}`).style.left = 0;
           document.querySelector(`.${this.targetClass}`).style.marginLeft = posX + this.distX + 'px';
           document.querySelector(`.${this.targetClass}`).style.marginTop = posY + this.distY + 'px';
-          
-          document.querySelector(".i").style.width = 100 ;
+          // console.log(event.target);
+          // $("div").width(400);
+          // document.querySelector(".i").style.width = 100 ;
           // $('div.i').width( '100px' );
           const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
           for (let i=0; i<CLONE.length; i++) {
@@ -141,7 +189,7 @@ export default {
         }
         // }
       // }
-      console.log(posX, posY, this.distX, this.distY)
+      // console.log(posX, posY, this.distX, this.distY)
       // $('#mydiv').css('margin-left', posX + this.distX + 'px')
       //     .css('margin-top', posY + this.distY + 'px');
     }
@@ -153,33 +201,29 @@ export default {
 </script>
 
 <style scoped>
-.code-block-container {
-  /* display: flex; */
-  /* margin-top: 100px; */
+
+/* .code-block-container {
+  display: flex;
   width: 100%;
   text-align: center;
-}
-
+} */
 .code-block-container .unity-box {
   width: 80%;
   margin-right: 1%;
-  height: 450px;
+  /* height: 0px; */
   /* background-color: grey; */
 }
-
 .code-block-container .code-box {
-  /* width: 40%; */
   /* height: 450px; */
   /* display: flex; */
   position: relative;
 }
-
-.code-box .block-box {
+/* .code-box .block-box {
   width: 14%;
   display: flex;
-}
+} */
 .play-box {
-  width: 88%;
+  width: 100%;
   background-color: #def5df;
   border-radius: 7px;
   padding: 12px;
@@ -192,52 +236,44 @@ export default {
   /* border: 1px solid green; */
   /* position: relative; */
 }
-
 .block-box .block-menu-bar {
   width: 30%;
 }
-
 .block-box .block-list {
   width: 100%;
-  height: 350px;
+  /* height: 350px; */
   padding: 10px;
   margin: 0 2px;
   /* background-color: #def5df; */
   border: 1px solid green;
   border-radius: 7px;
 }
-
 .block-box .block-menu-bar .on-menu-bar {
   background-color: black;
   font-weight: 700;
 }
-
 .block-box .block-menu-bar .menu {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   padding-left: 5px;
   height: 50px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 10px;
-  border: 1px solid #a4d4ff;
   margin-bottom: 5px;
   cursor: pointer;
   transition: background-color .5s ease;
 }
-
-.block-box .block-list .block {
+ .block-list .block {
   padding: 2px 7px;
+  margin-right: 8px;
   border-radius: 8px;
   background-color: rgb(22, 177, 22);
   margin-bottom: 10px;
   cursor: pointer;
   color: #fff;
   font-size: 14px;
-  float: left;
-  clear: both;
 }
-
 .play-box .play {
   position: absolute;
   top: 0;
@@ -251,11 +287,11 @@ export default {
   height: 100%;
 }
 .blank {
-  border: dashed grey 1px;
-  border-radius: 3px;
-  /* background-color: lightgrey; */
+  /* border: dashed grey 1px; */
+  border-radius: 8px;
+  background-color: lightgrey;
   width: 50px;
-  height: 20px;
+  height: 25px;
 }
 
 </style>

@@ -133,11 +133,11 @@ export default {
     console.log("여기여기");
     console.log(this.channelId);
 
-    axios.get(`${SERVER_URL}/channel?id=${this.channelId}`).then(res => {
+    axios.get(`${SERVER_URL}/newuser/channel?id=${this.channelId}`).then(res => {
       console.log(res);
       this.channelInfo = res.data;
       axios
-        .get(`${SERVER_URL}/playlist?id=${this.channelInfo.uploads}`)
+        .get(`${SERVER_URL}/newuser/playlist?id=${this.channelInfo.uploads}`)
         .then(res => {
           console.log(res);
           this.videolst = res.data.items;
@@ -163,7 +163,7 @@ export default {
       setTimeout(() => {
         axios
           .get(
-            `${SERVER_URL}/playlist?id=${this.channelInfo.uploads}&token=${this.token}`
+            `${SERVER_URL}/newuser/playlist?id=${this.channelInfo.uploads}&token=${this.token}`
           )
           .then(res => {
             // console.log("infinitehandler");

@@ -1,5 +1,10 @@
 package com.morelang.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -7,12 +12,22 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.morelang.dto.Member;
 import com.morelang.dto.PayApprove;
 import com.morelang.dto.PayReady;
+import com.morelang.dto.pointCharge;
+import com.morelang.repository.ChargeRepository;
+import com.morelang.repository.MemberRepository;
 
 @Service
 public class PayServiceImpl implements PayService {
-
+	
+	@Autowired
+	private MemberRepository memberRepository;
+	
+	@Autowired
+	private ChargeRepository chargeRepository;
+	
 	@Override
 	public PayReady ready(String item_name, String total_amount) throws Exception {
 		RestTemplate template = new RestTemplate();
@@ -39,7 +54,7 @@ public class PayServiceImpl implements PayService {
 	}
 
 	@Override
-	public PayApprove approve(String tid, String pg_token, String total_amount) throws Exception {
+	public PayApprove approve(String accessToken, String tid, String pg_token, String total_amount) throws Exception {
 		RestTemplate template = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -57,10 +72,42 @@ public class PayServiceImpl implements PayService {
 		PayApprove payApprove = template.postForObject("https://kapi.kakao.com/v1/payment/approve", entity,
 				PayApprove.class);
 
-		// 여기서 DB에 포인트 추가 및 결제내역 추가좀 @성오
 		System.out.println(payApprove);
-
+		chargePoint(accessToken,total_amount);
 		return payApprove;
 	}
+	@Override
+	public Integer MyPoint(String accessToken) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			return m.get().getPoint();
+		}
+		return null;
+	}
 
+	@Override
+	public Page<pointCharge> PointLogs(String accessToken, Pageable pageable) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			Page<pointCharge> pointlogs = chargeRepository.findByMember_userid(m.get().getUserid(), pageable);
+			return pointlogs;
+		}else {
+			return null;
+		}
+	}
+	public void chargePoint(String accessToken, String mount) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		int amount = Integer.valueOf(mount)/100;
+		if(m.isPresent()) {
+			Member my = m.get();
+			my.setPoint(my.getPoint()+amount);
+			pointCharge pc = new pointCharge();
+			pc.setMember(my);
+			pc.setChargeAmount(amount);
+			pc.setCharge(true);
+			chargeRepository.save(pc);
+		}
+	}
+	
+	
 }
