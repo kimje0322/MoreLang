@@ -20,7 +20,7 @@ public class HistoryVideo {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int videoId;
+	private int vid;
 	
 	@Column
 	private String title;
@@ -29,24 +29,12 @@ public class HistoryVideo {
 	private String thumbnail;
 	
 	@Column
-	private String youtubeUrl;
+	private String youtubeVideoid;
 	
 	@Column
 	private String defaultLanguage;
 	
 	@Column
-	private int count;
-
-	public HistoryVideo(int videoId, String title, String thumbnail, String youtubeUrl, String defaultLanguage,
-			int count) {
-		super();
-		this.videoId = videoId;
-		this.title = title;
-		this.thumbnail = thumbnail;
-		this.youtubeUrl = youtubeUrl;
-		this.defaultLanguage = defaultLanguage;
-		this.count = count;
-	}
-	
+	private int count;	
 	
 }

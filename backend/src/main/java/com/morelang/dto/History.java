@@ -34,7 +34,7 @@ public class History {
 	private Member member;
 	
 	@ManyToOne(targetEntity=HistoryVideo.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="videoId")
+	@JoinColumn(name="video_id")
 	private HistoryVideo video;
 
 	@Column

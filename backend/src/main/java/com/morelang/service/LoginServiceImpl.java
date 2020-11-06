@@ -112,6 +112,7 @@ public class LoginServiceImpl implements LoginService{
 		map.put("refreshToken", refreshToken);
 		map.put("nickname", nickname);
 		map.put("userid", m.getUserid());
+		map.put("point", m.getPoint());
 		return map;
 	}
 	

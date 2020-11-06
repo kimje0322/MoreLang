@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.morelang.dto.HistoryVideo;
 
 public interface HistoryVideoRepository extends JpaRepository<HistoryVideo,Long>{
-	public Optional<HistoryVideo> findByYoutubeUrl(String url);
-	public List<HistoryVideo> findByVideoIdIn(List<Long> video);
+	public Optional<HistoryVideo> findByYoutubeVideoid(String url);
+	public List<HistoryVideo> findByVidIn(List<Long> video);
 	
 }
