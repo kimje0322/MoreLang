@@ -41,7 +41,7 @@ public class HistoryController {
 		return new ResponseEntity<List<HistoryVideo>>(historyService.myVideoList(accessToken, pageable.videoTime()),HttpStatus.OK);
 	}
 	
-	@GetMapping("/newuser/iswatched")
+	@GetMapping("/user/iswatched")
 	@ApiOperation(value="[결제한 동영상- 페이징 처리] 내가 본 동영상인지 아닌지 true/false return, 조회수 증가 여기서 처리했음")
 	public ResponseEntity<Boolean> iswatched(HttpServletResponse response, @RequestBody HistoryVideo video){
 		String accessToken = response.getHeader("accessToken");
