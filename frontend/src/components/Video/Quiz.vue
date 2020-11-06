@@ -9,7 +9,7 @@
           {{item.quiz}}
         </div>
         <!-- 퀴즈 속 빈칸 -->
-        <div @dragover="ondragover(item.index)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+        <div @dragover="ondragover(`b${item.index}`)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <h5>키워드</h5>
         <div class="droppable" @drop="drop">
           <div v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
-            <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original)">{{keyword.key}}</span>
+            <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original, i)">{{keyword.key}}</span>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
 
 <script>
 import axios from "axios";
-// import $ from 'jquery';
+import $ from 'jquery';
 
 const SERVER_URL = "https://morelang.gq/api";
 
@@ -43,13 +43,11 @@ export default {
       keyword: [],
       blankSize: '',
       answer: {},
-      styleObject: {
-        width: '50px'
-      },
       score: 0,
       userAns: 0,
       rightAns: [],
       keyIdx: '',
+      keyIdxWidth: 0,
       // drag
       isMove: true,
       isObstacle: false,
@@ -96,6 +94,7 @@ export default {
       })
   },
   // updated() {
+  //     $(".blank").css("width", "50px");
   //   정답체크
   //   console.log(this.userAns);
   //     if (idx === this.userAns && !this.rightAns.includes(idx)) {
@@ -118,8 +117,11 @@ export default {
     onMove() {
       this.isMove = true; 
     },
-    dragstart(ans) {
-      this.keyIdx = ans;
+    dragstart(ans, i) {
+      this.keyIdx = `k${i}`;
+      // var KI = $(`.${this.keyIdx}`).width() - 10;
+      console.log('드래그 시작, keyIdx가 생겨요');
+      console.log(this.keyIdx);
       // event.target.style.position = 'absolute';
       let posX = event.pageX;
       let posY = event.pageY;
@@ -134,25 +136,17 @@ export default {
       this.userAns = ans;
     },
     ondragover(idx) {
-      // 사이즈 늘리기
+      // 사이즈 변경
       // idx width를 this.keyIdx로 바꾸기
-      // this.keyIdx.clientWidth
-      // this.keyIdx.innerWidth() or .width()
-      // $('.idx').width( '`${this.keyIdx.clientWidth}px`' );
-      // var keyWidth = document.querySelector(`.k${this.keyIdx}`).width;
-      // document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
-
-      document.querySelector(`.k${this.keyIdx}`).style.width = 300 + 'px' ;
-      
-      // console.log(keyWidth)
-      console.log(idx, this.keyIdx)
-      console.log('내가 만든 드래그오버')
-
-      // document.querySelector(`.b+${idx}`).style.width = keyWidth;
-      // $("#blank").width($(""))
+      console.log('키너비'+this.keyIdxWidth);
+      console.log('키워드 클래스'+ this.keyIdx);
+      this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 10;
+      $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
+      // document.querySelector(`.${idx}`).style.width = document.querySelector(`.${this.keyIdx}`).style.width + 'px' ;
+      console.log('드래그오버 중')
     },
     dragover(event) {
-      event.stopPropagation();1
+      event.stopPropagation();
       event.preventDefault();
     },
     drop(idx) {
@@ -207,6 +201,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* .code-block-container {
   display: flex;
   width: 100%;
@@ -292,9 +287,9 @@ export default {
   height: 100%;
 }
 .blank {
-  border: dashed grey 1px;
+  /* border: dashed grey 1px; */
   border-radius: 8px;
-  /* background-color: lightgrey; */
+  background-color: lightgrey;
   width: 50px;
   height: 25px;
 }
