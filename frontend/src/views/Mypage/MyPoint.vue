@@ -13,6 +13,7 @@
             style="position:relative; margin-right: 50px; margin-bottom: 20px;"
             @click="Charge(i)"
           >
+            <!-- @click="Charge(i + 1)" -->
             <p class="coin" :id="i" @click="Coin(i)"></p>
             <p class="my-auto">{{ 100 * i }} 포인트</p>
             <p class="my-auto">{{ 10000 * i }} 원</p>

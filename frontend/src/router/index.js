@@ -45,7 +45,7 @@ const routes = [{
         component: Mypage,
     },
     {
-        path: "/pay/pay/:point?",
+        path: "/pay/:point?",
         name: "Pay",
         component: Pay,
     },
