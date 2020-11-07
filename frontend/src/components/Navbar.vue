@@ -13,12 +13,6 @@
             </h2>
           </router-link>
           <div class="mx-auto mt-1">
-            <!-- 검색창 -->
-            <!-- <form
-              style="display:inline-block; width:385px;"
-              action="/search"
-              method="get"
-            > -->
             <v-text-field
               style="display: inline-block;"
               autocomplete="off"
@@ -32,8 +26,6 @@
               append-icon="mdi-magnify"
               @click:append="onSearch(keyword)"
             />
-            <!-- </form> -->
-            <!-- 번역버튼 -->
             <div class="mx-1" style="display:inline-block">
               <v-btn
                 @click="beforeTrans"
@@ -83,7 +75,7 @@
                       <div class="text-left subtitle">{{ nickname }} 님</div>
                     </v-col>
                   </v-row>
-                </v-card>
+                </v-card> -->
               </template>
               <v-list >
                 <v-list-item-group color="primary">
