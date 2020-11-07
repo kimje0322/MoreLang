@@ -313,7 +313,7 @@ public class LoginServiceImpl implements LoginService{
 		Optional<Member> m2 = memberRepository.findByUserid(username);
 		Member member = m2.get();
 		if(member != null && member.getProviderName().equals("Our")) {
-			Mail m = new Mail();
+			Mail m = Mail.getInstance();
 	    	String ran = m.sendMail(username,2);
 	    	member.setPassword(bcryptEncoder.encode(ran));
 	    	memberRepository.save(member);
@@ -321,4 +321,5 @@ public class LoginServiceImpl implements LoginService{
 		}
 		return false;
 	}
+
 }
