@@ -3,7 +3,7 @@
     <Navbar />
     <v-container>
       <v-row no-gutters class="mt-10">
-        <v-col cols="12" sm="7">
+        <v-col cols="12" md="7">
           <v-card tile class="pa-9" height="650px" align="center">
             <v-card-title class="pa-0 mb-7 justify-space-between">
               <h1 class="ma-0" style="font-family: 'Do Hyeon', sans-serif;">
