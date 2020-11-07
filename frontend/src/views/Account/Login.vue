@@ -1,58 +1,63 @@
 <template>
   <div>
     <Navbar />
-    <v-container>
-      <v-row no-gutters class="mt-10">
-        <v-col cols="12" md="7">
+    <v-container style="margin-top: 10%;">
+      <v-row no-gutters style="justify-content: center;">
+        <v-col cols="12" md="8">
           <v-card tile class="pa-9" height="650px" align="center">
-            <v-card-title class="pa-0 mb-7 justify-space-between">
+            <v-card-title style="justify-content: center; margin-bottom: 2%;">
               <h1 class="ma-0" style="font-family: 'Do Hyeon', sans-serif;">
-                로그인
+                LOGIN
               </h1>
-              <v-btn fab dark @click="$router.push({ name: 'Home' })">
+              <!-- <v-btn fab dark @click="$router.push({ name: 'Home' })">
                 <v-icon>mdi-home-outline</v-icon>
-              </v-btn>
+              </v-btn> -->
             </v-card-title>
-            <v-form ref="form">
-              <v-text-field
-                class="my-3"
-                v-model="loginData.username"
-                placeholder="hello@naver.com"
-                label="이메일"
-                required
-                @keypress.enter="onSubmit()"
-              ></v-text-field>
-              <v-text-field
-                type="password"
-                v-model="loginData.password"
-                label="비밀번호"
-                required
-                @keypress.enter="onSubmit()"
-              ></v-text-field>
-              <v-card-text style="height: 16px;">
-                <small class="red--text">{{ errorMsg }}</small>
-                <v-progress-circular
-                  indeterminate
-                  v-if="loading"
-                ></v-progress-circular>
-              </v-card-text>
-              <v-card-actions class="px-0 mt-4">
-                <v-btn block :color="'success'" tile @click="onSubmit()"
-                  >로그인</v-btn
-                >
-              </v-card-actions>
-
-              <v-card-actions class="px-0 my-3">
-                <v-btn block :color="'primary'" tile @click="toRegister()"
-                  >회원 가입</v-btn
-                >
-              </v-card-actions>
-              <small
-                style="cursor:pointer"
-                @click="$router.push({ name: 'FindPass' })"
-                >비밀번호찾기</small
+            <div style="display: table; width: 100%; margin-bottom: 5%;">
+              <v-form
+                ref="form"
+                style="display: table-cell;  width: 45%; padding: 0 30px; border-right: 1px solid rgba(0, 0, 0, 0.1);"
               >
-              <div>
+                <v-text-field
+                  class="my-3"
+                  v-model="loginData.username"
+                  placeholder="hello@naver.com"
+                  label="이메일"
+                  required
+                  @keypress.enter="onSubmit()"
+                ></v-text-field>
+                <v-text-field
+                  type="password"
+                  v-model="loginData.password"
+                  label="비밀번호"
+                  required
+                  @keypress.enter="onSubmit()"
+                ></v-text-field>
+                <v-card-text style="padding: 0;">
+                  <small class="red--text">{{ errorMsg }}</small>
+                  <v-progress-circular
+                    indeterminate
+                    v-if="loading"
+                  ></v-progress-circular>
+                </v-card-text>
+                <v-card-actions class="px-0 mt-2">
+                  <v-btn block :color="'success'" tile @click="onSubmit()"
+                    >로그인</v-btn
+                  >
+                </v-card-actions>
+                <small
+                  style="cursor:pointer; padding-right: 3%;"
+                  @click="$router.push({ name: 'FindPass' })"
+                  >비밀번호찾기</small
+                >
+                <small
+                  style="cursor:pointer; border-left: 1px solid #c3c3c3; padding-left: 3%;"
+                  @click="$router.push({ name: 'FindPass' })"
+                  >비밀번호찾기</small
+                >
+              </v-form>
+              <v-form style="display: table-cell; width: 45%; padding: 0 30px;">
+                <!-- <div>
                 <hr
                   style="width:41%; display: inline-block;"
                   class="mb-1 mr-3"
@@ -62,54 +67,93 @@
                   style="width:41%; display: inline-block;"
                   class="mb-1 ml-3"
                 />
-              </div>
-              <!-- 소셜 로그인 -->
-              <v-row justify="center">
-                <v-container style="text-align:center;">
-                  <v-row no-gutters>
-                    <v-col class="mb-3" cols="12" sm="12">
-                      <v-card class="pa-2" outlined tile @click="GoogleLogin()">
-                        <img
-                          style="width:26px; float:left"
-                          src="@/assets/img/google.png"
-                          alt=""
-                        />
-                        <p class="my-auto" style="display:inline-block; ">
-                          Sign up with Google
-                        </p>
-                      </v-card>
-                    </v-col>
-                    <v-col class="mb-3" cols="12" sm="12">
-                      <a :href="naverUrl">
+              </div> -->
+                <!-- 소셜 로그인 -->
+                <v-row justify="center">
+                  <v-container style="text-align: center;">
+                    <v-row no-gutters>
+                      <v-col class="mb-5" cols="12" sm="12">
                         <v-card
                           class="pa-2"
                           outlined
                           tile
-                          @click="NaverLogin()"
+                          @click="GoogleLogin()"
                         >
                           <img
                             style="width:26px; float:left"
-                            src="@/assets/img/naver.png"
+                            src="@/assets/img/google.png"
                             alt=""
                           />
-                          <p class="my-auto">Sign up with naver</p>
+                          <p class="my-auto" style="display:inline-block; ">
+                            Sign up with Google
+                          </p>
                         </v-card>
-                      </a>
-                    </v-col>
-                    <v-col class="mb-3" cols="12" sm="12">
-                      <v-card class="pa-2" outlined tile @click="KakaoLogin()">
-                        <img
-                          style="width:26px; float:left"
-                          src="@/assets/img/kakao.png"
-                          alt=""
-                        />
-                        <p class="my-auto">Sign up with kakao</p>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-row>
-            </v-form>
+                      </v-col>
+                      <v-col class="mb-5" cols="12" sm="12">
+                        <a :href="naverUrl">
+                          <v-card
+                            class="pa-2"
+                            outlined
+                            tile
+                            @click="NaverLogin()"
+                          >
+                            <img
+                              style="width:26px; float:left"
+                              src="@/assets/img/naver.png"
+                              alt=""
+                            />
+                            <p class="my-auto">Sign up with naver</p>
+                          </v-card>
+                        </a>
+                      </v-col>
+                      <v-col class="mb-5" cols="12" sm="12">
+                        <v-card
+                          class="pa-2"
+                          outlined
+                          tile
+                          @click="KakaoLogin()"
+                        >
+                          <img
+                            style="width:26px; float:left"
+                            src="@/assets/img/kakao.png"
+                            alt=""
+                          />
+                          <p class="my-auto">Sign up with kakao</p>
+                        </v-card>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-row>
+              </v-form>
+            </div>
+
+            <div style="display: table; width: 95%; border: 1px solid #ccc; padding: 30px 60px">
+              <div style="display: table-cell; width: 45%;">
+                <div style="font-size: 25px; color: #222; text-align: left;">
+                  아직 회원이 아니신가요?
+                </div>
+              </div>
+              <div style="display: table-cell; width: 45%;">
+                <div style="text-align: left; font-size: 15px; color: #777; padding-bottom: 20px;">
+                  지금 회원가입을 하시면 다양한 영상 및 다국어 학습 참여가 가능하며
+                  <br>
+                  회원가입 포인트를 받으실 수 있습니다.
+                </div>
+                <div style="padding-bottom: 20px; text-align: left; ">
+                  <v-btn @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #fff; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
+                    <v-icon style="margin-right: 5%;">
+                      mdi-account-circle-outline
+                    </v-icon>
+                    회원가입
+                  </v-btn>
+                </div>
+              </div>
+              <!-- <v-card-actions class="px-0 my-3">
+                <v-btn block :color="'primary'" tile @click="toRegister()"
+                  >회원 가입</v-btn
+                >
+              </v-card-actions> -->
+            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -125,7 +169,7 @@ import axios from "axios";
 export default {
   name: "Login",
   components: {
-    Navbar,
+    Navbar
   },
   data() {
     return {
@@ -137,12 +181,12 @@ export default {
       showMenu: false,
       loading: false,
       gauth: {},
-      naverUrl: '',
+      naverUrl: ""
     };
   },
   methods: {
     async onSubmit() {
-      console.log("click")
+      console.log("click");
       if (!this.loginData.username || !this.loginData.password) {
         this.errorMsg = "이메일 또는 비밀번호를 입력해주세요";
       } else {
@@ -173,20 +217,20 @@ export default {
     },
     async GoogleLogin() {
       await gapi.load("auth2", () => {
-      this.gauth = gapi.auth2.init({
-        client_id:
-          "258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com"
+        this.gauth = gapi.auth2.init({
+          client_id:
+            "258439612277-a2k3f6ro1jvdkbois85pt4cngrs6hctk.apps.googleusercontent.com"
+        });
+        this.gauth.then(
+          function() {
+            console.log("init success");
+          },
+          function() {
+            console.error("init fail");
+          }
+        );
+        this.Glogin();
       });
-      this.gauth.then(
-        function() {
-          console.log("init success");
-        },
-        function() {
-          console.error("init fail");
-        }
-      );
-      this.Glogin();
-    });
     },
     async Glogin() {
       await this.gauth.grantOfflineAccess().then(data => {
@@ -211,34 +255,36 @@ export default {
     },
     KakaoLogin() {
       window.Kakao.Auth.loginForm({
-        success: this.GetMe,
+        success: this.GetMe
       });
     },
     GetMe(authObj) {
       console.log(authObj);
       const fd = new FormData();
       fd.append("accessToken", authObj.access_token);
-      axios.post(`${this.$store.state.ServerURL}/newuser/kakaologin`, fd)
-        .then((response) => {
-          console.log("성공!")
-          console.log(response)
+      axios
+        .post(`${this.$store.state.ServerURL}/newuser/kakaologin`, fd)
+        .then(response => {
+          console.log("성공!");
+          console.log(response);
           this.$store.dispatch("SocialLogin", response.data);
-            if (this.$store.state.formerLink) {
-              this.$router.push(this.$store.state.formerLink);
-            } else {
-              this.$router.push({ name: "Home" });
-            }
-      });
+          if (this.$store.state.formerLink) {
+            this.$router.push(this.$store.state.formerLink);
+          } else {
+            this.$router.push({ name: "Home" });
+          }
+        });
     },
-    NaverLogin(){
-      var clientId = "YOwQRknl_3ldIN3E5UQN";//애플리케이션 클라이언트 아이디값";
-      var redirectURI = "http://localhost:8081/"
-      var apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+    NaverLogin() {
+      var clientId = "YOwQRknl_3ldIN3E5UQN"; //애플리케이션 클라이언트 아이디값";
+      var redirectURI = "http://localhost:8081/";
+      var apiURL =
+        "https://nid.naver.com/oauth2.0/authorize?response_type=code";
       apiURL += "&client_id=" + clientId;
-      apiURL += "&redirect_uri=" + redirectURI+"/oauth2/redirect";
+      apiURL += "&redirect_uri=" + redirectURI + "/oauth2/redirect";
       apiURL += "&state=" + 234235;
       this.naverUrl = apiURL;
-    },
+    }
   }
 };
 </script>
