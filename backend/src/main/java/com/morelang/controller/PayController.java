@@ -28,11 +28,11 @@ public class PayController {
 
 	@GetMapping("/user/pay/ready")
 	public ResponseEntity<PayReady> ready(@RequestParam("item_name") String item_name,
-			@RequestParam("total_amount") String total_amount, HttpServletRequest request) {
+			@RequestParam("total_amount") String total_amount, @RequestParam(value = "id", required = false) String id, HttpServletRequest request) {
 
 		PayReady payReady = null;
 		try {
-			payReady = payService.ready(item_name, total_amount);
+			payReady = payService.ready(item_name, total_amount, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
