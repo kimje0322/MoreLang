@@ -8,8 +8,8 @@ import com.morelang.dto.Member;
 
 
 
-public interface MemberRepository extends JpaRepository<Member, String>{
+public interface MemberRepository extends JpaRepository<Member, Long>{
 	public Optional<Member> findByAccessToken(String accessToken);
-	public Member findByUserid(String userid);
+	public Optional<Member> findByUserid(String userid);
 	public Member findByName(String name);
 }

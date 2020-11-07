@@ -98,7 +98,8 @@ public class LoginServiceImpl implements LoginService{
 		final String accessToken = jwtTokenUtil.generateAccessToken(userDetails);
 		final String refreshToken = jwtTokenUtil.generateRefreshToken(Userid);
 
-		Member m = memberRepository.findByUserid(Userid);
+		Optional<Member> m2 = memberRepository.findByUserid(Userid);
+		Member m = m2.get();
 		m.setAccessToken(accessToken);
 		m.setRefreshToken(refreshToken);
 
@@ -119,7 +120,8 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public String logout(String userid) {
 		try {
-			Member m = memberRepository.findByUserid(userid);
+			Optional<Member> member = memberRepository.findByUserid(userid);
+			Member m = member.get();
 			m.setAccessToken(null);
 			m.setRefreshToken(null);
 			return "success";
@@ -140,7 +142,8 @@ public class LoginServiceImpl implements LoginService{
 	}
 	@Override
 	public String get_profile_img(String username){
-		Member member = memberRepository.findByUserid(username);
+		Optional<Member> m = memberRepository.findByUserid(username);
+		Member member = m.get();
 		if(member.getProfileImg() == null){
 			return "default";
 		}else {
@@ -166,7 +169,7 @@ public class LoginServiceImpl implements LoginService{
 		String email = payload.getEmail();
 		String name = (String) payload.get("name");
 		String pictureUrl = (String) payload.get("picture");
-		Optional<Member> m = memberRepository.findById(userId);
+		Optional<Member> m = memberRepository.findByUserid(userId);
 		Member m1 = null;
 		if (m.isPresent()) {
 			m1 = m.get();
@@ -219,7 +222,7 @@ public class LoginServiceImpl implements LoginService{
 				String profile_image = nprofile_image == null
 						? "https://file3.instiz.net/data/cached_img/upload/2020/02/26/12/f7975c2dacddf8bf521e7e6d7e4c02ee.jpg"
 						: nprofile_image.getAsString();
-				Optional<Member> m = memberRepository.findById(userid);
+				Optional<Member> m = memberRepository.findByUserid(userid);
 				Member m1 = null;
 				if (m.isPresent()) {
 					m1 = m.get();
@@ -284,7 +287,7 @@ public class LoginServiceImpl implements LoginService{
         String name = String.valueOf(map.get("nickname"));
         String pictureUrl = String.valueOf(map.get("profile_image"));
         String email = String.valueOf(map.get("email"));
-        Optional<Member> m = memberRepository.findById(userid)                                                                                                                                                                                                                                                                                                                                                                                                      ;
+        Optional<Member> m = memberRepository.findByUserid(userid)                                                                                                                                                                                                                                                                                                                                                                                                      ;
 		Member m1 = null;
 		if (m.isPresent()) {
 			m1 = m.get();
@@ -307,7 +310,8 @@ public class LoginServiceImpl implements LoginService{
 	}
 	@Override
 	public Boolean find_pw(String username) {
-		Member member = memberRepository.findByUserid(username);
+		Optional<Member> m2 = memberRepository.findByUserid(username);
+		Member member = m2.get();
 		if(member != null && member.getProviderName().equals("Our")) {
 			Mail m = new Mail();
 	    	String ran = m.sendMail(username,2);

@@ -18,6 +18,9 @@ public class Member {
 
 	@Id
 	@Column
+	private int id;
+	
+	@Column
 	private String userid;
 	
 	@Column

@@ -2,6 +2,7 @@ package com.morelang.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,8 +26,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     // 유저별 권한 확인
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByUserid(username);
-        
+         Optional<Member> m = memberRepository.findByUserid(username);
+         Member member = m.get();
         // ArrayList로 저장해야 role들이 각각 저장되지 않고, 연이어 저장이 가능하다.
         List<GrantedAuthority> roles = new ArrayList<>();
 
