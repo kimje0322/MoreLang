@@ -1,45 +1,48 @@
 <template>
-  <v-container my-16>
-    <v-card
-      :dark="isDark"
-      color="transparent"
-      flat
-      class="mx-auto"
-      max-width="50vw"
-    >
-      <v-card-text class="text-center">
-        <v-avatar class="elevation-12 mb-12" size="200">
-          <v-img src="@/assets/images/logo.jpg"></v-img>
-        </v-avatar>
-      </v-card-text>
-      <v-card-title class="py-0 align-baseline">
-        <h1 class="mb-0" style="font-family: 'Do Hyeon', sans-serif;">
-          쌀로하~
-        </h1>
-        <v-btn class="ml-auto" rounded outlined @click="goBack()"
-          >뒤로가기</v-btn
-        >
-      </v-card-title>
-      <div v-if="step === 'main'">
-        <v-card-text>
-          <v-btn tile block color="info" @click="step = 'e'"
-            >이메일로 회원가입</v-btn
-          >
-        </v-card-text>
-      </div>
-      <ByEmail v-if="step === 'e'" />
-    </v-card>
-  </v-container>
+  <div>
+    <Navbar />
+    <v-container style="margin-top: 8%;">
+      <v-row no-gutters style="justify-content: center;">
+        <!-- color="transparent" -->
+        <v-col cols="12" md="6">
+          <!-- <v-card tile :dark="isDark" flat class="mx-auto" max-width="50vw"> -->
+          <v-card tile class="pa-9" height="600px" align="center">
+            <v-card-title
+              class="py-2 align-baseline"
+              style="justify-content: center; margin-bottom: 2%;"
+            >
+              <h1 class="mb-0" style="font-family: 'Do Hyeon', sans-serif;">
+                Sign Up
+              </h1>
+              <!-- <v-btn class="ml-auto" rounded outlined @click="goBack()"
+            >뒤로가기</v-btn
+          > -->
+            </v-card-title>
+            <!-- <div v-if="step === 'main'">
+              <v-card-text>
+                <v-btn tile block color="info" @click="step = 'e'"
+                  >이메일로 회원가입</v-btn
+                >
+              </v-card-text>
+            </div> -->
+            <ByEmail />
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import ByEmail from "@/components/SignUp/ByEmail.vue";
 import { mapState } from "vuex";
+import Navbar from "@/components/Navbar";
 
 export default {
   name: "SignUp",
   components: {
-    ByEmail
+    ByEmail,
+    Navbar
   },
   data() {
     return {
