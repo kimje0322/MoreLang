@@ -335,26 +335,45 @@ export default {
   },
   methods: {
     selectVideo(vid, vimg) {
-      Swal.fire({
-        title: "해당 영상을 구매하시겠습니까?",
-        text: "10 Point 결제 부탁드립니다.",
-        imageUrl: vimg,
-        imageWidth: 400,
-        imageHeight: 200,
-        imageAlt: "Video image",
+      Swal.fire(
+        {
+          title: "영상을 구매하시겠습니까?",
+          text: "10 Point 결제 부탁드립니다.",
+          imageUrl: vimg,
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: "Video image",
 
-        showCancelButton: true,
-        closeOnConfirm: false,
-        showLoaderOnConfirm: true
-      }, function() {
-        setTimeout(function () {
-          Swal("결제가 완료되었습니다!");
-        }, 2000);
-      });
-      setTimeout(function() {
+          showCancelButton: true,
 
-      }, 500)
-      this.$router.push({ name: "Video", params: { vid: vid } });
+          // closeOnConfirm: false,
+          // showLoaderOnConfirm: true
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Buy it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "결제 성공!",
+              text: "해당 영상 학습 페이지로 이동합니다.",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "OK",
+              
+              // "success"
+            }) .then((result) => {
+              if (result.isConfirmed) {
+                this.$router.push({ name: "Video", params: { vid: vid } });
+              }
+            })
+          }
+        })
+        // function() {
+        //   setTimeout(function() {
+        //     Swal("결제가 완료되었습니다!");
+        //   }, 2000);
+        // }
+    
+      // setTimeout(function() {}, 500);
     },
     beforeTrans() {
       if (this.keyword) {
@@ -379,12 +398,14 @@ export default {
       this.next = 10;
       this.click = true;
       this.tmp = search;
-      axios.get(`${SERVER_URL}/newuser/search?q=${search}&start=0`).then(res => {
-        // console.log("asdf")
-        this.videolst = res.data;
-        console.log(res);
-        // this.start = this.start + 10
-      });
+      axios
+        .get(`${SERVER_URL}/newuser/search?q=${search}&start=0`)
+        .then(res => {
+          // console.log("asdf")
+          this.videolst = res.data;
+          console.log(res);
+          // this.start = this.start + 10
+        });
 
       store.state.searchWord = search;
     },

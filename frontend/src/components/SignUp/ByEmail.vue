@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card-title class="pt-0">
-      <h5>쌀로그와 함께하기 위한 고객님의 소중한 정보를 입력해주세요 :)</h5>
+    <v-card-title class="pt-2">
+      <h5>고객님의 소중한 정보를 입력해주세요 :)</h5>
     </v-card-title>
     <v-card-text>
       <v-form ref="form" lazy-validation>
@@ -14,7 +14,7 @@
             label="이메일"
             required
           ></v-text-field>
-          <v-btn class="ml-auto" rounded outlined @click="getCode()">{{
+          <v-btn style="margin-left: 1% !important" class="ml-auto" rounded outlined @click="getCode()">{{
             codeCheck.button
           }}</v-btn>
         </v-card-actions>
