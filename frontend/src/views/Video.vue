@@ -145,7 +145,7 @@
                       <v-tab-item>
                         <v-card flat>
                           <v-card-text>
-                           <test/>
+                           <!-- <test/> -->
                           </v-card-text>
                         </v-card>
                       </v-tab-item>
@@ -445,7 +445,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import axios from "axios";
-import test from "@/components/Video/test";
+// import test from "@/components/Video/test";
 
 var convert = require('xml-js')
 
@@ -457,7 +457,7 @@ export default {
   name: "Video",
   components: {
     Navbar,
-    test,
+    // test,
   },
   data() {
     return {
