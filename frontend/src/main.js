@@ -7,7 +7,6 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 import VueNumericInput from "vue-numeric-input";
 import VueRecord from "@codekraft-studio/vue-record";
-// import 'expose-loader?$!expose-loader?jQuery!jquery';
 
 Vue.config.productionTip = false;
 

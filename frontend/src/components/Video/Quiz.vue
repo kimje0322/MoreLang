@@ -2,54 +2,63 @@
   <div class="code-box mx-auto" @dragover="dragover">
     <!-- 퀴즈 Content -->
     <div class="play-box mx-auto mt-5">
-      <h5>퀴즈 Content</h5>
       <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
-        <!-- 퀴즈 내용 -->
         <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
           {{item.quiz}}
         </div>
-        <!-- 퀴즈 속 빈칸 -->
-        <div @dragover="ondragover(item.index)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+        <!-- 퀴즈 빈칸 -->
+        <div @dragover="ondragover(`b${item.index}`)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
         </div>
       </div>
     </div>
     <!-- 퀴즈 키워드 -->
     <div class="block-box">
       <div class="block-list mt-5 droppable" @drop="drop">
-      <h5>키워드</h5>
         <div class="droppable" @drop="drop">
-          <div v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
-            <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original)">{{keyword.key}}</span>
-          </div>
+          <Draggable v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
+            <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original, i)">{{keyword.key}}</span>
+          </Draggable>
         </div>
       </div>
+
     </div>
+
+    <Container @drop="onDrop">            
+      <Draggable v-for="item in items" :key="item.id">
+        <div class="draggable-item">
+          {{item.data}}
+        </div>
+      </Draggable>
+    </Container>
   </div>
 </template>
 <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
 import axios from "axios";
-// import $ from 'jquery';
+import $ from 'jquery';
+import { Container, Draggable } from "vue-smooth-dnd";
+import { applyDrag, generateItems } from "./utils";
 
 const SERVER_URL = "https://morelang.gq/api";
 
 export default {
   name: 'Quiz',
+  components: { Container, Draggable },
   data() {
     return {
+      // vue-smooth-dnd
+      items: generateItems(50, i => ({ id: i, data: "Draggable " + i })),
       // quiz
       quizBox: [],
       keyword: [],
       blankSize: '',
       answer: {},
-      styleObject: {
-        width: '50px'
-      },
       score: 0,
       userAns: 0,
       rightAns: [],
       keyIdx: '',
+      keyIdxWidth: 0,
       // drag
       isMove: true,
       isObstacle: false,
@@ -59,14 +68,10 @@ export default {
       targetClass2: '',
       targetNum: '',
       targetFlag: false,
-      items: {
-        block0: 1, block1: 1, block2: 1, block3: 1, block4: 1, block5: 1, block6: 1
-      },
+      keywordsWidth: [],
       onQuiz: [],
       classId: 'a',
     }
-  },
-  components: {
   },
   computed: {
   },
@@ -95,7 +100,13 @@ export default {
         }
       })
   },
-  // updated() {
+  updated() {
+    // this.keywordsWidth
+    for (var i=0; i<this.keyword.length; i++) {
+      this.keywordsWidth.push(this.keyword[i]);
+
+    }
+  //     $(".blank").css("width", "50px");
   //   정답체크
   //   console.log(this.userAns);
   //     if (idx === this.userAns && !this.rightAns.includes(idx)) {
@@ -105,7 +116,7 @@ export default {
   //       this.rightAns.push(idx);
   //       alert('정답')
   //   }
-  // },
+  },
   watch: {
     checkAnswer: function () {
       if (this.score === this.keyword.length) {
@@ -115,11 +126,17 @@ export default {
     }
   },
   methods: {
+    onDrop(dropResult) {
+      this.items = applyDrag(this.items, dropResult);
+    },
     onMove() {
       this.isMove = true; 
     },
-    dragstart(ans) {
-      this.keyIdx = ans;
+    dragstart(ans, i) {
+      this.keyIdx = `k${i}`;
+      // var KI = $(`.${this.keyIdx}`).width() - 10;
+      console.log('드래그start-키너비'+this.keyIdxWidth);
+      console.log(this.keyIdx);
       // event.target.style.position = 'absolute';
       let posX = event.pageX;
       let posY = event.pageY;
@@ -129,30 +146,20 @@ export default {
       this.classId += '0'
       this.targetClass = event.target.classList[2]
       this.targetClass2 = event.target.classList[1]
-      // console.log(event.target)
       // 키워드 
       this.userAns = ans;
     },
     ondragover(idx) {
-      // 사이즈 늘리기
-      // idx width를 this.keyIdx로 바꾸기
-      // this.keyIdx.clientWidth
-      // this.keyIdx.innerWidth() or .width()
-      // $('.idx').width( '`${this.keyIdx.clientWidth}px`' );
-      // var keyWidth = document.querySelector(`.k${this.keyIdx}`).width;
-      // document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
-
-      document.querySelector(`.k${this.keyIdx}`).style.width = 300 + 'px' ;
-      
-      // console.log(keyWidth)
-      console.log(idx, this.keyIdx)
-      console.log('내가 만든 드래그오버')
-
-      // document.querySelector(`.b+${idx}`).style.width = keyWidth;
-      // $("#blank").width($(""))
+      // 사이즈 변경
+      // idx width(빈칸 너비) => this.keyIdx(키워드 너비)로 바꾸기
+      // console.log('드래그오버1-키너비'+this.keyIdxWidth);
+      this.keyIdxWidth === $(`.${this.keyIdx}`).width() - 10;
+      $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
+      // console.log('키워드 클래스'+ this.keyIdx);
+      // console.log('드래그오버2-키너비'+this.keyIdxWidth);
     },
     dragover(event) {
-      event.stopPropagation();1
+      event.stopPropagation();
       event.preventDefault();
     },
     drop(idx) {
@@ -207,11 +214,6 @@ export default {
 </script>
 
 <style scoped>
-/* .code-block-container {
-  display: flex;
-  width: 100%;
-  text-align: center;
-} */
 .code-block-container .unity-box {
   width: 80%;
   margin-right: 1%;
@@ -292,11 +294,16 @@ export default {
   height: 100%;
 }
 .blank {
-  border: dashed grey 1px;
+  /* border: dashed grey 1px; */
   border-radius: 8px;
-  /* background-color: lightgrey; */
+  background-color: lightgrey;
   width: 50px;
   height: 25px;
+}
+.draggable-item {
+  border: 1px solid black;
+  width: 200px;
+  margin: 5px;
 }
 
 </style>
