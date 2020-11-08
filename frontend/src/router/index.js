@@ -8,6 +8,7 @@ import Mypage from "../views/Mypage/Mypage.vue";
 import SignUp from "@/views/Account/SignUp.vue";
 import Login from "@/views/Account/Login.vue";
 import FindPass from "@/views/Account/FindPass.vue";
+import PointLog from "@/components/pointLog.vue";
 import Oauth2redirect from "@/views/Account/oauth2redirect.vue";
 import test from "../components/Video/test.vue";
 
@@ -84,6 +85,11 @@ const routes = [{
         path: "/FindPass",
         name: "FindPass",
         component: FindPass
+    },
+    {
+        path: "/PointLog",
+        name: "PointLog",
+        component: PointLog
     }
 ];
 

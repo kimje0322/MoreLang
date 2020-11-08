@@ -43,13 +43,8 @@ public class SearchServiceImpl implements SearchService {
 				Search s = new Search();
 
 				String videoUrl = e.child(0).child(0).attr("href");
-				String id = videoUrl.substring(videoUrl.indexOf("v=") + 2);
-				if (id.contains("&")) {
-					id = id.substring(0, id.indexOf('&'));
-				}
-				if (id.contains("?")) {
-					id = id.substring(0, id.indexOf('?'));
-				}
+				int idx = videoUrl.indexOf("v=") + 2;
+				String id = videoUrl.substring(idx, idx + 11);
 				videoUrl = "https://www.youtube.com/watch?v=" + id;
 				String imgUrl = "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();

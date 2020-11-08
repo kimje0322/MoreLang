@@ -6,8 +6,8 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 const getDefaultState = () => {
     return {
-//       ServerURL: "https://morelang.gq/api",
-        ServerURL: "http://localhost:8080",
+       ServerURL: "https://morelang.gq/api",
+//        ServerURL: "http://localhost:8080",
         nickname: null,
         username: null,
         alertColor: null,
@@ -101,6 +101,7 @@ export default new Vuex.Store({
             });
             window.location.reload();
           }, 1000);
+          axios.defaults.headers.common.Authorization = null;
         },
         async SIGNUP({ dispatch }, signupData) {
           var memberData = {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card-title class="pt-0">
-      <h5>쌀로그와 함께하기 위한 고객님의 소중한 정보를 입력해주세요 :)</h5>
+    <v-card-title class="pt-2">
+      <h5>고객님의 소중한 정보를 입력해주세요 :)</h5>
     </v-card-title>
     <v-card-text>
       <v-form ref="form" lazy-validation>
@@ -14,7 +14,7 @@
             label="이메일"
             required
           ></v-text-field>
-          <v-btn class="ml-auto" rounded outlined @click="getCode()">{{
+          <v-btn style="margin-left: 1% !important" class="ml-auto" rounded outlined @click="getCode()">{{
             codeCheck.button
           }}</v-btn>
         </v-card-actions>
@@ -107,7 +107,6 @@ export default {
         error: null,
         button: "인증번호 발송"
       },
-      ServerURL : "http://127.0.0.1:8080"
     };
   },
   methods: {
@@ -130,7 +129,7 @@ export default {
         this.codeCheck.button = "인증번호 재발송";
         try {
           const { data } = await axios.get(
-            `${this.ServerURL}/newuser/check_email`,
+            `${this.$store.state.ServerURL}/newuser/check_email`,
             {
               params: {
                 reciver: this.userData.username
@@ -149,7 +148,7 @@ export default {
         setTimeout(() => {
           axios
             // 되나 확인해야함
-            .get(`${this.ServerURL}/newuser/checkid`, {
+            .get(`${this.$store.state.ServerURL}/newuser/checkid`, {
               params: {
                 username: this.userData.username
               }
@@ -173,7 +172,7 @@ export default {
         this.chekcingFlags.nickname = true;
         setTimeout(() => {
           axios
-            .get(`${this.ServerURL}/newuser/checkNickname`, {
+            .get(`${this.$store.state.ServerURL}/newuser/checkNickname`, {
               params: {
                 nickname: this.userData.nickname
               }

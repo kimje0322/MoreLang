@@ -54,23 +54,91 @@
                           </v-card-text>
                           <v-card-actions >
                             <v-row>
-                            <v-col cols="10">
+                            <v-col cols="8">
                               <h3><v-icon>mdi-google-translate</v-icon> : 
                               {{translated}}
                               </h3>
                             </v-col>
+                            
+                            </v-row>
+                          </v-card-actions>
+                          <v-card-actions>
+                            <v-row >
+                              <v-spacer></v-spacer>
                             <v-col cols="2">
-                            <v-btn
-                              outlined
-                              rounded
-                              text
-                              color="primary"
-                              @click="translate"  
+                              <v-btn
+                                outlined
+                                rounded
+                                text
+                                color="primary"
+                                @click="translate"  
+                              >
+                                번역
+                              </v-btn>
+                            
+                            </v-col>
+                              <v-col cols="2">
+                               <v-dialog
+                              v-model="dialog3"
+                              persistent
+                              max-width="600px"
                             >
-                              번역
-                            </v-btn>
+                            
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                outlined
+                                rounded
+                                text
+                                color="green"
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="pauseVideo"
+                              >
+                                스크랩
+                              </v-btn>
+                                </template>
+                              <v-card>
+                                <v-card-title>
+                                  <span class="headline">Scrap</span>
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+                                      <v-col cols="12">
+                                        <p class="subtitle-2">{{nowText}}</p>
+                                      </v-col>
+                                      <v-col cols="12">
+                                        <v-text-field
+                                           v-model="memo"
+                                          label="메모할 내용"
+                                        ></v-text-field>
+                                      </v-col>
+                                      
+                                    </v-row>
+                                  </v-container>
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog3close"
+                                  >
+                                    Close
+                                  </v-btn>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog3save"
+                                  >
+                                    Save
+                                  </v-btn>
+                                </v-card-actions>
+                              </v-card>
+                            </v-dialog>
                             </v-col>
                             </v-row>
+
                           </v-card-actions>
                         </v-card>
                       </v-tab-item>
@@ -164,7 +232,7 @@
                  </v-col>
                   <v-col  cols="4">
                     <v-row class="ml-5">
-                      <v-col cols="8">
+                                <v-col cols="8">
                       <v-btn @click="dialog = !dialog" v-html="selectedLang.lang_translated">언어</v-btn>
                       </v-col>
                       <v-col cols="4">
@@ -175,6 +243,7 @@
                           value
                           hide-details
                         ></v-switch>
+
                       </v-col>
                     </v-row>
                     <v-card   height="600px"  class="scroll" v-if="hide">
@@ -354,8 +423,22 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn>단어장추가</v-btn>
+      <v-btn @click="addVoca">단어장추가</v-btn>
     </span>
+
+        <v-snackbar
+      v-model="snackbar"
+      timeout=1000
+      class="align-center"
+      color="primary"
+      absolute
+      rounded="pill"
+    >
+    <p class="text-center">{{ text }}</p>
+     
+
+     
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -378,6 +461,9 @@ export default {
   },
   data() {
     return {
+      memo : '',
+      snackbar:false,
+      text: '',
       hide : true,
       myTimer : null,
       setMode : null,
@@ -388,6 +474,7 @@ export default {
       word : "",
       dialog: false,
       dialog2: false,
+      dialog3: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -415,6 +502,58 @@ export default {
     };
   },
   methods: {
+    dialog3close(){
+      this.dialog3=false;
+      this.memo="";
+    },
+    dialog3save(){
+       const params = {
+             country : this.selectedLang.lang_translated,
+                memo : this.memo,
+                sentence : this.nowText,
+                videourl : this.videoId
+        };
+      axios.post("https://morelang.gq/api/user/do-scrap",params,{
+               headers: {
+          'content-type': 'application/json',
+      },
+          })
+            .then((res) => {
+              console.log(res);
+              this.text="스크랩 완료";
+              this.snackbar =true;
+            });
+      this.dialog3=false;
+      this.memo="";
+    },
+    addVoca(){
+      if(this.$store.state.nickname != null){
+        // alert("good!");
+        console.log(this.selectedLang.lang_translated);
+        console.log(this.word);
+        
+        const params = {
+             country : this.selectedLang.lang_translated,
+                eachVoca : this.word,
+                learn : false
+        };
+        
+        axios.post("https://morelang.gq/api/user/regist-voca",params,{
+               headers: {
+          'content-type': 'application/json',
+     },
+        })
+            .then((res) => {
+              console.log(res);
+              this.text="단어장 추가완료";
+              this.snackbar =true;
+            });
+
+      }else{
+        this.text="로그인이 필요한 기능입니다."
+        this.snackbar =true;
+      }
+    },
     sliderClick(){
       if(this.mode==2){
         this.mode=1;
@@ -621,9 +760,16 @@ export default {
     },
     async getCaptionsList(){
       // console.log(await this.player.getOption( "captions" , 'track'));
+
+      var temp = axios.defaults.headers.common ;
+      axios.defaults.headers.common = null;
+
       await axios.get("https://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
+        },
+        headers: {
+          'Content-Type': null
         }
       })
       .then((res) => {
@@ -642,7 +788,7 @@ export default {
           console.log(this.selectedLang);
           this.getCaption();
         }else{
-           this.selectedLang=this.items._attributes;
+          this.selectedLang=this.items._attributes;
           console.log(this.selectedLang);
           this.getCaption();
         }
@@ -650,8 +796,10 @@ export default {
 
         
         });
+      axios.defaults.headers.common = temp;
     },
     async getCaption(){
+      
       await axios.get("https://video.google.com/timedtext",{
         params:{
           v : this.videoId,
@@ -716,7 +864,10 @@ export default {
       // console.log("바뀜!!")
        handler : function(){
         //  console.log('The list of colours has changed!');
+              var temp = axios.defaults.headers.common ;
+      axios.defaults.headers.common = null;
          this.getCaption();
+         axios.defaults.headers.common =temp;
        },
        deep:true
     },
@@ -811,7 +962,6 @@ document.querySelector('button').addEventListener('click', function() {
    overflow-y: scroll
 }
 
-
 .scroll::-webkit-scrollbar {
   width: 10px;
 }
@@ -825,6 +975,7 @@ document.querySelector('button').addEventListener('click', function() {
   background: #eee;
   border-radius: 40px;
 }
+
 
 #controller {
   position: fixed;

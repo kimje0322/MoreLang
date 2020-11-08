@@ -74,6 +74,7 @@ public class LoginServiceImpl implements LoginService{
 			member.setName(member.getName());
 			member.setPassword(bcryptEncoder.encode(member.getPassword()));	
 			member.setProviderName(providerName);
+			member.setPoint(100);
 			map.put("success", true); 
 			memberRepository.save(member); 
 		} else {
