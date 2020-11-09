@@ -268,7 +268,7 @@ export default {
     // },
     userMenu(idx) {
       if (idx === 0) {
-        console.log("userid" + this.userid)
+        console.log("userid = " + this.$store.state.userid)
         // this.$router.push({
         //   name: "Mypage",
         //   params: { userid: }
