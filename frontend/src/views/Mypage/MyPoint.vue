@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api"
+// import axios from "axios";
+// const SERVER_URL = "https://morelang.gq/api"
 
 export default {
   data() {
@@ -53,14 +53,14 @@ export default {
 			// Coin = null;
     }
   },
-  mounted() {
-    axios.get(
-      `${SERVER_URL}/user/pay/my-pointlogs`
-    )
-  .then(res => {
-    console.log(res);
-    });
-  },
+  // mounted() {
+  //   axios.get(
+  //     `${SERVER_URL}/user/pay/my-pointlogs`
+  //   )
+  // .then(res => {
+  //   console.log(res);
+  //   });
+  // },
 };
 </script>
 
@@ -79,7 +79,7 @@ export default {
   margin: 25px auto;
   position: relative;
   width: 100px;
-  -webkit-transition: 2s linear;
-  -webkit-transform-style: preserve-3d;
+  /* -webkit-transition: 2s linear;
+  -webkit-transform-style: preserve-3d; */
 }
 </style>

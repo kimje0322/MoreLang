@@ -1,12 +1,15 @@
 <template>
   <div class="code-box mx-auto" @dragover="dragover">
     <!-- 퀴즈 Content -->
+    {{keyword}}
     <div class="play-box mx-auto mt-5">
+      <h5>퀴즈 Content</h5>
       <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
+        <!-- 퀴즈 내용 -->
         <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
           {{item.quiz}}
         </div>
-        <!-- 퀴즈 빈칸 -->
+        <!-- 퀴즈 속 빈칸 -->
         <div @dragover="ondragover(`b${item.index}`)" v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
         </div>
       </div>
@@ -14,22 +17,14 @@
     <!-- 퀴즈 키워드 -->
     <div class="block-box">
       <div class="block-list mt-5 droppable" @drop="drop">
+      <h5>키워드</h5>
         <div class="droppable" @drop="drop">
-          <Draggable v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
+          <div v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" style="display: inline">
             <span class="block block1" draggable="true" @dragstart="dragstart(keyword.original, i)">{{keyword.key}}</span>
-          </Draggable>
+          </div>
         </div>
       </div>
-
     </div>
-
-    <Container @drop="onDrop">            
-      <Draggable v-for="item in items" :key="item.id">
-        <div class="draggable-item">
-          {{item.data}}
-        </div>
-      </Draggable>
-    </Container>
   </div>
 </template>
 <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
@@ -37,18 +32,13 @@
 <script>
 import axios from "axios";
 import $ from 'jquery';
-import { Container, Draggable } from "vue-smooth-dnd";
-import { applyDrag, generateItems } from "./utils";
 
 const SERVER_URL = "https://morelang.gq/api";
 
 export default {
   name: 'Quiz',
-  components: { Container, Draggable },
   data() {
     return {
-      // vue-smooth-dnd
-      items: generateItems(50, i => ({ id: i, data: "Draggable " + i })),
       // quiz
       quizBox: [],
       keyword: [],
@@ -59,6 +49,7 @@ export default {
       rightAns: [],
       keyIdx: '',
       keyIdxWidth: 0,
+      keywordWidth: {},
       // drag
       isMove: true,
       isObstacle: false,
@@ -68,12 +59,12 @@ export default {
       targetClass2: '',
       targetNum: '',
       targetFlag: false,
-      keywordsWidth: [],
+      items: {
+        block0: 1, block1: 1, block2: 1, block3: 1, block4: 1, block5: 1, block6: 1
+      },
       onQuiz: [],
       classId: 'a',
     }
-  },
-  computed: {
   },
   created() {
     // window.addEventListener('scroll', this.handleScroll)
@@ -101,11 +92,6 @@ export default {
       })
   },
   updated() {
-    // this.keywordsWidth
-    for (var i=0; i<this.keyword.length; i++) {
-      this.keywordsWidth.push(this.keyword[i]);
-
-    }
   //     $(".blank").css("width", "50px");
   //   정답체크
   //   console.log(this.userAns);
@@ -123,20 +109,19 @@ export default {
         // 정답입니다 텍스트 보여주기
         console.log('정답')
       }
-    }
+    },
   },
   methods: {
-    onDrop(dropResult) {
-      this.items = applyDrag(this.items, dropResult);
-    },
     onMove() {
       this.isMove = true; 
     },
     dragstart(ans, i) {
       this.keyIdx = `k${i}`;
-      // var KI = $(`.${this.keyIdx}`).width() - 10;
-      console.log('드래그start-키너비'+this.keyIdxWidth);
-      console.log(this.keyIdx);
+      if (!this.keywordWidth[[this.keyIdx]]) {
+        this.keywordWidth[[this.keyIdx]] = $(`.${this.keyIdx}`).width();
+      } 
+      console.log('드래그 시작, keyIdx 생김');
+      console.log(this.keywordWidth);
       // event.target.style.position = 'absolute';
       let posX = event.pageX;
       let posY = event.pageY;
@@ -146,23 +131,37 @@ export default {
       this.classId += '0'
       this.targetClass = event.target.classList[2]
       this.targetClass2 = event.target.classList[1]
+      // console.log(event.target)
       // 키워드 
       this.userAns = ans;
     },
     ondragover(idx) {
       // 사이즈 변경
-      // idx width(빈칸 너비) => this.keyIdx(키워드 너비)로 바꾸기
-      // console.log('드래그오버1-키너비'+this.keyIdxWidth);
-      this.keyIdxWidth === $(`.${this.keyIdx}`).width() - 10;
-      $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
-      // console.log('키워드 클래스'+ this.keyIdx);
-      // console.log('드래그오버2-키너비'+this.keyIdxWidth);
+      // idx width를 this.keyIdx로 바꾸기
+      console.log('키너비'+this.keyIdxWidth);
+      console.log('키워드 클래스'+ this.keyIdx);
+ 
+      // 너비 유지
+      if ($(`.${this.keyIdx}`).width() === 0) {
+        this.keyIdxWidth = this.keywordWidth[[this.keyIdx]];    
+      }
+      // for (var i=0; i<this.keyword.length; i++) {
+      //  $(`.k${i}`).css("width", `${this.keyIdxWidth}`);
+      // } 
+      else {
+        this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 10;
+        $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
+      }
+      console.log('드래그오버 중')
     },
     dragover(event) {
       event.stopPropagation();
       event.preventDefault();
     },
     drop(idx) {
+      console.log(this.keywordWidth[[this.keyIdx]])
+
+      console.log('확인한다 오바')
       // 정답처리
       // idx: 빈칸이 몇번째 칸인지
       if (idx === this.userAns && !this.rightAns.includes(idx)) {
@@ -187,10 +186,6 @@ export default {
           document.querySelector(`.${this.targetClass}`).style.left = 0;
           document.querySelector(`.${this.targetClass}`).style.marginLeft = posX + this.distX + 'px';
           document.querySelector(`.${this.targetClass}`).style.marginTop = posY + this.distY + 'px';
-          // console.log(event.target);
-          // $("div").width(400);
-          // document.querySelector(".i").style.width = 100 ;
-          // $('div.i').width( '100px' );
           const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
           for (let i=0; i<CLONE.length; i++) {
             if (CLONE[i].classList.length == 2) {
@@ -200,20 +195,18 @@ export default {
             }
           }
         }
-        // }
-      // }
-      // console.log(posX, posY, this.distX, this.distY)
-      // $('#mydiv').css('margin-left', posX + this.distX + 'px')
-      //     .css('margin-top', posY + this.distY + 'px');
     }
-  },
-  beforeDestroy () {
-    // window.removeEventListener('scroll', this.handleScroll)
   },
 }
 </script>
 
 <style scoped>
+
+/* .code-block-container {
+  display: flex;
+  width: 100%;
+  text-align: center;
+} */
 .code-block-container .unity-box {
   width: 80%;
   margin-right: 1%;
@@ -299,11 +292,6 @@ export default {
   background-color: lightgrey;
   width: 50px;
   height: 25px;
-}
-.draggable-item {
-  border: 1px solid black;
-  width: 200px;
-  margin: 5px;
 }
 
 </style>

@@ -11,6 +11,7 @@ import FindPass from "@/views/Account/FindPass.vue";
 import PointLog from "@/components/pointLog.vue";
 import Oauth2redirect from "@/views/Account/oauth2redirect.vue";
 import test from "../components/Video/test.vue";
+import Quiz from "../components/Video/Quiz.vue";
 
 
 import Pay from "../views/Pay/Pay.vue";
@@ -40,6 +41,11 @@ const routes = [{
         path: "/test",
         name: "test",
         component: test,
+    },
+    {
+        path: "/quiz",
+        name: "Quiz",
+        component: Quiz,
     },
     {
         path: "/search",
