@@ -27,7 +27,7 @@ public class Scrap {
 	private int scrapId;
 	
 	@ManyToOne(targetEntity=Member.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="member_id")
 	private Member member;
 	
 	@Column
@@ -39,7 +39,6 @@ public class Scrap {
 	@Column
 	private String country;
 	
-	@Column
 	private String videourl;
 
 	public Scrap(String sentence, String memo, String country, String videourl) {

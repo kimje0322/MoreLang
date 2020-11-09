@@ -35,7 +35,7 @@ public class ScrapServiceImpl implements ScrapService{
 	public void DeleteScrap(String accessToken, Long scrapId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Scrap> s = scrapRepository.findByMember_useridAndScrapId(m.get().getUserid(), scrapId);
+			Optional<Scrap> s = scrapRepository.findByMember_idAndScrapId(m.get().getId(), scrapId);
 			if(s.isPresent()) {
 				scrapRepository.delete(s.get());
 			}
@@ -46,7 +46,7 @@ public class ScrapServiceImpl implements ScrapService{
 	public Page<ScrapSub> MyScrap(String accessToken,Pageable pageable) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Page<ScrapSub> s = scrapRepository.findByMember_userid(m.get().getUserid(),pageable);
+			Page<ScrapSub> s = scrapRepository.findByMember_id(m.get().getId(),pageable);
 			return s;
 		}else {
 			return null;
@@ -57,7 +57,7 @@ public class ScrapServiceImpl implements ScrapService{
 	public void updateScrap(String accessToken, Scrap updateScrap) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Scrap> s = scrapRepository.findByMember_useridAndScrapId(m.get().getUserid(), (long)(updateScrap.getScrapId()));
+			Optional<Scrap> s = scrapRepository.findByMember_idAndScrapId(m.get().getId(), (long)(updateScrap.getScrapId()));
 			if(s.isPresent()) {
 				scrapRepository.save(updateScrap);
 			}
