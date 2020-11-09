@@ -1,23 +1,15 @@
 <template>
   <div>
     <Navbar />
+    <v-container>
     <div class="mypage" style="padding: 0% 5%; margin-top: 7%;">
       <!-- 유저 정보 -->
-      <div style="margin-right: 25px; ">
+      <div style="margin-right: 25px;">
         <v-tabs vertical style="margin: 3% 0%">
-          <div style="color:black; margin: 15px 0px">
-            <h3 style="text-align: center">닉네임</h3>
-            <p style="margin-top:10px">
+          <div style="color:black; margin: 20px 0px; width: 175px;">
+            <h3 style="text-align: center; color: white; margin-top: 25px;">닉네임</h3>
+            <p style="margin-top:10px; color:white; text-align:center;">
               {{this.point}} 포인트
-              <v-chip
-                small
-                class="ma-2"
-                color="green"
-                label
-                text-color="white"
-              >
-                충전
-              </v-chip>
             </p>
           </div>
           <!-- 탭 -->
@@ -43,7 +35,7 @@
             <v-icon left>
               mdi-alpha-p-circle-outline
             </v-icon>
-            포인트 충전
+            포인트
           </v-tab>
 
           <v-tab-item>
@@ -79,6 +71,7 @@
         </v-tabs>
       </div>
     </div>
+    </v-container>
   </div>
 </template>
 
@@ -155,4 +148,5 @@ export default {
   color: black;
   /* text-decoration:none !important; */
 }
+
 </style>

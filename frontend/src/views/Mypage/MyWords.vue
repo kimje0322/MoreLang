@@ -1,7 +1,7 @@
 <template>
-  <div class="ml-2">
     <!-- <h3 class="title ml-3 px-5">스크랩한 단어</h3> -->
     <!-- 언어 필터링 -->
+  <v-container>
     <v-container style="text-align:center;">
       <v-row no-gutters>
         <!-- 정렬 맞추기 위해 왼쪽 빈칸 사용 -->
@@ -100,7 +100,7 @@
         </div>
       </v-container>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>
