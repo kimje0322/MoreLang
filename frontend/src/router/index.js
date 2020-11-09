@@ -10,6 +10,8 @@ import Login from "@/views/Account/Login.vue";
 import FindPass from "@/views/Account/FindPass.vue";
 import PointLog from "@/components/pointLog.vue";
 import Oauth2redirect from "@/views/Account/oauth2redirect.vue";
+import test from "../components/Video/test.vue";
+
 
 import Pay from "../views/Pay/Pay.vue";
 import Approve from "../views/Pay/Approve.vue";
@@ -33,6 +35,11 @@ const routes = [{
         path: "/video/:vid",
         name: "Video",
         component: Video,
+    },
+    {
+        path: "/test",
+        name: "test",
+        component: test,
     },
     {
         path: "/search",

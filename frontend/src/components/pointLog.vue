@@ -1,15 +1,8 @@
 <template>
   <v-card color="transparent" flat class="pa-1 mt-6">
     <v-card-title>
-      풀이목록
+      포인트 사용 내역
       <v-spacer></v-spacer>
-      <v-text-field
-        append-icon="mdi-magnify"
-        label="검색"
-        single-line
-        hide-details
-        v-model="search"
-      ></v-text-field>
     </v-card-title>
     <v-divider></v-divider>
     <hr />
@@ -20,11 +13,11 @@
       :search="search"
       no-data-text="😢 데이터가 없습니다 😢"
       item-key="scoring"
-      :items-per-page="8"
+      :items-per-page="10"
       class="elevation-1"
       cols="1"
       :footer-props="{
-        itemsPerPageOptions: [8],
+        itemsPerPageOptions: [10],
         showFirstLastPage: true,
         firstIcon: 'mdi-arrow-collapse-left',
         lastIcon: 'mdi-arrow-collapse-right',
@@ -58,9 +51,6 @@
       <template v-slot:[`item.keyword`]="{ item }">
         <span :title="item.keyword">{{ item.keyword2 }}</span>
       </template>
-      <v-alert slot="no-results" :value="true">
-        검색어 : "{{ search }}" 에 관한 글이 없습니다.
-      </v-alert>
     </v-data-table>
   </v-card>
 </template>
