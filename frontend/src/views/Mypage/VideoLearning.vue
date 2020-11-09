@@ -13,7 +13,7 @@
               alt=""
             />
           </div>
-          <h4 v-if="video.title.length > 37">{{ video.title.substring(0, 35) }} ...</h4>
+          <h4 v-if="video.title.length > 34">{{ video.title.substring(0, 32) }} ...</h4>
           <h4 v-else>{{video.title}}</h4>
       </div>
     </div>

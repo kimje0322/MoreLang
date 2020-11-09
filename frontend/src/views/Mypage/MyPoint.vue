@@ -11,18 +11,20 @@
             style="position:relative; margin-right: 38px; margin-bottom: 20px;"
             @click="Charge(i)"
           >
-            <img @click="Coin(i)" style="width: 80%" :src="require(`@/assets/img/${i}.png`)" :alt="pic">
+            <img @click="Coin(i)" style="width: 80%" :src="require(`@/assets/img/${i}.png`)" alt="coin">
             <p class="my-auto">{{ 10000 * i }} 포인트</p>
             <p class="my-auto">{{ 1000 * i }} 원</p>
           </v-card>
         </v-col>
       </v-row>
+    <h2 class="mt-5 mb-2">포인트 이용내역</h2>
+    
   </v-container>
 </template>
 
 <script>
-// import axios from "axios";
-// const SERVER_URL = "https://morelang.gq/api"
+import axios from "axios";
+const SERVER_URL = "https://morelang.gq/api"
 
 export default {
   data() {
@@ -50,7 +52,15 @@ export default {
 			// };
 			// Coin = null;
     }
-  }
+  },
+  mounted() {
+    axios.get(
+      `${SERVER_URL}/user/pay/my-pointlogs`
+    )
+  .then(res => {
+    console.log(res);
+    });
+  },
 };
 </script>
 
