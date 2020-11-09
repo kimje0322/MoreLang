@@ -269,10 +269,10 @@ export default {
     userMenu(idx) {
       if (idx === 0) {
         console.log("userid = " + this.$store.state.userid)
-        // this.$router.push({
-        //   name: "Mypage",
-        //   params: { userid: }
-        // });
+        this.$router.push({
+          name: "Mypage",
+          params: { userid: this.$store.state.userid}
+        });
       // } else if (idx === 1) {
       //   this.$router.push({name: "Home"});
       // } 

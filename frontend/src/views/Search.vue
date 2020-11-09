@@ -156,7 +156,7 @@
 
     <!-- 비디오 나오는 부분 -->
     <div
-      style="padding: 0 90px; display: flex; flex-flow: row wrap; justify-content: space-between;"
+      style="padding: 0 180px; display: flex; flex-flow: row wrap; justify-content: space-between;"
     >
       <div v-for="(video, i) in videolst" :key="i" style="margin-bottom: 10px;">
         <div

@@ -1,6 +1,6 @@
 <template>
-    <!-- <h3 class="title ml-3 px-5">스크랩한 단어</h3> -->
-    <!-- 언어 필터링 -->
+  <!-- <h3 class="title ml-3 px-5">스크랩한 단어</h3> -->
+  <!-- 언어 필터링 -->
   <v-container>
     <v-container style="text-align:center;">
       <v-row no-gutters>
@@ -54,6 +54,7 @@
                 >
                   <!-- append-icon="mdi-lead-pencil" label="복습" -->
                   <v-checkbox
+                    
                     style="width: 27%;
                         position: absolute;
                         bottom: 7px;
@@ -79,7 +80,7 @@
               <!-- <p>word</p> -->
               <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
                 <v-card
-                  v-if="!word.isLearn"
+                  v-if="word.isLearn"
                   class="pa-2 selectLang"
                   outlined
                   tile
