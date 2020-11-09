@@ -88,7 +88,7 @@ public class HistoryServiceImpl implements HistoryService{
 			List<History> history = historyRepository.findByMember_id(m.get().getId(),pageable);
 			List<Integer> viewId = new ArrayList<>();
 			for(int i=0; i<history.size(); i++) {
-				viewId.add(history.get(i).getVideo().getVid());
+				viewId.add(Integer.valueOf(history.get(i).getVideo().getVid()));
 				System.out.println(history.get(i).getVideo().getVid());
 			}
 			return historyVideoRepository.findByVidIn(viewId);
