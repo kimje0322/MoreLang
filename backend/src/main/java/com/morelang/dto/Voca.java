@@ -26,7 +26,7 @@ public class Voca {
 	private int vocaId;
 	
 	@ManyToOne(targetEntity=Member.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="member_id")
 	private Member member;
 	
 	@Column

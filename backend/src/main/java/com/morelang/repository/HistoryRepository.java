@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.morelang.dto.History;
 
 public interface HistoryRepository extends JpaRepository<History, Long>{
-	public Optional<History> findByMember_useridAndVideo_vid(String userid, int videoId);
-	public List<History> findByMember_userid(String userid, Pageable pageable);
+	public Optional<History> findByMember_idAndVideo_vid(Integer userid, int videoId);
+	public List<History> findByMember_id(Integer userid, Pageable pageable);
 }

@@ -43,7 +43,7 @@ public class HistoryServiceImpl implements HistoryService{
 			HistoryVideo info;
 			// 누군가 봐서 비디오에 값이 들어가면?
 			if(video.isPresent()) {
-				Optional<History> history = historyRepository.findByMember_useridAndVideo_vid(m.get().getUserid(),video.get().getVid());
+				Optional<History> history = historyRepository.findByMember_idAndVideo_vid(m.get().getId(),video.get().getVid());
 				//내가 본 기록이 있으면?
 				if(history.isPresent()) {
 					is_watch = true;
@@ -68,6 +68,8 @@ public class HistoryServiceImpl implements HistoryService{
 				History h = new History();
 				h.setMember(m.get());
 				h.setVideo(info);
+				m.get().setPoint(m.get().getPoint()-POINT_VALUE);
+				memberRepository.save(m.get());
 				chargeRepository.save(pc);
 				historyRepository.save(h);
 				return "success";
@@ -85,10 +87,11 @@ public class HistoryServiceImpl implements HistoryService{
 	public List<HistoryVideo> myVideoList(String accessToken,Pageable pageable){
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			List<History> history = historyRepository.findByMember_userid(m.get().getUserid(),pageable);
-			List<Long> viewId = new ArrayList<>();
+			List<History> history = historyRepository.findByMember_id(m.get().getId(),pageable);
+			List<Integer> viewId = new ArrayList<>();
 			for(int i=0; i<history.size(); i++) {
-				viewId.add(Long.valueOf(history.get(i).getVideo().getVid()));
+				viewId.add(Integer.valueOf(history.get(i).getVideo().getVid()));
+				System.out.println(history.get(i).getVideo().getVid());
 			}
 			return historyVideoRepository.findByVidIn(viewId);
 		}
@@ -102,7 +105,7 @@ public class HistoryServiceImpl implements HistoryService{
 			Optional<HistoryVideo> history_video =  historyVideoRepository.findByYoutubeVideoid(watched.getYoutubeVideoid());
 			if(history_video.isPresent()) {
 				HistoryVideo hvideo = history_video.get();
-				Optional<History> history= historyRepository.findByMember_useridAndVideo_vid(m.get().getUserid(), history_video.get().getVid());
+				Optional<History> history= historyRepository.findByMember_idAndVideo_vid(m.get().getId(), history_video.get().getVid());
 				hvideo.setCount(hvideo.getCount()+1);
 				historyVideoRepository.save(hvideo);
 				if(history.isPresent()) {

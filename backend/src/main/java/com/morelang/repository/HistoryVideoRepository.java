@@ -11,6 +11,6 @@ import com.morelang.dto.HistoryVideo;
 
 public interface HistoryVideoRepository extends JpaRepository<HistoryVideo,Long>{
 	public Optional<HistoryVideo> findByYoutubeVideoid(String url);
-	public List<HistoryVideo> findByVidIn(List<Long> video);
+	public List<HistoryVideo> findByVidIn(List<Integer> video);
 	
 }

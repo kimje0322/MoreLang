@@ -1,16 +1,17 @@
 <template>
-  <v-container>
+  <v-container >
     <div class="video">
           <Navbar />
             <div style="width: 100%; height: 85vh; display: block; margin-top: 7%;">
               <v-row no-gutters>
-                 <v-col  cols="8">
+                 <v-col  cols="7" class="ml-5">
                   <v-card>
-                  <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true" width="95%"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
+                  <youtube id="ytp" :video-id="videoId" ref="youtube" :nocookie="true" width="100%"  :player-vars="playerVars" @ready="getCaptionsList"  @paused="sayHi"  @playing="playing"></youtube>
                   </v-card>
                   <template v-if = "videoInfo != null">
                     <v-slider
                       v-model="timer"
+                      color ="error"
                       :max="videoInfo.duration/1000"
                       @click="sliderClick"
                       class="align-center"
@@ -21,7 +22,8 @@
                     <v-card>
                   
 
-                    <v-tabs>
+                    <v-tabs color="red lighten-5">
+                          <!-- <v-tabs-slider color="yellow"></v-tabs-slider> -->
                       <v-tab>
                         <v-icon left>
                           mdi-comment-processing-outline
@@ -70,7 +72,7 @@
                                 outlined
                                 rounded
                                 text
-                                color="primary"
+                                color="grey lighten-5"
                                 @click="translate"  
                               >
                                 번역
@@ -89,7 +91,7 @@
                                 outlined
                                 rounded
                                 text
-                                color="green"
+                                color="grey lighten-5"
                                 v-bind="attrs"
                                 v-on="on"
                                 @click="pauseVideo"
@@ -230,10 +232,16 @@
 
                
                  </v-col>
-                  <v-col  cols="4">
-                    <v-row class="ml-5">
-                                <v-col cols="8">
-                      <v-btn @click="dialog = !dialog" v-html="selectedLang.lang_translated">언어</v-btn>
+                 <v-spacer></v-spacer>
+                  <v-col  cols="4" class="mr-3">
+                    <v-row>
+                                <!-- <v-col cols="5">
+                         <v-btn text @click="dialog = !dialog" v-html="selectedLang.lang_translated">언어</v-btn>
+                               </v-col> -->
+                      <v-col cols="8">
+                          <v-btn  rounded dark medium color="red" bottom @click="dialog = !dialog"  >
+                              언어선택
+                          </v-btn>
                       </v-col>
                       <v-col cols="4">
                           <v-switch
@@ -241,12 +249,13 @@
                           label="script"
                           color="red"
                           value
+                          inset
                           hide-details
                         ></v-switch>
 
                       </v-col>
                     </v-row>
-                    <v-card   height="600px"  class="scroll" v-if="hide">
+                    <v-card   height="600px"  class="scroll subtitle" elevation=4 v-if="hide">
                       <ul id="example-2"  >
                         <li v-for="(item,index) in caption"  :data-start = "parseFloat(item._attributes.start)" :data-end = "(parseFloat(item._attributes.start) + parseFloat(item._attributes.dur)).toFixed(3) " class="script" @click= "captionClick(index)"  v-bind:key="index" v-html="item._text">
                           <!-- {{item._text}} -->
@@ -262,12 +271,12 @@
               scrollable
               max-width="300px"
             >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn  dark large color="primary" fixed right bottom v-bind="attrs"  v-on="on" >
-                  <!-- <v-icon dark>{{ selectedLang }}</v-icon> -->
-                  언어변경
-              </v-btn>
-            </template>
+            <!-- <template v-slot:activator="{ on, attrs }" > -->
+              <!-- <v-btn  dark large color="primary" fixed right top v-bind="attrs"  v-on="on"  style="top:100px"> -->
+                  <!-- <v-icon dark>{{ selectedLang }}</v-icon> --> 
+                  <!-- 언어변경 -->
+              <!-- </v-btn> -->
+            <!-- </template> -->
              <v-card>
               <v-card-title>Select Language</v-card-title>
               <v-divider></v-divider>
@@ -299,7 +308,7 @@
               <v-divider></v-divider>
               <v-card-actions>
                 <v-btn
-                  color="blue darken-1"
+                  color="error"
                   text
                   @click="dialog = false"
                 >
@@ -316,7 +325,7 @@
           
     <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  v-bind:class="[mode==1 ? primary : '']" fab dark small   @click="changeMode(1)">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  v-bind:class="[mode==1 ? error : '']" fab dark small   @click="changeMode(1)">
               <v-icon dark>mdi-trending-neutral</v-icon>
           </v-btn>
             </template>
@@ -327,7 +336,7 @@
                   
     <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==3 ? primary : '']" @click="changeMode(3)">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab  small  v-bind:class="[mode==3 ? error : '']" @click="changeMode(3)">
               <v-icon dark> mdi-keyboard-tab</v-icon>
           </v-btn>
            </template>
@@ -338,7 +347,7 @@
                   
     <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==2 ? primary : '']" @click="changeMode(2)">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small  v-bind:class="[mode==2 ? error : '']" @click="changeMode(2)">
               <v-icon dark>mdi-refresh</v-icon>
               
           </v-btn>
@@ -349,7 +358,7 @@
         <div id="controller" style="bottom:110px">
             <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  fab dark small color="primary"  @click="playVideo">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  fab dark small color="red"  @click="playVideo">
               <v-icon dark>mdi-play</v-icon>
           </v-btn>
                     </template>
@@ -357,7 +366,7 @@
     </v-tooltip>
             <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  fab dark small color="primary"   @click="pauseVideo">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn"  fab dark small color="red"   @click="pauseVideo">
               <v-icon dark>mdi-pause</v-icon>
           </v-btn>
                     </template>
@@ -367,7 +376,7 @@
         <div id="controller" style="bottom:60px">
            <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="red"  @click="seekVideo(parseFloat(timer)-parseFloat(unit))">
               <v-icon dark>mdi-chevron-left</v-icon>
           </v-btn>
                     </template>
@@ -376,7 +385,7 @@
             <!-- <vue-numeric-input size="60px" :step="10"  v-model="unit" autofocus controls-type="updown"></vue-numeric-input> -->
             <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="red"   @click="seekVideo(parseFloat(timer)+parseFloat(unit))">
               <v-icon dark> mdi-chevron-right</v-icon>
           </v-btn>
                     </template>
@@ -386,7 +395,7 @@
             <div id="controller" style="bottom:10px">
            <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"  @click="beforeCaption">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="red"  @click="beforeCaption">
               <v-icon dark>mdi-chevron-double-left</v-icon>
           </v-btn>
                     </template>
@@ -394,7 +403,7 @@
     </v-tooltip>
             <v-tooltip right>
        <template v-slot:activator="{ on, attrs }">
-          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="primary"   @click="nextCaption">
+          <v-btn  v-bind="attrs"  v-on="on" class="ctrBtn" fab dark small color="red"   @click="nextCaption">
               <v-icon dark>mdi-chevron-double-right</v-icon>
           </v-btn>
                     </template>
@@ -407,14 +416,14 @@
     <span id="tool">
       <v-dialog v-model="dialog2"  width="30%"  hide-overlay    transition="dialog-bottom-transition">
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="primary" dark  v-bind="attrs" v-on="on">사전검색</v-btn>
+                    <v-btn color="error" dark  v-bind="attrs" v-on="on">사전검색</v-btn>
                     </template>
                       <v-card >
                       <iframe  width="100%" height= "500px" :src="dictUrl+word"></iframe>
                       <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn
-                        color="primary"
+                        color="error"
                         text
                         @click="dialog2 = false"
                       >
@@ -423,22 +432,107 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn @click="addVoca">단어장추가</v-btn>
+      <v-btn color="primary" @click="addVoca">단어장추가</v-btn>
     </span>
 
         <v-snackbar
       v-model="snackbar"
       timeout=1000
       class="align-center"
-      color="primary"
+      color="error"
       absolute
       rounded="pill"
     >
     <p class="text-center">{{ text }}</p>
      
-
-     
     </v-snackbar>
+     <v-row justify="center">
+    <v-dialog
+      v-model="dialog4"
+      persistent
+      max-width="290"
+    >
+    
+      <v-card  color="white"  class="black--text" >
+        <v-card-title >
+          <v-row v-if="this.$store.state.nickname != null">
+            결제가 필요합니다.😭
+          </v-row>
+          <v-row v-else>
+            로그인이 필요합니다
+          </v-row>
+        </v-card-title>
+        <v-card-text v-if="this.$store.state.nickname != null" class="black--text">
+          <v-row v-if="point>1">
+          현재 포인트 : {{point}}<br>
+          차감 포인트 : - 1
+          </v-row>
+          <v-row v-else>
+            현재 포인트 : {{point}}<br>
+            필요 포인트 : - 1<br>
+            포인트가 부족합니다.
+          </v-row>
+        </v-card-text>
+          <v-card-text v-if="this.$store.state.nickname == null">
+            로그인 후 이용해 주세요
+        </v-card-text>
+        <v-card-actions  v-if="this.$store.state.nickname != null">
+          <v-spacer></v-spacer>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="$router.go(-1)"
+          >
+            뒤로가기
+          </v-btn>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="pay"
+            v-if="point>1"
+          >
+            결제하기
+          </v-btn>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="$router.push({ name: 'Mypage'})"
+            v-else
+          >
+            충전하기
+          </v-btn>
+          
+        </v-card-actions>
+                <v-card-actions  v-if="this.$store.state.nickname == null">
+          <v-spacer></v-spacer>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="$router.go(-1)"
+          >
+            뒤로가기
+          </v-btn>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="changeRoute('Login')"
+          >
+            로그인
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
   </v-container>
 </template>
 
@@ -461,6 +555,8 @@ export default {
   },
   data() {
     return {
+      point : -1,
+      paid : false,
       memo : '',
       snackbar:false,
       text: '',
@@ -468,6 +564,7 @@ export default {
       myTimer : null,
       setMode : null,
       primary :"primary",
+      error:"error",
       context : null,
       audioURL : "",
       dictUrl : "https://m.dic.daum.net/search.do?q=",
@@ -475,6 +572,7 @@ export default {
       dialog: false,
       dialog2: false,
       dialog3: false,
+      dialog4: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -502,6 +600,32 @@ export default {
     };
   },
   methods: {
+     async pay(){
+       console.log("결제진행")
+      const params = {
+          title: this.videoInfo.title,
+          defaultLanguage: this.videoInfo.defaultLanguage,
+          youtubeVideoid: this.videoId
+        };
+        
+        await axios.post("https://morelang.gq/api/user/watch-video",params,{
+               headers: {
+          'content-type': 'application/json',
+     },
+        })
+            .then((res) => {
+              console.log(res);
+            });
+      this.dialog4=false;
+     },
+     changeRoute(name) {
+      // console.log(this.$route.name === name);
+      if (this.$route.name === name) {
+        this.$router.go({ name });
+      } else {
+        this.$router.push({ name });
+      }
+    },
     dialog3close(){
       this.dialog3=false;
       this.memo="";
@@ -882,10 +1006,10 @@ export default {
       return this.$refs.youtube.player;
     }
   },
-  created(){
+  async created(){
     console.log(this.videoId);
     this.videoId=this.$route.params.vid
-      axios.get("https://morelang.gq/api/newuser/video",{
+      await axios.get("https://morelang.gq/api/newuser/video",{
         params: {
           id : this.videoId
         }
@@ -895,15 +1019,42 @@ export default {
         console.log(this.videoInfo);
         
         });
+
+    if(this.$store.state.nickname != null){
+      console.log("오호라 유저구나")
+      await axios.get("https://morelang.gq/api/user/pay/my-point")
+          .then((res) => {
+            console.log(res.data);
+            this.point = res.data;
+          });
+           const params = {
+            title: this.videoInfo.title,
+                defaultLanguage: this.videoInfo.defaultLanguage,
+                youtubeVideoid: this.videoId
+        };
+        
+        await axios.post("https://morelang.gq/api/user/watch-video",params,{
+               headers: {
+          'content-type': 'application/json',
+          },
+              })
+          .then((res) => {
+              console.log("봤니안봤니")
+              console.log(res.data);
+              if(res.data=="success"){
+                this.paid = true;
+              }
+            });
+    }
   },
   mounted(){
     this.context = new AudioContext();
     // One-liner to resume playback when user interacted with the page.
-document.querySelector('button').addEventListener('click', function() {
-  this.context.resume().then(() => {
-    console.log('Playback resumed successfully');
-  });
-});
+    document.querySelector('button').addEventListener('click', function() {
+        this.context.resume().then(() => {
+          console.log('Playback resumed successfully');
+        });
+      });
 
     // console.log("mounted!!");
     this.player.addEventListener('onStateChange', this.youtubeStateChange)
@@ -922,6 +1073,15 @@ document.querySelector('button').addEventListener('click', function() {
           temp.style.display = "none";
         }
     });
+
+    
+
+       setTimeout(() =>{ 
+         if(this.paid==false){
+           this.dialog4 = true; 
+           this.pauseVideo();
+         }
+        }, 3000);
     //  document.addEventListener('mousedown', function() {
         // console.log(event);
         // window.getSelection().empty();
@@ -956,8 +1116,8 @@ document.querySelector('button').addEventListener('click', function() {
 
 </script>
 <style scoped>
-.script:hover { background: orange }
-.script.current { background: skyblue }
+.script:hover { background: #ff564a }
+.script.current { background: gray }
 .scroll {
    overflow-y: scroll
 }
@@ -972,7 +1132,7 @@ document.querySelector('button').addEventListener('click', function() {
 }
 
 .scroll::-webkit-scrollbar-track {
-  background: #eee;
+  /* background: #eee; */
   border-radius: 40px;
 }
 
@@ -1010,5 +1170,14 @@ ul li:before {
 ul li {
   margin-left: 5px;
   margin-bottom : 10px;
+}
+
+.subtitle {
+  border : none;
+  /* background: #ff3c33; */
+}
+
+.white{
+    /* background: #fff; */
 }
 </style>
