@@ -26,13 +26,16 @@ export default {
     this.vid = this.$route.params.vid;
     this.item_name = this.$route.params.point*10;
     this.total_amount = this.$route.params.point;
-    if(this.vid == undefined){
-      this.vid=null;
-    }
+    if(this.vid != undefined){
     axios.get(`${SERVER_URL}/user/pay/ready?item_name=${this.item_name}포인트&total_amount=${this.total_amount}&id=${this.vid}`).then(res => {
       this.$store.commit('setPayReady', res.data);
       window.open(res.data.next_redirect_pc_url, "_blank", 'width=450, height=500');
     });
+    }else{
+      axios.get(`${SERVER_URL}/user/pay/ready?item_name=${this.item_name}포인트&total_amount=${this.total_amount}`).then(res => {
+      this.$store.commit('setPayReady', res.data);
+      window.open(res.data.next_redirect_pc_url, "_blank", 'width=450, height=500');
+    }
   },
   methods: {
   }
