@@ -33,7 +33,7 @@ export default {
   methods: {
     Charge(point) {
 			console.log(point);
-			this.$router.push({ name: "Pay", params: { point: point * 10000} });
+			this.$router.push({ name: "Pay", params: { point: point * 1000} });
       // axios.post()
     },
     Coin(index) {
