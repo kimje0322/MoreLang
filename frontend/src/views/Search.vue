@@ -356,6 +356,7 @@ export default {
             Swal.fire({
               title: "결제 성공!",
               text: "해당 영상 학습 페이지로 이동합니다.",
+              icon: "success",
               confirmButtonColor: "#3085d6",
               confirmButtonText: "OK",
               
