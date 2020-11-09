@@ -68,6 +68,8 @@ public class HistoryServiceImpl implements HistoryService{
 				History h = new History();
 				h.setMember(m.get());
 				h.setVideo(info);
+				m.get().setPoint(m.get().getPoint()-POINT_VALUE);
+				memberRepository.save(m.get());
 				chargeRepository.save(pc);
 				historyRepository.save(h);
 				return "success";
