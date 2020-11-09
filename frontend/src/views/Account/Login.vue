@@ -40,20 +40,15 @@
                     v-if="loading"
                   ></v-progress-circular>
                 </v-card-text>
-                <v-card-actions class="px-0 mt-2">
+                <v-card-actions class="px-0 mt-2 mb-3">
                   <v-btn block :color="'success'" tile @click="onSubmit()"
                     >로그인</v-btn
                   >
                 </v-card-actions>
                 <small
-                  style="cursor:pointer; padding-right: 3%;"
+                  style="cursor:pointer;"
                   @click="$router.push({ name: 'FindPass' })"
-                  >비밀번호찾기</small
-                >
-                <small
-                  style="cursor:pointer; border-left: 1px solid #c3c3c3; padding-left: 3%;"
-                  @click="$router.push({ name: 'FindPass' })"
-                  >비밀번호찾기</small
+                  >비밀번호 찾기</small
                 >
               </v-form>
               <v-form style="display: table-cell; width: 45%; padding: 0 30px;">
@@ -90,7 +85,7 @@
                         </v-card>
                       </v-col>
                       <v-col class="mb-5" cols="12" sm="12">
-                        <a :href="naverUrl">
+                        <a class="naverUrl" :href="naverUrl">
                           <v-card
                             class="pa-2"
                             outlined
@@ -127,19 +122,18 @@
               </v-form>
             </div>
 
-            <div style="display: table; width: 95%; border: 1px solid #ccc; padding: 30px 60px">
-              <div style="display: table-cell; width: 45%;">
-                <div style="font-size: 25px; color: #222; text-align: left;">
+            <div style="display: table; width: 95%; border: 1px solid #ccc; padding: 30px 47px">
+              <div style="display: table-cell; width: 45%;position: relative;">
+                <div style="font-size: 22px; color: #222; text-align: left; position: absolute; top: 35%;">
                   아직 회원이 아니신가요?
                 </div>
               </div>
               <div style="display: table-cell; width: 45%;">
-                <div style="text-align: left; font-size: 15px; color: #777; padding-bottom: 20px;">
-                  지금 회원가입을 하시면 다양한 영상 및 다국어 학습 참여가 가능하며
-                  <br>
-                  회원가입 포인트를 받으실 수 있습니다.
+                <div style="text-align: center; font-size: 15px; color: #777; padding-bottom: 20px;">
+                  지금 회원가입을 하시면 다양한 영상 및<br> 다국어 학습 참여가 가능하며
+                  회원가입 <br>포인트를 받으실 수 있습니다.
                 </div>
-                <div style="padding-bottom: 20px; text-align: left; ">
+                <div style="padding-bottom: 20px; text-align: center; ">
                   <v-btn @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #fff; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
                     <v-icon style="margin-right: 5%;">
                       mdi-account-circle-outline
@@ -295,5 +289,8 @@ export default {
 }
 .loginPage {
   text-align: center !important;
+}
+.naverUrl {
+  text-decoration: none;
 }
 </style>
