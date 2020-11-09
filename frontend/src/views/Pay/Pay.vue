@@ -35,6 +35,7 @@ export default {
       axios.get(`${SERVER_URL}/user/pay/ready?item_name=${this.item_name}포인트&total_amount=${this.total_amount}`).then(res => {
       this.$store.commit('setPayReady', res.data);
       window.open(res.data.next_redirect_pc_url, "_blank", 'width=450, height=500');
+    });
     }
   },
   methods: {
