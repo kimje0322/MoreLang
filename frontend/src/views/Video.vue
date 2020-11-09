@@ -493,7 +493,7 @@
               outlined
               rounded
             @click="pay"
-            v-if="point>1"
+            v-if="point>100"
           >
             결제하기
           </v-btn>
@@ -1036,7 +1036,7 @@ export default {
                 youtubeVideoid: this.videoId
         };
         
-        await axios.post("https://morelang.gq/api/user/watch-video",params,{
+        await axios.post("https://morelang.gq/api/user/iswatched",params,{
                headers: {
           'content-type': 'application/json',
           },
@@ -1044,7 +1044,7 @@ export default {
           .then((res) => {
               console.log("봤니안봤니")
               console.log(res.data);
-              if(res.data=="success"){
+              if(res.data==true){
                 this.paid = true;
               }
             });
