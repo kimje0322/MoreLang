@@ -3,10 +3,13 @@
     <Navbar />
     <div>
       <!-- 'url(' + picture + ')' -->
+        <!-- v-bind:style="{
+          'background-image': 'url(channelInfo.imgUrl)'
+        }" -->
       <div
         class="backImg"
-        v-bind:style="{
-          'background-image': 'url(channelInfo.imgUrl)'
+        :style="{
+          backgroundImage: `url(${channelInfo.imgUrl})`
         }"
         style="
         height: 300px;
@@ -15,11 +18,12 @@
         align-items: center;
       "
       >
-        <h2 class="intro">{{ channelInfo.title }}</h2>
+        <!-- {{ channelInfo.imgUrl }} -->
+        <!-- <h2 class="intro">{{ channelInfo.title }}</h2> -->
         <div class="img-cover"></div>
       </div>
-      <div class="channelInfoBox">
-        <div class="channelInfo">
+      <div class="channelInfoBox" style="background: black;">
+        <div class="channelInfo" style="background-color: black;">
           <div style="width: 50%">
             <v-avatar
               style="width: 150px; height: 150px; display: inline-block;"
