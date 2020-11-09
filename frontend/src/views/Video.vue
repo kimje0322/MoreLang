@@ -502,7 +502,7 @@
             text
               outlined
               rounded
-            @click="$router.push({ name: 'Mypage'})"
+            @click="charge()"
             v-else
           >
             충전하기
@@ -600,6 +600,9 @@ export default {
     };
   },
   methods: {
+    charge(){
+       this.$router.push({ name: 'Pay',params: { point: 1000,vid: this.videoId }});
+    },
      async pay(){
        console.log("결제진행")
       const params = {
