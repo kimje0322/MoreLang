@@ -39,43 +39,43 @@
               </v-btn>
             </div>
           </div>
-          <router-link to="/mypage">
+          <!-- <router-link to="/mypage"> -->
             <!-- @click="gotoMypage" -->
-            <router-link :to="{ name: 'Mypage', params: { userid: userid } }">
+            <!-- <router-link :to="{ name: 'Mypage', params: { userid: userid } }">
               <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
                 마이페이지
               </p>
-            </router-link>
+            </router-link> -->
             <!-- <v-avatar class="mr-3" color="indigo" size="38">
               <v-icon dark>
                 mdi-account-circle
               </v-icon>
             </v-avatar> -->
-          </router-link>
+          <!-- </router-link> -->
           <v-col cols="8" sm="3" lg="2" class="text-center py-0">
             <v-row no-gutters v-if="!$store.state.nickname">
-              <v-col cols="5">
-                <v-btn text @click="changeRoute('Login')" class="">로그인</v-btn>
+              <v-col>
+                <v-btn style="float: right" text @click="changeRoute('Login')" class="">로그인</v-btn>
               </v-col>
-              <v-col cols="1" class=""><v-divider vertical></v-divider> </v-col>
-              <v-col cols="6">
+              <!-- <v-col cols="1" class=""><v-divider vertical></v-divider> </v-col> -->
+              <!-- <v-col cols="6">
                 <v-btn text @click="changeRoute('SignUp')" class="">회원가입</v-btn>
-              </v-col>
+              </v-col> -->
             </v-row>
             <v-menu open-on-hover offset-y v-if="$store.state.nickname" no-gutters>
               <template v-slot:activator="{ on, attrs }">
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
-                    <v-col cols="4" class="d-nome d-md-flex">
-                      <v-avatar>
+                    <v-col>
+                      <v-avatar style="float: right;">
                         <v-img max-height="100%" :src="userThumbnail" alt="유저썸네일"></v-img>
                       </v-avatar>
                     </v-col>
-                    <v-col cols="8">
+                    <!-- <v-col cols="8">
                       <div class="text-left subtitle">{{ nickname }} 님</div>
-                    </v-col>
+                    </v-col> -->
                   </v-row>
-                </v-card> -->
+                </v-card>
               </template>
               <v-list >
                 <v-list-item-group color="primary">
@@ -227,7 +227,7 @@ export default {
         // th: "태국어",
         // tr: "터키어"
       },
-      items: ["My Page", "계정설정", "로그아웃"]
+      items: ["Mypage", "Logout"]
     };
   },
   computed: mapState(["userThumbnail", "nickname", "accessToken"]),
@@ -268,13 +268,16 @@ export default {
     // },
     userMenu(idx) {
       if (idx === 0) {
-        this.$router.push({
-          name: "Home",
-        });
-      } else if (idx === 1) {
-        this.$router.push({name: "Home"});
-      } else {
-        this.$store.dispatch("LOGOUT");
+        console.log("userid = " + this.$store.state.userid)
+        // this.$router.push({
+        //   name: "Mypage",
+        //   params: { userid: }
+        // });
+      // } else if (idx === 1) {
+      //   this.$router.push({name: "Home"});
+      // } 
+      }else {
+        this.$store.dispatch("LOGOUT"); 
       }
     },
     changeRoute(name) {

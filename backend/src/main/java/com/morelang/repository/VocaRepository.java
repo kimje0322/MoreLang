@@ -12,13 +12,13 @@ import com.morelang.dto.Voca;
 import com.morelang.dto.VocaSub;
 
 public interface VocaRepository extends JpaRepository<Voca, Long>{
-	public Optional<Voca> findByMember_useridAndVocaId(String userid, Long vocaid);
-	public List<VocaSub> findByMember_userid(String userid);
-	public Page<VocaSub> findByMember_userid(String userid, Pageable pageable);
-	public Page<VocaSub> findByMember_useridAndCountryIn(String userid,String[] Country, Pageable pageable);
-	public List<VocaSub> findByMember_useridAndIsLearnAndCountry(String userid,Boolean isLearn,String country);
-	public List<VocaSub> findByMember_useridAndIsLearn(String userid,Boolean isLearn);
+	public Optional<Voca> findByMember_idAndVocaId(Integer userid, Long vocaid);
+	public List<VocaSub> findByMember_id(Integer userid);
+	public Page<VocaSub> findByMember_id(Integer userid, Pageable pageable);
+	public Page<VocaSub> findByMember_idAndCountryIn(Integer userid,String[] Country, Pageable pageable);
+	public List<VocaSub> findByMember_idAndIsLearnAndCountry(Integer userid,Boolean isLearn,String country);
+	public List<VocaSub> findByMember_idAndIsLearn(Integer userid,Boolean isLearn);
 	
-	@Query(value = "SELECT DISTINCT country FROM vocas where userid=:userid",nativeQuery = true)
-	public List<String> findDistinctCountry(String userid);
+	@Query(value = "SELECT DISTINCT country FROM vocas where member_id=:userid",nativeQuery = true)
+	public List<String> findDistinctCountry(Integer userid);
 }

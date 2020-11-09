@@ -92,7 +92,7 @@ public class PayServiceImpl implements PayService {
 	public Page<pointCharge> PointLogs(String accessToken, Pageable pageable) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Page<pointCharge> pointlogs = chargeRepository.findByMember_userid(m.get().getUserid(), pageable);
+			Page<pointCharge> pointlogs = chargeRepository.findByMember_id(m.get().getId(), pageable);
 			return pointlogs;
 		}else {
 			return null;
@@ -100,7 +100,7 @@ public class PayServiceImpl implements PayService {
 	}
 	public void chargePoint(String accessToken, String mount) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
-		int amount = Integer.valueOf(mount)/100;
+		int amount = Integer.valueOf(mount)*10;
 		if(m.isPresent()) {
 			Member my = m.get();
 			my.setPoint(my.getPoint()+amount);

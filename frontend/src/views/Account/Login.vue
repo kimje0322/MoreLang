@@ -271,7 +271,7 @@ export default {
     },
     NaverLogin() {
       var clientId = "YOwQRknl_3ldIN3E5UQN"; //애플리케이션 클라이언트 아이디값";
-      var redirectURI = "http://localhost:8081/";
+      var redirectURI = "https://morelang.gq";
       var apiURL =
         "https://nid.naver.com/oauth2.0/authorize?response_type=code";
       apiURL += "&client_id=" + clientId;

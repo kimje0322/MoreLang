@@ -42,7 +42,7 @@ public class VocaServiceImpl implements VocaService{
 	public void DeleteVoca(String accessToken, Long vocaId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Voca> voca = vocaRepository.findByMember_useridAndVocaId(m.get().getUserid(), vocaId);
+			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), vocaId);
 			if(voca.isPresent()) {
 				vocaRepository.delete(voca.get());
 			}
@@ -55,9 +55,9 @@ public class VocaServiceImpl implements VocaService{
 		if(m.isPresent()) {
 			Page<VocaSub> voca;
 			if(country == null || country.length == 0) {
-				voca = vocaRepository.findByMember_userid(m.get().getUserid(), pageable);
+				voca = vocaRepository.findByMember_id(m.get().getId(), pageable);
 			}else {
-				voca = vocaRepository.findByMember_useridAndCountryIn(m.get().getUserid(),country, pageable);
+				voca = vocaRepository.findByMember_idAndCountryIn(m.get().getId(),country, pageable);
 			}
 			return voca;
 		}else {
@@ -69,7 +69,7 @@ public class VocaServiceImpl implements VocaService{
 	public void updateVoca(String accessToken, Voca updateVoca) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Voca> voca = vocaRepository.findByMember_useridAndVocaId(m.get().getUserid(), (long)(updateVoca.getVocaId()));
+			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), (long)(updateVoca.getVocaId()));
 			if(voca.isPresent()) {
 				vocaRepository.save(updateVoca);
 			}
@@ -80,7 +80,7 @@ public class VocaServiceImpl implements VocaService{
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		List<String> country = new ArrayList<>();
 		if(m.isPresent()) {
-			country = vocaRepository.findDistinctCountry(m.get().getUserid());
+			country = vocaRepository.findDistinctCountry(m.get().getId());
 			return country;
 		}else {
 			return null;
@@ -90,7 +90,7 @@ public class VocaServiceImpl implements VocaService{
 	public void makeLearn(String accessToken, Long VocaId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Voca> voca = vocaRepository.findByMember_useridAndVocaId(m.get().getUserid(), VocaId);
+			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), VocaId);
 			if(voca.isPresent()) {
 				Voca v1 = voca.get();
 				if(v1.isLearn()) {
@@ -108,9 +108,9 @@ public class VocaServiceImpl implements VocaService{
 		if(m.isPresent()) {
 			List<VocaSub> voca;
 			if(country == null) {
-				voca = vocaRepository.findByMember_useridAndIsLearnAndCountry(m.get().getUserid(),false,country);
+				voca = vocaRepository.findByMember_idAndIsLearnAndCountry(m.get().getId(),false,country);
 			}else {
-				voca = vocaRepository.findByMember_useridAndIsLearn(m.get().getUserid(), false);
+				voca = vocaRepository.findByMember_idAndIsLearn(m.get().getId(), false);
 			}
 			Collections.shuffle(voca);
 			List<String> result = new ArrayList<>();

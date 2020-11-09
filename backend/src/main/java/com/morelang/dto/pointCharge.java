@@ -31,7 +31,7 @@ public class pointCharge {
 	private int chargeId;
 	
 	@ManyToOne(targetEntity=Member.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="member_id")
 	private Member member;
 	
 	@Column

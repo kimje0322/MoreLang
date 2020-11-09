@@ -25,18 +25,18 @@ import lombok.Setter;
 @Table(name = "historys")
 public class History {
 	@Id
-	@Column
+	@Column(name = "history_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int historyId;
 	
 	@ManyToOne(targetEntity=Member.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="member_id")
 	private Member member;
 	
 	@ManyToOne(targetEntity=HistoryVideo.class, fetch=FetchType.LAZY)
 	@JoinColumn(name="video_id")
 	private HistoryVideo video;
-
+                                                                                                                                                                                                                                                                                                                                                           
 	@Column
 	@UpdateTimestamp
 	private Date viewDay;
@@ -48,7 +48,4 @@ public class History {
 		this.video = video;
 		this.viewDay = viewDay;
 	}
-	
-	
-	
 }

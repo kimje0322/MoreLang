@@ -62,9 +62,9 @@ public class LoginServiceImpl implements LoginService{
 	public Map<String, Object> Regist (Member member,String providerName) {
 		String userid = member.getUserid();
 		Map<String, Object> map = new HashMap<>();
-
+		System.out.println(memberRepository.findByUserid(member.getUserid()));
 		// 아이디 중복체크 진행
-		if (memberRepository.findByUserid(userid) == null) {
+		if (!memberRepository.findByUserid(userid).isPresent()) {
 			member.setUserid(userid);
 			if (userid.equals("admin")) {
 				member.setRole("ROLE_ADMIN");
@@ -113,6 +113,7 @@ public class LoginServiceImpl implements LoginService{
 		map.put("refreshToken", refreshToken);
 		map.put("nickname", nickname);
 		map.put("userid", m.getUserid());
+		map.put("memberid", m.getId());
 		map.put("point", m.getPoint());
 		return map;
 	}

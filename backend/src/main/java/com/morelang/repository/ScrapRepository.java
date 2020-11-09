@@ -10,6 +10,6 @@ import com.morelang.dto.Scrap;
 import com.morelang.dto.ScrapSub;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long>{
-	public Page<ScrapSub> findByMember_userid(String userid,Pageable pageable);
-	public Optional<Scrap> findByMember_useridAndScrapId(String userid, Long scrapid);
+	public Page<ScrapSub> findByMember_id(Integer userid,Pageable pageable);
+	public Optional<Scrap> findByMember_idAndScrapId(Integer userid, Long scrapid);
 }

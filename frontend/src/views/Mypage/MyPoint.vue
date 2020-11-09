@@ -11,7 +11,7 @@
             style="position:relative; margin-right: 38px; margin-bottom: 20px;"
             @click="Charge(i)"
           >
-            <img style="width: 80%" :src="require(`@/assets/img/${i}.png`)" :alt="pic">
+            <img @click="Coin(i)" style="width: 80%" :src="require(`@/assets/img/${i}.png`)" :alt="pic">
             <p class="my-auto">{{ 10000 * i }} 포인트</p>
             <p class="my-auto">{{ 1000 * i }} 원</p>
           </v-card>

@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const getDefaultState = () => {
     return {
        ServerURL: "https://morelang.gq/api",
-//        ServerURL: "http://localhost:8080",
+       userid: null,
         nickname: null,
         username: null,
         alertColor: null,
@@ -26,6 +26,7 @@ export default new Vuex.Store({
         LOGIN(state, payload) {
             state.nickname = payload.nickname;
             state.username = payload.username;
+            state.userid = payload.userid;
         },
         LOGOUT(state) {
             Object.assign(state, getDefaultState());
@@ -76,7 +77,8 @@ export default new Vuex.Store({
           } else {
             commit("LOGIN", {
               nickname: res.data.nickname,
-              username: loginData.username
+              username: loginData.username,
+              userid: res.data.memberid,
             });
             commit("TOKEN", {
               accessToken: res.data.accessToken,
@@ -93,6 +95,7 @@ export default new Vuex.Store({
             flag: true,
             msg: "로그아웃 되었습니다.",
             color: "info"
+
           });
           setTimeout(() => {
             commit("ShowAlert", {
@@ -128,7 +131,8 @@ export default new Vuex.Store({
             axios.defaults.headers.common.Authorization = ``;
             commit("LOGIN", {
                 nickname: data.nickname,
-                username: data.userid
+                username: data.userid,
+                userid: data.memberid
             });
             commit("TOKEN", {
                 accessToken: data.accessToken,

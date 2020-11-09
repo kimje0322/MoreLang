@@ -35,68 +35,75 @@
             </v-card>
           </v-col>
         </v-row> -->
-        <div v-if="wordlang">
-          <h2 class="mt-5 mb-3">{{ language[selectlang] }}</h2>
-          <h4>학습중</h4>
-
-          <v-row no-gutters style="text-align:center; width:70%;">
-            <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
-              <v-card
-                v-if="!word.isLearn"
-                class="pa-2 selectLang"
-                outlined
-                tile
-                style="position:relative"
-              >
-                <!-- append-icon="mdi-lead-pencil" label="복습" -->
-                <v-checkbox
-                  style="width: 27%;
+        <h2 class="mt-5 mb-3">{{ language[selectlang] }}</h2>
+        <div style="display: table; width: 100%;">
+          <div style="display: table-cell; width: 40%">
+            <h4>학습중</h4>
+            <v-row
+              v-if="wordlang"
+              no-gutters
+              style="text-align:center; width:70%;"
+            >
+              <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
+                <v-card
+                  v-if="!word.isLearn"
+                  class="pa-2 selectLang"
+                  outlined
+                  tile
+                  style="position:relative"
+                >
+                  <!-- append-icon="mdi-lead-pencil" label="복습" -->
+                  <v-checkbox
+                    style="width: 27%;
                         position: absolute;
                         bottom: 7px;
                 left: 5px;"
-                  color="success"
-                  value="success"
-                  hide-details
-                ></v-checkbox>
+                    color="success"
+                    value="success"
+                    hide-details
+                  ></v-checkbox>
 
-                <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+                  <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                <p class="my-auto">{{ word.eachVoca }}</p>
-              </v-card>
-            </v-col>
-          </v-row>
+                  <p class="my-auto">{{ word.eachVoca }}</p>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
 
-          <div style="height: 100px;"></div>
-
-          <h4>학습완료</h4>
-          <v-row no-gutters style="text-align:center; width:70%;">
-            <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
-              <v-card
-                v-if="!word.isLearn"
-                class="pa-2 selectLang"
-                outlined
-                tile
-                style="position:relative"
-              >
-                <!-- append-icon="mdi-lead-pencil" label="복습" -->
-                <v-checkbox
-                  style="width: 27%;
+          <!-- <div style="height: 100px;"></div> -->
+          <div style="display: table-cell; width: 40%;">
+            <h4>학습완료</h4>
+            <v-row no-gutters style="text-align:center; width:70%;">
+              <!-- <p>word</p> -->
+              <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
+                <v-card
+                  v-if="!word.isLearn"
+                  class="pa-2 selectLang"
+                  outlined
+                  tile
+                  style="position:relative"
+                >
+                  <!-- append-icon="mdi-lead-pencil" label="복습" -->
+                  <v-checkbox
+                    style="width: 27%;
                 position: absolute;
                 bottom: 7px;
                 left: 5px;"
-                  color="success"
-                  value="success"
-                  hide-details
-                ></v-checkbox>
+                    color="success"
+                    value="success"
+                    hide-details
+                  ></v-checkbox>
 
-                <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+                  <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                <p class="my-auto">{{ word.eachVoca }}</p>
-              </v-card>
-            </v-col>
-          </v-row>
+                  <p class="my-auto">{{ word.eachVoca }}</p>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
         </div>
       </v-container>
     </v-row>
