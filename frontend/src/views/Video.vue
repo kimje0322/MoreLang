@@ -447,91 +447,90 @@
      
     </v-snackbar>
      <v-row justify="center">
-    <v-dialog
-      v-model="dialog4"
-      persistent
-      max-width="290"
-    >
-    
-      <v-card  color="white"  class="black--text" >
-        <v-card-title >
-          <v-row v-if="this.$store.state.nickname != null">
-            결제가 필요합니다.😭
-          </v-row>
-          <v-row v-else>
-            로그인이 필요합니다
-          </v-row>
-        </v-card-title>
-        <v-card-text v-if="this.$store.state.nickname != null" class="black--text">
-          <v-row v-if="point>=100">
-          현재 포인트 : {{point}}<br>
-          차감 포인트 : - 100
-          </v-row>
-          <v-row v-else>
+      <v-dialog
+        v-model="dialog4"
+        persistent
+        max-width="290"
+      >
+        <v-card  color="white"  class="black--text" >
+          <v-card-title >
+            <v-row v-if="this.$store.state.nickname != null">
+              결제가 필요합니다.😭
+            </v-row>
+            <v-row v-else>
+              로그인이 필요합니다
+            </v-row>
+          </v-card-title>
+          <v-card-text v-if="this.$store.state.nickname != null" class="black--text">
+            <v-row v-if="point>=100">
             현재 포인트 : {{point}}<br>
-            필요 포인트 : - 100<br>
-            포인트가 부족합니다.
-          </v-row>
-        </v-card-text>
-          <v-card-text v-if="this.$store.state.nickname == null">
-            로그인 후 이용해 주세요
-        </v-card-text>
-        <v-card-actions  v-if="this.$store.state.nickname != null">
-          <v-spacer></v-spacer>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="$router.go(-1)"
-          >
-            뒤로가기
-          </v-btn>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="pay"
-            v-if="point>=100"
-          >
-            결제하기
-          </v-btn>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="charge()"
-            v-else
-          >
-            충전하기
-          </v-btn>
-          
-        </v-card-actions>
-                <v-card-actions  v-if="this.$store.state.nickname == null">
-          <v-spacer></v-spacer>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="$router.go(-1)"
-          >
-            뒤로가기
-          </v-btn>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="changeRoute('Login')"
-          >
-            로그인
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+            차감 포인트 : - 100
+            </v-row>
+            <v-row v-else>
+              현재 포인트 : {{point}}<br>
+              필요 포인트 : - 100<br>
+              포인트가 부족합니다.
+            </v-row>
+          </v-card-text>
+            <v-card-text v-if="this.$store.state.nickname == null">
+              로그인 후 이용해 주세요
+          </v-card-text>
+          <v-card-actions  v-if="this.$store.state.nickname != null">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="$router.go(-1)"
+            >
+              뒤로가기
+            </v-btn>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="pay"
+              v-if="point>=100"
+            >
+              결제하기
+            </v-btn>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="charge()"
+              v-else
+            >
+              충전하기
+            </v-btn>
+            
+          </v-card-actions>
+                  <v-card-actions  v-if="this.$store.state.nickname == null">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="$router.go(-1)"
+            >
+              뒤로가기
+            </v-btn>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="changeRoute('Login')"
+            >
+              로그인
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-row>
 
    <v-row justify="center">
@@ -1063,7 +1062,7 @@ export default {
   async created(){
     console.log(this.videoId);
     this.videoId=this.$route.params.vid
-      axios.get("/newuser/video",{
+      await axios.get("/newuser/video",{
         params: {
           id : this.videoId
         }
@@ -1076,6 +1075,7 @@ export default {
 
     if(this.$store.state.nickname != null){
       console.log("오호라 유저구나")
+      console.log(this.videoInfo);
       await axios.get("https://morelang.gq/api/user/pay/my-point")
           .then((res) => {
             console.log(res.data);
