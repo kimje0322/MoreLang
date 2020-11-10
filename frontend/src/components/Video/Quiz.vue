@@ -98,29 +98,30 @@ export default {
       })
   },
   updated() {
-    if (this.score === this.keyword.length) {
-      // 정답입니다 텍스트 보여주기
-      console.log('swal정답이라구요')
-      Swal.fire(
-      {
-        title: "정답입니다!",
-        text: "10 Point 결제 부탁드립니다.",
-        showCancelButton: true,
-        // closeOnConfirm: false,
-        // showLoaderOnConfirm: true
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Buy it!"
-      })
-      // alert('정답');
-    }
   },
   watch: {
-    // score : function () {
-
-    // },
+    score: function () {
+      this.checkAnswer();
+      console.log(this.score);
+    },
   },
   methods: {
+    checkAnswer() {
+      if (this.score === Object.keys(this.keyword).length) {
+        console.log('swal정답이다');
+        Swal.fire(
+        {
+          // title: "정답입니다!",
+          text: "정답입니다.",
+          showCancelButton: true,
+          // closeOnConfirm: false,
+          // showLoaderOnConfirm: true
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인"
+        })
+      }
+    },
     onMove() {
       this.isMove = true; 
     },
@@ -160,25 +161,18 @@ export default {
       // document.getElementById(`blank${bIdx}`);
       // console.log('blanKinDX')
       // console.log(this.blankIdx);
-      if (this.blankIdx.hasClass("checked")) {
-        console.log('checked 있음')
-      } else {
-        console.log('checked 없음')
-      };
       if (!this.blankIdx.hasClass("checked")) {
           this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 7;
           $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
        } else if ($(`.${this.keyIdx}`).width() === 0) {
         this.keyIdxWidth = this.keywordWidth[[this.keyIdx]];    
       }
-      // console.log('드래그오버 중')
     },
     dragover(event) {
       event.stopPropagation();
       event.preventDefault();
     },
     drop(idx) {
-      console.log(this.score);
       console.log(Object.keys(this.answer).length);
       event.stopPropagation();
       event.preventDefault();
@@ -186,11 +180,9 @@ export default {
       // 정답처리
       // idx: 빈칸이 몇번째 칸인지
       if (idx === this.userAns && !this.rightAns.includes(idx)) {
-        if (this.score < Object.keys(this.answer).length) {
-          this.score += 1;
-        }
+        this.score += 1;
+        console.log(this.score);
         this.rightAns.push(idx);
-        // alert('정답!')
         // 드롭
         let posX = event.pageX;
         let posY = event.pageY;
@@ -220,10 +212,11 @@ export default {
               this.targetFlag = true;
             }
           }
-        }
+        };
+      // if (this.score < Object.keys(this.answer).length) {
+      //   this.score += 1;
+      //   }
       }
-      if (this.score === Object.keys(this.answer).length) {
-        alert('정답입니다.')}
     }
   },
 }
