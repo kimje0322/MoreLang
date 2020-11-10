@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "@/plugins/axios";
+import Raxios from "axios";
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
@@ -62,8 +63,8 @@ export default new Vuex.Store({
   actions: {
     async LOGIN({ state, commit, dispatch }, loginData) {
       axios.defaults.headers.common.Authorization = ``;
-      const res = await axios.post(
-        `/newuser/login`,
+      const res = await Raxios.post(
+        `https://morelang.gq/api/newuser/login`,
         null,
         {
           params: {
