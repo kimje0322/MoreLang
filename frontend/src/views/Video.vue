@@ -533,6 +533,51 @@
       </v-card>
     </v-dialog>
   </v-row>
+
+   <v-row justify="center">
+    <v-dialog
+      v-model="dialog5"
+      persistent
+      max-width="290"
+    >
+    
+      <v-card  color="white"  class="black--text" >
+        <v-card-title >
+          <v-row >
+            주의!
+          </v-row>
+        </v-card-title>
+        <v-card-text>
+          <v-row class="black--text" >
+            현재 영상은 지원되는 자막이 없습니다.
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="$router.go(-1)"
+          >
+            뒤로가기
+          </v-btn>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+              @click="dialog5=false;paid=true"
+          >
+            영상보기
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
+
   </v-container>
 </template>
 
@@ -573,6 +618,7 @@ export default {
       dialog2: false,
       dialog3: false,
       dialog4: false,
+      dialog5: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -908,18 +954,22 @@ export default {
         // console.log("items = ",this.items.length)
         // console.log("type = ",typeof this.items)
         // console.log(this.items);
-        // console.log(this.items[0]);
-        // console.log("isarray=",Array.isArray(this.items))
-        if(Array.isArray(this.items)){
-          this.selectedLang=this.items[0]._attributes;
-          console.log(this.selectedLang);
-          this.getCaption();
+        if(this.items != undefined){
+            // console.log(this.items[0]);
+          // console.log("isarray=",Array.isArray(this.items))
+          if(Array.isArray(this.items)){
+            this.selectedLang=this.items[0]._attributes;
+            console.log(this.selectedLang);
+            this.getCaption();
+          }else{
+            this.selectedLang=this.items._attributes;
+            console.log(this.selectedLang);
+            this.getCaption();
+          }
         }else{
-          this.selectedLang=this.items._attributes;
-          console.log(this.selectedLang);
-          this.getCaption();
+          // 아무 자막이 없는거 처리 해줘야한다
+          this.dialog5=true;
         }
-        
 
         
         });
@@ -1080,11 +1130,11 @@ export default {
     
 
        setTimeout(() =>{ 
-         if(this.paid==false){
+         if(this.items != undefined && this.paid==false){
            this.dialog4 = true; 
            this.pauseVideo();
          }
-        }, 3000);
+        }, 10000);
     //  document.addEventListener('mousedown', function() {
         // console.log(event);
         // window.getSelection().empty();
