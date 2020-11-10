@@ -52,7 +52,7 @@
                       <v-tab-item>
                         <v-card flat >
                           <v-card-text>
-                             <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
+                             <div><h2 v-html="nowText">  <v-icon>mdi-comment-processing-outline</v-icon> :</h2></div>
                           </v-card-text>
                           <v-card-actions >
                             <v-row>
