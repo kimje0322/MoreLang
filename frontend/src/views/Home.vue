@@ -230,7 +230,7 @@ export default {
   data() {
     return {
       userid: "",
-      selectlang: "",
+      selectlang: "영어",
       search_word: "",
       // logout: false,
       search: false,
@@ -272,6 +272,8 @@ export default {
         "일본어",
         "중국어",
         "프랑스어",
+        "스페인어",
+        "독일어",
         "이탈리아어",
         "포르투갈어",
         "러시아"

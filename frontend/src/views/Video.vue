@@ -52,13 +52,12 @@
                       <v-tab-item>
                         <v-card flat >
                           <v-card-text>
-                             <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
+                             <div><h2 v-html="nowText">  <v-icon>mdi-comment-processing-outline</v-icon> :</h2></div>
                           </v-card-text>
                           <v-card-actions >
                             <v-row>
                             <v-col cols="8">
-                              <h3><v-icon>mdi-google-translate</v-icon> : 
-                              {{translated}}
+                              <h3 v-html="translated"><v-icon>mdi-google-translate</v-icon> : 
                               </h3>
                             </v-col>
                             
@@ -156,8 +155,8 @@
                           <v-card-text>
                                 <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
                                 <v-row  class=" mt-5"  justify="center" > 
-                                <vue-record-audio mode="press" @result="onResult" />
-                                <audio controls="" :src="audioURL"></audio>
+                                <vue-record-audio mode="press" @result="onResult" class="red darken-1 mr-4 mb-2"/>
+                                <audio controls="" :src="audioURL" controlsList="nodownload"></audio>
                                 </v-row>
                           </v-card-text>
                         </v-card>
@@ -167,7 +166,7 @@
                           <v-card-text>
                               <template v-if="videoInfo != null">
                                   <v-card
-                    color="#26c6da"
+               
                     dark
                   >
                     <v-card-title>
@@ -416,7 +415,7 @@
     <span id="tool">
       <v-dialog v-model="dialog2"  width="30%"  hide-overlay    transition="dialog-bottom-transition">
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="error" dark  v-bind="attrs" v-on="on">사전검색</v-btn>
+                    <v-btn color="red darken-1" rounded dark  v-bind="attrs" v-on="on">사전검색</v-btn>
                     </template>
                       <v-card >
                       <iframe  width="100%" height= "500px" :src="dictUrl+word"></iframe>
@@ -432,7 +431,7 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn color="primary" @click="addVoca">단어장추가</v-btn>
+      <v-btn color="blue darken-1" rounded  @click="addVoca">단어장추가</v-btn>
     </span>
 
         <v-snackbar
@@ -447,36 +446,111 @@
      
     </v-snackbar>
      <v-row justify="center">
+      <v-dialog
+        v-model="dialog4"
+        persistent
+        max-width="290"
+      >
+        <v-card  color="white"  class="black--text" >
+          <v-card-title >
+            <v-row v-if="this.$store.state.nickname != null">
+              결제가 필요합니다.😭
+            </v-row>
+            <v-row v-else>
+              로그인이 필요합니다
+            </v-row>
+          </v-card-title>
+          <v-card-text v-if="this.$store.state.nickname != null" class="black--text">
+            <v-row v-if="point>=100">
+            현재 포인트 : {{point}}<br>
+            차감 포인트 : - 100
+            </v-row>
+            <v-row v-else>
+              현재 포인트 : {{point}}<br>
+              필요 포인트 : - 100<br>
+              포인트가 부족합니다.
+            </v-row>
+          </v-card-text>
+            <v-card-text v-if="this.$store.state.nickname == null">
+              로그인 후 이용해 주세요
+          </v-card-text>
+          <v-card-actions  v-if="this.$store.state.nickname != null">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="$router.go(-1)"
+            >
+              뒤로가기
+            </v-btn>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="pay"
+              v-if="point>=100"
+            >
+              결제하기
+            </v-btn>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="charge()"
+              v-else
+            >
+              충전하기
+            </v-btn>
+            
+          </v-card-actions>
+                  <v-card-actions  v-if="this.$store.state.nickname == null">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="$router.go(-1)"
+            >
+              뒤로가기
+            </v-btn>
+            <v-btn
+              color="black"
+              text
+                outlined
+                rounded
+              @click="changeRoute('Login')"
+            >
+              로그인
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+  </v-row>
+
+   <v-row justify="center">
     <v-dialog
-      v-model="dialog4"
+      v-model="dialog5"
       persistent
       max-width="290"
     >
     
       <v-card  color="white"  class="black--text" >
         <v-card-title >
-          <v-row v-if="this.$store.state.nickname != null">
-            결제가 필요합니다.😭
-          </v-row>
-          <v-row v-else>
-            로그인이 필요합니다
+          <v-row >
+            주의!
           </v-row>
         </v-card-title>
-        <v-card-text v-if="this.$store.state.nickname != null" class="black--text">
-          <v-row v-if="point>1">
-          현재 포인트 : {{point}}<br>
-          차감 포인트 : - 1
-          </v-row>
-          <v-row v-else>
-            현재 포인트 : {{point}}<br>
-            필요 포인트 : - 1<br>
-            포인트가 부족합니다.
+        <v-card-text>
+          <v-row class="black--text" >
+            현재 영상은 지원되는 자막이 없습니다.
           </v-row>
         </v-card-text>
-          <v-card-text v-if="this.$store.state.nickname == null">
-            로그인 후 이용해 주세요
-        </v-card-text>
-        <v-card-actions  v-if="this.$store.state.nickname != null">
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="black"
@@ -492,54 +566,25 @@
             text
               outlined
               rounded
-            @click="pay"
-            v-if="point>1"
+              @click="dialog5=false;paid=true"
           >
-            결제하기
-          </v-btn>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="charge()"
-            v-else
-          >
-            충전하기
-          </v-btn>
-          
-        </v-card-actions>
-                <v-card-actions  v-if="this.$store.state.nickname == null">
-          <v-spacer></v-spacer>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="$router.go(-1)"
-          >
-            뒤로가기
-          </v-btn>
-          <v-btn
-            color="black"
-            text
-              outlined
-              rounded
-            @click="changeRoute('Login')"
-          >
-            로그인
+            영상보기
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
+
+
   </v-container>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar";
-import axios from "axios";
 import Quiz from "@/components/Video/Quiz";
+import Raxios from "axios";
+import axios from "@/plugins/axios";
+// import test from "@/components/Video/test";
 
 var convert = require('xml-js')
 
@@ -573,6 +618,7 @@ export default {
       dialog2: false,
       dialog3: false,
       dialog4: false,
+      dialog5: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -640,7 +686,7 @@ export default {
                 sentence : this.nowText,
                 videourl : this.videoId
         };
-      axios.post("https://morelang.gq/api/user/do-scrap",params,{
+      axios.post("/user/do-scrap",params,{
                headers: {
           'content-type': 'application/json',
       },
@@ -665,7 +711,7 @@ export default {
                 learn : false
         };
         
-        axios.post("https://morelang.gq/api/user/regist-voca",params,{
+        axios.post("/user/regist-voca",params,{
                headers: {
           'content-type': 'application/json',
      },
@@ -705,7 +751,7 @@ export default {
           }else if(temp == 'zh'){
             temp = 'cn'
           }
-          axios.get("https://morelang.gq/api/newuser/translate",{
+          axios.get("/newuser/translate",{
               params: {
                 query : temp2,
                 src_lang : temp,
@@ -891,7 +937,7 @@ export default {
       var temp = axios.defaults.headers.common ;
       axios.defaults.headers.common = null;
 
-      await axios.get("https://video.google.com/timedtext?type=list",{
+      await Raxios.get("https://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
         },
@@ -908,18 +954,22 @@ export default {
         // console.log("items = ",this.items.length)
         // console.log("type = ",typeof this.items)
         // console.log(this.items);
-        // console.log(this.items[0]);
-        // console.log("isarray=",Array.isArray(this.items))
-        if(Array.isArray(this.items)){
-          this.selectedLang=this.items[0]._attributes;
-          console.log(this.selectedLang);
-          this.getCaption();
+        if(this.items != undefined){
+            // console.log(this.items[0]);
+          // console.log("isarray=",Array.isArray(this.items))
+          if(Array.isArray(this.items)){
+            this.selectedLang=this.items[0]._attributes;
+            console.log(this.selectedLang);
+            this.getCaption();
+          }else{
+            this.selectedLang=this.items._attributes;
+            console.log(this.selectedLang);
+            this.getCaption();
+          }
         }else{
-          this.selectedLang=this.items._attributes;
-          console.log(this.selectedLang);
-          this.getCaption();
+          // 아무 자막이 없는거 처리 해줘야한다
+          this.dialog5=true;
         }
-        
 
         
         });
@@ -927,7 +977,7 @@ export default {
     },
     async getCaption(){
       
-      await axios.get("https://video.google.com/timedtext",{
+      await Raxios.get("https://video.google.com/timedtext",{
         params:{
           v : this.videoId,
           lang : this.selectedLang.lang_code
@@ -1012,7 +1062,7 @@ export default {
   async created(){
     console.log(this.videoId);
     this.videoId=this.$route.params.vid
-      await axios.get("https://morelang.gq/api/newuser/video",{
+      await axios.get("/newuser/video",{
         params: {
           id : this.videoId
         }
@@ -1025,6 +1075,7 @@ export default {
 
     if(this.$store.state.nickname != null){
       console.log("오호라 유저구나")
+      console.log(this.videoInfo);
       await axios.get("https://morelang.gq/api/user/pay/my-point")
           .then((res) => {
             console.log(res.data);
@@ -1036,7 +1087,7 @@ export default {
                 youtubeVideoid: this.videoId
         };
         
-        await axios.post("https://morelang.gq/api/user/watch-video",params,{
+        await axios.post("https://morelang.gq/api/user/iswatched",params,{
                headers: {
           'content-type': 'application/json',
           },
@@ -1044,7 +1095,7 @@ export default {
           .then((res) => {
               console.log("봤니안봤니")
               console.log(res.data);
-              if(res.data=="success"){
+              if(res.data==true){
                 this.paid = true;
               }
             });
@@ -1080,11 +1131,11 @@ export default {
     
 
        setTimeout(() =>{ 
-         if(this.paid==false){
+         if(this.items != undefined && this.paid==false){
            this.dialog4 = true; 
            this.pauseVideo();
          }
-        }, 3000);
+        }, 10000);
     //  document.addEventListener('mousedown', function() {
         // console.log(event);
         // window.getSelection().empty();

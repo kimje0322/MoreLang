@@ -29,9 +29,6 @@
 </template>
 
 <script>
-import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api"
-
 export default {
   data() {
     return {
