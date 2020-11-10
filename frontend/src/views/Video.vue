@@ -57,8 +57,7 @@
                           <v-card-actions >
                             <v-row>
                             <v-col cols="8">
-                              <h3><v-icon>mdi-google-translate</v-icon> : 
-                              {{translated}}
+                              <h3 v-html="translated"><v-icon>mdi-google-translate</v-icon> : 
                               </h3>
                             </v-col>
                             
