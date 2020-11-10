@@ -156,8 +156,8 @@
                           <v-card-text>
                                 <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
                                 <v-row  class=" mt-5"  justify="center" > 
-                                <vue-record-audio mode="press" @result="onResult" />
-                                <audio controls="" :src="audioURL"></audio>
+                                <vue-record-audio mode="press" @result="onResult" class="red darken-1 mr-4 mb-2"/>
+                                <audio controls="" :src="audioURL" controlsList="nodownload"></audio>
                                 </v-row>
                           </v-card-text>
                         </v-card>
@@ -167,7 +167,7 @@
                           <v-card-text>
                               <template v-if="videoInfo != null">
                                   <v-card
-                    color="#26c6da"
+               
                     dark
                   >
                     <v-card-title>
