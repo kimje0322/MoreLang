@@ -49,8 +49,9 @@
           >
             <div v-for="(video, i) in videolst" :key="i">
               <div
+                @click="selectVideo(video.id)"
                 class="col"
-                style="width: clac(25% - 60px); margin: auto; display: inline-block;"
+                style="width: clac(25% - 60px); margin: auto; display: inline-block; margin-bottom: 20px;"
               >
                     <!-- @error="
                       $event.target.src =
@@ -60,7 +61,7 @@
                   <img
                     :src="video.imgUrl"
                     alt=""
-                    width="290"
+                    width="300"
                     @error="aaa"
                   />
                 </div>
@@ -151,6 +152,9 @@ export default {
     });
   },
   methods: {
+    selectVideo(vid) {
+      this.$router.push({ name: "Video", params: { vid: vid } });
+    },
     aaa(e) {
       console.log(e)
       console.log("aldfjadl;kfja")

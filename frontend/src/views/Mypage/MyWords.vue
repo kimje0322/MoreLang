@@ -23,7 +23,7 @@
       </v-row>
     </v-container>
 
-    <v-row class="px-5 mt-5 mx-3" justify="center">
+    <v-row v-if="wordlang" class="px-5 mt-5 mx-3" justify="center">
       <v-container>
         <!-- 언어별 단어장 -->
         <!-- expander 사용예정 / expand => 뜻/예문 보이기 -->
@@ -39,36 +39,66 @@
         <div style="display: table; width: 100%;">
           <div style="display: table-cell; width: 40%">
             <h4>학습중</h4>
-            <v-row
-              v-if="wordlang"
-              no-gutters
-              style="text-align:center; width:70%;"
-            >
-              <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
-                <v-card
-                  v-if="!word.isLearn"
-                  class="pa-2 selectLang"
-                  outlined
-                  tile
-                  style="position:relative"
-                >
-                  <!-- append-icon="mdi-lead-pencil" label="복습" -->
-                  <v-checkbox
-                    
-                    style="width: 27%;
+            <v-row no-gutters style="text-align:center; width:70%;">
+              <v-col
+                v-for="(word, i) in wlist"
+                :key="i"
+                cols="12"
+                md="10"
+                @click="show = !show"
+              >
+                <!-- <div v-if="!word.isLearn"> -->
+                <transition name="fade" mode="in-out">
+                  <v-card
+                    v-if="show"
+                    class="pa-2 selectLang"
+                    outlined
+                    tile
+                    style="position:relative"
+                  >
+                    <!-- append-icon="mdi-lead-pencil" label="복습" -->
+                    <v-checkbox
+                      style="width: 27%;
                         position: absolute;
                         bottom: 7px;
                 left: 5px;"
-                    color="success"
-                    value="success"
-                    hide-details
-                  ></v-checkbox>
+                      color="success"
+                      value="success"
+                      hide-details
+                    ></v-checkbox>
 
-                  <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+                    <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                  <p class="my-auto">{{ word.eachVoca }}</p>
-                </v-card>
+                    <p class="my-auto">{{ word.eachVoca }}</p>
+                  </v-card>
+                </transition>
+                <transition name="fade" mode="in-out">
+                  <v-card
+                    v-if="!show"
+                    class="pa-2 selectLang"
+                    outlined
+                    tile
+                    style="position:relative"
+                  >
+                    <!-- append-icon="mdi-lead-pencil" label="복습" -->
+                    <v-checkbox
+                      style="width: 27%;
+                        position: absolute;
+                        bottom: 7px;
+                left: 5px;"
+                      color="success"
+                      value="success"
+                      hide-details
+                    ></v-checkbox>
+
+                    <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+              복습 -->
+
+                    <p class="my-auto">{{ word.eachMean }}</p>
+                  </v-card>
+                </transition>
+                <!-- </div> -->
               </v-col>
             </v-row>
           </div>
@@ -78,9 +108,9 @@
             <h4>학습완료</h4>
             <v-row no-gutters style="text-align:center; width:70%;">
               <!-- <p>word</p> -->
-              <v-col v-for="(word, i) in wordlist" :key="i" cols="12" sm="6">
+              <v-col v-for="(word, i) in wlist2" :key="i" cols="12" md="10">
+                <!-- v-if="word.isLearn" -->
                 <v-card
-                  v-if="word.isLearn"
                   class="pa-2 selectLang"
                   outlined
                   tile
@@ -130,6 +160,7 @@ export default {
   },
   data() {
     return {
+      show: true,
       wordlist: [],
       selectlang: "",
       wordlang: false,
@@ -164,6 +195,18 @@ export default {
 
   //   })
   // },
+  computed: {
+    wlist: function() {
+      return this.wordlist.filter(function(w) {
+        return !w.isLearn;
+      });
+    },
+    wlist2: function() {
+      return this.wordlist.filter(function(w) {
+        return w.isLearn;
+      });
+    }
+  },
   methods: {
     // axios.get()
     wordList(lang) {
