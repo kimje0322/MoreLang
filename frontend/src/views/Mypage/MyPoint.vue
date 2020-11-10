@@ -23,12 +23,30 @@
         :items="point"
         :items-per-page="5"
         class="elevation-1"
-      ></v-data-table>
+        no-data-text="😢 데이터가 없습니다 😢"
+      >
+      <template v-slot:[`item.date`]="{ item }">
+        <span>{{ changeDate(item.chargeTime) }}</span>
+      </template>
+      <template v-slot:[`item.charge`]="{ item }">
+        <span v-if = "item.charge==='true'">충전</span>
+        <span v-esle-if= "item.charge=='false'">사용</span>
+      </template>
+      <template v-slot:[`item.usedpoint`]="{ item }">
+        <span v-if = "item.charge==='true'"> + {{item.chargeAmount}}</span>
+        <span v-esle-if= "item.charge=='false'"> - {{item.chargeAmount}}</span>
+      </template>
+      <template v-slot:[`item.restpoint`]="{ item }">
+        <span>{{ item.member.point }}</span>
+      </template>
+      </v-data-table>
       
   </v-container>
 </template>
 
 <script>
+import axios from "@/plugins/axios";
+
 export default {
   data() {
     return {
@@ -37,7 +55,7 @@ export default {
       headers: [
         {
           text: '',
-          align: 'start',
+          align: 'center',
           sortable: false,
           value: 'name',
         },
@@ -56,12 +74,12 @@ export default {
             iron: '1%',
           },
         ],
-		};
+      };
   },
   methods: {
     Charge(point) {
-			console.log(point);
-			this.$router.push({ name: "Pay", params: { point: point * 10000} });
+         console.log(point);
+         this.$router.push({ name: "Pay", params: { point: point * 10000} });
     },
     Coin(index) {
       var Coin = document.getElementById(index);
@@ -74,21 +92,31 @@ export default {
       Coin.style.msTransform = "rotateY(" + this.degrees + "deg)";
       Coin.style.OTransform = "rotateY(" + this.degrees + "deg)";
       Coin.style.transform = "rotateY(" + this.degrees + "deg)";
-			// };
-			// Coin = null;
+         // };
+         // Coin = null;
+    },
+    changeDate(strDate){
+      var sDate = new Date(strDate);
+      var result = "" + sDate.getFullYear() + "/"+(sDate.getMonth()+1) +"/"+ sDate.getDate() + " ";
+      if(sDate.getHours() >= 13){
+        result += ("PM 0" + (sDate.getHours()-12))
+      }else{
+        result += "AM " + sDate.getHours();
+      }
+      result += ":" + sDate.getMinutes();
+      return result;
     }
   },
   mounted() {
     axios.get(
-      `${SERVER_URL}/user/pay/my-pointlogs?direction=ASC&page=0&size=10`
+      `/user/pay/my-pointlogs?direction=ASC&page=0&size=10`
     )
   .then(res => {
     // for 반복문 돌리며 필요 data만 {}형식으로 넣기
     this.point = res.data.content;
-    console.log(this.point);
-    
+    console.log(this.point); 
     })
-  },
+  }
 };
 </script>
 
