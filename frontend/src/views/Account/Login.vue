@@ -124,7 +124,7 @@
 
             <div style="display: table; width: 95%; border: 1px solid #ccc; padding: 30px 47px">
               <div style="display: table-cell; width: 45%;position: relative;">
-                <div style="font-size: 22px; color: #222; text-align: left; position: absolute; top: 35%;">
+                <div style="font-size: 22px; color: #777; text-align: left; position: absolute; top: 35%;">
                   아직 회원이 아니신가요?
                 </div>
               </div>
@@ -134,7 +134,7 @@
                   회원가입 <br>포인트를 받으실 수 있습니다.
                 </div>
                 <div style="padding-bottom: 20px; text-align: center; ">
-                  <v-btn @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #fff; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
+                  <v-btn @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #333; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
                     <v-icon style="margin-right: 5%;">
                       mdi-account-circle-outline
                     </v-icon>
