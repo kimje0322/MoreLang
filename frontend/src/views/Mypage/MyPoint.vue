@@ -22,8 +22,8 @@
         :headers="headers"
         :items="point"
         :items-per-page="5"
-        class="elevation-1"
-        no-data-text="😢 데이터가 없습니다 😢"
+        class="elevation-1 mr-5"
+        no-data-text="😢 이용내역이 없습니다 😢"
       >
       <template v-slot:[`item.date`]="{ item }">
         <span>{{ changeDate(item.chargeTime) }}</span>
@@ -64,17 +64,7 @@ export default {
         { text: '이용 포인트', value: 'usedpoint' },
         { text: '남은 포인트', value: 'restpoint' },
       ],
-      desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-        ],
-      };
+    };
   },
   methods: {
     Charge(point) {
@@ -109,7 +99,7 @@ export default {
   },
   mounted() {
     axios.get(
-      `/user/pay/my-pointlogs?direction=ASC&page=0&size=10`
+      `/user/pay/my-pointlogs?direction=DESC&page=0&size=30`
     )
   .then(res => {
     // for 반복문 돌리며 필요 data만 {}형식으로 넣기

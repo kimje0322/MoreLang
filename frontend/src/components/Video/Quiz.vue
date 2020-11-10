@@ -1,11 +1,10 @@
 <template>
   <div class="code-box mx-auto" @dragover="dragover">
     <!-- 퀴즈 Content -->
-    {{keyword}}
     <div class="play-box mx-auto mt-5">
       <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
         <!-- 퀴즈 내용 -->
-        <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
+        <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
           {{item.quiz}}
         </div>
         <!-- 퀴즈 빈칸 -->
@@ -15,10 +14,11 @@
         </div>
       </div>
     </div>
+    <!-- <img src="@/assets/img/answer.gif" alt=""> -->
     <!-- 퀴즈 키워드 -->
     <div class="block-box">
       <div class="block-list mt-5 droppable" @drop="drop">
-      <h5>키워드</h5>
+      <h4 class="ml-1 mb-2">키워드</h4>
         <div class="droppable">
           <div v-for="(keyword, i) in keyword"  @drop="drop" draggable="true" @dragstart="dragstart(keyword.original, i)" :key=i :id="`keyword${i}`" :class="`k${i}`" style="display: inline-block;">
             <div class="block">
@@ -74,6 +74,23 @@ export default {
     // window.addEventListener('scroll', this.handleScroll)
   },
   mounted() {
+        Swal.fire(
+      {
+        title: "정답!",
+        width: 500,
+        // background: '#fff url(@/assets/img/answer1.gif)',
+        // backdrop: `
+        //   rgba(194,96,142,0.4)
+        //   url("@/assets/img/answer.gif")
+        //   left top
+        //   no-repeat
+        // `,
+        text: "10point를 획득하였습니다.",
+        timer: 1700,
+        icon: "success",
+        iconColor: 'red',
+        showConfirmButton: false,
+      })
     this.onMove();
     axios.post(
       "/newuser/puzzletest?inputText=a"  
@@ -106,18 +123,17 @@ export default {
   methods: {
     checkAnswer() {
       if (this.score === Object.keys(this.keyword).length) {
-        console.log('swal정답이다');
         Swal.fire(
-        {
-          // title: "정답입니다!",
-          text: "정답입니다.",
-          showCancelButton: true,
-          // closeOnConfirm: false,
-          // showLoaderOnConfirm: true
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "확인"
-        })
+          {
+            title: "정답!",
+            width: 500,
+            background: '#fff url(@/assets/img/answer.gif)',
+            text: "10point를 획득하였습니다.",
+            timer: 1700,
+            icon: "success",
+            iconColor: 'red',
+            showConfirmButton: false,
+          })
       }
     },
     onMove() {
@@ -151,16 +167,16 @@ export default {
       // 사이즈 변경
       // idx width를 this.keyIdx로 바꾸기
       // console.log('키워드 클래스'+ this.keyIdx);
- 
-      // 너비 유지
+      
       var bIdx = idx.slice(1);
-      // console.log('bIdx '+bIdx);
       this.blankIdx = $(`#blank${bIdx}`)
+      
+      // 너비 유지
       // document.getElementById(`blank${bIdx}`);
       // console.log('blanKinDX')
       // console.log(this.blankIdx);
       if (!this.blankIdx.hasClass("checked")) {
-          this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 7;
+          this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 5;
           $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
        } else if ($(`.${this.keyIdx}`).width() === 0) {
         this.keyIdxWidth = this.keywordWidth[[this.keyIdx]];    
@@ -171,10 +187,13 @@ export default {
       event.preventDefault();
     },
     drop(idx) {
-      console.log(Object.keys(this.answer).length);
       event.stopPropagation();
       event.preventDefault();
       // console.log(this.keywordWidth[[this.keyIdx]])
+      // 정답이 아니면 틀린 표시
+      if (idx !== this.userAns) {
+        $(`.b${idx}`).css("border", "red solid 2px");
+      }
       // 정답처리
       // idx: 빈칸이 몇번째 칸인지
       if (idx === this.userAns && !this.rightAns.includes(idx)) {
@@ -211,9 +230,6 @@ export default {
             }
           }
         };
-      // if (this.score < Object.keys(this.answer).length) {
-      //   this.score += 1;
-      //   }
       }
     }
   },
@@ -244,12 +260,11 @@ export default {
 } */
 .play-box {
   width: 100%;
-  background-color: #def5df;
-  border-radius: 7px;
-  padding: 12px;
+  /* background-color: #def5df; */
+  padding: 8px;
 }
 .code-box {
-  width: 80%;
+  width: 95%;
   height: 70%;
   /* background-color: #def5df; */
   border-radius: 7px;
@@ -265,7 +280,6 @@ export default {
   padding: 10px;
   margin: 0 2px;
   /* background-color: #def5df; */
-  border: 1px solid green;
   border-radius: 7px;
 }
 .block-box .block-menu-bar .on-menu-bar {
@@ -287,8 +301,8 @@ export default {
  .block-list .block {
   padding: 2px 7px;
   margin-right: 8px;
-  border-radius: 8px;
-  background-color: rgb(22, 177, 22);
+  border-radius: 3px;
+  background-color: #D32F2F;
   margin-bottom: 10px;
   cursor: pointer;
   color: #fff;
@@ -308,9 +322,13 @@ export default {
 }
 .blank {
   /* border: dashed grey 1px; */
-  border-radius: 8px;
+  border-radius: 3px;
   background-color: lightgrey;
   width: 50px;
   height: 25px;
+}
+.checked {
+  padding-left: 2px;
+  background-color: #D32F2F;
 }
 </style>
