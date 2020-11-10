@@ -211,21 +211,21 @@ export default {
         en: "영어",
         jp: "일본어",
         cn: "중국어",
-        // vi: "베트남어",
-        // id: "인도네시아어",
-        // ar: "아랍어",
-        // bn: "뱅갈어",
-        // de: "독일어",
-        // es: "스페인어",
+        vi: "베트남어",
+        id: "인도네시아어",
+        ar: "아랍어",
+        bn: "뱅갈어",
+        de: "독일어",
+        es: "스페인어",
         fr: "프랑스어",
-        // hi: "힌디어",
+        hi: "힌디어",
         it: "이탈리아어",
-        // ms: "말레이시아어",
-        // nl: "네덜란드어",
+        ms: "말레이시아어",
+        nl: "네덜란드어",
         pt: "포르투갈어",
-        ru: "러시아"
-        // th: "태국어",
-        // tr: "터키어"
+        ru: "러시아",
+        th: "태국어",
+        tr: "터키어"
       },
       items: ["Mypage", "Logout"]
     };
@@ -268,10 +268,10 @@ export default {
     // },
     userMenu(idx) {
       if (idx === 0) {
-        console.log("userid = " + this.$store.state.userid)
+        // console.log("userid = " + this.$store.state.userid)
         this.$router.push({
           name: "Mypage",
-          params: { userid: this.$store.state.userid}
+          params: { userid:this.$store.state.userid }
         });
       // } else if (idx === 1) {
       //   this.$router.push({name: "Home"});

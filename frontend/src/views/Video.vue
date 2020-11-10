@@ -416,7 +416,7 @@
     <span id="tool">
       <v-dialog v-model="dialog2"  width="30%"  hide-overlay    transition="dialog-bottom-transition">
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="error" dark  v-bind="attrs" v-on="on">사전검색</v-btn>
+                    <v-btn color="red darken-1" rounded dark  v-bind="attrs" v-on="on">사전검색</v-btn>
                     </template>
                       <v-card >
                       <iframe  width="100%" height= "500px" :src="dictUrl+word"></iframe>
@@ -432,7 +432,7 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn color="primary" @click="addVoca">단어장추가</v-btn>
+      <v-btn color="blue darken-1" rounded  @click="addVoca">단어장추가</v-btn>
     </span>
 
         <v-snackbar
@@ -493,7 +493,7 @@
               outlined
               rounded
             @click="pay"
-            v-if="point>1"
+            v-if="point>100"
           >
             결제하기
           </v-btn>
@@ -502,7 +502,7 @@
             text
               outlined
               rounded
-            @click="$router.push({ name: 'Mypage'})"
+            @click="charge()"
             v-else
           >
             충전하기
@@ -600,6 +600,9 @@ export default {
     };
   },
   methods: {
+    charge(){
+       this.$router.push({ name: 'Pay',params: { point: 1000,vid: this.videoId }});
+    },
      async pay(){
        console.log("결제진행")
       const params = {
@@ -1033,7 +1036,7 @@ export default {
                 youtubeVideoid: this.videoId
         };
         
-        await axios.post("https://morelang.gq/api/user/watch-video",params,{
+        await axios.post("https://morelang.gq/api/user/iswatched",params,{
                headers: {
           'content-type': 'application/json',
           },
@@ -1041,7 +1044,7 @@ export default {
           .then((res) => {
               console.log("봤니안봤니")
               console.log(res.data);
-              if(res.data=="success"){
+              if(res.data==true){
                 this.paid = true;
               }
             });
