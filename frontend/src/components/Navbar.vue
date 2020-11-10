@@ -178,9 +178,8 @@
 
 <script scoped>
 import "@/../public/css/Navbar.scss";
-import axios from "axios";
+import axios from "@/plugins/axios";
 import { mapState } from "vuex";
-const SERVER_URL = "https://morelang.gq/api";
 // import store from "@/../src/store/index.js";
 
 // 상단 네브바 고정
@@ -254,7 +253,7 @@ export default {
     onTranslate(lang) {
       axios
         .get(
-          `${SERVER_URL}/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
+          `/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
         )
         .then(res => {
           this.keyword = res.data;

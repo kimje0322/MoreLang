@@ -159,7 +159,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import { mapState } from "vuex";
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
   name: "Login",
   components: {
@@ -234,7 +234,7 @@ export default {
         fd.append("code", data.code);
         fd.append("redirect", window.location.href);
         axios
-          .post(`${this.$store.state.ServerURL}/newuser/googlelogin`, fd)
+          .post("/newuser/googlelogin", fd)
           .then(response => {
             console.log("성공!");
             console.log(response);
@@ -257,7 +257,7 @@ export default {
       const fd = new FormData();
       fd.append("accessToken", authObj.access_token);
       axios
-        .post(`${this.$store.state.ServerURL}/newuser/kakaologin`, fd)
+        .post(`/newuser/kakaologin`, fd)
         .then(response => {
           console.log("성공!");
           console.log(response);

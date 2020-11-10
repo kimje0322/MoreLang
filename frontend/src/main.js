@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import VueYoutube from "vue-youtube";
 import vuetify from "./plugins/vuetify";
-import axios from "axios";
 import VueNumericInput from "vue-numeric-input";
 import VueRecord from "@codekraft-studio/vue-record";
 
@@ -13,7 +12,6 @@ Vue.config.productionTip = false;
 Vue.use(VueYoutube);
 Vue.use(VueNumericInput);
 Vue.use(VueRecord);
-Vue.prototype.$http = axios;
 
 new Vue({
     router,

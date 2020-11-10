@@ -444,7 +444,8 @@
 
 <script>
 import Navbar from "@/components/Navbar";
-import axios from "axios";
+import Raxios from "axios";
+import axios from "@/plugins/axios";
 // import test from "@/components/Video/test";
 
 var convert = require('xml-js')
@@ -513,7 +514,7 @@ export default {
                 sentence : this.nowText,
                 videourl : this.videoId
         };
-      axios.post("https://morelang.gq/api/user/do-scrap",params,{
+      axios.post("/user/do-scrap",params,{
                headers: {
           'content-type': 'application/json',
       },
@@ -538,7 +539,7 @@ export default {
                 learn : false
         };
         
-        axios.post("https://morelang.gq/api/user/regist-voca",params,{
+        axios.post("/user/regist-voca",params,{
                headers: {
           'content-type': 'application/json',
      },
@@ -578,7 +579,7 @@ export default {
           }else if(temp == 'zh'){
             temp = 'cn'
           }
-          axios.get("https://morelang.gq/api/newuser/translate",{
+          axios.get("/newuser/translate",{
               params: {
                 query : temp2,
                 src_lang : temp,
@@ -764,7 +765,7 @@ export default {
       var temp = axios.defaults.headers.common ;
       axios.defaults.headers.common = null;
 
-      await axios.get("https://video.google.com/timedtext?type=list",{
+      await Raxios.get("https://video.google.com/timedtext?type=list",{
         params: {
           v : this.videoId
         },
@@ -800,7 +801,7 @@ export default {
     },
     async getCaption(){
       
-      await axios.get("https://video.google.com/timedtext",{
+      await Raxios.get("https://video.google.com/timedtext",{
         params:{
           v : this.videoId,
           lang : this.selectedLang.lang_code
@@ -885,7 +886,7 @@ export default {
   created(){
     console.log(this.videoId);
     this.videoId=this.$route.params.vid
-      axios.get("https://morelang.gq/api/newuser/video",{
+      axios.get("/newuser/video",{
         params: {
           id : this.videoId
         }

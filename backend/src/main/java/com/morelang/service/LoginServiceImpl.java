@@ -133,7 +133,7 @@ public class LoginServiceImpl implements LoginService{
 	}
 	@Override
 	public boolean checkId(String userid) {
-		if (memberRepository.findByUserid(userid) == null) return true;
+		if (!memberRepository.findByUserid(userid).isPresent()) return true;
 		else return false;
 	}
 	@Override

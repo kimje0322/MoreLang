@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 import { mapMutations } from "vuex";
 
 export default {
@@ -58,7 +58,7 @@ export default {
       } else {
         try {
           this.loading = true;
-          const { data } = await axios.get(`${this.$store.state.ServerURL}/newuser/find_pw`, {
+          const { data } = await axios.get(`/newuser/find_pw`, {
             params: {
               username: this.username
             }
