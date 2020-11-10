@@ -18,25 +18,53 @@
         </v-col>
       </v-row>
     <h2 class="mt-5 mb-2">포인트 이용내역</h2>
-    
+      <v-data-table
+        :headers="headers"
+        :items="point"
+        :items-per-page="5"
+        class="elevation-1"
+      ></v-data-table>
+      
   </v-container>
 </template>
 
 <script>
-// import axios from "axios";
-// const SERVER_URL = "https://morelang.gq/api"
+import axios from "axios";
+const SERVER_URL = "https://morelang.gq/api"
 
 export default {
   data() {
     return {
       degrees: 0,
+      point: [],
+      headers: [
+        {
+          text: '',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: '날짜', value: 'date' },
+        { text: '구분', value: 'charge' },
+        { text: '이용 포인트', value: 'usedpoint' },
+        { text: '남은 포인트', value: 'restpoint' },
+      ],
+      desserts: [
+          {
+            name: 'Frozen Yogurt',
+            calories: 159,
+            fat: 6.0,
+            carbs: 24,
+            protein: 4.0,
+            iron: '1%',
+          },
+        ],
 		};
   },
   methods: {
     Charge(point) {
 			console.log(point);
 			this.$router.push({ name: "Pay", params: { point: point * 10000} });
-      // axios.post()
     },
     Coin(index) {
       var Coin = document.getElementById(index);
@@ -53,14 +81,17 @@ export default {
 			// Coin = null;
     }
   },
-  // mounted() {
-  //   axios.get(
-  //     `${SERVER_URL}/user/pay/my-pointlogs`
-  //   )
-  // .then(res => {
-  //   console.log(res);
-  //   });
-  // },
+  mounted() {
+    axios.get(
+      `${SERVER_URL}/user/pay/my-pointlogs?direction=ASC&page=0&size=10`
+    )
+  .then(res => {
+    // for 반복문 돌리며 필요 data만 {}형식으로 넣기
+    this.point = res.data.content;
+    console.log(this.point);
+    
+    })
+  },
 };
 </script>
 

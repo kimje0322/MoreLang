@@ -1,8 +1,8 @@
 <template>
   <div>
   <!-- 퀴즈 지문 -->
-  <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key="'A' + i">
-    <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
+  <div style="display:inline-block;" class="pr-1" v-for="(item, i) in quizBox" :key="'A' + i">
+    <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
       {{item.quiz}}
     </div>
     <div v-else id="blank" :class="`b${item.index}`" class="empty droppable" @dragover="dragOver" @dragenter="dragEnter" @dragend="dragLeave" @drop="dragDrop(`b${item.index}`)">
