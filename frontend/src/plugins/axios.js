@@ -40,7 +40,7 @@ instance.interceptors.response.use(
         if (401 === error.response.status) {
             console.log("401 error 발생!")
             window.localStorage.removeItem('vuex');
-            router.push("Login");
+            router.push({name : 'Login'});
         }
         return error;
     }

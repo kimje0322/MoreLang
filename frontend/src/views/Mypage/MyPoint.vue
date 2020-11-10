@@ -56,7 +56,7 @@ export default {
         {
           text: '',
           align: 'center',
-          sortable: false,
+          sortable: true,
           value: 'name',
         },
         { text: '날짜', value: 'date' },
