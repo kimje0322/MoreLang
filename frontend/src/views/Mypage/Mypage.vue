@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 import VideoLearning from "@/views/Mypage/VideoLearning";
 import MyWords from "@/views/Mypage/MyWords";
 import MySentences from "@/views/Mypage/MySentences";
@@ -119,7 +119,7 @@ export default {
   },
   mounted() {
     axios.get(
-         `https://morelang.gq/api/user/pay/my-point`
+         "/user/pay/my-point"
       )
       .then(res => {
         this.point = res.data;

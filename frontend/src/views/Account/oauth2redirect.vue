@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
     name: "oauth2redirect",
     created() {
@@ -16,7 +16,7 @@ export default {
             const fd = new FormData();
             fd.append("code", code);
             axios
-                .post(`${this.$store.state.ServerURL}/newuser/naverlogin`, fd)
+                .post("/newuser/naverlogin", fd)
                 .then(response => {
                     console.log("성공!");
                     console.log(response);

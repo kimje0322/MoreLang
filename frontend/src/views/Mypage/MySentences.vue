@@ -28,8 +28,7 @@
 </template>
 
 <script>
-import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api";
+import axios from "@/plugins/axios";
 
 export default {
   data() {
@@ -39,7 +38,7 @@ export default {
   },
   mounted() {
     axios
-      .get(`${SERVER_URL}/user/myscrap?direction=ASC&page=0&size=10`)
+      .get("/user/myscrap?direction=ASC&page=0&size=10")
       .then(res => {
         console.log("여기요!");
         console.log(res.data.content);

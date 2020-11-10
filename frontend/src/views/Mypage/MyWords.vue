@@ -111,12 +111,11 @@
 </template>
 
 <script>
-import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api";
+import axios from "@/plugins/axios";
 
 export default {
   mounted() {
-    axios.get(`${SERVER_URL}/user/myvoca-country`).then(res => {
+    axios.get("/user/myvoca-country").then(res => {
       console.log("단어장에 저장된 국가들");
       console.log(res);
       this.langLst = res.data;
@@ -175,7 +174,7 @@ export default {
       this.selectlang = lang;
       axios
         .get(
-          `${SERVER_URL}/user/myvoca?country=${lang}&direction=ASC&page=0&size=10`
+          "/user/myvoca?country=${lang}&direction=ASC&page=0&size=10"
         )
         .then(res => {
           console.log(res);

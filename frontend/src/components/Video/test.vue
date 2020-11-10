@@ -18,8 +18,7 @@
 
 
 <script>
-import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api";
+import axios from "@/plugins/axios";
 
 export default {
   data() {
@@ -42,7 +41,7 @@ export default {
     // this.cn = document.querySelector('.fill')
     console.log(this.className);
     axios.post(
-      `${SERVER_URL}/newuser/puzzletest?inputText=a`
+      "/newuser/puzzletest?inputText=a"
       ).then(res => {
         this.answer = res.data.answer;
         // this.quizBox = res.data.quizeText;

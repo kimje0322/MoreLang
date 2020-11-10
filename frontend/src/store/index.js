@@ -1,12 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import axios from "@/plugins/axios";
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 const getDefaultState = () => {
     return {
-       ServerURL: "https://morelang.gq/api",
        userid: null,
         nickname: null,
         username: null,
@@ -64,7 +63,7 @@ export default new Vuex.Store({
         async LOGIN({ state,commit, dispatch }, loginData) {
           axios.defaults.headers.common.Authorization = ``;
           const res = await axios.post(
-            `${this.state.ServerURL}/newuser/login`,
+            "/newuser/login",
             null,
             {
               params: {
@@ -89,7 +88,7 @@ export default new Vuex.Store({
           }
         },
         async LOGOUT({ commit }) {
-          await axios.post(`${this.state.ServerURL}/user/out`);
+          await axios.post("/user/out");
           commit("LOGOUT");
           commit("ShowAlert", {
             flag: true,
@@ -114,7 +113,7 @@ export default new Vuex.Store({
           }
           console.log(memberData);
           const { data } = await axios.post(
-            `${this.state.ServerURL}/newuser/add`,
+            "/newuser/add",
             memberData
           );
           if (data.success === true) {
@@ -143,7 +142,7 @@ export default new Vuex.Store({
         },
         async Thumbnail({ commit }, payload) {
           const res = await axios.get(
-            `${this.state.ServerURL}/newuser/get_profile_img`,
+            "/newuser/get_profile_img",
             {
               params: {
                 username: payload

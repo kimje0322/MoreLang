@@ -97,12 +97,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 import Navbar from "@/components/Navbar";
 import InfiniteLoading from "vue-infinite-loading";
 // import VueRouter from "vue-router"
-
-const SERVER_URL = "https://morelang.gq/api";
 
 // video.imgUrl
 
@@ -137,11 +135,11 @@ export default {
     console.log("여기여기");
     console.log(this.channelId);
 
-    axios.get(`${SERVER_URL}/newuser/channel?id=${this.channelId}`).then(res => {
+    axios.get(`/newuser/channel?id=${this.channelId}`).then(res => {
       console.log(res);
       this.channelInfo = res.data;
       axios
-        .get(`${SERVER_URL}/newuser/playlist?id=${this.channelInfo.uploads}`)
+        .get(`/newuser/playlist?id=${this.channelInfo.uploads}`)
         .then(res => {
           console.log(res);
           this.videolst = res.data.items;
@@ -167,7 +165,7 @@ export default {
       setTimeout(() => {
         axios
           .get(
-            `${SERVER_URL}/newuser/playlist?id=${this.channelInfo.uploads}&token=${this.token}`
+            `/newuser/playlist?id=${this.channelInfo.uploads}&token=${this.token}`
           )
           .then(res => {
             // console.log("infinitehandler");

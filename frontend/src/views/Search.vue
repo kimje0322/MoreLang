@@ -250,17 +250,13 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 import InfiniteLoading from "vue-infinite-loading";
 import store from "../store/index.js";
 import Swal from "sweetalert2";
 // import Navbar from "@/components/Navbar";
 
 // import store from "@/../src/store/index.js";
-
-const SERVER_URL = "https://morelang.gq/api";
-// import axios from "axios";
-
 // function getInputValue() {
 //   var searchValue = $('#search_word').val();
 // }
@@ -386,7 +382,7 @@ export default {
     onTranslate(lang) {
       axios
         .get(
-          `${SERVER_URL}/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
+         `/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
         )
         .then(res => {
           this.keyword = res.data;
@@ -400,7 +396,7 @@ export default {
       this.click = true;
       this.tmp = search;
       axios
-        .get(`${SERVER_URL}/newuser/search?q=${search}&start=0`)
+        .get(`/newuser/search?q=${search}&start=0`)
         .then(res => {
           // console.log("asdf")
           this.videolst = res.data;
@@ -414,7 +410,7 @@ export default {
       setTimeout(() => {
         // const temp = [];
         axios
-          .get(`${SERVER_URL}/newuser/search?q=${this.tmp}&start=${this.next}`)
+          .get(`/newuser/search?q=${this.tmp}&start=${this.next}`)
           .then(res => {
             this.videolst = this.videolst.concat(res.data);
             if (res.data.length != 10) {

@@ -35,7 +35,7 @@
 <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 import $ from 'jquery';
 import { Container, Draggable } from "vue-smooth-dnd";
 import { applyDrag, generateItems } from "./utils";
@@ -81,7 +81,7 @@ export default {
   mounted() {
     this.onMove();
     axios.post(
-      `${SERVER_URL}/newuser/puzzletest?inputText=a`  
+      "/newuser/puzzletest?inputText=a"  
       ).then(res => {
         this.answer = res.data.answer;
         // this.quizBox = res.data.quizeText;

@@ -1,8 +1,9 @@
 import axios from 'axios'
-
+import router from "@/router";
+import store from "@/store";
 const instance = axios.create({
     baseURL: 'https://morelang.gq/api',
-    timeout: 1000
+    timeout: 5000
   });
 
 /*
@@ -37,41 +38,15 @@ instance.interceptors.response.use(
 
     function (error) {
         console.log(error);
-        if (error.response.state === 401 && store.state.refreshToken) {
-            const refreshToken = store.state.refreshToken;
-            const res = await axios.post(
-                `${store.state.ServerURL}/guest/refresh`,
-                null, {
-                    headers: {
-                        refreshToken: `Bearer ${refreshToken}`,
-                    },
-                }
-            );
-            if (res.data.success === true) {
-                store.commit("setTOKEN", {
-                    accessToken: res.data.accessToken,
-                    refreshToken,
-                });
-                axios.defaults.headers.common.accessToken = res.data.accessToken;
-                error.config.headers[
-                    "Authorization"
-                ] = `Bearer ${res.data.accessToken}`;
-                return axios(error.config);
-            } else {
-                store.commit("Logout");
-                store.commit("ShowAlert", {
-                    flag: true,
-                    msg: "리프레시 토큰이 만료되었습니다. 다시 로그인하세요",
-                    color: "error",
-                });
-                setTimeout(() => {
-                    store.commit("ShowAlert", {
-                        flag: false,
-                        msg: "",
-                    });
-                    router.push("/");
-                }, 1000);
-            }
+        if (401 === error.response.status) {
+            console.log("401 error 발생!")
+            store.dispatch("LOGOUT");
+            router.push("Login" );
         }
+        return error;
     }
 );
+
+
+// 생성한 인스턴스를 익스포트 합니다.
+export default instance;
