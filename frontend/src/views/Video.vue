@@ -463,13 +463,13 @@
           </v-row>
         </v-card-title>
         <v-card-text v-if="this.$store.state.nickname != null" class="black--text">
-          <v-row v-if="point>1">
+          <v-row v-if="point>=100">
           현재 포인트 : {{point}}<br>
-          차감 포인트 : - 1
+          차감 포인트 : - 100
           </v-row>
           <v-row v-else>
             현재 포인트 : {{point}}<br>
-            필요 포인트 : - 1<br>
+            필요 포인트 : - 100<br>
             포인트가 부족합니다.
           </v-row>
         </v-card-text>
@@ -493,7 +493,7 @@
               outlined
               rounded
             @click="pay"
-            v-if="point>100"
+            v-if="point>=100"
           >
             결제하기
           </v-btn>
