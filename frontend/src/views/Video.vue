@@ -146,7 +146,7 @@
                       <v-tab-item>
                         <v-card flat>
                           <v-card-text>
-                           <!-- <test/> -->
+                           <Quiz/>
                           </v-card-text>
                         </v-card>
                       </v-tab-item>
@@ -581,6 +581,7 @@
 
 <script>
 import Navbar from "@/components/Navbar";
+import Quiz from "@/components/Video/Quiz";
 import Raxios from "axios";
 import axios from "@/plugins/axios";
 // import test from "@/components/Video/test";
@@ -595,7 +596,7 @@ export default {
   name: "Video",
   components: {
     Navbar,
-    // test,
+    Quiz,
   },
   data() {
     return {
