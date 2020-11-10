@@ -156,8 +156,8 @@
                           <v-card-text>
                                 <div><h2>  <v-icon>mdi-comment-processing-outline</v-icon> : {{nowText}}</h2></div>
                                 <v-row  class=" mt-5"  justify="center" > 
-                                <vue-record-audio mode="press" @result="onResult" />
-                                <audio controls="" :src="audioURL"></audio>
+                                <vue-record-audio mode="press" @result="onResult" class="red darken-1 mr-4 mb-2"/>
+                                <audio controls="" :src="audioURL" controlsList="nodownload"></audio>
                                 </v-row>
                           </v-card-text>
                         </v-card>
@@ -167,7 +167,7 @@
                           <v-card-text>
                               <template v-if="videoInfo != null">
                                   <v-card
-                    color="#26c6da"
+               
                     dark
                   >
                     <v-card-title>
@@ -416,7 +416,7 @@
     <span id="tool">
       <v-dialog v-model="dialog2"  width="30%"  hide-overlay    transition="dialog-bottom-transition">
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="error" dark  v-bind="attrs" v-on="on">사전검색</v-btn>
+                    <v-btn color="red darken-1" rounded dark  v-bind="attrs" v-on="on">사전검색</v-btn>
                     </template>
                       <v-card >
                       <iframe  width="100%" height= "500px" :src="dictUrl+word"></iframe>
@@ -432,7 +432,7 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn color="primary" @click="addVoca">단어장추가</v-btn>
+      <v-btn color="blue darken-1" rounded  @click="addVoca">단어장추가</v-btn>
     </span>
 
         <v-snackbar
@@ -493,7 +493,7 @@
               outlined
               rounded
             @click="pay"
-            v-if="point>1"
+            v-if="point>100"
           >
             결제하기
           </v-btn>
@@ -502,7 +502,7 @@
             text
               outlined
               rounded
-            @click="$router.push({ name: 'Mypage'})"
+            @click="charge()"
             v-else
           >
             충전하기
@@ -533,6 +533,51 @@
       </v-card>
     </v-dialog>
   </v-row>
+
+   <v-row justify="center">
+    <v-dialog
+      v-model="dialog5"
+      persistent
+      max-width="290"
+    >
+    
+      <v-card  color="white"  class="black--text" >
+        <v-card-title >
+          <v-row >
+            주의!
+          </v-row>
+        </v-card-title>
+        <v-card-text>
+          <v-row class="black--text" >
+            현재 영상은 지원되는 자막이 없습니다.
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+            @click="$router.go(-1)"
+          >
+            뒤로가기
+          </v-btn>
+          <v-btn
+            color="black"
+            text
+              outlined
+              rounded
+              @click="dialog5=false;paid=true"
+          >
+            영상보기
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
+
   </v-container>
 </template>
 
@@ -574,6 +619,7 @@ export default {
       dialog2: false,
       dialog3: false,
       dialog4: false,
+      dialog5: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -601,6 +647,9 @@ export default {
     };
   },
   methods: {
+    charge(){
+       this.$router.push({ name: 'Pay',params: { point: 1000,vid: this.videoId }});
+    },
      async pay(){
        console.log("결제진행")
       const params = {
@@ -906,18 +955,22 @@ export default {
         // console.log("items = ",this.items.length)
         // console.log("type = ",typeof this.items)
         // console.log(this.items);
-        // console.log(this.items[0]);
-        // console.log("isarray=",Array.isArray(this.items))
-        if(Array.isArray(this.items)){
-          this.selectedLang=this.items[0]._attributes;
-          console.log(this.selectedLang);
-          this.getCaption();
+        if(this.items != undefined){
+            // console.log(this.items[0]);
+          // console.log("isarray=",Array.isArray(this.items))
+          if(Array.isArray(this.items)){
+            this.selectedLang=this.items[0]._attributes;
+            console.log(this.selectedLang);
+            this.getCaption();
+          }else{
+            this.selectedLang=this.items._attributes;
+            console.log(this.selectedLang);
+            this.getCaption();
+          }
         }else{
-          this.selectedLang=this.items._attributes;
-          console.log(this.selectedLang);
-          this.getCaption();
+          // 아무 자막이 없는거 처리 해줘야한다
+          this.dialog5=true;
         }
-        
 
         
         });
@@ -1034,7 +1087,7 @@ export default {
                 youtubeVideoid: this.videoId
         };
         
-        await axios.post("https://morelang.gq/api/user/watch-video",params,{
+        await axios.post("https://morelang.gq/api/user/iswatched",params,{
                headers: {
           'content-type': 'application/json',
           },
@@ -1042,7 +1095,7 @@ export default {
           .then((res) => {
               console.log("봤니안봤니")
               console.log(res.data);
-              if(res.data=="success"){
+              if(res.data==true){
                 this.paid = true;
               }
             });
@@ -1078,11 +1131,11 @@ export default {
     
 
        setTimeout(() =>{ 
-         if(this.paid==false){
+         if(this.items != undefined && this.paid==false){
            this.dialog4 = true; 
            this.pauseVideo();
          }
-        }, 3000);
+        }, 10000);
     //  document.addEventListener('mousedown', function() {
         // console.log(event);
         // window.getSelection().empty();

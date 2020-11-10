@@ -40,8 +40,6 @@ import $ from 'jquery';
 import { Container, Draggable } from "vue-smooth-dnd";
 import { applyDrag, generateItems } from "./utils";
 
-const SERVER_URL = "https://morelang.gq/api";
-
 export default {
   name: 'Quiz',
   components: { Container, Draggable },

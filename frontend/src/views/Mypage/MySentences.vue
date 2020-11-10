@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h3 class="title">스크랩한 문장</h3>
-
+  <v-container>
+    <h3 class="title" style="color: white">스크랩한 문장</h3>
     <v-row no-gutters style="text-align:center; width:70%;">
       <v-col v-for="(sentence, i) in setences" :key="i">
         <v-card class="pa-2 selectLang" outlined tile style="position:relative">
@@ -24,7 +23,7 @@
         </v-card>
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>

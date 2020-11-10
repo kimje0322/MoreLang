@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3 class="title">닉네임님의 영상</h3>
+  <v-container>
+  <h3 class="title" style="color: white">닉네임님의 영상</h3>
     <div v-for="(video, i) in videoLst" :key="i" style="display: inline-block;">
       <div
           class="col"
@@ -8,16 +8,16 @@
         >
           <div style="margin-bottom: 10px;">
             <img
-              style="width:300px"
+              style="width:220px"
               :src="video.imgUrl"
               alt=""
             />
           </div>
-          <h3 v-if="video.title.length > 38">{{ video.title.substring(0, 36) }} ...</h3>
-          <h3 v-else>{{video.title}}</h3>
+          <h4 v-if="video.title.length > 37">{{ video.title.substring(0, 35) }} ...</h4>
+          <h4 v-else>{{video.title}}</h4>
       </div>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
