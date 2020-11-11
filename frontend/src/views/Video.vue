@@ -1203,10 +1203,10 @@ export default {
       });
 
     if (this.$store.state.nickname != null) {
-      console.log("오호라 유저구나");
-      console.log(this.videoInfo);
+      // console.log("오호라 유저구나");
+      // console.log(this.videoInfo);
       await axios.get("https://morelang.gq/api/user/pay/my-point").then(res => {
-        console.log(res.data);
+        console.log(res);
         this.point = res.data;
       });
         var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
