@@ -6,22 +6,22 @@ import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 const getDefaultState = () => {
-    return {
-        userid: null,
-        nickname: null,
-        username: null,
-        alertColor: null,
-        accessToken: null,
-        refreshToken: null,
-        userThumbnail: null,
-        AlertMessage: "",
-        showAlert: false,
-        searchWord: null,
-        payReady: null,
-        formerLink: null,
-        oauthToken: null,
-        videoText: null,
-    };
+  return {
+    userid: null,
+    nickname: null,
+    username: null,
+    alertColor: null,
+    accessToken: null,
+    refreshToken: null,
+    userThumbnail: null,
+    AlertMessage: "",
+    showAlert: false,
+    searchWord: null,
+    payReady: null,
+    formerLink: null,
+    oauthToken: null,
+    videoText: null,
+  };
 };
 export default new Vuex.Store({
   state: getDefaultState(),

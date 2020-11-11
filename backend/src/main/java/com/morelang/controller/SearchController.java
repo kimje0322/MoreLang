@@ -24,14 +24,14 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 
-	@GetMapping("/newuser/search/x")
+	@GetMapping("/newuser/search")
 	@ApiOperation(value = "start: 시작할 index(0/10/20/...10단위)")
 	public ResponseEntity<List<Search>> search(@RequestParam("q") String q, @RequestParam("start") String start,
 			HttpServletRequest request) {
 
 		List<Search> result = null;
 		try {
-			result = searchService.search(q, start);
+//			result = searchService.search(q, start);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Webhook.send(request, this.getClass().toString(), e);
