@@ -7,7 +7,8 @@
       <div style="margin-right: 25px;">
         <v-tabs vertical style="margin: 3% 0%">
           <div style="color:black; margin: 10px 0px; width: 220px;">
-            <h1 style="font-size:38px; text-align: center; color: white; margin-bottom:40px;">My page</h1>
+           <div class="logo" style="margin-bottom:20px;"><b><span style="font-size:45px;">MyPage</span></b></div>
+            <!-- <h1 style="font-size:38px; text-align: center; color: white; margin-bottom:40px;">My page</h1> -->
             <p style="font-size:22px;margin-top:10px; margin-bottom:10px; color:white; text-align:center;">
               {{ this.name }} 님
             </p>
@@ -134,6 +135,8 @@ export default {
 </script>
 
 <style scoped>
+@import url(//fonts.googleapis.com/css?family=Vibur);
+
 @font-face {
     font-family: 'KyoboHand';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHand.woff') format('woff');
@@ -170,5 +173,22 @@ export default {
 }
 .points {
   font-family: "Nanum Gothic", sans-serif;
+}
+.logo {
+  text-align: center; 
+  user-select: none;
+  margin-top: 10px;
+}
+
+.logo b{
+  font: 300 4vh "Vibur";
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.logo b span{
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
 }
 </style>

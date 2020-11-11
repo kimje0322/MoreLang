@@ -30,12 +30,12 @@
             >
               <img :src="channelInfo.imgUrl" alt="" />
             </v-avatar>
-            <h3
-              class="mx-6"
+            <h2
+              class="title mx-6"
               style="display: inline-block; font-size: 30px; font-family: 'SilkSerif';"
             >
-              {{ channelInfo.title }}
-            </h3>
+              <b><span>{{ channelInfo.title }}</span></b>
+            </h2>
             <!-- <h3 class="mt-2">대표영상 What's In My Bag?</h3> -->
 
             <!-- <div style="margin-bottom: 4%">
@@ -195,6 +195,24 @@ export default {
 </script>
 
 <style scoped>
+@import url(//fonts.googleapis.com/css?family=Vibur);
+.title {
+  text-align: center; 
+  user-select: none;
+  margin-top: 10px;
+}
+
+.title b{
+  font: 300 4vh "Vibur";
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.title b span{
+  animation: blink linear infinite 2s;
+}
+.title b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
+}
 .backImg {
   position: relative;
   background-size: cover;
@@ -256,4 +274,5 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
 </style>
