@@ -39,7 +39,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.morelang.dto.Member;
+import com.morelang.dto.pointCharge;
 import com.morelang.jwt.JwtTokenUtil;
+import com.morelang.repository.ChargeRepository;
 import com.morelang.repository.MemberRepository;
 import com.morelang.util.Mail;
 
@@ -58,6 +60,8 @@ public class LoginServiceImpl implements LoginService{
 	private JwtTokenUtil jwtTokenUtil;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private ChargeRepository chargeRepository;
 	@Override
 	public Map<String, Object> Regist (Member member,String providerName) {
 		String userid = member.getUserid();
@@ -75,6 +79,11 @@ public class LoginServiceImpl implements LoginService{
 			member.setPassword(bcryptEncoder.encode(member.getPassword()));	
 			member.setProviderName(providerName);
 			member.setPoint(1000);
+			pointCharge pc = new pointCharge();
+			pc.setCharge(true);
+			pc.setChargeAmount(1000);
+			pc.setMember(member);
+			chargeRepository.save(pc);
 			map.put("success", true); 
 			memberRepository.save(member); 
 		} else {

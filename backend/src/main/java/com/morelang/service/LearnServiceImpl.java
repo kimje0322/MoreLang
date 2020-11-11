@@ -27,32 +27,55 @@ public class LearnServiceImpl implements LearnService{
 	public Map<String,Object> WordPuzzle(String input) {
 		List<Token> LearnList =  NLAnalyze.getInstance().analyzeSyntax(input);//learnRepository.findAll();
 		Map<Integer,String> complete = new HashMap<>();
-		Map<Integer,String> keyword = new HashMap<>();
+		Map<Integer,Object> keyword = new HashMap<>();
+		Map<Integer,String> sub_answer = new TreeMap<>();
+		Map<Integer,String> answer = new HashMap<>();
 		List<Token> subList = new ArrayList<>();
+		List<String> subList2 = new ArrayList<>();
 		int k = 1;
 		for(Token learn : LearnList) {
 			complete.put(k++,learn.getLemma());
 			if(learn.getPartOfSpeech().getTag().equals(Tag.NOUN) || learn.getPartOfSpeech().getTag().equals(Tag.VERB) || learn.getPartOfSpeech().getTag().equals(Tag.ADJ)) {
-	        	subList.add(learn);
+				if(input.indexOf(learn.getLemma())!= -1 && !subList2.contains(learn.getLemma())) {
+	        		subList.add(learn);
+	        		subList2.add(learn.getLemma());
+	        	}
 	        }
 		}
 		Collections.shuffle(subList);
 		int num = (int)Math.ceil((double)subList.size()/2);
-		String result = input;
-		int p=0;
+		int time = 1;
 		for(int i=0; i<num; i++) {
-			if(result.indexOf(subList.get(i).getLemma())!=-1) {
-				p++;
-				result = result.replaceFirst(subList.get(i).getLemma(), "______");
-				keyword.put(i+1,subList.get(i).getLemma());
-			}
+			sub_answer.put(subList2.indexOf(subList.get(i).getLemma()), subList.get(i).getLemma());
 		}
-		System.out.println(result);
+		Map<String,Integer> searchMap = new HashMap<>();
+		for(Integer key : sub_answer.keySet()) {
+			answer.put(time, sub_answer.get(key));
+			searchMap.put(sub_answer.get(key),time++);
+		}
+		for(int i=0; i<num; i++) {
+				input = input.replaceFirst(subList.get(i).getLemma(), "______");
+				Map<String, Object> temp_m = new HashMap<>();
+				temp_m.put("original", searchMap.get(subList.get(i).getLemma()));
+				temp_m.put("random", i+1);
+				temp_m.put("key", subList.get(i).getLemma());
+				//temp_m.put(subList.get(i).getLemma(), i+1);
+				keyword.put(i+1,temp_m);
+				System.out.printf("단어: %s\n", subList.get(i).getLemma());
+				System.out.printf("품사: %s\n", subList.get(i).getPartOfSpeech().getTag());
+		}
+		
+		StringTokenizer st = new StringTokenizer(input, " ", true);
+		String[] resultArray = new String[st.countTokens()];
+		int pas = 0;
+		while(st.hasMoreTokens()) {
+			resultArray[pas++] = st.nextToken();
+		}
 		Map<String,Object> m2 = new HashMap<>();
-		m2.put("inputText",input);
-		m2.put("original",complete);
-		m2.put("quizeText", result);
+		m2.put("inputTextArray",resultArray);
+		m2.put("quizeText", input);
 		m2.put("keyword", keyword);
+		m2.put("answer", answer);
 		m2.put("count", num);
 		return m2;
 	}

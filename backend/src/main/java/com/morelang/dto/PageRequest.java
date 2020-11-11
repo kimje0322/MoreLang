@@ -44,4 +44,7 @@ public class PageRequest {
 	public org.springframework.data.domain.PageRequest charge() {
 		return org.springframework.data.domain.PageRequest.of(page-1, size, direction, "chargeTime");
 	}
+	public org.springframework.data.domain.PageRequest channelId() {
+		return org.springframework.data.domain.PageRequest.of(page-1, size, direction, "id");
+	}
 }
