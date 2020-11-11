@@ -52,7 +52,6 @@ public class HistoryServiceImpl implements HistoryService{
 				if(history.isPresent()) {
 					is_watch = true;
 					info = video.get();
-					System.out.println(1 + " "+ info);
 					historyVideoRepository.save(info);
 					return "success";
 				}
@@ -60,12 +59,10 @@ public class HistoryServiceImpl implements HistoryService{
 			if(!is_watch && m.get().getPoint()>=POINT_VALUE) {
 				if(video.isPresent()) {
 					info = video.get();
-					System.out.println(2 + " "+ info);
 					historyVideoRepository.save(info);
 				}else {
 					info = watched;
 					info.setCount(1);
-					System.out.println(3 + " "+ info);
 					historyVideoRepository.save(info);
 				}
 				pointCharge pc = new pointCharge();
