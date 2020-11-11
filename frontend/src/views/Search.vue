@@ -334,7 +334,7 @@ export default {
         let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
       window.open(routeData.href, '_blank');
 
-      // Swal.fire(
+      // Swal.fire( 
       //   {
       //     title: "영상을 구매하시겠습니까?",
       //     text: "10 Point 결제 부탁드립니다.",
