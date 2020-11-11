@@ -12,7 +12,7 @@
 <script>
 // import HelloWorld from "./components/HelloWorld";
 // import Home from "@/views/Home"
-import axios from "axios";
+import axios from "@/plugins/axios";
 import { mapState } from "vuex";
 export default {
   name: "App",

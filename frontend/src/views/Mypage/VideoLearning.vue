@@ -13,7 +13,7 @@
               alt=""
             />
           </div>
-          <h4 v-if="video.title.length > 37">{{ video.title.substring(0, 35) }} ...</h4>
+          <h4 v-if="video.title.length > 34">{{ video.title.substring(0, 32) }} ...</h4>
           <h4 v-else>{{video.title}}</h4>
       </div>
     </div>
@@ -21,8 +21,7 @@
 </template>
 
 <script>
-import axios from "axios";
-const SERVER_URL = "https://morelang.gq/api"
+import axios from "@/plugins/axios";
 
 export default {
   data() {
@@ -32,7 +31,7 @@ export default {
   },
   mounted() {
     axios
-      .get(`${SERVER_URL}/newuser/search?q=glee&start=0`)
+      .get("/newuser/search?q=glee&start=0")
       .then((res) => {
         // console.log(res)
         this.videoLst = res.data;
