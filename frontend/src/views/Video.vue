@@ -60,11 +60,13 @@
                 <v-tab-item>
                   <v-card flat>
                     <v-card-text>
-                      <div>
-                        <h2 v-html="nowText">
+                         <v-row>
+                        <v-col cols="12">
+                        <h2  class="font" v-html="nowText">
                           <v-icon>mdi-comment-processing-outline</v-icon> :
                         </h2>
-                      </div>
+                        </v-col>
+                      </v-row>
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
@@ -162,7 +164,7 @@
                   <v-card flat>
                     <v-card-text>
                       <div>
-                        <h2>
+                        <h2 class="font" v-html="nowText">
                           <v-icon>mdi-comment-processing-outline</v-icon> :
                           {{ nowText }}
                         </h2>
