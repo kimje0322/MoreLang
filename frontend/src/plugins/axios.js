@@ -41,12 +41,22 @@ instance.interceptors.response.use(
         if (401 === error.response.status) {
             console.log("401 error 발생!")
             window.localStorage.removeItem('vuex');
+            axios.post(`/user/out`);
+            store.commit("LOGOUT");
             store.commit("ShowAlert", {
                 flag: true,
-                msg: "다시 로그인 해주세요!",
+                msg: "로그인이 필요합니다.",
                 color: "info",
-              });
-            router.push({ name: "Login" });
+            });
+            setTimeout(() => {
+                store.commit("ShowAlert", {
+                    flag: false,
+                    msg: "",
+                });
+                window.location.reload();
+            }, 1000);
+            axios.defaults.headers.common.Authorization = null;
+            router.push({name: "Login"})
         }
         return error;
     }

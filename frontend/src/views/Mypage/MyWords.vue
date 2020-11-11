@@ -39,25 +39,38 @@
         <div style="display: table; width: 100%;">
           <div style="display: table-cell; width: 40%">
             <h4>학습중</h4>
-            <v-row no-gutters style="text-align:center; width:70%;">
-              <v-col
+            <!-- <v-row no-gutters style="text-align:center; width:70%;">
+              <v-col v-for="(word, i) in wlist" :key="i" cols="12" md="10"> -->
+            <!-- <div v-if="!word.isLearn"> -->
+
+            <v-expansion-panels style=" width:70%;">
+              <v-expansion-panel
                 v-for="(word, i) in wlist"
                 :key="i"
                 cols="12"
                 md="10"
-                @click="show = !show"
               >
-                <!-- <div v-if="!word.isLearn"> -->
-                <transition name="fade" mode="in-out">
-                  <v-card
+                <v-expansion-panel-header>
+                  {{ word.eachVoca }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  {{ word.eachMean }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+
+            <!-- <transition name="mode-fade" mode="out-in"> -->
+            <!-- key="show" -->
+            <!-- <v-card
                     v-if="show"
+                    @click="show = false"
                     class="pa-2 selectLang"
                     outlined
                     tile
                     style="position:relative"
-                  >
-                    <!-- append-icon="mdi-lead-pencil" label="복습" -->
-                    <v-checkbox
+                  > -->
+            <!-- append-icon="mdi-lead-pencil" label="복습" -->
+            <!-- <v-checkbox
                       style="width: 27%;
                         position: absolute;
                         bottom: 7px;
@@ -65,24 +78,26 @@
                       color="success"
                       value="success"
                       hide-details
-                    ></v-checkbox>
+                    ></v-checkbox> -->
 
-                    <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+            <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                    <p class="my-auto">{{ word.eachVoca }}</p>
-                  </v-card>
-                </transition>
-                <transition name="fade" mode="in-out">
-                  <v-card
-                    v-if="!show"
+            <!-- <p class="my-auto">{{ word.eachVoca }}</p>
+                  </v-card> -->
+            <!-- </transition> -->
+            <!-- <transition name="fade" mode="out-in"> -->
+            <!-- key="show" -->
+            <!-- <v-card
+                    v-else
+                    @click="show = true"
                     class="pa-2 selectLang"
                     outlined
                     tile
                     style="position:relative"
                   >
-                    <!-- append-icon="mdi-lead-pencil" label="복습" -->
-                    <v-checkbox
+                    append-icon="mdi-lead-pencil" label="복습" -->
+            <!-- <v-checkbox
                       style="width: 27%;
                         position: absolute;
                         bottom: 7px;
@@ -90,34 +105,49 @@
                       color="success"
                       value="success"
                       hide-details
-                    ></v-checkbox>
+                    ></v-checkbox> -->
 
-                    <!-- <v-icon small left>mdi-lead-pencil</v-icon>
+            <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                    <p class="my-auto">{{ word.eachMean }}</p>
+            <!-- <p class="my-auto">{{ word.eachMean }}</p>
                   </v-card>
-                </transition>
-                <!-- </div> -->
-              </v-col>
-            </v-row>
+                </transition> -->
+            <!-- </div> -->
+            <!-- </v-col>
+            </v-row> -->
           </div>
 
           <!-- <div style="height: 100px;"></div> -->
           <div style="display: table-cell; width: 40%;">
             <h4>학습완료</h4>
-            <v-row no-gutters style="text-align:center; width:70%;">
+             <v-expansion-panels style=" width:70%;">
+              <v-expansion-panel
+                v-for="(word, i) in wlist2"
+                :key="i"
+                cols="12"
+                md="10"
+              >
+                <v-expansion-panel-header>
+                  {{ word.eachVoca }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  {{ word.eachMean }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+            <!-- <v-row no-gutters style="text-align:center; width:70%;"> -->
               <!-- <p>word</p> -->
-              <v-col v-for="(word, i) in wlist2" :key="i" cols="12" md="10">
+              <!-- <v-col v-for="(word, i) in wlist2" :key="i" cols="12" md="10"> -->
                 <!-- v-if="word.isLearn" -->
-                <v-card
+                <!-- <v-card
                   class="pa-2 selectLang"
                   outlined
                   tile
                   style="position:relative"
-                >
+                > -->
                   <!-- append-icon="mdi-lead-pencil" label="복습" -->
-                  <v-checkbox
+                  <!-- <v-checkbox
                     style="width: 27%;
                 position: absolute;
                 bottom: 7px;
@@ -125,15 +155,15 @@
                     color="success"
                     value="success"
                     hide-details
-                  ></v-checkbox>
+                  ></v-checkbox> -->
 
                   <!-- <v-icon small left>mdi-lead-pencil</v-icon>
               복습 -->
 
-                  <p class="my-auto">{{ word.eachVoca }}</p>
+                  <!-- <p class="my-auto">{{ word.eachVoca }}</p>
                 </v-card>
-              </v-col>
-            </v-row>
+              </v-col> -->
+            <!-- </v-row> -->
           </div>
         </div>
       </v-container>
@@ -217,9 +247,7 @@ export default {
       }
       this.selectlang = lang;
       axios
-        .get(
-          `/user/myvoca?country=${lang}&direction=ASC&page=0&size=10`
-        )
+        .get(`/user/myvoca?country=${lang}&direction=ASC&page=0&size=10`)
         .then(res => {
           console.log(res);
           this.wordlist = res.data.content;
@@ -234,4 +262,26 @@ export default {
 .title {
   color: black;
 }
+
+.mode-fade-enter-active,
+.mode-fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+
+.mode-fade-enter-from,
+.mode-fade-leave-to {
+  opacity: 0;
+}
+
+/* .fade-enter-active {
+  transition: all 0.3s ease;
+}
+.fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter, .fade-leave-to
+.slide-fade-leave-active below version 2.1.8 */
+/* transform: translateX(10px);
+  opacity: 0;
+} */
 </style>
