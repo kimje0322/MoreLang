@@ -10,9 +10,10 @@
         <div style="padding: 0">
           <v-card-title style="padding: 10px 30px 0px;">
             <router-link to="/">
-              <h2 class="logo px-5 py-1" style="display:inline-block">
+              <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
                 Morelang
-              </h2>
+              </h2> -->
+              <img style="height:63px;" src="@/assets/img/logo.png" alt="" />
             </router-link>
             <div class="mx-auto mt-1">
               <!-- 검색창 -->
@@ -41,7 +42,7 @@
                   @click="beforeTrans"
                   class="py-4 mb-2"
                   x-small
-                  color="#43A047"
+                  color="white"
                   dark
                   style="margin-bottom: 0 !important"
                 >
@@ -49,20 +50,48 @@
                 </v-btn>
               </div>
             </div>
-            <router-link to="/mypage">
-              <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
-                마이페이지
-              </p>
-              <!-- <v-avatar class="mr-3" color="indigo" size="38">
-              <v-icon dark>
-                mdi-account-circle
-              </v-icon>
-            </v-avatar> -->
-            </router-link>
-            <p class="navBtn mr-2 my-auto" style="font-size: 13px !important">
-              로그아웃
-            </p>
-            <!-- <v-icon size="25" class="mr-3">mdi-logout-variant</v-icon> -->
+            <v-col cols="8" sm="3" lg="2" class="text-center py-0">
+              <v-row no-gutters v-if="!$store.state.nickname">
+                <v-col>
+                  <v-btn
+                    style="float: right"
+                    text
+                    @click="changeRoute('Login')"
+                    class=""
+                    >로그인</v-btn
+                  >
+                </v-col>
+              </v-row>
+              <v-menu
+                open-on-hover
+                offset-y
+                v-if="$store.state.nickname"
+                no-gutters
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card color="transparent" v-bind="attrs" v-on="on" flat>
+                    <v-row no-gutters>
+                      <v-col>
+                        <v-icon style="float: right;">
+                          mdi-menu
+                        </v-icon>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </template>
+                <v-list>
+                  <v-list-item-group color="primary">
+                    <v-list-item
+                      v-for="(item, i) in items"
+                      :key="i"
+                      @click="userMenu(i)"
+                    >
+                      <v-list-item-title v-text="item"></v-list-item-title>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
+            </v-col>
           </v-card-title>
         </div>
 
@@ -87,6 +116,7 @@
               <span>검색어를 입력해주세요</span>
             </v-tooltip>
           </v-col>
+
           <!-- </v-row> -->
         </v-container>
 
@@ -385,7 +415,7 @@ export default {
     onTranslate(lang) {
       axios
         .get(
-         `/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
+          `/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
         )
         .then(res => {
           this.keyword = res.data;
@@ -398,14 +428,12 @@ export default {
       this.next = 10;
       this.click = true;
       this.tmp = search;
-      axios
-        .get(`/newuser/search?q=${search}&start=0`)
-        .then(res => {
-          // console.log("asdf")
-          this.videolst = res.data;
-          console.log(res);
-          // this.start = this.start + 10
-        });
+      axios.get(`/newuser/search?q=${search}&start=0`).then(res => {
+        // console.log("asdf")
+        this.videolst = res.data;
+        console.log(res);
+        // this.start = this.start + 10
+      });
 
       store.state.searchWord = search;
     },
@@ -486,7 +514,7 @@ a {
   /* -webkit-line-clamp: 2; */
   -webkit-box-orient: vertical;
 }
-.Navbar{
+.Navbar {
   position: fixed;
   top: 0;
   background: black;

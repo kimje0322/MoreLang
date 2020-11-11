@@ -19,7 +19,7 @@ public class NLAnalyze {
     private static CredentialsProvider credentialsProvider;
     public static NLAnalyze getInstance() {
         try {
-        	credentialsProvider= FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("/home/ubuntu/pass/GoogleMorelang.json")));
+        	credentialsProvider= FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("./src/main/resources/GoogleMorelang.json")));
             LanguageServiceSettings.Builder languageServiceSettingsBuilder= LanguageServiceSettings.newBuilder();
             LanguageServiceSettings languageServiceSettings = languageServiceSettingsBuilder.setCredentialsProvider(credentialsProvider).build();
             languageServiceClient = LanguageServiceClient.create(languageServiceSettings);

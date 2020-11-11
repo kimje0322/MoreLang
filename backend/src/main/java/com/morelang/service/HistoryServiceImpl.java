@@ -94,11 +94,11 @@ public class HistoryServiceImpl implements HistoryService{
 		if(m.isPresent()) {
 			List<History> history = historyRepository.findByMember_id(m.get().getId(),pageable);
 			List<Integer> viewId = new ArrayList<>();
+			System.out.println(history.size());
 			for(int i=0; i<history.size(); i++) {
 				viewId.add(Integer.valueOf(history.get(i).getVideo().getVid()));
-				System.out.println(history.get(i).getVideo().getVid());
 			}
-			return historyVideoRepository.findByVidIn(viewId);
+			 return historyVideoRepository.findByVidIn(viewId);
 		}
 		return null;
 	}

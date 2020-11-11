@@ -43,7 +43,7 @@
               <v-col v-for="(word, i) in wlist" :key="i" cols="12" md="10"> -->
             <!-- <div v-if="!word.isLearn"> -->
 
-            <v-expansion-panels style=" width:70%;">
+            <v-expansion-panels accordion  style=" width:70%;">
               <v-expansion-panel
                 v-for="(word, i) in wlist"
                 :key="i"
@@ -121,7 +121,7 @@
           <!-- <div style="height: 100px;"></div> -->
           <div style="display: table-cell; width: 40%;">
             <h4>학습완료</h4>
-             <v-expansion-panels style=" width:70%;">
+             <v-expansion-panels accordion style=" width:70%;">
               <v-expansion-panel
                 v-for="(word, i) in wlist2"
                 :key="i"
