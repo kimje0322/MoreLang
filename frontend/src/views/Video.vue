@@ -86,18 +86,18 @@
                             >
                             
                             <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                outlined
-                                rounded
-                                text
-                                color="grey lighten-5"
-                                v-bind="attrs"
-                                v-on="on"
-                                @click="pauseVideo"
-                              >
-                                스크랩
-                              </v-btn>
-                                </template>
+                                <v-btn
+                                  outlined
+                                  rounded
+                                  text
+                                  color="grey lighten-5"
+                                  v-bind="attrs"
+                                  v-on="on"
+                                  @click="pauseVideo"
+                                >
+                                  스크랩
+                                </v-btn>
+                            </template>
                               <v-card>
                                 <v-card-title>
                                   <span class="headline">Scrap</span>
@@ -114,7 +114,6 @@
                                           label="메모할 내용"
                                         ></v-text-field>
                                       </v-col>
-                                      
                                     </v-row>
                                   </v-container>
                                 </v-card-text>
@@ -431,7 +430,7 @@
                     </v-card-actions>
                       </v-card>
                 </v-dialog>
-      <v-btn color="blue darken-1" rounded  @click="addVoca">단어장추가</v-btn>
+      <v-btn color="blue darken-1" rounded  @click="addVoca(word)">단어장추가</v-btn>
     </span>
 
         <v-snackbar
@@ -575,7 +574,51 @@
     </v-dialog>
   </v-row>
 
-
+  <v-dialog
+      v-model="dialog6"
+      persistent
+      max-width="600px"
+    >
+  
+      <v-card>
+        <v-card-title>
+          <span class="headline">단어장추가</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <p class="subtitle-2">국가 : {{selectedLang.lang_translated}}</p>
+                <p class="subtitle-2">단어 : {{addWord}}</p>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                    v-model="mean"
+                  label="의미를 적어주세요"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog6close"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog6save"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -600,9 +643,11 @@ export default {
   },
   data() {
     return {
+      addWord: '',
       point : -1,
       paid : false,
       memo : '',
+      mean : '',
       snackbar:false,
       text: '',
       hide : true,
@@ -619,6 +664,7 @@ export default {
       dialog3: false,
       dialog4: false,
       dialog5: false,
+      dialog6: false,
       videoInfo :  null,
       isBlank : true,
       mode : 1,
@@ -675,6 +721,35 @@ export default {
         this.$router.push({ name });
       }
     },
+    dialog6close(){
+      this.dialog6=false;
+      this.mean="";
+    },
+    dialog6save(){
+       console.log(this.selectedLang.lang_translated);
+        console.log(this.addWord);
+        console.log(this.mean);
+        const params = {
+             country : this.selectedLang.lang_translated,
+                eachVoca : this.addWord,
+                learn : false,
+                eachMean : this.mean
+        };
+        
+        axios.post("/user/regist-voca",params,{
+               headers: {
+          'content-type': 'application/json',
+     },
+        })
+            .then((res) => {
+              console.log(res);
+              this.text="단어장 추가완료";
+              this.snackbar =true;
+            });
+
+      this.mean="";
+      this.dialog6=false;
+    },
     dialog3close(){
       this.dialog3=false;
       this.memo="";
@@ -699,29 +774,11 @@ export default {
       this.dialog3=false;
       this.memo="";
     },
-    addVoca(){
+    addVoca(addWord){
       if(this.$store.state.nickname != null){
-        // alert("good!");
-        console.log(this.selectedLang.lang_translated);
-        console.log(this.word);
-        
-        const params = {
-             country : this.selectedLang.lang_translated,
-                eachVoca : this.word,
-                learn : false
-        };
-        
-        axios.post("/user/regist-voca",params,{
-               headers: {
-          'content-type': 'application/json',
-     },
-        })
-            .then((res) => {
-              console.log(res);
-              this.text="단어장 추가완료";
-              this.snackbar =true;
-            });
-
+        this.pauseVideo();
+        this.dialog6=true;
+        this.addWord =  addWord;
       }else{
         this.text="로그인이 필요한 기능입니다."
         this.snackbar =true;
