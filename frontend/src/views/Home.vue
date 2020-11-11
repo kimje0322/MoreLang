@@ -314,7 +314,7 @@
 // Swiper.use([Navigation, Pagination, Scrollbar]);
 
 import Navbar from "@/components/Navbar";
-
+import axios from "axios";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 import "swiper/swiper-bundle.css";
@@ -330,8 +330,6 @@ import "swiper/swiper-bundle.css";
 //   }
 // };
 
-import store from "../store/index.js";
-
 export default {
   name: "Home",
   components: {
@@ -345,8 +343,9 @@ export default {
   data() {
     return {
       userid: "",
-      selectlang: "영어",
+      selectlang: "all",
       search_word: "",
+      recommend_channel:{},
       // logout: false,
       search: false,
       swiperVideo: {
@@ -396,9 +395,12 @@ export default {
     };
   },
   mounted() {
-    console.log("여기여기");
-    this.userid = store.state.member.userid;
-    console.log(store.state.member.userid);
+    this.recommend();
+  },
+  computed:{
+    changeLang: function() {
+				return this.recommend(this.selectlang);
+			}
   },
   methods: {
     prev() {
@@ -406,6 +408,20 @@ export default {
     },
     next() {
       this.$refs.mySwiperRef.$swiper.slideNext();
+    },
+    recommend(val){
+      var server_url = "https://morelang.gq/api"
+      var request_url = `${server_url}/newuser/recommend-list?&direction=ASC&page=0&size=10`
+      if(val != null){
+        request_url = `${server_url}/newuser/recommend-list?country=${val}&direction=ASC&page=0&size=10`
+      }
+      axios
+      .get(request_url)
+      .then(res => {
+        console.log("여기요!");
+        console.log(res.data.content);
+        this.recommend_channel = res.data.content;
+      });
     }
   }
 };

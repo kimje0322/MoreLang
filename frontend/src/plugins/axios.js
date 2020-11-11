@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from "@/router";
+import store from "@/store";
 const instance = axios.create({
     baseURL: 'https://morelang.gq/api',
     timeout: 5000
@@ -40,7 +41,12 @@ instance.interceptors.response.use(
         if (401 === error.response.status) {
             console.log("401 error 발생!")
             window.localStorage.removeItem('vuex');
-            router.push("Login");
+            store.commit("ShowAlert", {
+                flag: true,
+                msg: "다시 로그인 해주세요!",
+                color: "info",
+              });
+            router.push({ name: "Login" });
         }
         return error;
     }

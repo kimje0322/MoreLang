@@ -11,6 +11,8 @@ const getDefaultState = () => {
         nickname: null,
         username: null,
         alertColor: null,
+        accessToken: null,
+        refreshToken: null,
         AlertMessage: "",
         showAlert: false,
         searchWord: null,
