@@ -70,6 +70,7 @@ public class HistoryServiceImpl implements HistoryService{
 				pc.setChargeAmount(100);
 				pc.setMember(m.get());
 				History h = new History();
+				
 				h.setMember(m.get());
 				h.setVideo(info);
 				m.get().setPoint(m.get().getPoint()-POINT_VALUE);
