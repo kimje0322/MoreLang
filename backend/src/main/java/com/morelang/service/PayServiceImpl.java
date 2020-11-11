@@ -100,7 +100,7 @@ public class PayServiceImpl implements PayService {
 	}
 	public void chargePoint(String accessToken, String mount) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
-		int amount = Integer.valueOf(mount);
+		int amount = Integer.valueOf(mount)*10;
 		if(m.isPresent()) {
 			Member my = m.get();
 			my.setPoint(my.getPoint()+amount);
