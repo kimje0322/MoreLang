@@ -218,7 +218,7 @@ export default {
       this.selectlang = lang;
       axios
         .get(
-          "/user/myvoca?country=${lang}&direction=ASC&page=0&size=10"
+          `/user/myvoca?country=${lang}&direction=ASC&page=0&size=10`
         )
         .then(res => {
           console.log(res);
