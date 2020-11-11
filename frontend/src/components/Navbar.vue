@@ -7,13 +7,14 @@
     <div class="navigation" id="header" >
       <div style="padding: 0;" >
         <v-card-title style="padding: 0px 30px; margin-bottom: 5px; background-color:black;" >
-          <router-link to="/">
-            <img style="height:63px;" src="@/assets/img/logo.png" alt="">
+         <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
+          <!-- <router-link to="/"> -->
+            <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
             <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang
             </h2> -->
-          </router-link>
-          <div class="mx-auto mt-1">
+          <!-- </router-link> -->
+          <div class="mx-auto mt-2">
             <v-text-field
               style="display: inline-block;"
               autocomplete="off"
@@ -277,6 +278,8 @@ export default {
 </script>
 
 <style scoped>
+@import url(//fonts.googleapis.com/css?family=Vibur);
+
 .Navbar {
   position: fixed;
   top: 0;
@@ -318,5 +321,80 @@ a {
   width: 100%;
   top: 0;
 }
+
+.logo {
+  user-select: none;
+  margin-top: 10px;
+}
+
+.logo b{
+  font: 300 4vh "Vibur";
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.logo b span{
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
+}
+@keyframes blink {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  79%{
+     color: #333;
+  }
+  80% {
+    
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+}
+
+
+/* follow me @nodws */
+#btn-twtr{
+  clear:both;
+  color:#fff;
+  border:2px solid;
+  border-radius:3px;
+  text-align:center;
+  text-decoration:none;
+  display:block;
+  font-family:sans-serif;
+  font-size:14px;
+  width:13em;
+  padding:5px 10px;
+  font-weight:600;
+  position:absolute;
+  bottom:20px;
+  left:0;
+  right:0;
+  margin:0 auto;
+  background:rgba(0,0,0,0.2);
+  box-shadow:0 0 0px 3px rgba(0,0,0,0.2);
+  opacity:0.4
+}#btn-twtr:hover{color:#fff;opacity:1}
 
 </style>
