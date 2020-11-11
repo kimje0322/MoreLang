@@ -68,7 +68,7 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
-                        <v-col cols="8">
+                        <v-col cols="12">
                           <h3 v-html="translated">
                             <v-icon>mdi-google-translate</v-icon> :
                           </h3>
@@ -116,7 +116,7 @@
                                 <v-container>
                                   <v-row>
                                     <v-col cols="12">
-                                      <p class="subtitle-2">{{ nowText }}</p>
+                                      <p class="subtitle-2" v-html="nowText"></p>
                                     </v-col>
                                     <v-col cols="12">
                                       <v-text-field
@@ -1203,10 +1203,10 @@ export default {
       });
 
     if (this.$store.state.nickname != null) {
-      console.log("오호라 유저구나");
-      console.log(this.videoInfo);
+      // console.log("오호라 유저구나");
+      // console.log(this.videoInfo);
       await axios.get("https://morelang.gq/api/user/pay/my-point").then(res => {
-        console.log(res.data);
+        console.log(res);
         this.point = res.data;
       });
         var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";

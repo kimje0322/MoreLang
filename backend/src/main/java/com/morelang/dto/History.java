@@ -33,7 +33,7 @@ public class History {
 	@JoinColumn(name="member_id")
 	private Member member;
 	
-	@ManyToOne(targetEntity=HistoryVideo.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=HistoryVideo.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="video_id")
 	private HistoryVideo video;
                                                                                                                                                                                                                                                                                                                                                            
