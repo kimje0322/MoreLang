@@ -287,7 +287,7 @@
             </v-row>
             <v-card
               height="600px"
-              class="scroll subtitle"
+              class="scroll"
               elevation="4"
               v-if="hide"
             >
@@ -301,7 +301,7 @@
                       parseFloat(item._attributes.dur)
                     ).toFixed(3)
                   "
-                  class="script"
+                  class="script font"
                   @click="captionClick(index)"
                   v-bind:key="index"
                   v-html="item._text"
@@ -1298,6 +1298,15 @@ export default {
 //           }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+
+.font{
+  font-family:  'Nanum Myeongjo','Noto Sans SC', sans-serif;
+}
+
 .script:hover {
   background: #ff564a;
 }
