@@ -13,6 +13,7 @@ const getDefaultState = () => {
         alertColor: null,
         accessToken: null,
         refreshToken: null,
+        userThumbnail: null,
         AlertMessage: "",
         showAlert: false,
         searchWord: null,
