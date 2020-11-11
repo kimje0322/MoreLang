@@ -53,7 +53,7 @@ public class HistoryController {
 	}
 	@GetMapping("/newuser/recommend-list")
 	@ApiOperation(value="[국가별 추천채널- 페이징 처리] 국가 코드를 주면 해당 국가의 추천채널들을 return")
-	public ResponseEntity<Page<recommendChannel>> recommend(@RequestParam("country") String country, PageRequest pageable){
+	public ResponseEntity<Page<recommendChannel>> recommend(@RequestParam(required=false) String country, PageRequest pageable){
 		return new ResponseEntity<Page<recommendChannel>>(historyService.recommendList(country, pageable.channelId()),HttpStatus.OK);
 	}
 }

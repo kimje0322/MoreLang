@@ -128,6 +128,10 @@ public class HistoryServiceImpl implements HistoryService{
 	}
 	
 	public Page<recommendChannel> recommendList(String country,Pageable pageable){
-		return recommendRepository.findByCountry(country, pageable);
+		if(country == null) {
+			return recommendRepository.findAll(pageable);
+		}else {
+			return recommendRepository.findByCountry(country, pageable);
+		}
 	}
 }
