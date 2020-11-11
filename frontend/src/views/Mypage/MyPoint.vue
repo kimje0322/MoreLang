@@ -29,15 +29,15 @@
         <span>{{ changeDate(item.chargeTime) }}</span>
       </template>
       <template v-slot:[`item.charge`]="{ item }">
-        <span v-if = "item.charge==='true'">충전</span>
-        <span v-esle-if= "item.charge=='false'">사용</span>
+        <span v-if = "item.charge===true">충전</span>
+        <span v-else-if= "item.charge==false">사용</span>
       </template>
       <template v-slot:[`item.usedpoint`]="{ item }">
-        <span v-if = "item.charge==='true'"> + {{item.chargeAmount}}</span>
-        <span v-esle-if= "item.charge=='false'"> - {{item.chargeAmount}}</span>
+        <span class="ml-auto" v-if = "item.charge===true"> <v-icon size="17" style="color: #EF5350;">mdi-plus-circle-outline</v-icon> {{item.chargeAmount}} P</span>
+        <span v-else-if= "item.charge==false"> <v-icon size="17" style="color: #64B5F6">mdi-minus-circle-outline</v-icon> {{item.chargeAmount}} P</span>
       </template>
       <template v-slot:[`item.restpoint`]="{ item }">
-        <span>{{ item.member.point }}</span>
+        <span>{{ item.member.point }} P</span>
       </template>
       </v-data-table>
       
@@ -99,12 +99,15 @@ export default {
   },
   mounted() {
     axios.get(
-      `/user/pay/my-pointlogs?direction=DESC&page=0&size=30`
+      `/user/pay/my-pointlogs?direction=DESC&page=0&size=50`
     )
   .then(res => {
     // for 반복문 돌리며 필요 data만 {}형식으로 넣기
     this.point = res.data.content;
-    console.log(this.point); 
+    console.log(this.point)
+    console.log(typeof(this.point[0].charge)); 
+    console.log(typeof(this.point[1].charge)); 
+
     })
   }
 };

@@ -701,7 +701,6 @@ import Navbar from "@/components/Navbar";
 import Quiz from "@/components/Video/Quiz";
 import Raxios from "axios";
 import axios from "@/plugins/axios";
-// import test from "@/components/Video/test";
 
 var convert = require("xml-js");
 
@@ -762,7 +761,11 @@ export default {
       timer: 0
     };
   },
+
   methods: {
+    onQuiz() {
+      this.$store.state.videoText = this.nowText;
+    },
     charge() {
       this.$router.push({
         name: "Pay",
@@ -1174,9 +1177,10 @@ export default {
       },
       deep: true
     },
-    nowText: function() {
-      this.translated = "";
-      this.audioURL = "";
+    nowText : function(){
+      this.translated ="";
+      this.audioURL="";
+      this.onQuiz();
     }
   },
   computed: {
