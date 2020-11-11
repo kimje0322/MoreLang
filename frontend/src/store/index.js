@@ -18,8 +18,6 @@ const getDefaultState = () => {
     formerLink: null,
     oauthToken: null,
     videoText: null,
-    accessToken: null,
-    refreshToken: null,
   };
 };
 export default new Vuex.Store({
