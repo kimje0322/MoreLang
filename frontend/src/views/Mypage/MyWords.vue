@@ -40,17 +40,13 @@
           <div style="display: table-cell; width: 40%">
             <h4>학습중</h4>
             <v-row no-gutters style="text-align:center; width:70%;">
-              <v-col
-                v-for="(word, i) in wlist"
-                :key="i"
-                cols="12"
-                md="10"
-                @click="show = !show"
-              >
+              <v-col v-for="(word, i) in wlist" :key="i" cols="12" md="10">
                 <!-- <div v-if="!word.isLearn"> -->
-                <transition name="fade" mode="in-out">
+                <transition name="mode-fade" mode="out-in">
+                  <!-- key="show" -->
                   <v-card
                     v-if="show"
+                    @click="show = false"
                     class="pa-2 selectLang"
                     outlined
                     tile
@@ -72,10 +68,12 @@
 
                     <p class="my-auto">{{ word.eachVoca }}</p>
                   </v-card>
-                </transition>
-                <transition name="fade" mode="in-out">
+                  <!-- </transition> -->
+                  <!-- <transition name="fade" mode="out-in"> -->
+                  <!-- key="show" -->
                   <v-card
-                    v-if="!show"
+                    v-else
+                    @click="show = true"
                     class="pa-2 selectLang"
                     outlined
                     tile
@@ -217,9 +215,7 @@ export default {
       }
       this.selectlang = lang;
       axios
-        .get(
-          `/user/myvoca?country=${lang}&direction=ASC&page=0&size=10`
-        )
+        .get(`/user/myvoca?country=${lang}&direction=ASC&page=0&size=10`)
         .then(res => {
           console.log(res);
           this.wordlist = res.data.content;
@@ -234,4 +230,24 @@ export default {
 .title {
   color: black;
 }
+
+.mode-fade-enter-active, .mode-fade-leave-active {
+  transition: opacity .8s ease
+}
+
+.mode-fade-enter-from, .mode-fade-leave-to {
+  opacity: 0
+}
+
+/* .fade-enter-active {
+  transition: all 0.3s ease;
+}
+.fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter, .fade-leave-to
+.slide-fade-leave-active below version 2.1.8 */ 
+  /* transform: translateX(10px);
+  opacity: 0;
+} */
 </style>

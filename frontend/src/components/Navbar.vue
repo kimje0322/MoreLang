@@ -62,14 +62,17 @@
                 <v-btn text @click="changeRoute('SignUp')" class="">회원가입</v-btn>
               </v-col> -->
             </v-row>
-            <v-menu open-on-hover offset-y v-if="$store.state.nickname" no-gutters>
+            <v-menu  open-on-hover offset-y v-if="$store.state.nickname" no-gutters>
               <template v-slot:activator="{ on, attrs }">
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
                     <v-col>
-                      <v-avatar style="float: right;">
+                      <!-- <v-avatar style="float: right;">
                         <v-img max-height="100%" :src="userThumbnail" alt="유저썸네일"></v-img>
-                      </v-avatar>
+                      </v-avatar> -->
+                      <v-icon  style="float: right;">
+                        mdi-menu
+                      </v-icon>
                     </v-col>
                     <!-- <v-col cols="8">
                       <div class="text-left subtitle">{{ nickname }} 님</div>
