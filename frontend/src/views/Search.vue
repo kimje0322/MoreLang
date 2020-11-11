@@ -167,7 +167,7 @@
             <!-- <router-link :to="{ name: 'Video', params: { vid: video.id } }"> -->
             <div
               style="margin-bottom: 0px;"
-              @click="$router.push({ name: 'Video', params: { vid: video.id } });"
+              @click="selectVideo(video.id);"
             >
               <v-img
                 :elevation="hover ? 16 : 2"
@@ -253,7 +253,7 @@
 import axios from "@/plugins/axios";
 import InfiniteLoading from "vue-infinite-loading";
 import store from "../store/index.js";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 // import Navbar from "@/components/Navbar";
 
 // import store from "@/../src/store/index.js";
@@ -330,40 +330,43 @@ export default {
     }
   },
   methods: {
-    selectVideo(vid, vimg) {
-      Swal.fire(
-        {
-          title: "영상을 구매하시겠습니까?",
-          text: "10 Point 결제 부탁드립니다.",
-          imageUrl: vimg,
-          imageWidth: 400,
-          imageHeight: 200,
-          imageAlt: "Video image",
+    selectVideo(vid) {
+        let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
+      window.open(routeData.href, '_blank');
 
-          showCancelButton: true,
+      // Swal.fire(
+      //   {
+      //     title: "영상을 구매하시겠습니까?",
+      //     text: "10 Point 결제 부탁드립니다.",
+      //     imageUrl: vimg,
+      //     imageWidth: 400,
+      //     imageHeight: 200,
+      //     imageAlt: "Video image",
 
-          // closeOnConfirm: false,
-          // showLoaderOnConfirm: true
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Buy it!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "결제 성공!",
-              text: "해당 영상 학습 페이지로 이동합니다.",
-              icon: "success",
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "OK",
+      //     showCancelButton: true,
+
+      //     // closeOnConfirm: false,
+      //     // showLoaderOnConfirm: true
+      //     confirmButtonColor: "#3085d6",
+      //     cancelButtonColor: "#d33",
+      //     confirmButtonText: "Buy it!"
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       Swal.fire({
+      //         title: "결제 성공!",
+      //         text: "해당 영상 학습 페이지로 이동합니다.",
+      //         icon: "success",
+      //         confirmButtonColor: "#3085d6",
+      //         confirmButtonText: "OK",
               
-              // "success"
-            }) .then((result) => {
-              if (result.isConfirmed) {
-                this.$router.push({ name: "Video", params: { vid: vid } });
-              }
-            })
-          }
-        })
+      //         // "success"
+      //       }) .then((result) => {
+      //         if (result.isConfirmed) {
+      //           this.$router.push({ name: "Video", params: { vid: vid } });
+      //         }
+      //       })
+      //     }
+      //   })
         // function() {
         //   setTimeout(function() {
         //     Swal("결제가 완료되었습니다!");
