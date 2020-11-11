@@ -32,7 +32,8 @@
 <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import axios from "@/plugins/axios";
 import $ from 'jquery';
 import Swal from "sweetalert2";
 
@@ -77,11 +78,14 @@ export default {
     this.onMove();
     this.nowText = this.$store.state.videoText;
     // console.log('여기는 quiz'+this.nowText);
+    console.log("여기는 quiz");
     if (this.nowText) {
+      console.log("여기요 요기");
       axios.post(
-        `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
+        `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
         ).then(res => { 
           this.answer = res.data.answer;
+          console.log(res.data);
           // this.quizBox = res.data.quizeText;
           var quizInput = res.data.inputTextArray;
           this.keyword = res.data.keyword;
@@ -267,7 +271,7 @@ export default {
   /* height: 350px; */
   padding: 10px;
   margin: 0 2px;
-  border: solid white 2px;
+  /* border: solid white 2px; */
   /* background-color: #def5df; */
   border-radius: 7px;
 }
