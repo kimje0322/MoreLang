@@ -25,6 +25,7 @@
               outlined
               clearable
               append-icon="mdi-magnify"
+              color="white"
               @click:append="onSearch(keyword)"
             />
             <div class="mx-1" style="display:inline-block">
@@ -32,8 +33,9 @@
                 @click="beforeTrans"
                 class="py-4 mb-2"
                 x-small
-                color="#43A047"
+                color="white"
                 dark
+                outlined
                 style="margin-bottom: 0 !important"
               >
                 <v-icon>mdi-google-translate</v-icon>
@@ -122,7 +124,7 @@
         max-width="300px"
       >
         <v-card>
-          <v-toolbar color="#43A047" dark>
+          <v-toolbar color="black" dark>
             <v-toolbar-title class="toolbarTitle">
               <p
                 class="my-auto"
@@ -162,8 +164,8 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn color="success" @click="onSearch(keyword)">검색</v-btn>
-            <v-btn color="black" text @click="transDialog = false">닫기</v-btn>
+            <v-btn color="white"  outlined @click="onSearch(keyword)">검색</v-btn>
+            <!-- <v-btn color="black" text @click="transDialog = false">닫기</v-btn> -->
             <!-- <v-btn
               color="black"
               text
@@ -184,17 +186,14 @@ import { mapState } from "vuex";
 // import store from "@/../src/store/index.js";
 
 // 상단 네브바 고정
-var nav = document.getElementsByClassName("navigation");
-
-
-
-window.onscroll = function sticky() {
-  if (window.pageYOffset > nav[0].offsetTop) {
-    nav[0].classList.add("nav");
-  } else {
-    nav[0].classList.remove("nav");
-  }
-};
+// var nav = document.getElementsByClassName("navigation");
+// window.onscroll = function sticky() {
+//   if (window.pageYOffset > nav[0].offsetTop) {
+//     nav[0].classList.add("nav");
+//   } else {
+//     nav[0].classList.remove("nav");
+//   }
+// };
 
 export default {
   updated() {
@@ -296,6 +295,12 @@ export default {
 </script>
 
 <style scoped>
+.Navbar {
+  position: fixed;
+  top: 0;
+  background: black;
+}
+
 .logo {
   font-family: "Kaushan Script", cursive;
 }
@@ -322,11 +327,11 @@ a {
 .container text-center container--fluid {
   min-height: none;
 }
-.nav {
+/* .nav {
   position: fixed;
   background: beige;
   padding: 0;
-}
+} */
 .navigation {
   width: 100%;
   top: 0;

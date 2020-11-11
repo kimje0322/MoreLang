@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.morelang.dto.HistoryVideo;
 import com.morelang.dto.PageRequest;
+import com.morelang.dto.recommendChannel;
 import com.morelang.service.HistoryService;
 
 import io.swagger.annotations.ApiOperation;
@@ -46,5 +50,10 @@ public class HistoryController {
 	public ResponseEntity<Boolean> iswatched(HttpServletResponse response, @RequestBody HistoryVideo video){
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<Boolean>(historyService.is_view(accessToken, video),HttpStatus.OK);
+	}
+	@GetMapping("/newuser/recommend-list")
+	@ApiOperation(value="[국가별 추천채널- 페이징 처리] 국가 코드를 주면 해당 국가의 추천채널들을 return")
+	public ResponseEntity<Page<recommendChannel>> recommend(@RequestParam(required=false) String country, PageRequest pageable){
+		return new ResponseEntity<Page<recommendChannel>>(historyService.recommendList(country, pageable.channelId()),HttpStatus.OK);
 	}
 }

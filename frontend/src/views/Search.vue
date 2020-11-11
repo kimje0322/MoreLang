@@ -156,7 +156,7 @@
 
     <!-- 비디오 나오는 부분 -->
     <div
-      style="padding: 0 90px; display: flex; flex-flow: row wrap; justify-content: space-between;"
+      style="padding: 0 180px; display: flex; flex-flow: row wrap; justify-content: space-between;"
     >
       <div v-for="(video, i) in videolst" :key="i" style="margin-bottom: 10px;">
         <div
@@ -182,7 +182,7 @@
           <!-- <h3 v-if="video.title.length > 20">
             {{ video.title.substring(0, 20) }} ...
           </h3> -->
-          <h4 class="searchTitle">
+          <h4 class="searchTitle mt-4">
             {{ video.title }}
           </h4>
           <div>
@@ -262,14 +262,14 @@ import Swal from "sweetalert2";
 // }
 
 // 상단 네브바 고정
-var nav = document.getElementsByClassName("navigation");
-window.onscroll = function sticky() {
-  if (window.pageYOffset > nav[0].offsetTop) {
-    nav[0].classList.add("nav");
-  } else {
-    nav[0].classList.remove("nav");
-  }
-};
+// var nav = document.getElementsByClassName("navigation");
+// window.onscroll = function sticky() {
+//   if (window.pageYOffset > nav[0].offsetTop) {
+//     nav[0].classList.add("nav");
+//   } else {
+//     nav[0].classList.remove("nav");
+//   }
+// };
 export default {
   name: "Search",
   components: {
@@ -456,11 +456,11 @@ a {
 .container text-center container--fluid {
   min-height: none;
 }
-.nav {
+/* .nav {
   position: fixed;
   background: beige;
   padding: 0;
-}
+} */
 
 .navigation {
   width: 100%;
@@ -482,5 +482,10 @@ a {
   /* display: -webkit-box; */
   /* -webkit-line-clamp: 2; */
   -webkit-box-orient: vertical;
+}
+.Navbar{
+  position: fixed;
+  top: 0;
+  background: black;
 }
 </style>

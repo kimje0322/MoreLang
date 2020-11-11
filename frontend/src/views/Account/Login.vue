@@ -21,7 +21,7 @@
                 <v-text-field
                   class="my-3"
                   v-model="loginData.username"
-                  placeholder="hello@naver.com"
+                  placeholder="morelang@naver.com"
                   label="이메일"
                   required
                   @keypress.enter="onSubmit()"

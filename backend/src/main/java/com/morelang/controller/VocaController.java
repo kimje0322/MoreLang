@@ -71,6 +71,12 @@ public class VocaController {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<List<String>>(vocaService.vocaQuize(accessToken, country),HttpStatus.OK);
 	}
+	@PutMapping("/user/change-mean")
+	@ApiOperation(value = "[단어 의미 바꾸기] 해당 단어에 대한 의미를 변경합니다.")
+	public ResponseEntity<?> vocaQuize(HttpServletResponse response,@RequestParam("vocaid") Integer vocaId,@RequestParam("mean") String mean) throws IOException {
+		String accessToken = response.getHeader("accessToken");	
+		return new ResponseEntity<String>(vocaService.changeMean(accessToken, vocaId, mean),HttpStatus.OK);
+	}
 	@GetMapping("/user/vocamean")
 	@ApiOperation(value = "[단어 의미 보기] 단어에 대한 의미와 에문을 확인할 수 있습니다.")
 	public ResponseEntity<?> vocaQuize(@RequestParam("voca") String voca) throws IOException {
