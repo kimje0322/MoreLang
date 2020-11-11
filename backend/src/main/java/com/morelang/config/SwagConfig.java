@@ -25,7 +25,7 @@ public class SwagConfig {
 	// xml로 객체 관리할때는 <bean> 태그 사용했었음. 자바 파일로 작성할때는 @Bean 으로 쓰면됨.
 	@Bean
 	public Docket postsApi() {
-		Docket docket = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).pathMapping("/api")
+		Docket docket = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).pathMapping("/")
 				.forCodeGeneration(true).genericModelSubstitutes(ResponseEntity.class)
 				.ignoredParameterTypes(java.sql.Date.class)
 				.directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
