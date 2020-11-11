@@ -2,15 +2,16 @@
   <!-- 상단 -->
   <div
     class="Navbar"
-    style="padding-top: 5px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
+    style="padding-top: 0px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
   >
-    <div class="navigation">
-      <div style="padding: 0">
-        <v-card-title style="padding: 0px 30px 0px;">
+    <div class="navigation" id="header" >
+      <div style="padding: 0;" >
+        <v-card-title style="padding: 0px 30px; margin-bottom: 5px; background-color:black;" >
           <router-link to="/">
-            <h2 class="logo px-5 py-1" style="display:inline-block">
+            <img style="height:63px;" src="@/assets/img/logo.png" alt="">
+            <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang
-            </h2>
+            </h2> -->
           </router-link>
           <div class="mx-auto mt-1">
             <v-text-field
@@ -24,6 +25,7 @@
               outlined
               clearable
               append-icon="mdi-magnify"
+              color="white"
               @click:append="onSearch(keyword)"
             />
             <div class="mx-1" style="display:inline-block">
@@ -31,8 +33,9 @@
                 @click="beforeTrans"
                 class="py-4 mb-2"
                 x-small
-                color="#43A047"
+                color="white"
                 dark
+                outlined
                 style="margin-bottom: 0 !important"
               >
                 <v-icon>mdi-google-translate</v-icon>
@@ -107,7 +110,7 @@
         <v-col cols="12" class="mt-2" style="height: 0px!important;">
           <v-tooltip v-model="errSnackbar" top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on"> </v-btn>
+              <v-btn class="snackbar" icon v-bind="attrs" v-on="on"> </v-btn>
             </template>
             <v-icon color="white" class="mr-1">mdi-alert-circle-outline</v-icon>
             <span>검색어를 입력해주세요</span>
@@ -124,7 +127,7 @@
         max-width="300px"
       >
         <v-card>
-          <v-toolbar color="#43A047" dark>
+          <v-toolbar color="black" dark>
             <v-toolbar-title class="toolbarTitle">
               <p
                 class="my-auto"
@@ -164,8 +167,8 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn color="success" @click="onSearch(keyword)">검색</v-btn>
-            <v-btn color="black" text @click="transDialog = false">닫기</v-btn>
+            <v-btn color="white"  outlined @click="onSearch(keyword)">검색</v-btn>
+            <!-- <v-btn color="black" text @click="transDialog = false">닫기</v-btn> -->
             <!-- <v-btn
               color="black"
               text
@@ -336,4 +339,5 @@ a {
   width: 100%;
   top: 0;
 }
+
 </style>

@@ -701,7 +701,6 @@ import Navbar from "@/components/Navbar";
 import Quiz from "@/components/Video/Quiz";
 import Raxios from "axios";
 import axios from "@/plugins/axios";
-// import test from "@/components/Video/test";
 
 var convert = require("xml-js");
 
@@ -762,7 +761,11 @@ export default {
       timer: 0
     };
   },
+
   methods: {
+    onQuiz() {
+      this.$store.state.videoText = this.nowText;
+    },
     charge() {
       this.$router.push({
         name: "Pay",
@@ -771,10 +774,12 @@ export default {
     },
     async pay() {
       console.log("결제진행");
+      var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
         defaultLanguage: this.videoInfo.defaultLanguage,
-        youtubeVideoid: this.videoId
+        youtubeVideoid: this.videoId,
+        thumbnail : temp
       };
 
       await axios
@@ -1172,9 +1177,10 @@ export default {
       },
       deep: true
     },
-    nowText: function() {
-      this.translated = "";
-      this.audioURL = "";
+    nowText : function(){
+      this.translated ="";
+      this.audioURL="";
+      this.onQuiz();
     }
   },
   computed: {
@@ -1203,10 +1209,12 @@ export default {
         console.log(res.data);
         this.point = res.data;
       });
+        var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
         defaultLanguage: this.videoInfo.defaultLanguage,
-        youtubeVideoid: this.videoId
+        youtubeVideoid: this.videoId,
+        thumbnail:temp
       };
 
       await axios

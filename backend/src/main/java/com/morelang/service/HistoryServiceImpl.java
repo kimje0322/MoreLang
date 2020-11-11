@@ -13,10 +13,12 @@ import com.morelang.dto.History;
 import com.morelang.dto.HistoryVideo;
 import com.morelang.dto.Member;
 import com.morelang.dto.pointCharge;
+import com.morelang.dto.recommendChannel;
 import com.morelang.repository.ChargeRepository;
 import com.morelang.repository.HistoryRepository;
 import com.morelang.repository.HistoryVideoRepository;
 import com.morelang.repository.MemberRepository;
+import com.morelang.repository.RecommendRepository;
 
 @Service
 public class HistoryServiceImpl implements HistoryService{
@@ -31,7 +33,9 @@ public class HistoryServiceImpl implements HistoryService{
 
 	@Autowired
 	private ChargeRepository chargeRepository;
-
+	
+	@Autowired
+	private RecommendRepository recommendRepository;
 	private static int POINT_VALUE = 100;
 
 	@Override
@@ -66,6 +70,7 @@ public class HistoryServiceImpl implements HistoryService{
 				pc.setChargeAmount(100);
 				pc.setMember(m.get());
 				History h = new History();
+				
 				h.setMember(m.get());
 				h.setVideo(info);
 				m.get().setPoint(m.get().getPoint()-POINT_VALUE);
@@ -120,6 +125,14 @@ public class HistoryServiceImpl implements HistoryService{
 			}
 		}else {
 			return null;
+		}
+	}
+	
+	public Page<recommendChannel> recommendList(String country,Pageable pageable){
+		if(country == null) {
+			return recommendRepository.findAll(pageable);
+		}else {
+			return recommendRepository.findByCountry(country, pageable);
 		}
 	}
 }

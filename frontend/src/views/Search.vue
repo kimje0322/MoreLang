@@ -167,7 +167,7 @@
             <!-- <router-link :to="{ name: 'Video', params: { vid: video.id } }"> -->
             <div
               style="margin-bottom: 0px;"
-              @click="selectVideo(video.id, video.imgUrl)"
+              @click="$router.push({ name: 'Video', params: { vid: video.id } });"
             >
               <v-img
                 :elevation="hover ? 16 : 2"

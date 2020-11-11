@@ -1,5 +1,6 @@
 package com.morelang.dto;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,22 +8,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
-@Table(name = "videos")
-public class HistoryVideo {
+@Table(name = "recommend_channels")
+public class recommendChannel {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int vid;
+	private int id;
 	
 	@Column
 	private String title;
@@ -34,9 +34,5 @@ public class HistoryVideo {
 	private String youtubeVideoid;
 	
 	@Column
-	private String defaultLanguage;
-	
-	@Column
-	private int count;	
-	
+	private String country;
 }
