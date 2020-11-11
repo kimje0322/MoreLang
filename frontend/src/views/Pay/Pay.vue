@@ -22,8 +22,8 @@ export default {
     console.log(this.$route)
     console.log(this.$route.params.vid);
     this.vid = this.$route.params.vid;
-    this.item_name = this.$route.params.point*10;
-    this.total_amount = this.$route.params.point;
+    this.item_name = this.$route.params.point;
+    this.total_amount = this.$route.params.point/10;
     if(this.vid != undefined){
     axios.get(`/user/pay/ready?item_name=${this.item_name}포인트&total_amount=${this.total_amount}&id=${this.vid}`).then(res => {
       this.$store.commit('setPayReady', res.data);
