@@ -11,7 +11,7 @@
     </div>
 
     <!-- 소개 영상 -->
-    <div style="width: 100%; height: 48%; display: block; margin-top: 5%;">
+    <div style="width: 100%; height: 48%; display: block; margin-top: 50px;">
       <video
         style="width: 100%;"
         muted
@@ -98,31 +98,96 @@
           <!-- <a href="/" style="width: 240px;"> -->
           <!-- style="animation: float 2s ease-in-out infinite; " -->
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
-          </swiper-slide>
-          <swiper-slide>
-            <img src="../assets/img/channel0.jpg" alt="" />
+            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
+
+            <v-avatar
+              style="width: 150px; height: 150px; display: inline-block;"
+            >
+              <img
+                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
+                alt=""
+              />
+            </v-avatar>
           </swiper-slide>
 
           <!-- <div class="swiper-button-prev" slot="button-prev"></div>
@@ -152,7 +217,7 @@
         </swiper>
       </div> -->
     <!-- 인기 영상 -->
-    <div style="padding: 50px 0; display: block;">
+    <div style="padding: 50px 0; display: block; background: black;">
       <div
         style="margin: 0 100px;"
         data-aos="slide-right"
@@ -172,17 +237,67 @@
       </div>
       <div class="example-3d">
         <swiper
+          style="width: 90%;"
           class="swiper"
           :options="swiperOption"
           data-aos="slide-left"
           aos-offset="500"
           data-aos-duration="2500"
         >
+          <swiper-slide class="swiper-slide">
+            <!-- Slide 1 -->
+            <v-img
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
+              alt=""
+              width="300"
+            />
+          </swiper-slide>
+          <swiper-slide class="swiper-slide">
+            <!-- Slide 1 -->
+            <v-img
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
+              alt=""
+              width="300"
+            />
+          </swiper-slide>
+          <swiper-slide class="swiper-slide">
+            <!-- Slide 1 -->
+            <v-img
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
+              alt=""
+              width="300"
+            />
+          </swiper-slide>
+          <swiper-slide class="swiper-slide">
+            <!-- Slide 1 -->
+            <v-img
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
+              alt=""
+              width="300"
+            />
+          </swiper-slide>
+          <swiper-slide class="swiper-slide">
+            <!-- Slide 1 -->
+            <v-img
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
+              alt=""
+              width="300"
+            />
+          </swiper-slide>
+          <!-- <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
           <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
           <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
-          <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
+          <swiper-slide class="swiper-slide">Slide 1</swiper-slide> -->
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
@@ -321,7 +436,7 @@ export default {
 .example-3d {
   width: 100%;
   height: 400px;
-  padding-top: 50px;
+  padding-top: 20px;
   padding-bottom: 50px;
 }
 

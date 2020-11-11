@@ -183,14 +183,14 @@ import { mapState } from "vuex";
 // import store from "@/../src/store/index.js";
 
 // 상단 네브바 고정
-var nav = document.getElementsByClassName("navigation");
-window.onscroll = function sticky() {
-  if (window.pageYOffset > nav[0].offsetTop) {
-    nav[0].classList.add("nav");
-  } else {
-    nav[0].classList.remove("nav");
-  }
-};
+// var nav = document.getElementsByClassName("navigation");
+// window.onscroll = function sticky() {
+//   if (window.pageYOffset > nav[0].offsetTop) {
+//     nav[0].classList.add("nav");
+//   } else {
+//     nav[0].classList.remove("nav");
+//   }
+// };
 
 export default {
   updated() {
@@ -292,6 +292,12 @@ export default {
 </script>
 
 <style scoped>
+.Navbar {
+  position: fixed;
+  top: 0;
+  background: black;
+}
+
 .logo {
   font-family: "Kaushan Script", cursive;
 }
@@ -318,11 +324,11 @@ a {
 .container text-center container--fluid {
   min-height: none;
 }
-.nav {
+/* .nav {
   position: fixed;
   background: beige;
   padding: 0;
-}
+} */
 .navigation {
   width: 100%;
   top: 0;
