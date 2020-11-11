@@ -7,13 +7,14 @@
     <div class="navigation" id="header" >
       <div style="padding: 0;" >
         <v-card-title style="padding: 0px 30px; margin-bottom: 5px; background-color:black;" >
+         
+          <router-link to="/">
          <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
-          <!-- <router-link to="/"> -->
             <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
             <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang
             </h2> -->
-          <!-- </router-link> -->
+          </router-link>
           <div class="mx-auto mt-2">
             <v-text-field
               style="display: inline-block;"
