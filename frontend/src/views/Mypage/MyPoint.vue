@@ -1,7 +1,7 @@
 <template>
-  <v-container>      
-    <h2 class="mt-5 mb-2">포인트 충전</h2>
-    <p class="ml-1" style="font-size: 13px;">10원당 100포인트로 전환됩니다.</p>
+  <v-container style="margin-top: 15px;">      
+    <h2 class="mb-2">포인트 충전</h2>
+    <p class="ml-1" style="font-size: 15px;">10원당 100포인트로 전환됩니다.</p>
       <v-row no-gutters style="text-align:center; width:98%;">
         <v-col v-for="i in 4" :key="i">
           <v-card
@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     Charge(point) {
-         console.log(point);
+        //  console.log(point);
          this.$router.push({ name: "Pay", params: { point: point * 10000} });
     },
     Coin(index) {
@@ -76,7 +76,7 @@ export default {
       // var degrees = 0;
       // Coin.onclick = function() {
       this.degrees += 1800;
-      console.log(this.degrees);
+      // console.log(this.degrees);
       Coin.style.webkitTransform = "rotateY(" + this.degrees + "deg)";
       Coin.style.MozTransform = "rotateY(" + this.degrees + "deg)";
       Coin.style.msTransform = "rotateY(" + this.degrees + "deg)";
@@ -102,12 +102,7 @@ export default {
       `/user/pay/my-pointlogs?direction=DESC&page=0&size=50`
     )
   .then(res => {
-    // for 반복문 돌리며 필요 data만 {}형식으로 넣기
     this.point = res.data.content;
-    console.log(this.point)
-    console.log(typeof(this.point[0].charge)); 
-    console.log(typeof(this.point[1].charge)); 
-
     })
   }
 };

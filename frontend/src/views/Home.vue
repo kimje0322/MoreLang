@@ -24,7 +24,7 @@
 
     <!-- 언어 필터링 -->
     <div>
-      <div style="width: 30%; position: absolute; right: 20px;">
+      <div style="width: 20%; position: absolute; right: 20px;">
         <v-select
           :items="language"
           label="language"
