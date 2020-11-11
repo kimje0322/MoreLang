@@ -42,44 +42,23 @@
               </v-btn>
             </div>
           </div>
-          <!-- <router-link to="/mypage"> -->
-            <!-- @click="gotoMypage" -->
-            <!-- <router-link :to="{ name: 'Mypage', params: { userid: userid } }">
-              <p class="navBtn my-auto mr-3" style="font-size: 13px !important">
-                마이페이지
-              </p>
-            </router-link> -->
-            <!-- <v-avatar class="mr-3" color="indigo" size="38">
-              <v-icon dark>
-                mdi-account-circle
-              </v-icon>
-            </v-avatar> -->
-          <!-- </router-link> -->
+
           <v-col cols="8" sm="3" lg="2" class="text-center py-0">
             <v-row no-gutters v-if="!$store.state.nickname">
               <v-col>
                 <v-btn style="float: right" text @click="changeRoute('Login')" class="">로그인</v-btn>
               </v-col>
-              <!-- <v-col cols="1" class=""><v-divider vertical></v-divider> </v-col> -->
-              <!-- <v-col cols="6">
-                <v-btn text @click="changeRoute('SignUp')" class="">회원가입</v-btn>
-              </v-col> -->
             </v-row>
             <v-menu  open-on-hover offset-y v-if="$store.state.nickname" no-gutters>
               <template v-slot:activator="{ on, attrs }">
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
                     <v-col>
-                      <!-- <v-avatar style="float: right;">
-                        <v-img max-height="100%" :src="userThumbnail" alt="유저썸네일"></v-img>
-                      </v-avatar> -->
+
                       <v-icon  style="float: right;">
                         mdi-menu
                       </v-icon>
                     </v-col>
-                    <!-- <v-col cols="8">
-                      <div class="text-left subtitle">{{ nickname }} 님</div>
-                    </v-col> -->
                   </v-row>
                 </v-card>
               </template>
