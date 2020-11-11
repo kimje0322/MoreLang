@@ -151,7 +151,10 @@ export default {
   },
   methods: {
     selectVideo(vid) {
-      this.$router.push({ name: "Video", params: { vid: vid } });
+      let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
+      window.open(routeData.href, '_blank');
+
+      // this.$router.push({ name: "Video", params: { vid: vid } });
     },
     aaa(e) {
       console.log(e)
