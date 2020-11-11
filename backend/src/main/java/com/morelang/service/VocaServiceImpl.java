@@ -76,6 +76,19 @@ public class VocaServiceImpl implements VocaService{
 		}
 	}
 	@Override
+	public String changeMean(String accessToken, Integer vocaId, String mean) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), Long.valueOf(vocaId));
+			if(voca.isPresent()) {
+				voca.get().setEachMean(mean);
+				vocaRepository.save(voca.get());
+				return "success";
+			}
+		}
+		return "fail";
+	}
+	@Override
 	public List<String> myVocaCountry(String accessToken) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		List<String> country = new ArrayList<>();
