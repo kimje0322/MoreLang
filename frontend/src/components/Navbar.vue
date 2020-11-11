@@ -2,15 +2,16 @@
   <!-- 상단 -->
   <div
     class="Navbar"
-    style="padding-top: 5px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
+    style="padding-top: 0px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
   >
-    <div class="navigation">
-      <div style="padding: 0">
-        <v-card-title style="padding: 0px 30px 0px;">
+    <div class="navigation" id="header" >
+      <div style="padding: 0;" >
+        <v-card-title style="padding: 0px 30px; margin-bottom: 5px; background-color:black;" >
           <router-link to="/">
-            <h2 class="logo px-5 py-1" style="display:inline-block">
+            <img style="height:63px;" src="@/assets/img/logo.png" alt="">
+            <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang
-            </h2>
+            </h2> -->
           </router-link>
           <div class="mx-auto mt-1">
             <v-text-field
@@ -104,7 +105,7 @@
         <v-col cols="12" class="mt-2" style="height: 0px!important;">
           <v-tooltip v-model="errSnackbar" top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on"> </v-btn>
+              <v-btn class="snackbar" icon v-bind="attrs" v-on="on"> </v-btn>
             </template>
             <v-icon color="white" class="mr-1">mdi-alert-circle-outline</v-icon>
             <span>검색어를 입력해주세요</span>
@@ -184,6 +185,9 @@ import { mapState } from "vuex";
 
 // 상단 네브바 고정
 var nav = document.getElementsByClassName("navigation");
+
+
+
 window.onscroll = function sticky() {
   if (window.pageYOffset > nav[0].offsetTop) {
     nav[0].classList.add("nav");
@@ -327,4 +331,5 @@ a {
   width: 100%;
   top: 0;
 }
+
 </style>

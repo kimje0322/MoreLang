@@ -14,11 +14,10 @@
         </div>
       </div>
     </div>
-    <!-- <img src="@/assets/img/answer.gif" alt=""> -->
     <!-- 퀴즈 키워드 -->
-    <div class="block-box">
-      <div class="block-list mt-5 droppable" @drop="drop">
-      <h4 class="ml-1 mb-2">키워드</h4>
+    <!-- <h4 class="ml-1 mb-2">키워드</h4> -->
+    <div v-if="nowText" class="block-box">
+      <div class="block-list mt-2 droppable" @drop="drop">
         <div class="droppable">
           <div v-for="(keyword, i) in keyword"  @drop="drop" draggable="true" @dragstart="dragstart(keyword.original, i)" :key=i :id="`keyword${i}`" :class="`k${i}`" style="display: inline-block;">
             <div class="block">
@@ -33,7 +32,7 @@
 <!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
-import axios from "@/plugins/axios";
+import axios from "axios";
 import $ from 'jquery';
 import Swal from "sweetalert2";
 
@@ -42,6 +41,7 @@ export default {
   data() {
     return {
       // quiz
+      nowText: '',
       quizBox: [],
       keyword: [],
       blankSize: '',
@@ -74,50 +74,37 @@ export default {
     // window.addEventListener('scroll', this.handleScroll)
   },
   mounted() {
-        Swal.fire(
-      {
-        title: "정답!",
-        width: 500,
-        // background: '#fff url(@/assets/img/answer1.gif)',
-        // backdrop: `
-        //   rgba(194,96,142,0.4)
-        //   url("@/assets/img/answer.gif")
-        //   left top
-        //   no-repeat
-        // `,
-        text: "10point를 획득하였습니다.",
-        timer: 1700,
-        icon: "success",
-        iconColor: 'red',
-        showConfirmButton: false,
-      })
     this.onMove();
-    axios.post(
-      "/newuser/puzzletest?inputText=a"  
-      ).then(res => {
-        this.answer = res.data.answer;
-        // this.quizBox = res.data.quizeText;
-        var quizInput = res.data.inputTextArray;
-        this.keyword = res.data.keyword;
-        var j = 1;
-        for (var i=0; i<quizInput.length; i++) {
-          if (quizInput[i] === '______') { 
-              this.quizBox.push({index: j++, quiz: 'blank'});
-          } else if (quizInput[i].startsWith('______')) {
-              this.quizBox.push({index: j++, quiz: 'blank'})
-              this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
-          } else {
-            this.quizBox.push({index: 0, quiz: quizInput[i]})    
+    this.nowText = this.$store.state.videoText;
+    // console.log('여기는 quiz'+this.nowText);
+    if (this.nowText) {
+      axios.post(
+        `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
+        ).then(res => { 
+          this.answer = res.data.answer;
+          // this.quizBox = res.data.quizeText;
+          var quizInput = res.data.inputTextArray;
+          this.keyword = res.data.keyword;
+          var j = 1;
+          for (var i=0; i<quizInput.length; i++) {
+            if (quizInput[i] === '______') { 
+                this.quizBox.push({index: j++, quiz: 'blank'});
+            } else if (quizInput[i].startsWith('______')) {
+                this.quizBox.push({index: j++, quiz: 'blank'})
+                this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
+            } else {
+              this.quizBox.push({index: 0, quiz: quizInput[i]})    
+            }
           }
-        }
       })
+    }
   },
   updated() {
   },
   watch: {
     score: function () {
       this.checkAnswer();
-      console.log(this.score);
+      // console.log(this.score);
     },
   },
   methods: {
@@ -125,10 +112,10 @@ export default {
       if (this.score === Object.keys(this.keyword).length) {
         Swal.fire(
           {
-            title: "정답!",
+            // title: "정답!",
             width: 500,
             background: '#fff url(@/assets/img/answer.gif)',
-            text: "10point를 획득하였습니다.",
+            text: "정답입니다!",
             timer: 1700,
             icon: "success",
             iconColor: 'red',
@@ -193,12 +180,21 @@ export default {
       // 정답이 아니면 틀린 표시
       if (idx !== this.userAns) {
         $(`.b${idx}`).css("border", "red solid 2px");
-      }
+        Swal.fire(
+          {
+            width: 320,
+            text: "😢 다시 생각해보세요! 😢",
+            timer: 1550,
+            background: '#EEEEEE',
+            // icon: "success",
+            showConfirmButton: false,
+          })
+    }
       // 정답처리
       // idx: 빈칸이 몇번째 칸인지
       if (idx === this.userAns && !this.rightAns.includes(idx)) {
         this.score += 1;
-        console.log(this.score);
+        // console.log(this.score);
         this.rightAns.push(idx);
         // 드롭
         let posX = event.pageX;
@@ -254,31 +250,24 @@ export default {
   /* display: flex; */
   position: relative;
 }
-/* .code-box .block-box {
-  width: 14%;
-  display: flex;
-} */
 .play-box {
   width: 100%;
-  /* background-color: #def5df; */
   padding: 8px;
 }
 .code-box {
   width: 95%;
   height: 70%;
-  /* background-color: #def5df; */
   border-radius: 7px;
-  /* border: 1px solid green; */
-  /* position: relative; */
 }
 .block-box .block-menu-bar {
   width: 30%;
 }
-.block-box .block-list {
+.block-box {
   width: 100%;
   /* height: 350px; */
   padding: 10px;
   margin: 0 2px;
+  border: solid white 2px;
   /* background-color: #def5df; */
   border-radius: 7px;
 }
@@ -305,7 +294,7 @@ export default {
   background-color: #D32F2F;
   margin-bottom: 10px;
   cursor: pointer;
-  color: #fff;
+  color: white;
   font-size: 14px;
 }
 .play-box .play {
@@ -314,7 +303,6 @@ export default {
   left: 0;
   width: 100px;
   height: 50px;
-  background-color: bisque;
 }
 .code-block-container {
   width: 100%;
@@ -328,7 +316,9 @@ export default {
   height: 25px;
 }
 .checked {
-  padding-left: 2px;
+  text-align: center;
+  /* padding-left: 10px; */
   background-color: #D32F2F;
+  color: white;
 }
 </style>
