@@ -1,6 +1,10 @@
 package com.morelang.util;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+
+import org.springframework.core.io.ClassPathResource;
 
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -19,7 +23,7 @@ public class NLAnalyze {
     private static CredentialsProvider credentialsProvider;
     public static NLAnalyze getInstance() {
         try {
-        	credentialsProvider= FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("./src/main/resources/GoogleMorelang.json")));
+        	credentialsProvider= FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("GoogleMorelang.json")));
             LanguageServiceSettings.Builder languageServiceSettingsBuilder= LanguageServiceSettings.newBuilder();
             LanguageServiceSettings languageServiceSettings = languageServiceSettingsBuilder.setCredentialsProvider(credentialsProvider).build();
             languageServiceClient = LanguageServiceClient.create(languageServiceSettings);

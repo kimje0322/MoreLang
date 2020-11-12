@@ -128,11 +128,21 @@ public class HistoryServiceImpl implements HistoryService{
 		}
 	}
 	
+	@Override
 	public Page<recommendChannel> recommendList(String country,Pageable pageable){
 		if(country == null) {
 			return recommendRepository.findAll(pageable);
 		}else {
 			return recommendRepository.findByCountry(country, pageable);
+		}
+	}
+	
+	@Override
+	public Page<HistoryVideo> highCountVideo(String Defaultlang, Pageable pageable) {
+		if(Defaultlang == null) {
+			return historyVideoRepository.findAll(pageable);
+		}else {
+			return historyVideoRepository.findByDefaultLanguage(Defaultlang, pageable);
 		}
 	}
 }

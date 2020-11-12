@@ -56,4 +56,9 @@ public class HistoryController {
 	public ResponseEntity<Page<recommendChannel>> recommend(@RequestParam(required=false) String country, PageRequest pageable){
 		return new ResponseEntity<Page<recommendChannel>>(historyService.recommendList(country, pageable.channelId()),HttpStatus.OK);
 	}
+	@GetMapping("/newuser/highcount")
+	@ApiOperation(value="[조회수 높은 동영상 찾기] defaultlang 값에 따라 분류 가능")
+	public ResponseEntity<Page<HistoryVideo>> highcount(@RequestParam(required=false) String defaultlang, PageRequest pageable){
+		return new ResponseEntity<Page<HistoryVideo>>(historyService.highCountVideo(defaultlang, pageable.channelCount()),HttpStatus.OK);
+	}
 }

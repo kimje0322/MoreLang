@@ -1286,29 +1286,43 @@ export default {
       if (this.items != undefined && this.paid == false) {
         this.dialog4 = true;
         this.pauseVideo();
-        Swal.fire({
-          title: "영상을 결제하시겠습니까?",
-          // "현재 포인트 : " + this.point + " 포인트<br>" +
-          text: "차감 포인트 : 100 포인트",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!"
-        }).then(result => {
-          if (result.isConfirmed) {
-            if (this.point >= 100) {
-              Swal.fire("결제성공!", "해당 영상의 학습이 가능합니다.", "success");
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                // footer: "<a href>Why do I have this issue?</a>"
-              });
+        if (this.$store.state.nickname == null) {
+          Swal.fire({
+            title: "로그인 후 이용해 주세요",
+            icon: "warning",
+            confirmButtonText: "OK"
+          }).then(result => {
+            if(result.isConfirmed) {
+              this.changeRoute('Login')
             }
-          }
-        });
+          })
+        }
+        else {
+          Swal.fire({
+            title: "영상을 결제하시겠습니까?",
+            // "현재 포인트 : " + this.point + " 포인트<br>" +
+            text: "차감 포인트 : 100 포인트",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+          }).then(result => {
+            if (result.isConfirmed) {
+              if (this.point >= 100) {
+                this.pay()
+                Swal.fire("결제성공!", "해당 영상의 학습이 가능합니다.", "success");
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "포인트 충전이 필요합니다.",
+                  // footer: "<a href>Why do I have this issue?</a>"
+                });
+              }
+            }
+          });
+        }
       }
     }, 10000);
     //  document.addEventListener('mousedown', function() {
