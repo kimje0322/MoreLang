@@ -325,8 +325,7 @@ export default {
         })
         .then(res => {
           console.log("핫채널들정보");
-          // console.log(res);
-          this.hotChannels = res.data.content;
+          this.hotChannels = res.data;
           console.log(this.hotChannels);
         });
     },
@@ -341,10 +340,10 @@ export default {
           }
         })
         .then(res => {
-          console.log("핫비디오들정보");
-          console.log(res.data.content);
-          this.hotVideos = res.data.content;
-          console.log(this.hotVideos);
+           console.log("핫비디오들정보");
+           console.log(res.data.content);
+           this.hotVideos = res.data.content;
+           console.log(this.hotVideos);
         });
     }
   }
