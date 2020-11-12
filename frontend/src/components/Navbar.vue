@@ -6,10 +6,10 @@
   >
     <div class="navigation" id="header" >
       <div style="padding: 0;" >
-        <v-card-title style="padding: 0px 30px; margin-bottom: 5px; background-color:black;" >
+        <v-card-title style="padding: 0px 30px; margin-top:6px; margin-bottom: 5px; background-color:black;" >
          
           <router-link to="/">
-         <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
+            <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
             <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
             <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
               Morelang
@@ -48,25 +48,39 @@
           <v-col cols="8" sm="3" lg="2" class="text-center py-0">
             <v-row no-gutters v-if="!$store.state.nickname">
               <v-col>
-                <v-btn style="float: right" text @click="changeRoute('Login')" class="">로그인</v-btn>
+                <v-btn
+                  style="float: right"
+                  text
+                  @click="changeRoute('Login')"
+                  class=""
+                  >로그인</v-btn
+                >
               </v-col>
             </v-row>
-            <v-menu  open-on-hover offset-y v-if="$store.state.nickname" no-gutters>
+            <v-menu
+              open-on-hover
+              offset-y
+              v-if="$store.state.nickname"
+              no-gutters
+            >
               <template v-slot:activator="{ on, attrs }">
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
                     <v-col>
-
-                      <v-icon  style="float: right;">
+                      <v-icon style="float: right;">
                         mdi-menu
                       </v-icon>
                     </v-col>
                   </v-row>
                 </v-card>
               </template>
-              <v-list >
+              <v-list>
                 <v-list-item-group color="primary">
-                  <v-list-item v-for="(item, i) in items" :key="i" @click="userMenu(i)">
+                  <v-list-item
+                    v-for="(item, i) in items"
+                    :key="i"
+                    @click="userMenu(i)"
+                  >
                     <v-list-item-title v-text="item"></v-list-item-title>
                   </v-list-item>
                 </v-list-item-group>
@@ -111,10 +125,10 @@
           <v-toolbar color="black" dark>
             <v-toolbar-title class="toolbarTitle">
               <p
-                class="my-auto"
-                style="margin-left: 85px; text-align:center!important"
+                class="my-auto title"
+                style="margin-left: 83px; text-align:center!important"
               >
-                검색어 번역
+                <b><span style="font-size: 22px;" class="trans">검색어 번역</span></b>
               </p>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -148,7 +162,7 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn color="white"  outlined @click="onSearch(keyword)">검색</v-btn>
+            <v-btn color="red"  @click="onSearch(keyword)">검색</v-btn>
             <!-- <v-btn color="black" text @click="transDialog = false">닫기</v-btn> -->
             <!-- <v-btn
               color="black"
@@ -257,13 +271,13 @@ export default {
         // console.log("userid = " + this.$store.state.userid)
         this.$router.push({
           name: "Mypage",
-          params: { userid:this.$store.state.userid }
+          params: { userid: this.$store.state.userid }
         });
-      // } else if (idx === 1) {
-      //   this.$router.push({name: "Home"});
-      // } 
-      }else {
-        this.$store.dispatch("LOGOUT"); 
+        // } else if (idx === 1) {
+        //   this.$router.push({name: "Home"});
+        // }
+      } else {
+        this.$store.dispatch("LOGOUT");
       }
     },
     changeRoute(name) {
@@ -273,7 +287,7 @@ export default {
       } else {
         this.$router.push({ name });
       }
-    },
+    }
   }
 };
 </script>
@@ -301,10 +315,10 @@ a {
   color: #616161;
 }
 .selectLang:hover {
-  background-color: #def5df;
+  background-color: #443535;
 }
 .language {
-  font-family: "Nanum Gothic", sans-serif;
+  font-family: "paybooc-Medium", sans-serif;
 }
 .v-snack__wrapper {
   min-width: none;
@@ -323,20 +337,21 @@ a {
   top: 0;
 }
 
-.logo {
+.logo, .title{
   user-select: none;
   margin-top: 10px;
 }
 
-.logo b{
+.logo b, .title b{
   font: 300 4vh "Vibur";
   color: #fdd;
-  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000,
+    0 0 0.1em #ff0000, 0 10px 3px #000;
 }
-.logo b span{
+.logo b span {
   animation: blink linear infinite 2s;
 }
-.logo b span:nth-of-type(2){
+.logo b span:nth-of-type(2) {
   animation: blink linear infinite 3s;
 }
 @keyframes blink {
@@ -344,11 +359,10 @@ a {
     color: inherit;
     text-shadow: inherit;
   }
-  79%{
-     color: #333;
+  79% {
+    color: #333;
   }
   80% {
-    
     text-shadow: none;
   }
   81% {
@@ -373,7 +387,6 @@ a {
   }
 }
 
-
 /* follow me @nodws */
 #btn-twtr{
   clear:both;
@@ -397,5 +410,9 @@ a {
   box-shadow:0 0 0px 3px rgba(0,0,0,0.2);
   opacity:0.4
 }#btn-twtr:hover{color:#fff;opacity:1}
+
+.trans {
+  font-family: 'paybooc-Medium', sans-serif;
+}
 
 </style>

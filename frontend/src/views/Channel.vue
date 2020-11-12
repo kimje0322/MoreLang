@@ -12,7 +12,7 @@
           backgroundImage: `url(${channelInfo.imgUrl})`
         }"
         style="
-        height: 300px;
+        height: 380px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -20,29 +20,24 @@
       >
         <!-- {{ channelInfo.imgUrl }} -->
         <!-- <h2 class="intro">{{ channelInfo.title }}</h2> -->
-        <div class="img-cover"></div>
-      </div>
-      <div class="channelInfoBox" style="background: black;">
-        <div class="channelInfo" style="background-color: black;">
-          <div style="width: 50%">
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
+        <div class="img-cover">
+          <div class="title" style="margin-top:130px;">
+          <v-avatar
+              style="margin-left: 260px;width: 150px; height: 150px; display: inline-block;"
             >
               <img :src="channelInfo.imgUrl" alt="" />
             </v-avatar>
-            <h2
+            <div
               class="title mx-6"
-              style="display: inline-block; font-size: 30px; font-family: 'SilkSerif';"
+              style="display: inline-block;"
             >
-              <b><span>{{ channelInfo.title }}</span></b>
-            </h2>
-            <!-- <h3 class="mt-2">대표영상 What's In My Bag?</h3> -->
-
-            <!-- <div style="margin-bottom: 4%">
-              <strong>
-                <p class="listTitle" style="margin-bottom: 1%">영상 카테고리</p>
-              </strong>
-            </div> -->
+              <b><span style="font-size: 50px">{{ channelInfo.title }}</span></b>
+            </div>
+            </div>
+          <div class="channelInfoBox" >
+            <div class="channelInfo" style="background-color: black;">
+          <div style="width: 50%">
+            
           </div>
           <div
             style="width: 100%; padding: 20px 0; display: flex; flex-flow: row wrap; justify-content: space-between;"
@@ -70,13 +65,14 @@
                 </h4>
                 <div>
                   <v-btn
-                    v-for="(lang, j) in video.captions.slice(0, 4)"
+                    v-for="(lang, j) in video.captions.slice(0, 3)"
                     :key="j"
                     rounded
                     color="primary"
                     dark
                     x-small
                     style="margin: 0 1px;"
+                    class="mr-1"
                   >
                     <div v-if="lang.lang_translated.indexOf('(') > -1">
                       {{
@@ -96,12 +92,12 @@
                 + {{ video.captions.length - 5 }}
               </div> -->
                   </v-btn>
-                  <div
-                    v-if="video.captions.length > 4"
+                  <div style="display: inline-block; float: right;"
+                    v-if="video.captions.length > 3"
                     @mouseover="hover = true"
                     @mouseleave="hover = false"
                   >
-                    + {{ video.captions.length - 4 }}
+                    + {{ video.captions.length - 3 }}
                   </div>
                   <!-- <span v-if="hover"> 
             <div v-for="(lang, j) in video.captions"
@@ -131,8 +127,12 @@
             </div>
           </infinite-loading>
         </div>
+            </div>
+        </div>
       </div>
-    </div>
+      
+        
+      </div>
   </div>
 </template>
 
@@ -236,13 +236,13 @@ export default {
 <style scoped>
 @import url(//fonts.googleapis.com/css?family=Vibur);
 .title {
-  text-align: center; 
+  /* text-align: center;  */
   user-select: none;
   margin-top: 10px;
 }
 
 .title b{
-  font: 300 4vh "Vibur";
+  font: 300 4vh "KyoboHand", sans-serif;
   color: #fdd;
   text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
 }
@@ -284,8 +284,9 @@ export default {
   /* margin: 0 150px; */
   z-index: 3;
   position: absolute;
+  min-height: 500px;
   width: 100%;
-  top: 250px;
+  top: 325px;
   padding: 0 17%;
   border-radius: 4px;
 }
@@ -316,5 +317,8 @@ export default {
 
 .video:hover {
   cursor: pointer;
+}
+.channelDetail {
+  font-family: 'KyoboHand', sans-serif;
 }
 </style>

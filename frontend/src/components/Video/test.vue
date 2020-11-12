@@ -1,30 +1,64 @@
 <template>
-  <div>
-  <!-- 퀴즈 지문 -->
-  <div style="display:inline-block;" class="pr-1" v-for="(item, i) in quizBox" :key="'A' + i">
-    <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
-      {{item.quiz}}
-    </div>
-    <div v-else id="blank" :class="`b${item.index}`" class="empty droppable" @dragover="dragOver" @dragenter="dragEnter" @dragend="dragLeave" @drop="dragDrop(`b${item.index}`)">
-    </div>
-  </div>
-  <!-- 키워드 -->
-   <div v-for="(keyword, i) in keyword" :key=i :class="`k${i}`" class="fill" style="display: inline" @dragstart="dragStart" @dragend="dragEnd" draggable="true">
-      <span>{{keyword.key}}</span>
+  <div class="row px-5 py-5">
+    <div class="col-3">
+      <h3>Draggable 1</h3>
+      <draggable
+        class="dragArea list-group"
+        :list="list1"
+        :clone="clone"
+        :group="{ name: 'people', pull: pullFunction }"
+        @start="start"
+      >
+        <div class="list-group-item1" v-for="element in list1" :key="element.id">
+          {{ element.name }}
+        </div>
+      </draggable>
     </div>
 
+    <div class="col-3">
+      <h3>Draggable 2</h3>
+      <!-- 퀴즈 Content -->
+      <div class="play-box mx-auto mt-5">
+        <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
+          <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: black; font-size:16px;">
+            {{item.quiz}}
+          </div>
+          <!-- 퀴즈 빈칸 -->
+          <div v-else id="blank" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+          </div>
+        </div>
+      </div>
+
+      <draggable class="dragArea list-group" :list="list2" group="people">
+        <div @drop="drop" class="list-group-item2" v-for="element in list2" :key="element.id">
+          {{ element.name }}
+        </div>
+      </draggable>
+    </div>
+
+    <!-- <rawDisplayer class="col-3" :value="list1" title="List 1" />
+    <rawDisplayer class="col-3" :value="list2" title="List 2" /> -->
   </div>
 </template>
 
-
 <script>
-import axios from "@/plugins/axios";
+import axios from "axios";
+// import $ from 'jquery';
+import draggable from "vuedraggable";
 
+const SERVER_URL = "https://morelang.gq/api";
+
+let idGlobal = 8;
 export default {
+  name: "clone-on-control",
+  display: "Clone on Control",
+  instruction: "Press Ctrl to clone element from list 1",
+  order: 4,
+  components: {
+    draggable
+  },
   data() {
-    return {
-      className: '',
-      cn: '',
+    return { 
       // quiz
       quizBox: [],
       keyword: [],
@@ -35,16 +69,24 @@ export default {
       rightAns: [],
       keyIdx: '',
       keyIdxWidth: 0,
-    } 
+      list1: [
+        { name: "Jesus", id: 1 },
+        { name: "Paul", id: 2 },
+        { name: "Peter", id: 3 }
+      ],
+      list2: [
+        { name: "Luc", id: 5 },
+        { name: "Thomas", id: 6 },
+        { name: "John", id: 7 }
+      ],
+      controlOnStart: true
+    };
   },
   mounted() {
-    // this.cn = document.querySelector('.fill')
-    console.log(this.className);
     axios.post(
-      "/newuser/puzzletest?inputText=a"
+      `${SERVER_URL}/newuser/puzzletest?inputText=a`  
       ).then(res => {
         this.answer = res.data.answer;
-        // this.quizBox = res.data.quizeText;
         var quizInput = res.data.inputTextArray;
         this.keyword = res.data.keyword;
         var j = 1;
@@ -60,93 +102,73 @@ export default {
         }
       })
   },
-  computed: {
-    fillSelector() {
-        return document.querySelector('.fill')
-    }
-},
   methods: {
-  // Drag Functions
-    dragStart(event) {
-      event.target.className += ' hold';
-      setTimeout(() => (event.target.className = 'invisible'), 0);
-      console.log('dragstart: '+ event.target.className);
-      console.log(event.target.className);
+    drop(idx) {
+      // 정답처리
+      // idx: 빈칸이 몇번째 칸인지
+      if (idx === this.userAns && !this.rightAns.includes(idx)) {
+        if (this.score < Object.keys(this.answer).length) {
+          this.score += 1;
+        }
+        this.rightAns.push(idx);
+        // alert('정답!')
+      }
+      if (this.score === Object.keys(this.answer).length) {
+        alert('정답입니다.')}
+        event.stopPropagation();
+        event.preventDefault();
+      // 드롭
+      let posX = event.pageX;
+      let posY = event.pageY;
+
+      if(event.target.classList && event.target.classList.contains("droppable")){
+          document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
+          document.querySelector(`.${this.targetClass}`).style.top = 0;
+          document.querySelector(`.${this.targetClass}`).style.left = 0;
+          document.querySelector(`.${this.targetClass}`).style.marginLeft = posX + this.distX + 'px';
+          document.querySelector(`.${this.targetClass}`).style.marginTop = posY + this.distY + 'px';
+
+          const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
+          for (let i=0; i<CLONE.length; i++) {
+            if (CLONE[i].classList.length == 2) {
+              this.targetFlag = false;
+            } else {
+              this.targetFlag = true;
+            }
+          }
+        }
     },
-
-    dragEnd(event) {
-      event.target.className = 'fill';
-      console.log('dragend: '+ event.target.className);
-
+    clone({ name }) {
+      return { name, id: idGlobal++ };
     },
-
-    dragOver(e) {
-      e.preventDefault();
-      console.log('dragover: '+ e.target.className);
-
+    pullFunction() {
+      return this.controlOnStart ? "clone" : true;
     },
-
-    dragEnter(e) {
-      e.preventDefault();
-      e.target.className += ' hovered';
-      console.log('dragenter: '+  e.target.className);
-
-    },
-
-    dragLeave(event) {
-      event.target.className = 'empty';
-      console.log('dragleave: '+ event.target.className);
-
-    },
-
-    dragDrop(idx) {
-      event.target.className = 'empty';
-      console.log('drop확인')
-      console.log(event.target);
-      event.target.append(idx);
-      // event.target.append(this.fillSelector);
-      console.log('dragdrop: ', event.target.className);
-      console.log("?? = " + event.target);
-    },
+    start({ originalEvent }) {
+      this.controlOnStart = originalEvent.ctrlKey;
+    }
   }
-}
+};
 </script>
-
-
-<style>
-  body {
-  background: darksalmon;
-}
-
-.fill {
-  /* background-image: url('https://source.unsplash.com/random/150x150'); */
-  background-color: indianred;
-  color: white;
-  padding: 0 5px;
-  margin-right: 5px;
-  position: relative;
-  height: 30px;
+<style scoped>
+.blank {
+  /* border: dashed grey 1px; */
+  border-radius: 8px;
+  background-color: lightgrey;
   width: 50px;
-  top: 5px;
-  left: 5px;
-  cursor: pointer;
+  height: 25px;
 }
-
-.hold {
-  border: solid 5px #ccc;
-}
-
-.empty {
-  display: inline-block;
-  height: 30px;
-  width: 60px;
-  margin: 10px;
-  border: solid 3px salmon;
-  background: white;
-}
-
-.hovered {
-  background: #f4f4f4;
-  border-style: dashed;
-}
+ .list-group-item1{
+    border-radius: 8px;
+    background-color: rgb(22, 177, 22);
+    width: 50px;
+    height: 25px;
+    cursor: pointer;
+  }
+  .list-group-item2 {
+    border-radius: 8px;
+    background-color: lightgrey;
+    width: 50px;
+    height: 25px;
+  }
 </style>

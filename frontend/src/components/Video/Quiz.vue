@@ -77,12 +77,10 @@ export default {
   mounted() {
     this.onMove();
     this.nowText = this.$store.state.videoText;
-    // console.log('여기는 quiz'+this.nowText);
-    console.log("여기는 quiz");
+    console.log('여기는 quiz'+this.nowText);
     if (this.nowText) {
-      console.log("여기요 요기");
       axios.post(
-        `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
+        `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
         ).then(res => { 
           this.answer = res.data.answer;
           console.log(res.data);
