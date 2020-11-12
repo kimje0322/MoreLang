@@ -91,10 +91,7 @@ export default {
           for (var i=0; i<quizInput.length; i++) {
             if (quizInput[i] === ' _ ') { 
                 this.quizBox.push({index: j++, quiz: 'blank'});
-            } else if (quizInput[i].startsWith(' _ ')) {
-                this.quizBox.push({index: j++, quiz: 'blank'})
-                this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
-            } else {
+            }else {
               this.quizBox.push({index: 0, quiz: quizInput[i]})    
             }
           }
