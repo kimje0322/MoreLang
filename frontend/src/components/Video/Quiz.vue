@@ -14,7 +14,6 @@
       </div>
     </div>
     <!-- 퀴즈 키워드 -->
-    <!-- <h4 class="ml-1 mb-2">키워드</h4> -->
     <div v-if="nowText" class="block-box">
       <div class="block-list mt-2 droppable" @drop="drop">
         <div class="droppable">
@@ -28,7 +27,6 @@
     </div>
   </div>
 </template>
-<!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
 // import axios from "axios";
@@ -94,7 +92,7 @@ export default {
       console.log('여기는 quiz'+this.nowText);
       if (this.nowText) {
         axios.post(
-          `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
+          `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
           ).then(res => { 
             this.answer = res.data.answer;
             console.log('이게 res.data')
