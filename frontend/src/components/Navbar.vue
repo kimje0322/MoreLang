@@ -6,7 +6,7 @@
   >
     <div class="navigation" id="header" >
       <div style="padding: 0;" >
-        <v-card-title style="padding: 0px 30px; margin-top:7px; margin-bottom: 5px; background-color:black;" >
+        <v-card-title style="padding: 0px 30px; margin-top:6px; margin-bottom: 5px; background-color:black;" >
          
           <router-link to="/">
             <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
