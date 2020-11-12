@@ -209,7 +209,7 @@
           <!-- <h3 v-if="video.title.length > 20">
             {{ video.title.substring(0, 20) }} ...
           </h3> -->
-          <h4 class="searchTitle mt-4">
+          <h4 class="searchTitle mt-4" style="font-family:sans-serif;">
             {{ video.title }}
           </h4>
           <div>
