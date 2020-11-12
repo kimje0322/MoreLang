@@ -10,10 +10,11 @@
         <div style="padding: 0">
           <v-card-title style="padding: 10px 30px 0px;">
             <router-link to="/">
+              <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
+              <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
               <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
-                Morelang
-              </h2> -->
-              <img style="height:63px;" src="@/assets/img/logo.png" alt="" />
+              Morelang
+            </h2> -->
             </router-link>
             <div class="mx-auto mt-1">
               <!-- 검색창 -->

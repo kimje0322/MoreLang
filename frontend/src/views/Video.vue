@@ -1112,14 +1112,15 @@ export default {
             icon: "error",
             title: "Oops...",
             text: "현재 영상은 지원되는 자막이 없습니다.",
-
+            closeOnClickOutside: false,
             showCancelButton: true,
-            confirmButtonText: "뒤로가기",
-            cancelButtonText: "영상보기"
+            confirmButtonText: "Close",
+            cancelButtonText: "Continue"
             // footer: '<a href>Why do I have this issue?</a>'
           }).then(result => {
             if (result.isConfirmed) {
-              this.$router.go(-1);
+              // this.$router.go(-1);
+              window.close();
             } else {
               this.dialog5 = false;
               this.paid = true;
@@ -1303,7 +1304,9 @@ export default {
             // "현재 포인트 : " + this.point + " 포인트<br>" +
             text: "차감 포인트 : 100 포인트",
             icon: "warning",
+            closeOnClickOutside: false,
             showCancelButton: true,
+            cancelButtonText: "Close",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes"
