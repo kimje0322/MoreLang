@@ -1325,7 +1325,10 @@ export default {
                   icon: "error",
                   title: "Oops...",
                   text: "포인트 충전이 필요합니다.",
+                  confirmButtonText: "Charge",
                   // footer: "<a href>Why do I have this issue?</a>"
+                }).then(result => {
+                  this.charge();
                 });
               }
             }
