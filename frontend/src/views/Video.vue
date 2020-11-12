@@ -203,9 +203,8 @@
                           </v-card-text>
                           <v-card-actions>
                             <v-list-item class="grow">
-                              <v-list-item-content>
-                                <v-list-item-title
-                                  ><v-btn
+                               <v-flex>
+                                <v-btn
                                     rounded
                                     color="error"
                                     @click="
@@ -214,16 +213,15 @@
                                         params: { id: videoInfo.channelId }
                                       })
                                     "
-                                    >{{ videoInfo.channelTitle }}</v-btn
-                                  ></v-list-item-title
-                                >
-                              </v-list-item-content>
+                                    >{{ videoInfo.channelTitle }}</v-btn>
+                               </v-flex>
+                                <v-flex class="text-xs-right">
 
-                              <v-row align="center" justify="end">
                                 <span class="subheading mr-2">{{
                                   videoInfo.publishedAt
                                 }}</span>
-                              </v-row>
+                                </v-flex>
+
                             </v-list-item>
                           </v-card-actions>
                         </v-card>
