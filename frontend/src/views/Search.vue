@@ -480,6 +480,57 @@ export default {
 .logo {
   font-family: "Kaushan Script", cursive;
 }
+
+.logo {
+  user-select: none;
+  margin-top: 10px;
+}
+
+.logo b {
+  font: 300 4vh "Vibur";
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000,
+    0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.logo b span {
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2) {
+  animation: blink linear infinite 3s;
+}
+@keyframes blink {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  79% {
+    color: #333;
+  }
+  80% {
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+}
+
 a {
   color: black !important;
   text-decoration: none !important;

@@ -68,7 +68,7 @@
                         </v-col>
                       </v-row>
                     </v-card-text>
-                    <v-card-actions>
+                    <v-card-actions style="padding: 0 16px;">
                       <v-row>
                         <v-col cols="12">
                           <h3 v-html="translated">
@@ -552,13 +552,14 @@
 
     <v-snackbar
       v-model="snackbar"
-      timeout="1000"
+      timeout="1500"
       class="align-center"
       color="error"
       absolute
       rounded="pill"
+      style="justify-content: center"
     >
-      <p class="text-center">{{ text }}</p>
+      <p class="text-center" style="margin: 0;">{{ text }}</p>
     </v-snackbar>
     <!-- <v-row justify="center">
       <v-dialog v-model="dialog4" persistent max-width="290">
@@ -697,7 +698,7 @@
     </v-dialog>
   </v-container>
 </template>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 import Navbar from "@/components/Navbar";
 import Quiz from "@/components/Video/Quiz";
@@ -1291,7 +1292,9 @@ export default {
           Swal.fire({
             title: "로그인 후 이용해 주세요",
             icon: "warning",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
+            allowOutsideClick: false,
+            // closeOnClickOutside: false,
           }).then(result => {
             if(result.isConfirmed) {
               this.changeRoute('Login')
@@ -1304,12 +1307,14 @@ export default {
             // "현재 포인트 : " + this.point + " 포인트<br>" +
             text: "차감 포인트 : 100 포인트",
             icon: "warning",
-            allowOutsideClick: false,
+            // closeOnClickOutside: false,
+            // allowOutsideClick: false,
             showCancelButton: true,
             cancelButtonText: "Close",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes"
+            confirmButtonText: "Yes",
+            allowOutsideClick: false,
           }).then(result => {
             if (result.isConfirmed) {
               if (this.point >= 100) {
