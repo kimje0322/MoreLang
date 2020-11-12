@@ -54,7 +54,7 @@ public class LearnServiceImpl implements LearnService{
 			searchMap.put(sub_answer.get(key),time++);
 		}
 		for(int i=0; i<num; i++) {
-				input = input.replaceFirst(subList.get(i).getLemma(), "______");
+				input = input.replaceFirst(subList.get(i).getLemma(), "_");
 				Map<String, Object> temp_m = new HashMap<>();
 				temp_m.put("original", searchMap.get(subList.get(i).getLemma()));
 				temp_m.put("random", i+1);
@@ -65,7 +65,7 @@ public class LearnServiceImpl implements LearnService{
 				System.out.printf("품사: %s\n", subList.get(i).getPartOfSpeech().getTag());
 		}
 		
-		StringTokenizer st = new StringTokenizer(input, " ", true);
+		StringTokenizer st = new StringTokenizer(input, "_", true);
 		String[] resultArray = new String[st.countTokens()];
 		int pas = 0;
 		while(st.hasMoreTokens()) {
