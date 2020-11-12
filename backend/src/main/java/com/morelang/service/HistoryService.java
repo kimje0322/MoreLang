@@ -12,7 +12,7 @@ public interface HistoryService {
 	public String watchVideo(String accessToken, HistoryVideo watched);
 	public List<HistoryVideo> myVideoList(String accessToken,Pageable pageable);
 	public Boolean is_view(String accessToken,HistoryVideo watched);
-	public Page<recommendChannel> recommendList(String country,Pageable pageable);
+	public List<recommendChannel> recommendList(String country);
 	public Page<HistoryVideo> highCountVideo(String Defaultlang, Pageable pageable);
 	public Integer myVideoListSize(String accessToken);
 }

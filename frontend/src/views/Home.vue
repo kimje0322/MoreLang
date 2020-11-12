@@ -320,9 +320,6 @@ export default {
       await axios
         .get("https://morelang.gq/api/newuser/recommend-list", {
           params: {
-            direction: "DESC",
-            page: 1,
-            size: 10,
             country: lang
           }
         })

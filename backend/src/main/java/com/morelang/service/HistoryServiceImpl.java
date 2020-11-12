@@ -1,6 +1,7 @@
 package com.morelang.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,12 +145,20 @@ public class HistoryServiceImpl implements HistoryService{
 	}
 	
 	@Override
-	public Page<recommendChannel> recommendList(String country,Pageable pageable){
+	public List<recommendChannel> recommendList(String country){
+		List<recommendChannel> list = null;
 		if(country == null) {
-			return recommendRepository.findAll(pageable);
+			list = recommendRepository.findAll();
 		}else {
-			return recommendRepository.findByCountry(country, pageable);
+			list = recommendRepository.findByCountry(country);
 		}
+		Collections.shuffle(list);
+		int size = list.size()>=10? 10: list.size();
+		List<recommendChannel> subList = new ArrayList<>();
+		for(int i=0; i<size; i++) {
+			subList.add(list.get(i));
+		}
+		return subList;
 	}
 	
 	@Override
