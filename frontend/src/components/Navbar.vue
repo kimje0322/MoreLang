@@ -328,6 +328,7 @@ a {
   margin-top: 10px;
 }
 .title b {
+  font: 300 4vh "paybooc-Medium";
   text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
   color: #fdd;
 }

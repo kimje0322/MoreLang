@@ -1,6 +1,7 @@
 <template>
   <v-container>
-  <div class="title" style="color: white;"><b class="outline"><span>My video</span></b></div>
+    <h2>My video</h2>
+  <!-- <div class="title" style="color: white;"><b class="outline"><span>My video</span></b></div> -->
     <div v-for="(video, i) in videoLst" :key="i" style="display: inline-block;">
       <div
           class="col"
@@ -17,26 +18,11 @@
           <h4 v-else>{{video.title}}</h4>
       </div>
     </div>
-      <!-- <infinite-loading @infinite="infiniteHandler" spinner="bubble">
-        <div
-          slot="no-more"
-          style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px"
-        >
-          No More
-        </div>
-        <div
-          slot="no-results"
-          style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px"
-        >
-          No Results
-        </div>
-      </infinite-loading> -->
   </v-container>
 </template>
 
 <script>
 import axios from "@/plugins/axios";
-// import InfiniteLoading from "vue-infinite-loading";
 
 export default {
   data() {
@@ -52,25 +38,6 @@ export default {
         this.videoLst = res.data;
       })
   },
-  // methods: {
-  //   infiniteHandler($state) {
-  //   setTimeout(() => {
-  //     axios
-  //       .get(
-  //         `/user/myvideo?direction=DESC&page=0&size=30`
-  //       )
-  //       .then(res => {
-  //         if (res.data.items.length != 50) {
-  //           this.end = true;
-  //         }
-  //       });
-  //       $state.loaded();
-  //       if (this.end) {
-  //         $state.complete();
-  //       }
-  //     }, 1000);
-  //   }
-  // },
 }
 </script>
 
