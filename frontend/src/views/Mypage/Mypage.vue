@@ -169,7 +169,8 @@ export default {
   font-family: 'KyoboHand', sans-serif;
 }
 .tabs {
-  font-size: 17px;
+  font-size: 15px;
+  font-family: 'paybooc-Medium', sans-serif;
 }
 .points {
   font-family: "Nanum Gothic", sans-serif;

@@ -1,6 +1,7 @@
 <template>
   <!-- <h3 class="title ml-3 px-5">스크랩한 단어</h3> -->
   <!-- 언어 필터링 -->
+  <div>
   <v-container>
     <v-container style="text-align:center;">
       <v-row no-gutters>
@@ -42,7 +43,6 @@
             <!-- <v-row no-gutters style="text-align:center; width:70%;">
               <v-col v-for="(word, i) in wlist" :key="i" cols="12" md="10"> -->
             <!-- <div v-if="!word.isLearn"> -->
-
             <v-expansion-panels accordion  style=" width:70%;">
               <v-expansion-panel
                 v-for="(word, i) in wlist"
@@ -50,12 +50,14 @@
                 cols="12"
                 md="10"
               >
-                <v-expansion-panel-header>
-                  {{ word.eachVoca }}
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  {{ word.eachMean }}
-                </v-expansion-panel-content>
+                <draggable class="list-group" :list="wlist" group="people" @change="logtoCompleted(word)">
+                  <v-expansion-panel-header>
+                    {{ word.eachVoca }}
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    {{ word.eachMean }}
+                  </v-expansion-panel-content>
+                </draggable>
               </v-expansion-panel>
             </v-expansion-panels>
 
@@ -118,24 +120,26 @@
             </v-row> -->
           </div>
 
-          <!-- <div style="height: 100px;"></div> -->
           <div style="display: table-cell; width: 40%;">
             <h4>학습완료</h4>
-             <v-expansion-panels accordion style=" width:70%;">
-              <v-expansion-panel
-                v-for="(word, i) in wlist2"
-                :key="i"
-                cols="12"
-                md="10"
-              >
-                <v-expansion-panel-header>
-                  {{ word.eachVoca }}
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  {{ word.eachMean }}
-                </v-expansion-panel-content>
-              </v-expansion-panel>
+            <v-expansion-panels accordion style=" width:70%;">
+                <v-expansion-panel
+                  v-for="(word, i) in wlist2"
+                  :key="i"
+                  cols="12"
+                  md="10"
+                >
+              <draggable class="list-group" :list="wlist2" group="people">
+                  <v-expansion-panel-header>
+                    {{ word.eachVoca }}
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    {{ word.eachMean }}
+                  </v-expansion-panel-content>
+              </draggable>
+                </v-expansion-panel>
             </v-expansion-panels>
+
             <!-- <v-row no-gutters style="text-align:center; width:70%;"> -->
               <!-- <p>word</p> -->
               <!-- <v-col v-for="(word, i) in wlist2" :key="i" cols="12" md="10"> -->
@@ -169,23 +173,26 @@
       </v-container>
     </v-row>
   </v-container>
-</template>
+  <v-row v-if="wordlang" class="px-5 mt-5 mx-3" justify="center">
 
+<!-- 
+    <rawDisplayer class="col-3" :value="list1" title="List 1" />
+
+    <rawDisplayer class="col-3" :value="list2" title="List 2" /> -->
+  </v-row>
+  </div>
+
+</template>
 <script>
 import axios from "@/plugins/axios";
+import draggable from "vuedraggable";
 
 export default {
-  mounted() {
-    axios.get("/user/myvoca-country").then(res => {
-      console.log("단어장에 저장된 국가들");
-      console.log(res);
-      this.langLst = res.data;
-    });
-    // axios
-    //   .get(`${SERVER_URL}/myvoca?country=en&direction=ASC&page=0&size=8`)
-    //   .then(res => {
-    //     console.log(res);
-    //   });
+  name: "two-lists",
+  display: "Two Lists",
+  order: 1,
+  components: {
+    draggable
   },
   data() {
     return {
@@ -216,14 +223,6 @@ export default {
       }
     };
   },
-  // mounted() {
-  //   axios.get(`${SERVER_URL}/myvoca-country`)
-  //   .then((res) => {
-  //     console.log("단어장에 저장된 국가들")
-  //     console.log(res)
-
-  //   })
-  // },
   computed: {
     wlist: function() {
       return this.wordlist.filter(function(w) {
@@ -237,7 +236,22 @@ export default {
     }
   },
   methods: {
-    // axios.get()
+    clone: function(el) {
+      console.log('clone함수');
+      return {
+        name: el.name + " cloned"
+      };
+    },
+    logtoProgress: function(word) {
+      console.log('logto Progess함수');
+      word.isLearn = false;
+      console.log(word);
+    },
+    logtoCompleted: function(word) {
+      console.log('logtoCompleted함수');
+      word.isLearn = true;
+      console.log(word);
+    },
     wordList(lang) {
       if (lang == this.selectlang) {
         console.log("여기");
@@ -254,12 +268,19 @@ export default {
           console.log("언어별 단어장");
         });
     }
-  }
+  },
+  mounted() {
+      axios.get("/user/myvoca-country").then(res => {
+        console.log("단어장에 저장된 국가들");
+        console.log(res);
+        this.langLst = res.data;
+      });
+    },
 };
 </script>
 
 <style scoped>
-.title {
+  .title {
   color: black;
 }
 
