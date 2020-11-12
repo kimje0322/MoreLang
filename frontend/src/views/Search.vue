@@ -34,6 +34,7 @@
                 outlined
                 clearable
                 append-icon="mdi-magnify"
+                color="white"
                 @click:append="videoSearch(keyword)"
               />
               <!-- </form> -->
@@ -45,6 +46,7 @@
                   x-small
                   color="white"
                   dark
+                  outlined
                   style="margin-bottom: 0 !important"
                 >
                   <v-icon>mdi-google-translate</v-icon>

@@ -13,6 +13,9 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           {{ sentence.memo }}
+          <!-- <v-btn > -->
+            <v-icon medium style="float: right; color: red" @click="delSentence(sentence.scrapId)">mdi-close</v-icon>
+          <!-- </v-btn> -->
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -56,6 +59,16 @@ export default {
       console.log(res.data.content);
       this.setences = res.data.content;
     });
+  },
+  methods: {
+    delSentence(sid) {
+      axios
+      .delete(`/user/delete-scrap?scrapId=${sid}`)
+      .then((res) => {
+        console.log(res)
+        console.log("삭제완료!")
+      })
+    }
   }
 };
 </script>
