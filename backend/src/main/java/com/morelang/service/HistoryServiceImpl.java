@@ -104,6 +104,21 @@ public class HistoryServiceImpl implements HistoryService{
 	}
 	
 	@Override
+	public Integer myVideoListSize(String accessToken){
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			List<History> history = historyRepository.findByMember_id(m.get().getId());
+			List<Integer> viewId = new ArrayList<>();
+			System.out.println(history.size());
+			for(int i=0; i<history.size(); i++) {
+				viewId.add(Integer.valueOf(history.get(i).getVideo().getVid()));
+			}
+			 return historyVideoRepository.findByVidIn(viewId).size();
+		}
+		return null;
+	}
+	
+	@Override
 	public Boolean is_view(String accessToken,HistoryVideo watched) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {

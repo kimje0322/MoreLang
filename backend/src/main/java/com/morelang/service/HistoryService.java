@@ -14,4 +14,5 @@ public interface HistoryService {
 	public Boolean is_view(String accessToken,HistoryVideo watched);
 	public Page<recommendChannel> recommendList(String country,Pageable pageable);
 	public Page<HistoryVideo> highCountVideo(String Defaultlang, Pageable pageable);
+	public Integer myVideoListSize(String accessToken);
 }

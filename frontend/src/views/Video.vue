@@ -780,7 +780,7 @@ export default {
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage,
+        defaultLanguage: this.videoInfo.defaultLanguage.substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1233,7 +1233,7 @@ export default {
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage,
+        defaultLanguage: this.videoInfo.defaultLanguage.substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
