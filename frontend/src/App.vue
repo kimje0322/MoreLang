@@ -56,7 +56,7 @@ export default {
     font-weight: normal;
     font-style: normal;
 } */
-/* .entire {
-  font-family: 'KyoboHand', sans-serif;
-} */
+.entire {
+  font-family: 'paybooc-Medium', sans-serif;
+}
 </style>

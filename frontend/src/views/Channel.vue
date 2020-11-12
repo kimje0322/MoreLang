@@ -21,7 +21,7 @@
         <!-- {{ channelInfo.imgUrl }} -->
         <!-- <h2 class="intro">{{ channelInfo.title }}</h2> -->
         <div class="img-cover">
-          <div class="title" style="margin-top:150px;">
+          <div class="title" style="margin-top:130px;">
           <v-avatar
               style="margin-left: 260px;width: 150px; height: 150px; display: inline-block;"
             >
