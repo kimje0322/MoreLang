@@ -159,9 +159,9 @@
               :src="item.thumbnail"
               alt=""
               width="100%"
-               @click="$router.push({ name: 'Video', params : {vid : item.youtubeVideoid}})"
+               @click="selectVideo(item.youtubeVideoid)"
             />
-             <v-row  @click="$router.push({ name: 'Video', params : {vid : item.youtubeVideoid}})" class="mt-5" align="center" justify="center">{{item.title}}</v-row>
+             <v-row  @click="selectVideo(item.youtubeVideoid)" class="mt-5" align="center" justify="center">{{item.title}}</v-row>
           </swiper-slide>
          
           <!-- <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
@@ -277,6 +277,14 @@ export default {
     }
   },
   methods: {
+    selectVideo(vid) {
+    let routeData = this.$router.resolve({
+      name: "Video",
+      params: { vid: vid }
+    });
+    window.open(routeData.href, "_blank");
+    },
+    
     prev() {
       this.$refs.mySwiperRef.$swiper.slidePrev();
     },
