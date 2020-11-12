@@ -2,7 +2,7 @@
   <v-container>
   <h3 class="title" style="color: white">학습한 영상</h3>
   <v-row >
-    <v-col cols="4" v-for="(video, i) in videoLst" :key="i">
+    <v-col cols="4" v-for="(video, i) in videoLst" :key="i" @click="selectVideo(video.youtubeVideoid)">
         <v-hover v-slot="{ hover }">
      <v-card
     max-width="200"
@@ -50,6 +50,10 @@ export default {
     }
   },
   methods:{
+    selectVideo(vid) {
+      let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
+      window.open(routeData.href, '_blank');
+    },
     getTotal(){
        axios
       .get("user/myvideosize")
