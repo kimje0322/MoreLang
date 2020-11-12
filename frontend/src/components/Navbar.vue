@@ -111,10 +111,10 @@
           <v-toolbar color="black" dark>
             <v-toolbar-title class="toolbarTitle">
               <p
-                class="my-auto"
-                style="margin-left: 85px; text-align:center!important"
+                class="my-auto title"
+                style="margin-left: 95px; text-align:center!important"
               >
-                검색어 번역
+                <b><span style="font-size: 22px;" class="trans">검색어 번역</span></b>
               </p>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -148,7 +148,7 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn color="white"  outlined @click="onSearch(keyword)">검색</v-btn>
+            <v-btn color="red"  @click="onSearch(keyword)">검색</v-btn>
             <!-- <v-btn color="black" text @click="transDialog = false">닫기</v-btn> -->
             <!-- <v-btn
               color="black"
@@ -301,10 +301,10 @@ a {
   color: #616161;
 }
 .selectLang:hover {
-  background-color: #def5df;
+  background-color: #443535;
 }
 .language {
-  font-family: "Nanum Gothic", sans-serif;
+  font-family: "KyoboHand", sans-serif;
 }
 .v-snack__wrapper {
   min-width: none;
@@ -323,11 +323,14 @@ a {
   top: 0;
 }
 
-.logo {
+.logo, .title{
   user-select: none;
   margin-top: 10px;
 }
-
+.title b {
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+  color: #fdd;
+}
 .logo b{
   font: 300 4vh "Vibur";
   color: #fdd;
@@ -397,5 +400,9 @@ a {
   box-shadow:0 0 0px 3px rgba(0,0,0,0.2);
   opacity:0.4
 }#btn-twtr:hover{color:#fff;opacity:1}
+
+.trans {
+  font-family: 'KyoboHand', sans-serif;
+}
 
 </style>

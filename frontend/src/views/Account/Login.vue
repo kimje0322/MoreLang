@@ -6,9 +6,9 @@
         <v-col cols="12" md="8">
           <v-card tile class="pa-9" height="650px" align="center">
             <v-card-title style="justify-content: center; margin-bottom: 2%;">
-              <h1 class="ma-0" style="font-family: 'Do Hyeon', sans-serif;">
-                LOGIN
-              </h1>
+              <div class="logo ma-0" style="font-family: 'Do Hyeon', sans-serif;">
+                <b><span style="font-size: 60px">LOGIN</span></b>
+              </div>
               <!-- <v-btn fab dark @click="$router.push({ name: 'Home' })">
                 <v-icon>mdi-home-outline</v-icon>
               </v-btn> -->
@@ -134,11 +134,13 @@
                   회원가입 <br>포인트를 받으실 수 있습니다.
                 </div>
                 <div style="padding-bottom: 20px; text-align: center; ">
-                  <v-btn @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #333; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
+                  <v-btn class="logo" @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #333; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
+                    <b><span>
                     <v-icon style="margin-right: 5%;">
                       mdi-account-circle-outline
                     </v-icon>
                     회원가입
+                    </span></b>
                   </v-btn>
                 </div>
               </div>
@@ -283,6 +285,8 @@ export default {
 };
 </script>
 <style scoped>
+@import url(//fonts.googleapis.com/css?family=Vibur);
+
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
 .p_page {
   margin-top: "200vh";
@@ -292,5 +296,22 @@ export default {
 }
 .naverUrl {
   text-decoration: none;
+}
+.logo {
+  text-align: center; 
+  user-select: none;
+  margin-top: 10px;
+}
+
+.logo b{
+  /* font: 300 4vh "Vibur"; */
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.logo b span{
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
 }
 </style>
