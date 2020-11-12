@@ -41,7 +41,7 @@
                   ></v-progress-circular>
                 </v-card-text>
                 <v-card-actions class="px-0 mt-2 mb-3">
-                  <v-btn block :color="'success'" tile @click="onSubmit()"
+                  <v-btn block :color="'red'" tile @click="onSubmit()"
                     >로그인</v-btn
                   >
                 </v-card-actions>

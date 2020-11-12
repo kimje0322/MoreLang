@@ -3,7 +3,7 @@
     <Navbar />
     <div>
       <!-- 'url(' + picture + ')' -->
-        <!-- v-bind:style="{
+      <!-- v-bind:style="{
           'background-image': 'url(channelInfo.imgUrl)'
         }" -->
       <div
@@ -30,12 +30,12 @@
             >
               <img :src="channelInfo.imgUrl" alt="" />
             </v-avatar>
-            <h3
-              class="mx-6"
+            <h2
+              class="title mx-6"
               style="display: inline-block; font-size: 30px; font-family: 'SilkSerif';"
             >
-              {{ channelInfo.title }}
-            </h3>
+              <b><span>{{ channelInfo.title }}</span></b>
+            </h2>
             <!-- <h3 class="mt-2">대표영상 What's In My Bag?</h3> -->
 
             <!-- <div style="margin-bottom: 4%">
@@ -48,22 +48,18 @@
             style="width: 100%; padding: 20px 0; display: flex; flex-flow: row wrap; justify-content: space-between;"
           >
             <div v-for="(video, i) in videolst" :key="i">
+              
               <div
                 @click="selectVideo(video.id)"
-                class="col"
+                class="col video"
                 style="width: clac(25% - 60px); margin: auto; display: inline-block; margin-bottom: 20px;"
               >
-                    <!-- @error="
+                <!-- @error="
                       $event.target.src =
                         video.imgUrl.substring(0, 35) + 'mqdefault.jpg'
                     " -->
                 <div style="margin-bottom: 15px;">
-                  <img
-                    :src="video.imgUrl"
-                    alt=""
-                    width="300"
-                    @error="aaa"
-                  />
+                  <img :src="video.imgUrl" alt="" width="280" @error="aaa" />
                 </div>
                 <!-- id="video_img" -->
                 <!-- <h3 v-if="video.title.length > 15" style="">
@@ -72,6 +68,49 @@
                 <h4 class="videoTitle">
                   {{ video.title }}
                 </h4>
+                <div>
+                  <v-btn
+                    v-for="(lang, j) in video.captions.slice(0, 4)"
+                    :key="j"
+                    rounded
+                    color="primary"
+                    dark
+                    x-small
+                    style="margin: 0 1px;"
+                  >
+                    <div v-if="lang.lang_translated.indexOf('(') > -1">
+                      {{
+                        lang.lang_translated.substring(
+                          0,
+                          lang.lang_translated.indexOf("(")
+                        )
+                      }}
+                    </div>
+                    <div v-else-if="lang.lang_translated.length > 10">
+                      {{ lang.lang_translated.substring(0, 10) }}
+                    </div>
+                    <div v-else>
+                      {{ lang.lang_translated }}
+                    </div>
+                    <!-- <div v-if="j > 5 && j==video.captions.length - 1">
+                + {{ video.captions.length - 5 }}
+              </div> -->
+                  </v-btn>
+                  <div
+                    v-if="video.captions.length > 4"
+                    @mouseover="hover = true"
+                    @mouseleave="hover = false"
+                  >
+                    + {{ video.captions.length - 4 }}
+                  </div>
+                  <!-- <span v-if="hover"> 
+            <div v-for="(lang, j) in video.captions"
+              :key="j">
+              {{ lang.lang_translated }}
+
+            </div> -->
+                  <!-- </span> -->
+                </div>
               </div>
             </div>
           </div>
@@ -151,11 +190,14 @@ export default {
   },
   methods: {
     selectVideo(vid) {
-      this.$router.push({ name: "Video", params: { vid: vid } });
+      let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
+      window.open(routeData.href, '_blank');
+
+      // this.$router.push({ name: "Video", params: { vid: vid } });
     },
     aaa(e) {
-      console.log(e)
-      console.log("aldfjadl;kfja")
+      console.log(e);
+      console.log("aldfjadl;kfja");
     },
     // imgUrlAlt(event){
     //   console.log("이미지에러")
@@ -192,6 +234,24 @@ export default {
 </script>
 
 <style scoped>
+@import url(//fonts.googleapis.com/css?family=Vibur);
+.title {
+  text-align: center; 
+  user-select: none;
+  margin-top: 10px;
+}
+
+.title b{
+  font: 300 4vh "Vibur";
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.title b span{
+  animation: blink linear infinite 2s;
+}
+.title b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
+}
 .backImg {
   position: relative;
   background-size: cover;
@@ -252,5 +312,9 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.video:hover {
+  cursor: pointer;
 }
 </style>

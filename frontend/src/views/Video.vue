@@ -60,11 +60,13 @@
                 <v-tab-item>
                   <v-card flat>
                     <v-card-text>
-                      <div>
-                        <h2 v-html="nowText">
+                         <v-row>
+                        <v-col cols="12">
+                        <h2  class="font" v-html="nowText">
                           <v-icon>mdi-comment-processing-outline</v-icon> :
                         </h2>
-                      </div>
+                        </v-col>
+                      </v-row>
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
@@ -162,7 +164,7 @@
                   <v-card flat>
                     <v-card-text>
                       <div>
-                        <h2>
+                        <h2 class="font" v-html="nowText">
                           <v-icon>mdi-comment-processing-outline</v-icon> :
                           {{ nowText }}
                         </h2>
@@ -287,7 +289,7 @@
             </v-row>
             <v-card
               height="600px"
-              class="scroll subtitle"
+              class="scroll"
               elevation="4"
               v-if="hide"
             >
@@ -301,7 +303,7 @@
                       parseFloat(item._attributes.dur)
                     ).toFixed(3)
                   "
-                  class="script"
+                  class="script font"
                   @click="captionClick(index)"
                   v-bind:key="index"
                   v-html="item._text"
@@ -558,7 +560,7 @@
     >
       <p class="text-center">{{ text }}</p>
     </v-snackbar>
-    <v-row justify="center">
+    <!-- <v-row justify="center">
       <v-dialog v-model="dialog4" persistent max-width="290">
         <v-card color="white" class="black--text">
           <v-card-title>
@@ -622,9 +624,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-row>
+    </v-row> -->
 
-    <v-row justify="center">
+    <!-- <v-row justify="center">
       <v-dialog v-model="dialog5" persistent max-width="290">
         <v-card color="white" class="black--text">
           <v-card-title>
@@ -657,7 +659,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-row>
+    </v-row> -->
 
     <v-dialog v-model="dialog6" persistent max-width="600px">
       <v-card>
@@ -701,6 +703,7 @@ import Navbar from "@/components/Navbar";
 import Quiz from "@/components/Video/Quiz";
 import Raxios from "axios";
 import axios from "@/plugins/axios";
+import Swal from "sweetalert2";
 
 var convert = require("xml-js");
 
@@ -761,7 +764,6 @@ export default {
       timer: 0
     };
   },
-
   methods: {
     onQuiz() {
       this.$store.state.videoText = this.nowText;
@@ -779,7 +781,7 @@ export default {
         title: this.videoInfo.title,
         defaultLanguage: this.videoInfo.defaultLanguage,
         youtubeVideoid: this.videoId,
-        thumbnail : temp
+        thumbnail: temp
       };
 
       await axios
@@ -1106,6 +1108,23 @@ export default {
         } else {
           // 아무 자막이 없는거 처리 해줘야한다
           this.dialog5 = true;
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "현재 영상은 지원되는 자막이 없습니다.",
+
+            showCancelButton: true,
+            confirmButtonText: "뒤로가기",
+            cancelButtonText: "영상보기"
+            // footer: '<a href>Why do I have this issue?</a>'
+          }).then(result => {
+            if (result.isConfirmed) {
+              this.$router.go(-1);
+            } else {
+              this.dialog5 = false;
+              this.paid = true;
+            }
+          });
         }
       });
       axios.defaults.headers.common = temp;
@@ -1177,9 +1196,9 @@ export default {
       },
       deep: true
     },
-    nowText : function(){
-      this.translated ="";
-      this.audioURL="";
+    nowText: function() {
+      this.translated = "";
+      this.audioURL = "";
       this.onQuiz();
     }
   },
@@ -1209,12 +1228,12 @@ export default {
         console.log(res);
         this.point = res.data;
       });
-        var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
+      var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
         defaultLanguage: this.videoInfo.defaultLanguage,
         youtubeVideoid: this.videoId,
-        thumbnail:temp
+        thumbnail: temp
       };
 
       await axios
@@ -1233,6 +1252,10 @@ export default {
     }
   },
   mounted() {
+    // if (this.dialog5) {
+    //   console.log("dialog5" + this.dialog5)
+
+    // }
     this.context = new AudioContext();
     // One-liner to resume playback when user interacted with the page.
     document.querySelector("button").addEventListener("click", function() {
@@ -1263,6 +1286,29 @@ export default {
       if (this.items != undefined && this.paid == false) {
         this.dialog4 = true;
         this.pauseVideo();
+        Swal.fire({
+          title: "영상을 결제하시겠습니까?",
+          // "현재 포인트 : " + this.point + " 포인트<br>" +
+          text: "차감 포인트 : 100 포인트",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then(result => {
+          if (result.isConfirmed) {
+            if (this.point >= 100) {
+              Swal.fire("결제성공!", "해당 영상의 학습이 가능합니다.", "success");
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                // footer: "<a href>Why do I have this issue?</a>"
+              });
+            }
+          }
+        });
       }
     }, 10000);
     //  document.addEventListener('mousedown', function() {
@@ -1298,6 +1344,15 @@ export default {
 //           }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+
+.font{
+  font-family:  'Nanum Myeongjo','Noto Sans SC', sans-serif;
+}
+
 .script:hover {
   background: #ff564a;
 }

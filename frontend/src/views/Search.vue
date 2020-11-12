@@ -197,9 +197,7 @@
             <!-- <router-link :to="{ name: 'Video', params: { vid: video.id } }"> -->
             <div
               style="margin-bottom: 0px;"
-              @click="
-                $router.push({ name: 'Video', params: { vid: video.id } })
-              "
+              @click="selectVideo(video.id);"
             >
               <v-img
                 :elevation="hover ? 16 : 2"
@@ -285,7 +283,7 @@
 import axios from "@/plugins/axios";
 import InfiniteLoading from "vue-infinite-loading";
 import store from "../store/index.js";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 // import Navbar from "@/components/Navbar";
 
 // import store from "@/../src/store/index.js";
@@ -362,67 +360,49 @@ export default {
     }
   },
   methods: {
-    userMenu(idx) {
-      if (idx === 0) {
-        // console.log("userid = " + this.$store.state.userid)
-        this.$router.push({
-          name: "Mypage",
-          params: { userid: this.$store.state.userid }
-        });
-        // } else if (idx === 1) {
-        //   this.$router.push({name: "Home"});
+    selectVideo(vid) {
+        let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
+      window.open(routeData.href, '_blank');
+
+      // Swal.fire( 
+      //   {
+      //     title: "영상을 구매하시겠습니까?",
+      //     text: "10 Point 결제 부탁드립니다.",
+      //     imageUrl: vimg,
+      //     imageWidth: 400,
+      //     imageHeight: 200,
+      //     imageAlt: "Video image",
+
+      //     showCancelButton: true,
+
+      //     // closeOnConfirm: false,
+      //     // showLoaderOnConfirm: true
+      //     confirmButtonColor: "#3085d6",
+      //     cancelButtonColor: "#d33",
+      //     confirmButtonText: "Buy it!"
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       Swal.fire({
+      //         title: "결제 성공!",
+      //         text: "해당 영상 학습 페이지로 이동합니다.",
+      //         icon: "success",
+      //         confirmButtonColor: "#3085d6",
+      //         confirmButtonText: "OK",
+              
+      //         // "success"
+      //       }) .then((result) => {
+      //         if (result.isConfirmed) {
+      //           this.$router.push({ name: "Video", params: { vid: vid } });
+      //         }
+      //       })
+      //     }
+      //   })
+        // function() {
+        //   setTimeout(function() {
+        //     Swal("결제가 완료되었습니다!");
+        //   }, 2000);
         // }
-      } else {
-        this.$store.dispatch("LOGOUT");
-      }
-    },
-    changeRoute(name) {
-      // console.log(this.$route.name === name);
-      if (this.$route.name === name) {
-        this.$router.go({ name });
-      } else {
-        this.$router.push({ name });
-      }
-    },
-    selectVideo(vid, vimg) {
-      Swal.fire({
-        title: "영상을 구매하시겠습니까?",
-        text: "10 Point 결제 부탁드립니다.",
-        imageUrl: vimg,
-        imageWidth: 400,
-        imageHeight: 200,
-        imageAlt: "Video image",
-
-        showCancelButton: true,
-
-        // closeOnConfirm: false,
-        // showLoaderOnConfirm: true
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Buy it!"
-      }).then(result => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            title: "결제 성공!",
-            text: "해당 영상 학습 페이지로 이동합니다.",
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "OK"
-
-            // "success"
-          }).then(result => {
-            if (result.isConfirmed) {
-              this.$router.push({ name: "Video", params: { vid: vid } });
-            }
-          });
-        }
-      });
-      // function() {
-      //   setTimeout(function() {
-      //     Swal("결제가 완료되었습니다!");
-      //   }, 2000);
-      // }
-
+    
       // setTimeout(function() {}, 500);
     },
     beforeTrans() {
