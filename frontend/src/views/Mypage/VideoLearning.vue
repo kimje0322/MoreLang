@@ -1,22 +1,40 @@
 <template>
   <v-container>
-  <h3 class="title" style="color: white">닉네임님의 영상</h3>
-    <div v-for="(video, i) in videoLst" :key="i" style="display: inline-block;">
-      <div
-          class="col"
-          style=" margin: auto; display: inline-block;"
-        >
-          <div style="margin-bottom: 10px;">
-            <img
-              style="width:220px"
-              :src="video.imgUrl"
-              alt=""
-            />
+  <h3 class="title" style="color: white">학습한 영상</h3>
+  <v-row >
+    <v-col cols="4" v-for="(video, i) in videoLst" :key="i">
+        <v-hover v-slot="{ hover }">
+     <v-card
+    max-width="200"
+    elevation="10"
+  >
+    <v-img
+      class="white--text align-end"
+      height="150px"
+      :src="video.thumbnail"
+    >
+      <v-expand-transition>
+          <div
+            v-if="hover"
+            class="d-flex transition-fast-in-fast-out red v-card--reveal  white--text"
+            style="height: 50%;"
+          >
+           {{video.title}}
           </div>
-          <h4 v-if="video.title.length > 34">{{ video.title.substring(0, 32) }} ...</h4>
-          <h4 v-else>{{video.title}}</h4>
-      </div>
-    </div>
+      </v-expand-transition>
+    </v-img>
+  </v-card>
+</v-hover>
+
+    </v-col>
+  </v-row>
+      <v-pagination
+      color="red"
+       v-if="total" 
+      v-model="page"
+      :length="Number(total/9+1)"
+      :total-visible="7"
+    ></v-pagination>
   </v-container>
 </template>
 
@@ -26,16 +44,46 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
+      page:1,
+      total:1,
       videoLst: []
     }
   },
-  mounted() {
-    axios
-      .get("/newuser/search?q=glee&start=0")
+  methods:{
+    getTotal(){
+       axios
+      .get("user/myvideosize")
       .then((res) => {
-        // console.log(res)
+        console.log(res)
+        if(res.data != null){
+          var temp = res.data;
+        if(temp>9){
+          this.total=temp;
+        }
+        }
+      })
+    },
+    getVideo(pnum){
+        axios
+      .get("user/myvideo",{params: {
+          direction: "DESC",
+          page: pnum,
+          size :9
+        }})
+      .then((res) => {
+        console.log(res)
         this.videoLst = res.data;
       })
+    }
+  },
+  watch :{
+    page : function(){
+      this.getVideo(this.page);
+    }
+  },
+  mounted() {
+    this.getVideo(1);
+    this.getTotal();
   },
 }
 </script>
@@ -44,4 +92,17 @@ export default {
   .title {
     color: black;
   }
+  .transparent {
+   background-color: white!important;
+   opacity: 0.65;
+   border-color: transparent!important;
+ }
+ .v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .9;
+  position: absolute;
+  width: 100%;
+}
 </style>
