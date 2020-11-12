@@ -23,9 +23,7 @@ public class NLAnalyze {
     private static CredentialsProvider credentialsProvider;
     public static NLAnalyze getInstance() {
         try {
-        	ClassPathResource classPathResource = new ClassPathResource("./src/main/resources/GoogleMorelang.json");
-        	InputStream input = classPathResource.getInputStream();
-        	credentialsProvider= FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(input));
+        	credentialsProvider= FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("GoogleMorelang.json")));
             LanguageServiceSettings.Builder languageServiceSettingsBuilder= LanguageServiceSettings.newBuilder();
             LanguageServiceSettings languageServiceSettings = languageServiceSettingsBuilder.setCredentialsProvider(credentialsProvider).build();
             languageServiceClient = LanguageServiceClient.create(languageServiceSettings);
