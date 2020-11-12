@@ -89,9 +89,12 @@ export default {
           this.keyword = res.data.keyword;
           var j = 1;
           for (var i=0; i<quizInput.length; i++) {
-            if (quizInput[i] === ' _ ') { 
+            if (quizInput[i] === '______') { 
                 this.quizBox.push({index: j++, quiz: 'blank'});
-            }else {
+            } else if (quizInput[i].startsWith('______')) {
+                this.quizBox.push({index: j++, quiz: 'blank'})
+                this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
+            } else {
               this.quizBox.push({index: 0, quiz: quizInput[i]})    
             }
           }
