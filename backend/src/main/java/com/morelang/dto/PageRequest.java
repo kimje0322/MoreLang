@@ -47,4 +47,7 @@ public class PageRequest {
 	public org.springframework.data.domain.PageRequest channelId() {
 		return org.springframework.data.domain.PageRequest.of(page-1, size, direction, "id");
 	}
+	public org.springframework.data.domain.PageRequest channelCount() {
+		return org.springframework.data.domain.PageRequest.of(page-1, size, direction, "count");
+	}
 }
