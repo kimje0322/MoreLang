@@ -44,7 +44,12 @@ public class HistoryController {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<List<HistoryVideo>>(historyService.myVideoList(accessToken, pageable.videoTime()),HttpStatus.OK);
 	}
-	
+	@GetMapping("/user/myvideosize")
+	@ApiOperation(value="[결제한 동영상 크기] 내가 결제한 동영상 size를 가져옵니다.")
+	public ResponseEntity<Integer> myVideo(HttpServletResponse response){
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<Integer>(historyService.myVideoListSize(accessToken),HttpStatus.OK);
+	}
 	@PostMapping("/user/iswatched")
 	@ApiOperation(value="[결제한 동영상- 페이징 처리] 내가 본 동영상인지 아닌지 true/false return, 조회수 증가 여기서 처리했음")
 	public ResponseEntity<Boolean> iswatched(HttpServletResponse response, @RequestBody HistoryVideo video){
