@@ -714,6 +714,7 @@ export default {
   },
   data() {
     return {
+      timeout:null,
       addWord: "",
       point: -1,
       paid: false,
@@ -778,7 +779,7 @@ export default {
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage.substring(0,2),
+        defaultLanguage: this.videoInfo.defaultLanguage+".".substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1231,7 +1232,7 @@ export default {
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage.substring(0,2),
+        defaultLanguage: this.videoInfo.defaultLanguage+".".substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1282,7 +1283,7 @@ export default {
       }
     });
 
-    setTimeout(() => {
+    this.timeout=setTimeout(() => {
       if (this.items != undefined && this.paid == false) {
         this.dialog4 = true;
         this.pauseVideo();
@@ -1346,6 +1347,9 @@ export default {
     // temp.style.display = "none";
     // }
     // });
+  },
+  beforeDestroy(){
+    clearTimeout(this.timeout);
   }
 };
 
