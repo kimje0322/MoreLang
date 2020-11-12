@@ -6,7 +6,7 @@
   >
     <div class="navigation" id="header" >
       <div style="padding: 0;" >
-        <v-card-title style="padding: 0px 30px; margin-bottom: 5px; background-color:black;" >
+        <v-card-title style="padding: 0px 30px; margin-top:7px; margin-bottom: 5px; background-color:black;" >
          
           <router-link to="/">
          <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
@@ -112,7 +112,7 @@
             <v-toolbar-title class="toolbarTitle">
               <p
                 class="my-auto title"
-                style="margin-left: 95px; text-align:center!important"
+                style="margin-left: 85px; text-align:center!important"
               >
                 <b><span style="font-size: 22px;" class="trans">검색어 번역</span></b>
               </p>
@@ -304,7 +304,7 @@ a {
   background-color: #443535;
 }
 .language {
-  font-family: "KyoboHand", sans-serif;
+  font-family: "paybooc-Medium", sans-serif;
 }
 .v-snack__wrapper {
   min-width: none;
@@ -403,7 +403,7 @@ a {
 }#btn-twtr:hover{color:#fff;opacity:1}
 
 .trans {
-  font-family: 'KyoboHand', sans-serif;
+  font-family: 'paybooc-Medium', sans-serif;
 }
 
 </style>
