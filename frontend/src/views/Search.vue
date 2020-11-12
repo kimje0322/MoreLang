@@ -195,10 +195,7 @@
         >
           <v-hover v-slot:default="{ hover }" close-delay="200">
             <!-- <router-link :to="{ name: 'Video', params: { vid: video.id } }"> -->
-            <div
-              style="margin-bottom: 0px;"
-              @click="selectVideo(video.id);"
-            >
+            <div style="margin-bottom: 0px;" @click="selectVideo(video.id)">
               <v-img
                 :elevation="hover ? 16 : 2"
                 :class="{ 'on-hover': hover }"
@@ -308,6 +305,7 @@ export default {
   },
   data() {
     return {
+      items: ["Mypage", "Logout"],
       hover: false,
       keyword: "",
       transDialog: false,
@@ -360,11 +358,28 @@ export default {
     }
   },
   methods: {
+    userMenu(idx) {
+      if (idx === 0) {
+        // console.log("userid = " + this.$store.state.userid)
+        this.$router.push({
+          name: "Mypage",
+          params: { userid: this.$store.state.userid }
+        });
+        // } else if (idx === 1) {
+        //   this.$router.push({name: "Home"});
+        // }
+      } else {
+        this.$store.dispatch("LOGOUT");
+      }
+    },
     selectVideo(vid) {
-        let routeData = this.$router.resolve({name: "Video", params: {vid: vid}});
-      window.open(routeData.href, '_blank');
+      let routeData = this.$router.resolve({
+        name: "Video",
+        params: { vid: vid }
+      });
+      window.open(routeData.href, "_blank");
 
-      // Swal.fire( 
+      // Swal.fire(
       //   {
       //     title: "영상을 구매하시겠습니까?",
       //     text: "10 Point 결제 부탁드립니다.",
@@ -388,7 +403,7 @@ export default {
       //         icon: "success",
       //         confirmButtonColor: "#3085d6",
       //         confirmButtonText: "OK",
-              
+
       //         // "success"
       //       }) .then((result) => {
       //         if (result.isConfirmed) {
@@ -397,12 +412,12 @@ export default {
       //       })
       //     }
       //   })
-        // function() {
-        //   setTimeout(function() {
-        //     Swal("결제가 완료되었습니다!");
-        //   }, 2000);
-        // }
-    
+      // function() {
+      //   setTimeout(function() {
+      //     Swal("결제가 완료되었습니다!");
+      //   }, 2000);
+      // }
+
       // setTimeout(function() {}, 500);
     },
     beforeTrans() {
