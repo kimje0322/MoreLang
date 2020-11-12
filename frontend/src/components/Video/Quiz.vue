@@ -77,7 +77,7 @@ export default {
   mounted() {
     this.onMove();
     this.nowText = this.$store.state.videoText;
-    // console.log('여기는 quiz'+this.nowText);
+    console.log('여기는 quiz'+this.nowText);
     if (this.nowText) {
       axios.post(
         `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  

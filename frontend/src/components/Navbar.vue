@@ -126,7 +126,7 @@
             <v-toolbar-title class="toolbarTitle">
               <p
                 class="my-auto title"
-                style="margin-left: 85px; text-align:center!important"
+                style="margin-left: 83px; text-align:center!important"
               >
                 <b><span style="font-size: 22px;" class="trans">검색어 번역</span></b>
               </p>
@@ -342,7 +342,7 @@ a {
   margin-top: 10px;
 }
 
-.logo b {
+.logo b, .title b{
   font: 300 4vh "Vibur";
   color: #fdd;
   text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000,

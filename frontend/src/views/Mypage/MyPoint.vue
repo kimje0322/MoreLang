@@ -99,7 +99,7 @@ export default {
   },
   mounted() {
     axios.get(
-      `/user/pay/my-pointlogs?direction=DESC&page=0&size=50`
+      `/user/pay/my-pointlogs?direction=DESC&page=0&size=300`
     )
   .then(res => {
     this.point = res.data.content;
