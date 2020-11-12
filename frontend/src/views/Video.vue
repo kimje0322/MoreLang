@@ -1112,7 +1112,7 @@ export default {
             icon: "error",
             title: "Oops...",
             text: "현재 영상은 지원되는 자막이 없습니다.",
-            closeOnClickOutside: false,
+            allowOutsideClick: false,
             showCancelButton: true,
             confirmButtonText: "Close",
             cancelButtonText: "Continue"
@@ -1304,7 +1304,7 @@ export default {
             // "현재 포인트 : " + this.point + " 포인트<br>" +
             text: "차감 포인트 : 100 포인트",
             icon: "warning",
-            closeOnClickOutside: false,
+            allowOutsideClick: false,
             showCancelButton: true,
             cancelButtonText: "Close",
             confirmButtonColor: "#3085d6",
