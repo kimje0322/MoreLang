@@ -31,7 +31,7 @@ public class SearchController {
 
 		List<Search> result = null;
 		try {
-//			result = searchService.search(q, start);
+			result = searchService.search(q, start);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Webhook.send(request, this.getClass().toString(), e);
