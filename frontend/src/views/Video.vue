@@ -1329,6 +1329,9 @@ export default {
                 });
               }
             }
+            else {
+              window.close()
+            }
           });
         }
       }
