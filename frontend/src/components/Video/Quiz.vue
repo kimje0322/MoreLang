@@ -10,7 +10,6 @@
         <!-- 퀴즈 빈칸 -->
         <div 
           @dragover="ondragover(`b${item.index}`)" v-else :id="`blank${item.index}`" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
-          <!-- append child -->
         </div>
       </div>
     </div>
@@ -75,41 +74,50 @@ export default {
     // window.addEventListener('scroll', this.handleScroll)
   },
   mounted() {
-    this.onMove();
     this.nowText = this.$store.state.videoText;
-    console.log('여기는 quiz'+this.nowText);
-    if (this.nowText) {
-      axios.post(
-        `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
-        ).then(res => { 
-          this.answer = res.data.answer;
-          console.log(res.data);
-          // this.quizBox = res.data.quizeText;
-          var quizInput = res.data.inputTextArray;
-          this.keyword = res.data.keyword;
-          var j = 1;
-          for (var i=0; i<quizInput.length; i++) {
-            if (quizInput[i] === '______') { 
-                this.quizBox.push({index: j++, quiz: 'blank'});
-            } else if (quizInput[i].startsWith('______')) {
-                this.quizBox.push({index: j++, quiz: 'blank'})
-                this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
-            } else {
-              this.quizBox.push({index: 0, quiz: quizInput[i]})    
-            }
-          }
-      })
-    }
-  },
-  updated() {
+    this.whenMounted();
   },
   watch: {
+    nowText: function() {
+      console.log('이건 안되냐고');
+      console.log(this.nowText);
+      // this.whenMounted();
+    },
     score: function () {
       this.checkAnswer();
       // console.log(this.score);
     },
   },
   methods: {
+    whenMounted() {
+      this.onMove();
+      console.log('여기는 quiz'+this.nowText);
+      if (this.nowText) {
+        axios.post(
+          `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
+          ).then(res => { 
+            this.answer = res.data.answer;
+            console.log('이게 res.data')
+            console.log(res.data);
+            // this.quizBox = res.data.quizeText;
+            var quizInput = res.data.inputTextArray;
+            this.keyword = res.data.keyword;
+            var j = 1;
+            for (var i=0; i<quizInput.length; i++) {
+              if (quizInput[i] === '______') { 
+                  this.quizBox.push({index: j++, quiz: 'blank'});
+              } else if (quizInput[i].startsWith('______')) {
+                  this.quizBox.push({index: j++, quiz: 'blank'})
+                  this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
+              } else {
+                this.quizBox.push({index: 0, quiz: quizInput[i]})    
+              }
+            }
+        })
+        console.log('이게퀴즈박스');
+        console.log(this.quizBox);
+      }
+    },
     checkAnswer() {
       if (this.score === Object.keys(this.keyword).length) {
         Swal.fire(
@@ -187,7 +195,7 @@ export default {
             width: 320,
             text: "😢 다시 생각해보세요! 😢",
             timer: 1550,
-            background: '#EEEEEE',
+            background: 'white',
             // icon: "success",
             showConfirmButton: false,
           })
@@ -311,7 +319,6 @@ export default {
   height: 100%;
 }
 .blank {
-  /* border: dashed grey 1px; */
   border-radius: 3px;
   background-color: lightgrey;
   width: 50px;
