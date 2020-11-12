@@ -65,13 +65,14 @@
                 </h4>
                 <div>
                   <v-btn
-                    v-for="(lang, j) in video.captions.slice(0, 4)"
+                    v-for="(lang, j) in video.captions.slice(0, 3)"
                     :key="j"
                     rounded
                     color="primary"
                     dark
                     x-small
                     style="margin: 0 1px;"
+                    class="mr-1"
                   >
                     <div v-if="lang.lang_translated.indexOf('(') > -1">
                       {{
@@ -91,12 +92,12 @@
                 + {{ video.captions.length - 5 }}
               </div> -->
                   </v-btn>
-                  <div
-                    v-if="video.captions.length > 4"
+                  <div style="display: inline-block; float: right;"
+                    v-if="video.captions.length > 3"
                     @mouseover="hover = true"
                     @mouseleave="hover = false"
                   >
-                    + {{ video.captions.length - 4 }}
+                    + {{ video.captions.length - 3 }}
                   </div>
                   <!-- <span v-if="hover"> 
             <div v-for="(lang, j) in video.captions"

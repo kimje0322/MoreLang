@@ -99,19 +99,33 @@
         >
           <!-- <a href="/" style="width: 240px;"> -->
           <!-- style="animation: float 2s ease-in-out infinite; " -->
-          <swiper-slide v-for="(item,index) in hotChannels" :key="index">
+          <swiper-slide v-for="(item, index) in hotChannels" :key="index">
             <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
             <v-avatar
               class="Shine"
               style="width: 150px; height: 150px; display: inline-block;"
-              @click="$router.push({ name: 'Channel', params : {id : item.youtubeVideoid}})"
+              @click="
+                $router.push({
+                  name: 'Channel',
+                  params: { id: item.youtubeVideoid }
+                })
+              "
             >
-              <img
-                :src="item.thumbnail"
-                alt=""
-              />
+              <img :src="item.thumbnail" alt="" />
             </v-avatar>
-            <v-row @click="$router.push({ name: 'Channel', params : {id : item.youtubeVideoid}})" class="mt-5" align="center" justify="center">{{item.title}}</v-row>
+            <v-row
+              style="font-family: 'Calibre', sans-serif; font-weight: 600; font-size: 18px;"
+              @click="
+                $router.push({
+                  name: 'Channel',
+                  params: { id: item.youtubeVideoid }
+                })
+              "
+              align="center"
+              justify="center"
+              class="mt-5"
+              >{{ item.title }}</v-row
+            >
           </swiper-slide>
           <!-- <div class="swiper-button-prev" slot="button-prev"></div>
             <div class="swiper-button-next" slot="button-next"></div> -->
@@ -123,7 +137,6 @@
       </div>
     </div>
 
-  
     <!-- 인기 영상 -->
     <div style="padding: 50px 0; display: block; background: black;">
       <div
@@ -152,18 +165,29 @@
           aos-offset="500"
           data-aos-duration="2500"
         >
-          <swiper-slide class="swiper-slide ml-5"  v-for="(item,index) in hotVideos" :key="index">
+          <swiper-slide
+            class="swiper-slide mr-16"
+            v-for="(item, index) in hotVideos"
+            :key="index"
+          >
             <!-- Slide 1 -->
             <v-img
               class="Shine"
               :src="item.thumbnail"
               alt=""
               width="100%"
-               @click="selectVideo(item.youtubeVideoid)"
+              @click="selectVideo(item.youtubeVideoid)"
             />
-             <v-row  @click="selectVideo(item.youtubeVideoid)" class="mt-5" align="center" justify="center">{{item.title}}</v-row>
+            <v-row
+              @click="selectVideo(item.youtubeVideoid)"
+              class="mt-5"
+              align="center"
+              justify="center"
+              style="margin: 0;font-family: 'Calibre', sans-serif; font-weight: 600; font-size: 18px;"
+              >{{ item.title }}</v-row
+            >
           </swiper-slide>
-         
+
           <!-- <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
           <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
           <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
@@ -213,9 +237,9 @@ export default {
   data() {
     return {
       hotChannels: null,
-      hotVideos:null,
+      hotVideos: null,
       userid: "",
-      selectlang: {ko:"전체",lang:null},
+      selectlang: { ko: "전체", lang: null },
       search_word: "",
       // logout: false,
       search: false,
@@ -253,15 +277,15 @@ export default {
         }
       },
       language: [
-        {ko:"전체",lang:null},
-        {ko:"영어",lang:'en'},
-        {ko:"중국어",lang:'cn'},
-        {ko:"프랑스어",lang:'fr'},
-        {ko:"스페인어",lang:'es'},
-        {ko:"독일어",lang:'de'},
-        {ko:"이탈리아어",lang:'it'},
-        {ko:"포르투갈어",lang:'pt'},
-        {ko:"러시아",lang:'ru'},
+        { ko: "전체", lang: null },
+        { ko: "영어", lang: "en" },
+        { ko: "중국어", lang: "cn" },
+        { ko: "프랑스어", lang: "fr" },
+        { ko: "스페인어", lang: "es" },
+        { ko: "독일어", lang: "de" },
+        { ko: "이탈리아어", lang: "it" },
+        { ko: "포르투갈어", lang: "pt" },
+        { ko: "러시아", lang: "ru" }
       ]
     };
   },
@@ -269,8 +293,8 @@ export default {
     this.getHotChannels();
     this.getHotVideos();
   },
-  watch:{
-    selectlang : function() {
+  watch: {
+    selectlang: function() {
       // console.log(this.selectlang);
       this.getHotChannels(this.selectlang);
       this.getHotVideos(this.selectlang);
@@ -278,51 +302,53 @@ export default {
   },
   methods: {
     selectVideo(vid) {
-    let routeData = this.$router.resolve({
-      name: "Video",
-      params: { vid: vid }
-    });
-    window.open(routeData.href, "_blank");
+      let routeData = this.$router.resolve({
+        name: "Video",
+        params: { vid: vid }
+      });
+      window.open(routeData.href, "_blank");
     },
-    
+
     prev() {
       this.$refs.mySwiperRef.$swiper.slidePrev();
     },
     next() {
       this.$refs.mySwiperRef.$swiper.slideNext();
     },
-    
-    async getHotChannels(lang){
-      await axios.get("https://morelang.gq/api/newuser/recommend-list", {
-        params: {
-          direction: "DESC",
-          page:1,
-          size:10,
-          country:lang
-        }
-      }).then(res => {
-        console.log("핫채널들정보");
-        // console.log(res);
-        this.hotChannels = res.data.content;
-        console.log(this.hotChannels);
-      });
 
+    async getHotChannels(lang) {
+      await axios
+        .get("https://morelang.gq/api/newuser/recommend-list", {
+          params: {
+            direction: "DESC",
+            page: 1,
+            size: 10,
+            country: lang
+          }
+        })
+        .then(res => {
+          console.log("핫채널들정보");
+          // console.log(res);
+          this.hotChannels = res.data.content;
+          console.log(this.hotChannels);
+        });
     },
-    async getHotVideos(lang){
-      await axios.get("https://morelang.gq/api/newuser/highcount", {
-        params: {
-          direction: "DESC",
-          page:1,
-          size:10,
-          defaultlang:lang
-        }
-      }).then(res => {
-        console.log("핫비디오들정보");
-        console.log(res.data.content);
-        this.hotVideos = res.data.content;
-        console.log(this.hotVideos);
-      });
-
+    async getHotVideos(lang) {
+      await axios
+        .get("https://morelang.gq/api/newuser/highcount", {
+          params: {
+            direction: "DESC",
+            page: 1,
+            size: 10,
+            defaultlang: lang
+          }
+        })
+        .then(res => {
+          console.log("핫비디오들정보");
+          console.log(res.data.content);
+          this.hotVideos = res.data.content;
+          console.log(this.hotVideos);
+        });
     }
   }
 };
@@ -372,41 +398,65 @@ export default {
   font-weight: bold;
 }
 
-
 /* Shine */
 .Shine {
-	position: relative;
+  position: relative;
 }
 .Shine::before {
-	position: absolute;
-	top: 0;
-	left: -75%;
-	z-index: 2;
-	display: block;
-	content: '';
-	width: 50%;
-	height: 100%;
-	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
-	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
-	-webkit-transform: skewX(-25deg);
-	transform: skewX(-25deg);
+  position: absolute;
+  top: 0;
+  left: -75%;
+  z-index: 2;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+  background: -webkit-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  -webkit-transform: skewX(-25deg);
+  transform: skewX(-25deg);
 }
 .Shine:hover::before {
-	-webkit-animation: shine .75s;
-	animation: shine .75s;
+  -webkit-animation: shine 0.75s;
+  animation: shine 0.75s;
 }
 @-webkit-keyframes shine {
-	100% {
-		left: 125%;
-	}
+  100% {
+    left: 125%;
+  }
 }
 @keyframes shine {
-	100% {
-		left: 125%;
-	}
+  100% {
+    left: 125%;
+  }
 }
 
+// .videoTitle {
+//   /* font-weight: 300; */
+//   // display: inline-block;
+//   margin: 0;
+//   width: 300px;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
 
+//   white-space: normal;
+//   line-height: 1.2;
+//   height: 2.4em;
+//   text-align: center;
+//   word-wrap: break-word;
+//   // display: -webkit-box;
+//   -webkit-line-clamp: 2;
+//   -webkit-box-orient: vertical;
+// }
 
 // .nav {
 //   position: fixed;
