@@ -52,16 +52,19 @@ public class SearchServiceImpl implements SearchService {
 				publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
 				String channelTitle = e.child(1).child(1).child(1).getElementsByTag("span").text();
 
-				d = Jsoup.connect("http://video.google.com/timedtext?type=list&v=" + id).userAgent("Mozilla/5.0").get();
-				Elements tracks = d.getElementsByTag("track");
 				List<Caption> captions = new ArrayList<>();
-				for (Element track : tracks) {
-					Caption c = new Caption();
-					c.setId(track.attr("id"));
-					c.setLang_code(track.attr("lang_code"));
-					c.setLang_original(track.attr("lang_original"));
-					c.setLang_translated(track.attr("lang_translated"));
-					captions.add(c);
+				try {
+					d = Jsoup.connect("http://video.google.com/timedtext?type=list&v=" + id).userAgent("Mozilla/5.0").get();
+					Elements tracks = d.getElementsByTag("track");
+					for (Element track : tracks) {
+						Caption c = new Caption();
+						c.setId(track.attr("id"));
+						c.setLang_code(track.attr("lang_code"));
+						c.setLang_original(track.attr("lang_original"));
+						c.setLang_translated(track.attr("lang_translated"));
+						captions.add(c);
+					}
+				} catch (Exception exception) {
 				}
 
 				s.setId(id);
