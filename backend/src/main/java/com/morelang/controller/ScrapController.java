@@ -36,8 +36,7 @@ public class ScrapController {
 	@ApiOperation(value = "[스크랩하기] 해당 문장을 scrap합니다.")
 	public ResponseEntity<?> doScrap(HttpServletResponse response, @RequestBody Scrap scrap) {
 		String accessToken = response.getHeader("accessToken");
-		scrapService.DoScrap(accessToken, scrap);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>(scrapService.DoScrap(accessToken, scrap),HttpStatus.OK);
 	}
 	@GetMapping("/user/myscrap")
 	@ApiOperation(value = "[내 스크랩 문장 - 페이징] 내가 스크랩한 내용들 확인하기.")
@@ -49,14 +48,12 @@ public class ScrapController {
 	@ApiOperation(value = "[스크랩 문장 업데이트] 스크랩 내용을 업데이트합니다.")
 	public ResponseEntity<?> updateScrap(HttpServletResponse response, @RequestBody Scrap scrap) {
 		String accessToken = response.getHeader("accessToken");
-		scrapService.updateScrap(accessToken, scrap);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>(scrapService.updateScrap(accessToken, scrap),HttpStatus.OK);
 	}
 	@DeleteMapping("/user/delete-scrap")
 	@ApiOperation(value = "[스크랩 한 내용 제거] 스크랩내용 삭제하기.")
-	public ResponseEntity<?> doScrap(HttpServletResponse response, @RequestParam("scrapId") Long scrapId) {
+	public ResponseEntity<?> doScrap(HttpServletResponse response, @RequestParam("scrapId") Integer scrapId) {
 		String accessToken = response.getHeader("accessToken");
-		scrapService.DeleteScrap(accessToken, scrapId);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>(scrapService.DeleteScrap(accessToken, scrapId),HttpStatus.OK);
 	}
 }

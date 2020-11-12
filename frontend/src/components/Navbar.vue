@@ -4,11 +4,10 @@
     class="Navbar"
     style="padding-top: 0px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
   >
-    <div class="navigation" id="header">
-      <div style="padding: 0;">
-        <v-card-title
-          style="padding: 0px 30px; margin-bottom: 5px; background-color:black;"
-        >
+    <div class="navigation" id="header" >
+      <div style="padding: 0;" >
+        <v-card-title style="padding: 0px 30px; margin-top:7px; margin-bottom: 5px; background-color:black;" >
+         
           <router-link to="/">
             <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
             <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
@@ -126,10 +125,10 @@
           <v-toolbar color="black" dark>
             <v-toolbar-title class="toolbarTitle">
               <p
-                class="my-auto"
+                class="my-auto title"
                 style="margin-left: 85px; text-align:center!important"
               >
-                검색어 번역
+                <b><span style="font-size: 22px;" class="trans">검색어 번역</span></b>
               </p>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -163,9 +162,7 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn color="white" outlined @click="onSearch(keyword)"
-              >검색</v-btn
-            >
+            <v-btn color="red"  @click="onSearch(keyword)">검색</v-btn>
             <!-- <v-btn color="black" text @click="transDialog = false">닫기</v-btn> -->
             <!-- <v-btn
               color="black"
@@ -318,10 +315,10 @@ a {
   color: #616161;
 }
 .selectLang:hover {
-  background-color: #def5df;
+  background-color: #443535;
 }
 .language {
-  font-family: "Nanum Gothic", sans-serif;
+  font-family: "paybooc-Medium", sans-serif;
 }
 .v-snack__wrapper {
   min-width: none;
@@ -340,7 +337,7 @@ a {
   top: 0;
 }
 
-.logo {
+.logo, .title{
   user-select: none;
   margin-top: 10px;
 }
@@ -391,30 +388,31 @@ a {
 }
 
 /* follow me @nodws */
-#btn-twtr {
-  clear: both;
-  color: #fff;
-  border: 2px solid;
-  border-radius: 3px;
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  font-family: sans-serif;
-  font-size: 14px;
-  width: 13em;
-  padding: 5px 10px;
-  font-weight: 600;
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 0px 3px rgba(0, 0, 0, 0.2);
-  opacity: 0.4;
+#btn-twtr{
+  clear:both;
+  color:#fff;
+  border:2px solid;
+  border-radius:3px;
+  text-align:center;
+  text-decoration:none;
+  display:block;
+  font-family:sans-serif;
+  font-size:14px;
+  width:13em;
+  padding:5px 10px;
+  font-weight:600;
+  position:absolute;
+  bottom:20px;
+  left:0;
+  right:0;
+  margin:0 auto;
+  background:rgba(0,0,0,0.2);
+  box-shadow:0 0 0px 3px rgba(0,0,0,0.2);
+  opacity:0.4
+}#btn-twtr:hover{color:#fff;opacity:1}
+
+.trans {
+  font-family: 'paybooc-Medium', sans-serif;
 }
-#btn-twtr:hover {
-  color: #fff;
-  opacity: 1;
-}
+
 </style>

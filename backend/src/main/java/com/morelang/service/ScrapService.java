@@ -8,8 +8,8 @@ import com.morelang.dto.Scrap;
 import com.morelang.dto.ScrapSub;
 
 public interface ScrapService {
-	public void DoScrap(String accessToken,Scrap input);
-	public void DeleteScrap(String accessToken, Long scrapId);
+	public String DoScrap(String accessToken,Scrap input);
+	public String DeleteScrap(String accessToken, Integer scrapId);
 	public Page<ScrapSub> MyScrap(String accessToken,Pageable pageable);
-	public void updateScrap(String accessToken, Scrap updateScrap);
+	public String updateScrap(String accessToken, Scrap updateScrap);
 }

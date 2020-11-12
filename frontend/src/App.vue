@@ -3,7 +3,7 @@
     <v-snackbar :color="alertColor" :value="showAlert" centered multi-line>
         {{ AlertMessage }}
       </v-snackbar>
-    <router-view/>
+    <router-view class="entire"/>
       
     <!-- <Home /> -->
   </v-app>
@@ -38,5 +38,25 @@ export default {
 </script>
 
 <style>
-  
+  @font-face {
+    font-family: 'paybooc-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+  @font-face {
+    font-family: 'KyoboHand';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHand.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* @font-face {
+    font-family: 'MapoPeacefull';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+} */
+/* .entire {
+  font-family: 'KyoboHand', sans-serif;
+} */
 </style>
