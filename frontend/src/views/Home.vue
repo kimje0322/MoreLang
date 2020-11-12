@@ -27,6 +27,8 @@
       <div style="width: 20%; position: absolute; right: 20px;">
         <v-select
           :items="language"
+          item-text="ko"
+          item-value="lang"
           label="language"
           v-model="selectlang"
         ></v-select>
@@ -43,7 +45,7 @@
         <h3>
           <span
             style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
-            >MORE</span
+            >Recommend</span
           >
           <strong
             style="font-size: 40px; font-weight: 900; font-family: 'Calibre', sans-serif; line-height: 0.5;"
@@ -97,99 +99,20 @@
         >
           <!-- <a href="/" style="width: 240px;"> -->
           <!-- style="animation: float 2s ease-in-out infinite; " -->
-          <swiper-slide>
+          <swiper-slide v-for="(item,index) in hotChannels" :key="index">
             <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
             <v-avatar
+              class="Shine"
               style="width: 150px; height: 150px; display: inline-block;"
+              @click="$router.push({ name: 'Channel', params : {id : item.youtubeVideoid}})"
             >
               <img
-                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
+                :src="item.thumbnail"
                 alt=""
               />
             </v-avatar>
+            <v-row @click="$router.push({ name: 'Channel', params : {id : item.youtubeVideoid}})" class="mt-5" align="center" justify="center">{{item.title}}</v-row>
           </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJw5uA4EO-kzzPoI2xiGReKnp2PsDuWAg4SX8_Iv=s176-c-k-c0x00ffffff-no-rj"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-          <swiper-slide>
-            <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
-
-            <v-avatar
-              style="width: 150px; height: 150px; display: inline-block;"
-            >
-              <img
-                src="https://yt3.ggpht.com/a/AATXAJySqp_uHFpOtyFEfp2OH-hELnCOhIYgUlPRp8GK=s176-c-k-c0x00ffffff-no-rj-mo"
-                alt=""
-              />
-            </v-avatar>
-          </swiper-slide>
-
           <!-- <div class="swiper-button-prev" slot="button-prev"></div>
             <div class="swiper-button-next" slot="button-next"></div> -->
 
@@ -200,22 +123,7 @@
       </div>
     </div>
 
-    <!-- <div style="margin: 100px;">
-        <swiper class="swiper" :options="swiperOption">
-          <swiper-slide>Slide 1</swiper-slide>
-          <swiper-slide>Slide 2</swiper-slide>
-          <swiper-slide>Slide 3</swiper-slide>
-          <swiper-slide>Slide 4</swiper-slide>
-          <swiper-slide>Slide 5</swiper-slide>
-          <swiper-slide>Slide 6</swiper-slide>
-          <swiper-slide>Slide 7</swiper-slide>
-          <swiper-slide>Slide 8</swiper-slide>
-          <swiper-slide>Slide 9</swiper-slide>
-          <swiper-slide>Slide 10</swiper-slide>
-          <div class="swiper-button-prev" slot="button-prev"></div>
-          <div class="swiper-button-next" slot="button-next"></div>
-        </swiper>
-      </div> -->
+  
     <!-- 인기 영상 -->
     <div style="padding: 50px 0; display: block; background: black;">
       <div
@@ -244,56 +152,18 @@
           aos-offset="500"
           data-aos-duration="2500"
         >
-          <swiper-slide class="swiper-slide">
+          <swiper-slide class="swiper-slide ml-5"  v-for="(item,index) in hotVideos" :key="index">
             <!-- Slide 1 -->
             <v-img
-              :elevation="hover ? 16 : 2"
-              :class="{ 'on-hover': hover }"
-              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
+              class="Shine"
+              :src="item.thumbnail"
               alt=""
-              width="300"
+              width="100%"
+               @click="$router.push({ name: 'Video', params : {vid : item.youtubeVideoid}})"
             />
+             <v-row  @click="$router.push({ name: 'Video', params : {vid : item.youtubeVideoid}})" class="mt-5" align="center" justify="center">{{item.title}}</v-row>
           </swiper-slide>
-          <swiper-slide class="swiper-slide">
-            <!-- Slide 1 -->
-            <v-img
-              :elevation="hover ? 16 : 2"
-              :class="{ 'on-hover': hover }"
-              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
-              alt=""
-              width="300"
-            />
-          </swiper-slide>
-          <swiper-slide class="swiper-slide">
-            <!-- Slide 1 -->
-            <v-img
-              :elevation="hover ? 16 : 2"
-              :class="{ 'on-hover': hover }"
-              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
-              alt=""
-              width="300"
-            />
-          </swiper-slide>
-          <swiper-slide class="swiper-slide">
-            <!-- Slide 1 -->
-            <v-img
-              :elevation="hover ? 16 : 2"
-              :class="{ 'on-hover': hover }"
-              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
-              alt=""
-              width="300"
-            />
-          </swiper-slide>
-          <swiper-slide class="swiper-slide">
-            <!-- Slide 1 -->
-            <v-img
-              :elevation="hover ? 16 : 2"
-              :class="{ 'on-hover': hover }"
-              src="https://i.ytimg.com/vi/HPQ5mqovXHo/mqdefault.jpg"
-              alt=""
-              width="300"
-            />
-          </swiper-slide>
+         
           <!-- <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
           <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
           <swiper-slide class="swiper-slide">Slide 1</swiper-slide>
@@ -342,10 +212,11 @@ export default {
   },
   data() {
     return {
+      hotChannels: null,
+      hotVideos:null,
       userid: "",
-      selectlang: "all",
+      selectlang: {ko:"전체",lang:null},
       search_word: "",
-      recommend_channel:{},
       // logout: false,
       search: false,
       swiperVideo: {
@@ -382,25 +253,28 @@ export default {
         }
       },
       language: [
-        "영어",
-        "일본어",
-        "중국어",
-        "프랑스어",
-        "스페인어",
-        "독일어",
-        "이탈리아어",
-        "포르투갈어",
-        "러시아"
+        {ko:"전체",lang:null},
+        {ko:"영어",lang:'en'},
+        {ko:"중국어",lang:'cn'},
+        {ko:"프랑스어",lang:'fr'},
+        {ko:"스페인어",lang:'es'},
+        {ko:"독일어",lang:'de'},
+        {ko:"이탈리아어",lang:'it'},
+        {ko:"포르투갈어",lang:'pt'},
+        {ko:"러시아",lang:'ru'},
       ]
     };
   },
   mounted() {
-    this.recommend();
+    this.getHotChannels();
+    this.getHotVideos();
   },
-  computed:{
-    changeLang: function() {
-				return this.recommend(this.selectlang);
-			}
+  watch:{
+    selectlang : function() {
+      // console.log(this.selectlang);
+      this.getHotChannels(this.selectlang);
+      this.getHotVideos(this.selectlang);
+    }
   },
   methods: {
     prev() {
@@ -409,19 +283,38 @@ export default {
     next() {
       this.$refs.mySwiperRef.$swiper.slideNext();
     },
-    recommend(val){
-      var server_url = "https://morelang.gq/api"
-      var request_url = `${server_url}/newuser/recommend-list?&direction=ASC&page=0&size=10`
-      if(val != null){
-        request_url = `${server_url}/newuser/recommend-list?country=${val}&direction=ASC&page=0&size=10`
-      }
-      axios
-      .get(request_url)
-      .then(res => {
-        console.log("여기요!");
-        console.log(res.data.content);
-        this.recommend_channel = res.data.content;
+    
+    async getHotChannels(lang){
+      await axios.get("https://morelang.gq/api/newuser/recommend-list", {
+        params: {
+          direction: "DESC",
+          page:1,
+          size:10,
+          country:lang
+        }
+      }).then(res => {
+        console.log("핫채널들정보");
+        // console.log(res);
+        this.hotChannels = res.data.content;
+        console.log(this.hotChannels);
       });
+
+    },
+    async getHotVideos(lang){
+      await axios.get("https://morelang.gq/api/newuser/highcount", {
+        params: {
+          direction: "DESC",
+          page:1,
+          size:10,
+          defaultlang:lang
+        }
+      }).then(res => {
+        console.log("핫비디오들정보");
+        console.log(res.data.content);
+        this.hotVideos = res.data.content;
+        console.log(this.hotVideos);
+      });
+
     }
   }
 };
@@ -470,6 +363,42 @@ export default {
   text-align: center;
   font-weight: bold;
 }
+
+
+/* Shine */
+.Shine {
+	position: relative;
+}
+.Shine::before {
+	position: absolute;
+	top: 0;
+	left: -75%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 50%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	-webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg);
+}
+.Shine:hover::before {
+	-webkit-animation: shine .75s;
+	animation: shine .75s;
+}
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+
+
 
 // .nav {
 //   position: fixed;
