@@ -21,25 +21,29 @@ public class ScrapServiceImpl implements ScrapService{
 	MemberRepository memberRepository;
 	
 	@Override
-	public void DoScrap(String accessToken,Scrap input) {
+	public String DoScrap(String accessToken,Scrap input) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
 			Member member = m.get();
 			Scrap s = input;
 			s.setMember(member);
 			scrapRepository.save(s);
+			return "true";
 		}
+		return "false";
 	}
 	
 	@Override
-	public void DeleteScrap(String accessToken, Long scrapId) {
+	public String DeleteScrap(String accessToken, Integer scrapId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
 			Optional<Scrap> s = scrapRepository.findByMember_idAndScrapId(m.get().getId(), scrapId);
 			if(s.isPresent()) {
 				scrapRepository.delete(s.get());
+				return "true";
 			}
 		}
+		return "false";
 	}
 	
 	@Override
@@ -54,13 +58,15 @@ public class ScrapServiceImpl implements ScrapService{
 	}
 	
 	@Override
-	public void updateScrap(String accessToken, Scrap updateScrap) {
+	public String updateScrap(String accessToken, Scrap updateScrap) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Scrap> s = scrapRepository.findByMember_idAndScrapId(m.get().getId(), (long)(updateScrap.getScrapId()));
+			Optional<Scrap> s = scrapRepository.findByMember_idAndScrapId(m.get().getId(), (updateScrap.getScrapId()));
 			if(s.isPresent()) {
 				scrapRepository.save(updateScrap);
+				return "true";
 			}
 		}
+		return "false";
 	}
 }

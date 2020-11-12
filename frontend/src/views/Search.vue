@@ -10,10 +10,11 @@
         <div style="padding: 0">
           <v-card-title style="padding: 10px 30px 0px;">
             <router-link to="/">
+              <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
+              <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
               <!-- <h2 class="logo px-5 py-1" style="display:inline-block">
-                Morelang
-              </h2> -->
-              <img style="height:63px;" src="@/assets/img/logo.png" alt="" />
+              Morelang
+            </h2> -->
             </router-link>
             <div class="mx-auto mt-1">
               <!-- 검색창 -->
@@ -33,6 +34,7 @@
                 outlined
                 clearable
                 append-icon="mdi-magnify"
+                color="white"
                 @click:append="videoSearch(keyword)"
               />
               <!-- </form> -->
@@ -44,6 +46,7 @@
                   x-small
                   color="white"
                   dark
+                  outlined
                   style="margin-bottom: 0 !important"
                 >
                   <v-icon>mdi-google-translate</v-icon>
@@ -479,6 +482,57 @@ export default {
 .logo {
   font-family: "Kaushan Script", cursive;
 }
+
+.logo {
+  user-select: none;
+  margin-top: 10px;
+}
+
+.logo b {
+  font: 300 4vh "Vibur";
+  color: #fdd;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000,
+    0 0 0.1em #ff0000, 0 10px 3px #000;
+}
+.logo b span {
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2) {
+  animation: blink linear infinite 3s;
+}
+@keyframes blink {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  79% {
+    color: #333;
+  }
+  80% {
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+}
+
 a {
   color: black !important;
   text-decoration: none !important;
