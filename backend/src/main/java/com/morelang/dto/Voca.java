@@ -23,7 +23,7 @@ public class Voca {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int vocaId;
+	private Long vocaId;
 	
 	@ManyToOne(targetEntity=Member.class, fetch=FetchType.LAZY)
 	@JoinColumn(name="member_id")
