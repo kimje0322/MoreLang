@@ -3,11 +3,9 @@
     <!-- 퀴즈 Content -->
     <div class="play-box mx-auto mt-5">
       <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
-        <!-- 퀴즈 내용 -->
         <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
           {{item.quiz}}
         </div>
-        <!-- 퀴즈 빈칸 -->
         <div 
           @dragover="ondragover(`b${item.index}`)" v-else :id="`blank${item.index}`" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
         </div>
@@ -205,8 +203,6 @@ export default {
         // console.log(this.score);
         this.rightAns.push(idx);
         // 드롭
-        let posX = event.pageX;
-        let posY = event.pageY;
         // 클래스 추가
         var idIdx = 'keyword' + this.keyIdx.slice(1);
         var keyId = document.getElementById(idIdx);
@@ -220,11 +216,6 @@ export default {
           // if (posY >= 113 && posY <= 520) {
 
       if(event.target.classList && event.target.classList.contains("droppable")){
-          document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
-          document.querySelector(`.${this.targetClass}`).style.top = 0;
-          document.querySelector(`.${this.targetClass}`).style.left = 0;
-          document.querySelector(`.${this.targetClass}`).style.marginLeft = posX + this.distX + 'px';
-          document.querySelector(`.${this.targetClass}`).style.marginTop = posY + this.distY + 'px';
           const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
           for (let i=0; i<CLONE.length; i++) {
             if (CLONE[i].classList.length == 2) {
