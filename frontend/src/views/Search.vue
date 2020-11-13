@@ -358,6 +358,10 @@ export default {
     }
   },
   methods: {
+     onSearch(word) {
+      this.videolst=[];
+      this.videoSearch(word);
+    },
     userMenu(idx) {
       if (idx === 0) {
         // console.log("userid = " + this.$store.state.userid)
