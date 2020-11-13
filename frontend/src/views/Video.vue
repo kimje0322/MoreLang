@@ -1182,12 +1182,19 @@ export default {
       axios.defaults.headers.common = temp;
     },
     async getCaption() {
+      var temp =null;
+      if(this.selectedLang.name !=""){
+        temp =this.selectedLang.name;
+
+      }
       await Raxios.get("https://video.google.com/timedtext", {
         params: {
           v: this.videoId,
-          lang: this.selectedLang.lang_code
+          lang: this.selectedLang.lang_code,
+          name : temp
         }
       }).then(res => {
+        console.log(res);
         var xml = res.data;
         var json = convert.xml2json(xml, { compact: true });
         this.caption = JSON.parse(json).transcript.text;
