@@ -44,7 +44,7 @@
       >
         <h3>
           <span
-            style="display: block; font-size: 30px; font-weight: 550; font-family: 'SilkSerif'; color: red;"
+            style="display: block; font-size: 30px; font-weight: 550; font-family: 'SilkSerif'; color: #EF5350;"
             >Recommend</span
           >
           <strong
@@ -212,6 +212,8 @@ import axios from "axios";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 import "swiper/swiper-bundle.css";
+// import "@/../public/css/home.scss";
+
 // import { directive } from 'vue/types/umd';
 
 // 상단 네브바 고정
@@ -465,4 +467,5 @@ export default {
 //   width: 100%;
 //   top: 0;
 // }
+
 </style>
