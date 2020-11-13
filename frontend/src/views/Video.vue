@@ -1486,10 +1486,10 @@ export default {
             // closeOnClickOutside: false,
             // allowOutsideClick: false,
             showCancelButton: true,
-            cancelButtonText: "Close",
+            cancelButtonText: "창닫기",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes",
+            confirmButtonText: "결제하기",
             allowOutsideClick: false,
           }).then(result => {
             if (result.isConfirmed) {
@@ -1504,6 +1504,8 @@ export default {
                   // footer: "<a href>Why do I have this issue?</a>"
                 });
               }
+            }else{
+               window.close();
             }
           });
         }
