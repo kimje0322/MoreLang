@@ -360,6 +360,14 @@ export default {
     }
   },
   methods: {
+      changeRoute(name) {
+      // console.log(this.$route.name === name);
+      if (this.$route.name === name) {
+        this.$router.go({ name });
+      } else {
+        this.$router.push({ name });
+      }
+    },
      onSearch(word) {
       this.videolst=[];
       this.videoSearch(word);

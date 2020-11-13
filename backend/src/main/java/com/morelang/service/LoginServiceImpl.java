@@ -79,14 +79,15 @@ public class LoginServiceImpl implements LoginService{
 			member.setPassword(bcryptEncoder.encode(member.getPassword()));	
 			member.setProviderName(providerName);
 			member.setPoint(1000);
+			memberRepository.save(member); 
+			Optional<Member> m2 = memberRepository.findByUserid(member.getUserid());
 			pointCharge pc = new pointCharge();
 			pc.setCharge(true);
 			pc.setChargeAmount(1000);
-			pc.setMember(member);
-			pc.setRemainPoint(member.getPoint());
+			pc.setMember(m2.get());
+			pc.setRemainPoint(m2.get().getPoint());
 			chargeRepository.save(pc);
 			map.put("success", true); 
-			memberRepository.save(member); 
 		} else {
 			map.put("success", false);
 			map.put("message", "duplicated username");
