@@ -2,7 +2,7 @@
   <v-container>
     <div class="video">
       <Navbar />
-      <div style="width: 100%; height: 85vh; display: block; margin-top: 7%;">
+      <div style="width: 100%; height: 85vh; display: block; margin-top: 7%">
         <v-row no-gutters>
           <v-col cols="7" class="ml-5">
             <v-card>
@@ -33,42 +33,34 @@
               <v-tabs color="red lighten-5">
                 <!-- <v-tabs-slider color="yellow"></v-tabs-slider> -->
                 <v-tab>
-                  <v-icon left>
-                    mdi-comment-processing-outline
-                  </v-icon>
+                  <v-icon left> mdi-comment-processing-outline </v-icon>
                   Text
                 </v-tab>
                 <v-tab>
-                  <v-icon left>
-                    mdi-help
-                  </v-icon>
+                  <v-icon left> mdi-help </v-icon>
                   Quiz
                 </v-tab>
                 <v-tab>
-                  <v-icon left>
-                    mdi-text-to-speech
-                  </v-icon>
+                  <v-icon left> mdi-text-to-speech </v-icon>
                   Rec
                 </v-tab>
                 <v-tab>
-                  <v-icon left>
-                    mdi-information-outline
-                  </v-icon>
+                  <v-icon left> mdi-information-outline </v-icon>
                   Info
                 </v-tab>
 
                 <v-tab-item>
                   <v-card flat>
                     <v-card-text>
-                         <v-row>
+                      <v-row>
                         <v-col cols="12">
-                        <h2  class="font" v-html="nowText">
-                          <v-icon>mdi-comment-processing-outline</v-icon> :
-                        </h2>
+                          <h2 class="font" v-html="nowText">
+                            <v-icon>mdi-comment-processing-outline</v-icon> :
+                          </h2>
                         </v-col>
                       </v-row>
                     </v-card-text>
-                    <v-card-actions style="padding: 0 16px;">
+                    <v-card-actions style="padding: 0 16px">
                       <v-row>
                         <v-col cols="12">
                           <h3 v-html="translated">
@@ -118,7 +110,10 @@
                                 <v-container>
                                   <v-row>
                                     <v-col cols="12">
-                                      <p class="subtitle-2" v-html="nowText"></p>
+                                      <p
+                                        class="subtitle-2"
+                                        v-html="nowText"
+                                      ></p>
                                     </v-col>
                                     <v-col cols="12">
                                       <v-text-field
@@ -159,39 +154,71 @@
                       <!-- <Quiz /> -->
 
                       <div class="code-box mx-auto" @dragover="dragover">
-                      <v-btn class="mt-3" @click="onQuiz"><strong><span style="color: red; padding-right:2px;">Quiz </span></strong>생성</v-btn>
-                      <div v-if="loadingBar" class="text-center">
-                       <v-progress-circular
-                        class="mt-5"
-                        :width="3"
-                        color="red"
-                        indeterminate
-                      ></v-progress-circular>
-                      </div>
-                      <!-- 퀴즈 Content -->
-                      <div class="play-box mx-auto mt-3">
-                        <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
-                          <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
-                            {{item.quiz}}
-                          </div>
-                          <div 
-                            @dragover="ondragover(`b${item.index}`)" v-else :id="`blank${item.index}`" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+                        <v-btn class="mt-3" @click="onQuiz"
+                          ><strong
+                            ><span style="color: red; padding-right: 2px"
+                              >Quiz
+                            </span></strong
+                          >생성</v-btn
+                        >
+                        <div v-if="loadingBar" class="text-center">
+                          <v-progress-circular
+                            class="mt-5"
+                            :width="3"
+                            color="red"
+                            indeterminate
+                          ></v-progress-circular>
+                        </div>
+                        <!-- 퀴즈 Content -->
+                        <div class="play-box mx-auto mt-3">
+                          <div
+                            style="display: inline-block"
+                            class="pr-1"
+                            v-for="(item, i) in quizBox"
+                            :key="i"
+                          >
+                            <div
+                              v-if="item.quiz != 'blank'"
+                              style="
+                                margin-bottom: 10px;
+                                color: white;
+                                font-size: 16px;
+                              "
+                            >
+                              {{ item.quiz }}
+                            </div>
+                            <div
+                              @dragover="ondragover(`b${item.index}`)"
+                              v-else
+                              :id="`blank${item.index}`"
+                              :class="`b${item.index}`"
+                              class="blank droppable"
+                              @drop="drop(item.index)"
+                            ></div>
                           </div>
                         </div>
-                      </div>
-                      <!-- 퀴즈 키워드 -->
-                      <div v-if="nowText" class="block-box">
-                        <div class="block-list mt-2 droppable" @drop="drop">
-                          <div class="droppable">
-                            <div v-for="(keyword, i) in keyword"  @drop="drop" draggable="true" @dragstart="dragstart(keyword.original, i)" :key=i :id="`keyword${i}`" :class="`k${i}`" style="display: inline-block;">
-                              <div class="block">
-                                {{keyword.key}}
+                        <!-- 퀴즈 키워드 -->
+                        <div v-if="nowText" class="block-box">
+                          <div class="block-list mt-2 droppable" @drop="drop">
+                            <div class="droppable">
+                              <div
+                                v-for="(keyword, i) in keyword"
+                                @drop="drop"
+                                draggable="true"
+                                @dragstart="dragstart(keyword.original, i)"
+                                :key="i"
+                                :id="`keyword${i}`"
+                                :class="`k${i}`"
+                                style="display: inline-block"
+                              >
+                                <div class="block">
+                                  {{ keyword.key }}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
                     </v-card-text>
                   </v-card>
                 </v-tab-item>
@@ -204,7 +231,7 @@
                           {{ nowText }}
                         </h2>
                       </div>
-                      <v-row class=" mt-5" justify="center">
+                      <v-row class="mt-5" justify="center">
                         <vue-record-audio
                           mode="press"
                           @result="onResult"
@@ -225,38 +252,35 @@
                       <template v-if="videoInfo != null">
                         <v-card dark>
                           <v-card-title>
-                            <v-icon large left>
-                              mdi-youtube
-                            </v-icon>
+                            <v-icon large left> mdi-youtube </v-icon>
                             <span class="title font-weight-light">{{
                               videoInfo.title
                             }}</span>
                           </v-card-title>
 
-                          <v-card-text class=" font-weight-bold">
+                          <v-card-text class="font-weight-bold">
                             {{ videoInfo.description }}
                           </v-card-text>
                           <v-card-actions>
                             <v-list-item class="grow">
-                               <v-flex>
+                              <v-flex>
                                 <v-btn
-                                    rounded
-                                    color="error"
-                                    @click="
-                                      $router.push({
-                                        name: 'Channel',
-                                        params: { id: videoInfo.channelId }
-                                      })
-                                    "
-                                    >{{ videoInfo.channelTitle }}</v-btn>
-                               </v-flex>
-                                <v-flex class="text-xs-right">
-
+                                  rounded
+                                  color="error"
+                                  @click="
+                                    $router.push({
+                                      name: 'Channel',
+                                      params: { id: videoInfo.channelId },
+                                    })
+                                  "
+                                  >{{ videoInfo.channelTitle }}</v-btn
+                                >
+                              </v-flex>
+                              <v-flex class="text-xs-right">
                                 <span class="subheading mr-2">{{
                                   videoInfo.publishedAt
                                 }}</span>
-                                </v-flex>
-
+                              </v-flex>
                             </v-list-item>
                           </v-card-actions>
                         </v-card>
@@ -320,12 +344,7 @@
                 ></v-switch>
               </v-col>
             </v-row>
-            <v-card
-              height="600px"
-              class="scroll"
-              elevation="4"
-              v-if="hide"
-            >
+            <v-card height="600px" class="scroll" elevation="4" v-if="hide">
               <ul id="example-2">
                 <li
                   v-for="(item, index) in caption"
@@ -359,7 +378,7 @@
           <v-card>
             <v-card-title>Select Language</v-card-title>
             <v-divider></v-divider>
-            <v-card-text style="height: 300px;">
+            <v-card-text style="height: 300px">
               <v-radio-group v-model="selectedLang" column>
                 <!-- <option  v-for="(item,index) in items"  v-bind:key="index" >{{item._attributes.lang_code}}</option> -->
                 <template v-if="Array.isArray(this.items)">
@@ -381,15 +400,13 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn color="error" text @click="dialog = false">
-                close
-              </v-btn>
+              <v-btn color="error" text @click="dialog = false"> close </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-row>
 
-      <div id="controller" style="bottom:270px">
+      <div id="controller" style="bottom: 270px">
         <v-tooltip right>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -408,7 +425,7 @@
           <span>연속 재생</span>
         </v-tooltip>
       </div>
-      <div id="controller" style="bottom:220px">
+      <div id="controller" style="bottom: 220px">
         <v-tooltip right>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -426,7 +443,7 @@
           <span>한 문장 듣기</span>
         </v-tooltip>
       </div>
-      <div id="controller" style="bottom:170px">
+      <div id="controller" style="bottom: 170px">
         <v-tooltip right>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -445,7 +462,7 @@
           <span>문장 반복재생</span>
         </v-tooltip>
       </div>
-      <div id="controller" style="bottom:110px">
+      <div id="controller" style="bottom: 110px">
         <v-tooltip right>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -481,7 +498,7 @@
           <span>일시정지</span>
         </v-tooltip>
       </div>
-      <div id="controller" style="bottom:60px">
+      <div id="controller" style="bottom: 60px">
         <v-tooltip right>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -518,7 +535,7 @@
           <span>10초 앞으로</span>
         </v-tooltip>
       </div>
-      <div id="controller" style="bottom:10px">
+      <div id="controller" style="bottom: 10px">
         <v-tooltip right>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -572,9 +589,7 @@
           <iframe width="100%" height="500px" :src="dictUrl + word"></iframe>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" text @click="dialog2 = false">
-              close
-            </v-btn>
+            <v-btn color="error" text @click="dialog2 = false"> close </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -592,7 +607,7 @@
       rounded="pill"
       style="justify-content: center"
     >
-      <p class="text-center" style="margin: 0;">{{ text }}</p>
+      <p class="text-center" style="margin: 0">{{ text }}</p>
     </v-snackbar>
     <!-- <v-row justify="center">
       <v-dialog v-model="dialog4" persistent max-width="290">
@@ -723,9 +738,7 @@
           <v-btn color="blue darken-1" text @click="dialog6close">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog6save">
-            Save
-          </v-btn>
+          <v-btn color="blue darken-1" text @click="dialog6save"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -738,7 +751,7 @@ import Navbar from "@/components/Navbar";
 import Raxios from "axios";
 import axios from "@/plugins/axios";
 import Swal from "sweetalert2";
-import $ from 'jquery';
+import $ from "jquery";
 
 var convert = require("xml-js");
 
@@ -750,7 +763,7 @@ export default {
   },
   data() {
     return {
-      timeout:null,
+      timeout: null,
       addWord: "",
       point: -1,
       paid: false,
@@ -793,64 +806,64 @@ export default {
         modestbranding: 1,
         fs: 0,
         enablejsapi: 1,
-        disablekb: 0
+        disablekb: 0,
       },
       items: null,
       caption: null,
       timer: 0,
       // quiz
       usedQuiz: false,
-      nowText: '',
+      nowText: "",
       quizBox: [],
       keyword: [],
-      blankSize: '',
+      blankSize: "",
       answer: {},
       score: 0,
       userAns: 0,
       rightAns: [],
-      keyIdx: '',
+      keyIdx: "",
       keyIdxWidth: 0,
       keywordWidth: {},
       loadingBar: false,
       // drag
-      blankIdx: '',
-      idx: '',
+      blankIdx: "",
+      idx: "",
       isMove: true,
       isObstacle: false,
-      distX: '',
-      distY: '',
-      targetClass: '',
-      targetClass2: '',
-      targetNum: '',
+      distX: "",
+      distY: "",
+      targetClass: "",
+      targetClass2: "",
+      targetNum: "",
       targetFlag: false,
-      classId: 'a',
+      classId: "a",
     };
   },
   methods: {
     charge() {
       this.$router.push({
         name: "Pay",
-        params: { point: 1000, vid: this.videoId }
+        params: { point: 1000, vid: this.videoId },
       });
     },
     async pay() {
       console.log("결제진행");
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
-      var temp2 = this.videoInfo.defaultAudioLanguage+".";
+      var temp2 = this.videoInfo.defaultAudioLanguage + ".";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: temp2.substring(0,2),
+        defaultLanguage: temp2.substring(0, 2),
         youtubeVideoid: this.videoId,
-        thumbnail: temp
+        thumbnail: temp,
       };
 
       await axios
         .post("https://morelang.gq/api/user/watch-video", params, {
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
         });
       this.dialog4 = false;
@@ -875,16 +888,16 @@ export default {
         country: this.selectedLang.lang_translated,
         eachVoca: this.addWord,
         learn: false,
-        eachMean: this.mean
+        eachMean: this.mean,
       };
 
       axios
         .post("/user/regist-voca", params, {
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.text = "단어장 추가완료";
           this.snackbar = true;
@@ -902,15 +915,15 @@ export default {
         country: this.selectedLang.lang_translated,
         memo: this.memo,
         sentence: this.nowText,
-        videourl: this.videoId
+        videourl: this.videoId,
       };
       axios
         .post("/user/do-scrap", params, {
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.text = "스크랩 완료";
           this.snackbar = true;
@@ -957,10 +970,10 @@ export default {
             params: {
               query: temp2,
               src_lang: temp,
-              target_lang: "kr"
-            }
+              target_lang: "kr",
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.data == "") {
               this.translated = "현재 언어는 번역이 지원되지 않습니다.";
             } else {
@@ -971,7 +984,7 @@ export default {
       }
     },
     removeAll() {
-      Array.from(this.elements).some(el => {
+      Array.from(this.elements).some((el) => {
         if (el.classList.contains("current")) {
           el.classList.remove("current");
           return true;
@@ -1090,7 +1103,7 @@ export default {
 
     async getCurrentTime() {
       if (this.state == 1) {
-        await this.player.getCurrentTime().then(data => (this.timer = data));
+        await this.player.getCurrentTime().then((data) => (this.timer = data));
       }
     },
 
@@ -1108,7 +1121,7 @@ export default {
 
     async setCCLanguage() {
       await this.player.setOption("captions", "track", {
-        languageCode: this.selectedLang.lang_code
+        languageCode: this.selectedLang.lang_code,
       });
     },
     async youtubeStateChange(event) {
@@ -1139,12 +1152,12 @@ export default {
 
       await Raxios.get("https://video.google.com/timedtext?type=list", {
         params: {
-          v: this.videoId
+          v: this.videoId,
         },
         headers: {
-          "Content-Type": null
-        }
-      }).then(res => {
+          "Content-Type": null,
+        },
+      }).then((res) => {
         var xml = res.data;
         var json = convert.xml2json(xml, { compact: true });
         // console.log("json = ",json)
@@ -1175,9 +1188,9 @@ export default {
             allowOutsideClick: false,
             showCancelButton: true,
             confirmButtonText: "Close",
-            cancelButtonText: "Continue"
+            cancelButtonText: "Continue",
             // footer: '<a href>Why do I have this issue?</a>'
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               // this.$router.go(-1);
               window.close();
@@ -1191,18 +1204,17 @@ export default {
       axios.defaults.headers.common = temp;
     },
     async getCaption() {
-      var temp =null;
-      if(this.selectedLang.name !=""){
-        temp =this.selectedLang.name;
-
+      var temp = null;
+      if (this.selectedLang.name != "") {
+        temp = this.selectedLang.name;
       }
       await Raxios.get("https://video.google.com/timedtext", {
         params: {
           v: this.videoId,
           lang: this.selectedLang.lang_code,
-          name : temp
-        }
-      }).then(res => {
+          name: temp,
+        },
+      }).then((res) => {
         console.log(res);
         var xml = res.data;
         var json = convert.xml2json(xml, { compact: true });
@@ -1228,7 +1240,7 @@ export default {
       console.log("Hi");
     },
     sleep(t) {
-      return new Promise(resolve => setTimeout(resolve, t));
+      return new Promise((resolve) => setTimeout(resolve, t));
     },
     // async getOption() {                                     //현재 재생되고 있는 영상 자막이있는지 없는지 판별 가능
     //    var promise =this.player.getOptions();
@@ -1266,22 +1278,24 @@ export default {
     quizMounted() {
       this.onMove();
       if (this.nowText) {
-        axios.post(
-          `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
-          ).then(res => { 
+        axios
+          .post(
+            `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`
+          )
+          .then((res) => {
             this.answer = res.data.answer;
             // this.quizBox = res.data.quizeText;
             var quizInput = res.data.inputTextArray;
             this.keyword = res.data.keyword;
             var j = 1;
-            for (var i=0; i<quizInput.length; i++) {
-              if (quizInput[i] === '______') { 
-                  this.quizBox.push({index: j++, quiz: 'blank'});
-              } else if (quizInput[i].startsWith('______')) {
-                  this.quizBox.push({index: j++, quiz: 'blank'})
-                  this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
+            for (var i = 0; i < quizInput.length; i++) {
+              if (quizInput[i] === "______") {
+                this.quizBox.push({ index: j++, quiz: "blank" });
+              } else if (quizInput[i].startsWith("______")) {
+                this.quizBox.push({ index: j++, quiz: "blank" });
+                this.quizBox.push({ index: 0, quiz: quizInput[i].slice(6) });
               } else {
-                this.quizBox.push({index: 0, quiz: quizInput[i]})    
+                this.quizBox.push({ index: 0, quiz: quizInput[i] });
               }
             }
             if (this.quizBox) {
@@ -1289,66 +1303,65 @@ export default {
               this.changeMode(3);
               this.loadingBar = false;
             }
-        })
-        .catch(err => {
-          this.loadingBar = false;
-          Swal.fire({
-            icon: "warning",
-            text: "해당 언어는 퀴즈 서비스 개발중입니다..",
-            timer: 1550,
-            background: 'white',
-            showConfirmButton: false,
           })
-        })
+          .catch((err) => {
+            this.loadingBar = false;
+            Swal.fire({
+              icon: "warning",
+              text: "해당 언어는 퀴즈 서비스 개발중입니다..",
+              timer: 1550,
+              background: "white",
+              showConfirmButton: false,
+            });
+          });
       }
     },
     checkAnswer() {
       if (this.score === Object.keys(this.keyword).length) {
-        Swal.fire(
-          {
-            // title: "정답!",
-            width: 500,
-            background: '#fff url(@/assets/img/answer.gif)',
-            text: "정답입니다!",
-            timer: 1700,
-            icon: "success",
-            iconColor: 'red',
-            showConfirmButton: false,
-          })
+        Swal.fire({
+          // title: "정답!",
+          width: 500,
+          background: "#fff url(@/assets/img/answer.gif)",
+          text: "정답입니다!",
+          timer: 1700,
+          icon: "success",
+          iconColor: "red",
+          showConfirmButton: false,
+        });
         this.hide = true;
         setTimeout(() => {
           this.playVideo();
-        }, 1750)
+        }, 1750);
         this.keyword = [];
         this.quizBox = [];
-      } 
+      }
     },
     onMove() {
-      this.isMove = true; 
+      this.isMove = true;
     },
     dragstart(ans, i) {
       this.keyIdx = `k${i}`;
       if (!this.keywordWidth[[this.keyIdx]]) {
         this.keywordWidth[[this.keyIdx]] = $(`.${this.keyIdx}`).width();
-      } 
+      }
       let posX = event.pageX;
       let posY = event.pageY;
       this.distX = event.srcElement.offsetLeft - posX;
       this.distY = event.srcElement.offsetTop - posY;
-      event.target.classList.add(`${this.classId}`)
-      this.classId += '0'
-      this.targetClass = event.target.classList[2]
-      this.targetClass2 = event.target.classList[1]
+      event.target.classList.add(`${this.classId}`);
+      this.classId += "0";
+      this.targetClass = event.target.classList[2];
+      this.targetClass2 = event.target.classList[1];
       this.userAns = ans;
     },
     ondragover(idx) {
       var bIdx = idx.slice(1);
-      this.blankIdx = $(`#blank${bIdx}`)
+      this.blankIdx = $(`#blank${bIdx}`);
       if (!this.blankIdx.hasClass("checked")) {
-          this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 5;
-          $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
-       } else if ($(`.${this.keyIdx}`).width() === 0) {
-        this.keyIdxWidth = this.keywordWidth[[this.keyIdx]];    
+        this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 5;
+        $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
+      } else if ($(`.${this.keyIdx}`).width() === 0) {
+        this.keyIdxWidth = this.keywordWidth[[this.keyIdx]];
       }
     },
     dragover(event) {
@@ -1360,61 +1373,63 @@ export default {
       event.preventDefault();
       if (idx !== this.userAns) {
         $(`.b${idx}`).css("border", "red solid 2px");
-        Swal.fire(
-          {
-            width: 320,
-            text: "😢 다시 생각해보세요! 😢",
-            timer: 1550,
-            background: 'white',
-            // icon: "success",
-            showConfirmButton: false,
-          })
-    }
-    if (idx === this.userAns && !this.rightAns.includes(idx)) {
+        Swal.fire({
+          width: 320,
+          text: "😢 다시 생각해보세요! 😢",
+          timer: 1550,
+          background: "white",
+          // icon: "success",
+          showConfirmButton: false,
+        });
+      }
+      if (idx === this.userAns && !this.rightAns.includes(idx)) {
         this.score += 1;
         // console.log(this.score);
         this.rightAns.push(idx);
         // 드롭
         // 클래스 추가
-        var idIdx = 'keyword' + this.keyIdx.slice(1);
+        var idIdx = "keyword" + this.keyIdx.slice(1);
         var keyId = document.getElementById(idIdx);
         // console.log(keyId);
         this.blankIdx = document.getElementById(`blank${idx}`);
         if (!$(`#blank${idx}`).hasClass("checked")) {
           this.blankIdx.appendChild(keyId);
-        };
-        this.blankIdx.classList.add('checked');
+        }
+        this.blankIdx.classList.add("checked");
         // if (posX >= 300 && posX <= 1450) {
-          // if (posY >= 113 && posY <= 520) {
+        // if (posY >= 113 && posY <= 520) {
 
-      if(event.target.classList && event.target.classList.contains("droppable")){
-          const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
-          for (let i=0; i<CLONE.length; i++) {
+        if (
+          event.target.classList &&
+          event.target.classList.contains("droppable")
+        ) {
+          const CLONE = document.querySelectorAll(`.${this.targetClass2}`);
+          for (let i = 0; i < CLONE.length; i++) {
             if (CLONE[i].classList.length == 2) {
               this.targetFlag = false;
             } else {
               this.targetFlag = true;
             }
           }
-        };
+        }
       }
-    }
+    },
   },
 
   watch: {
     selectedLang: {
       // console.log("바뀜!!")
-      handler: function() {
+      handler: function () {
         //  console.log('The list of colours has changed!');
         var temp = axios.defaults.headers.common;
         axios.defaults.headers.common = null;
         this.getCaption();
-        this.nowText = '';
+        this.nowText = "";
         axios.defaults.headers.common = temp;
       },
-      deep: true
+      deep: true,
     },
-    nowText: function() {
+    nowText: function () {
       this.translated = "";
       this.audioURL = "";
     },
@@ -1426,7 +1441,7 @@ export default {
   computed: {
     player() {
       return this.$refs.youtube.player;
-    }
+    },
   },
   async created() {
     console.log(this.videoId);
@@ -1434,10 +1449,10 @@ export default {
     await axios
       .get("/newuser/video", {
         params: {
-          id: this.videoId
-        }
+          id: this.videoId,
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.videoInfo = res.data;
         console.log(this.videoInfo);
       });
@@ -1445,26 +1460,28 @@ export default {
     if (this.$store.state.nickname != null) {
       // console.log("오호라 유저구나");
       // console.log(this.videoInfo);
-      await axios.get("https://morelang.gq/api/user/pay/my-point").then(res => {
-        console.log(res);
-        this.point = res.data;
-      });
+      await axios
+        .get("https://morelang.gq/api/user/pay/my-point")
+        .then((res) => {
+          console.log(res);
+          this.point = res.data;
+        });
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
-       var temp2 = this.videoInfo.defaultAudioLanguage+".";
+      var temp2 = this.videoInfo.defaultAudioLanguage + ".";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: temp2.substring(0,2),
+        defaultLanguage: temp2.substring(0, 2),
         youtubeVideoid: this.videoId,
-        thumbnail: temp
+        thumbnail: temp,
       };
 
       await axios
         .post("https://morelang.gq/api/user/iswatched", params, {
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log("봤니안봤니");
           console.log(res.data);
           if (res.data == true) {
@@ -1480,7 +1497,7 @@ export default {
     // }
     this.context = new AudioContext();
     // One-liner to resume playback when user interacted with the page.
-    document.querySelector("button").addEventListener("click", function() {
+    document.querySelector("button").addEventListener("click", function () {
       this.context.resume().then(() => {
         console.log("Playback resumed successfully");
       });
@@ -1489,7 +1506,7 @@ export default {
     // console.log("mounted!!");
     this.player.addEventListener("onStateChange", this.youtubeStateChange);
     this.player.addEventListener("onApiChange", this.youtubApiChange);
-    document.addEventListener("mouseup", event => {
+    document.addEventListener("mouseup", (event) => {
       // console.log(event);
       this.word = window.getSelection().toString();
       var temp = document.getElementById("tool");
@@ -1504,7 +1521,7 @@ export default {
       }
     });
 
-    this.timeout=setTimeout(() => {
+    this.timeout = setTimeout(() => {
       if (this.items != undefined && this.paid == false) {
         this.dialog4 = true;
         this.pauseVideo();
@@ -1515,13 +1532,12 @@ export default {
             confirmButtonText: "OK",
             allowOutsideClick: false,
             // closeOnClickOutside: false,
-          }).then(result => {
-            if(result.isConfirmed) {
-              this.changeRoute('Login')
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.changeRoute("Login");
             }
-          })
-        }
-        else {
+          });
+        } else {
           Swal.fire({
             title: "영상을 결제하시겠습니까?",
             // "현재 포인트 : " + this.point + " 포인트<br>" +
@@ -1535,11 +1551,15 @@ export default {
             cancelButtonColor: "#d33",
             confirmButtonText: "결제하기",
             allowOutsideClick: false,
-          }).then(result => {
+          }).then((result) => {
             if (result.isConfirmed) {
               if (this.point >= 100) {
-                this.pay()
-                Swal.fire("결제성공!", "해당 영상의 학습이 가능합니다.", "success");
+                this.pay();
+                Swal.fire(
+                  "결제성공!",
+                  "해당 영상의 학습이 가능합니다.",
+                  "success"
+                );
               } else {
                 Swal.fire({
                   icon: "error",
@@ -1547,18 +1567,15 @@ export default {
                   text: "포인트 충전이 필요합니다.",
                   confirmButtonText: "충전하기",
                   // footer: "<a href>Why do I have this issue?</a>"
-                }).then(result =>{
+                }).then((result) => {
                   // console.log("충전이 필요할때 result=",result);
-                  if(result.isConfirmed){
+                  if (result.isConfirmed) {
                     this.charge();
                   }
                 });
               }
-            }else{
-               window.close();
-            }
-            else {
-              window.close()
+            } else {
+              window.close();
             }
           });
         }
@@ -1580,9 +1597,9 @@ export default {
     // }
     // });
   },
-  beforeDestroy(){
+  beforeDestroy() {
     clearTimeout(this.timeout);
-  }
+  },
 };
 
 //  function selectText() {
@@ -1600,13 +1617,13 @@ export default {
 //           }
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
 
-.font{
-  font-family:  'Nanum Myeongjo','Noto Sans SC', sans-serif;
+.font {
+  font-family: "Nanum Myeongjo", "Noto Sans SC", sans-serif;
 }
 
 .script:hover {
@@ -1714,9 +1731,9 @@ ul li {
   border-bottom-left-radius: 10px;
   margin-bottom: 5px;
   cursor: pointer;
-  transition: background-color .5s ease;
+  transition: background-color 0.5s ease;
 }
- .block-list .block {
+.block-list .block {
   padding: 2px 7px;
   margin-right: 8px;
   border-radius: 3px;

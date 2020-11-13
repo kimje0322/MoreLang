@@ -17,11 +17,12 @@
             </v-card>
           </v-col> -->
         <v-col class="mx-2" v-for="(lang, i) in langLst" :key="i" cols=2>
-          <v-btn color="white" miduam width=120 class="truncate" outlined text-color="white" @click="wordList(lang)">
+          <v-btn color="white" miduam width=120 class="truncate" outlined text-color="white" @click="wordList(lang)" id="btnlang">
             {{ lang.substring(0, 8)  }}
           </v-btn>
         </v-col>
       </v-row>
+      <hr style="width: 100%" class="mt-4">
     </v-container>
 
     <v-row v-if="wordlang" class="px-5 mt-5 mx-3" justify="center">
@@ -253,9 +254,16 @@ export default {
       console.log(word);
     },
     wordList(lang) {
+      var btn = document.getElementById("btnlang")
       if (lang == this.selectlang) {
         console.log("여기");
         this.wordlang = !this.wordlang;
+        if (!this.wordlang) {
+          btn.style.backgroundColor = "black"
+        }
+        else {
+          btn.style.backgroundColor = "red"
+        };
       } else {
         this.wordlang = true;
       }
