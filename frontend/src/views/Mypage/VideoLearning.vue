@@ -1,6 +1,7 @@
 <template>
-  <v-container>
-  <h3 class="title" style="color: white">학습한 영상</h3>
+  <v-container style="margin-top: 15px;">
+  <h1 >학습한 영상</h1>
+  <br>
   <v-row >
     <v-col cols="4" v-for="(video, i) in videoLst" :key="i" @click="selectVideo(video.youtubeVideoid)">
         <v-hover v-slot="{ hover }">
