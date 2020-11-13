@@ -827,9 +827,10 @@ export default {
     async pay() {
       console.log("결제진행");
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
+      var temp2 = this.videoInfo.defaultAudioLanguage+".";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultAudioLanguage+".".substring(0,2),
+        defaultLanguage: temp2.substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1407,9 +1408,10 @@ export default {
         this.point = res.data;
       });
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
+       var temp2 = this.videoInfo.defaultAudioLanguage+".";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultAudioLanguage+".".substring(0,2),
+        defaultLanguage: temp2.substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
