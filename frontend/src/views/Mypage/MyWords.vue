@@ -17,8 +17,8 @@
             </v-card>
           </v-col> -->
         <v-col class="mx-2" v-for="(lang, i) in langLst" :key="i" cols=2>
-          <v-btn color="white" large outlined text-color="white" @click="wordList(lang)">
-            {{ lang }}
+          <v-btn color="white" miduam width=120 class="truncate" outlined text-color="white" @click="wordList(lang)">
+            {{ lang.substring(0, 8)  }}
           </v-btn>
         </v-col>
       </v-row>
@@ -305,4 +305,12 @@ export default {
 /* transform: translateX(10px);
   opacity: 0;
 } */
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 </style>
