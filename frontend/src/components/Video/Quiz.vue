@@ -72,6 +72,7 @@ export default {
   mounted() {
     this.nowText = this.$store.state.videoText;
     this.whenMounted();
+    console.log('이거 mounted');
   },
   watch: {
     nowText: function() {
@@ -88,6 +89,7 @@ export default {
     whenMounted() {
       this.onMove();
       console.log('여기는 quiz'+this.nowText);
+      this.nowText = 'Именительный падеж, или первый падеж этих прилагательных. Если вы еще не умеете';
       if (this.nowText) {
         axios.post(
           `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
