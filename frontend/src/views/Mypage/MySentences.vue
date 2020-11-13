@@ -15,7 +15,12 @@
         <v-expansion-panel-content>
           {{ sentence.memo }}
           <!-- <v-btn > -->
-            <v-icon medium style="float: right; color: red" @click="delSentence(sentence.scrapId)">mdi-close</v-icon>
+          <v-icon
+            medium
+            style="float: right; color: red"
+            @click="delSentence(sentence.scrapId)"
+            >mdi-close</v-icon
+          >
           <!-- </v-btn> -->
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -55,7 +60,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(`/user/myscrap?direction=ASC&page=0&size=10`).then(res => {
+    axios.get(`/user/myscrap?direction=ASC&page=0&size=100000`).then(res => {
       console.log("여기요!");
       console.log(res.data.content);
       this.setences = res.data.content;
@@ -63,17 +68,15 @@ export default {
   },
   methods: {
     delSentence(sid) {
-      axios
-      .delete(`/user/delete-scrap?scrapId=${sid}`)
-      .then((res) => {
-        console.log(res)
-        console.log("삭제완료!")
-        axios.get(`/user/myscrap?direction=ASC&page=0&size=10`).then(res => {
-        console.log("여기요!");
-        console.log(res.data.content);
-        this.setences = res.data.content;
+      axios.delete(`/user/delete-scrap?scrapId=${sid}`).then(res => {
+        axios.get(`/user/myscrap?direction=ASC&page=0&size=100000`).then(res => {
+          console.log("여기요!");
+          console.log(res.data.content);
+          this.setences = res.data.content;
         });
-      })
+        console.log(res);
+        console.log("삭제완료!");
+      });
     }
   }
 };
