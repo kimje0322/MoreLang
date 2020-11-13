@@ -25,7 +25,7 @@
       <hr style="width: 100%" class="mt-4">
     </v-container>
 
-    <v-row v-if="wordlang" class="px-5 mt-5 mx-3" justify="center">
+    <v-row v-if="wordlang" class="mx-3" justify="center">
       <v-container>
         <!-- 언어별 단어장 -->
         <!-- expander 사용예정 / expand => 뜻/예문 보이기 -->

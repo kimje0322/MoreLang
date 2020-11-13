@@ -643,7 +643,7 @@ a {
 }
 .Shine:hover::before {
   -webkit-animation: shine 0.75s;
-  animation: shine 0.75s;
+  animation: shine 1s;
 }
 @-webkit-keyframes shine {
   100% {
