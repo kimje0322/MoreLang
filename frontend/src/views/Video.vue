@@ -156,7 +156,34 @@
                 <v-tab-item>
                   <v-card flat>
                     <v-card-text>
-                      <Quiz />
+                      <!-- <Quiz /> -->
+
+                      <div class="code-box mx-auto" @dragover="dragover">
+                      <v-btn @click="onQuiz">Quiz 생성</v-btn>
+                      <!-- 퀴즈 Content -->
+                      <div class="play-box mx-auto mt-5">
+                        <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
+                          <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
+                            {{item.quiz}}
+                          </div>
+                          <div 
+                            @dragover="ondragover(`b${item.index}`)" v-else :id="`blank${item.index}`" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 퀴즈 키워드 -->
+                      <div v-if="nowText" class="block-box">
+                        <div class="block-list mt-2 droppable" @drop="drop">
+                          <div class="droppable">
+                            <div v-for="(keyword, i) in keyword"  @drop="drop" draggable="true" @dragstart="dragstart(keyword.original, i)" :key=i :id="`keyword${i}`" :class="`k${i}`" style="display: inline-block;">
+                              <div class="block">
+                                {{keyword.key}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     </v-card-text>
                   </v-card>
                 </v-tab-item>
@@ -203,9 +230,8 @@
                           </v-card-text>
                           <v-card-actions>
                             <v-list-item class="grow">
-                              <v-list-item-content>
-                                <v-list-item-title
-                                  ><v-btn
+                               <v-flex>
+                                <v-btn
                                     rounded
                                     color="error"
                                     @click="
@@ -214,16 +240,15 @@
                                         params: { id: videoInfo.channelId }
                                       })
                                     "
-                                    >{{ videoInfo.channelTitle }}</v-btn
-                                  ></v-list-item-title
-                                >
-                              </v-list-item-content>
+                                    >{{ videoInfo.channelTitle }}</v-btn>
+                               </v-flex>
+                                <v-flex class="text-xs-right">
 
-                              <v-row align="center" justify="end">
                                 <span class="subheading mr-2">{{
                                   videoInfo.publishedAt
                                 }}</span>
-                              </v-row>
+                                </v-flex>
+
                             </v-list-item>
                           </v-card-actions>
                         </v-card>
@@ -701,10 +726,11 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 import Navbar from "@/components/Navbar";
-import Quiz from "@/components/Video/Quiz";
+// import Quiz from "@/components/Video/Quiz";
 import Raxios from "axios";
 import axios from "@/plugins/axios";
 import Swal from "sweetalert2";
+import $ from 'jquery';
 
 var convert = require("xml-js");
 
@@ -712,10 +738,11 @@ export default {
   name: "Video",
   components: {
     Navbar,
-    Quiz
+    // Quiz
   },
   data() {
     return {
+      timeout:null,
       addWord: "",
       point: -1,
       paid: false,
@@ -762,13 +789,35 @@ export default {
       },
       items: null,
       caption: null,
-      timer: 0
+      timer: 0,
+      // quiz
+      usedQuiz: false,
+      nowText: '',
+      quizBox: [],
+      keyword: [],
+      blankSize: '',
+      answer: {},
+      score: 0,
+      userAns: 0,
+      rightAns: [],
+      keyIdx: '',
+      keyIdxWidth: 0,
+      keywordWidth: {},
+      // drag
+      blankIdx: '',
+      idx: '',
+      isMove: true,
+      isObstacle: false,
+      distX: '',
+      distY: '',
+      targetClass: '',
+      targetClass2: '',
+      targetNum: '',
+      targetFlag: false,
+      classId: 'a',
     };
   },
   methods: {
-    onQuiz() {
-      this.$store.state.videoText = this.nowText;
-    },
     charge() {
       this.$router.push({
         name: "Pay",
@@ -780,7 +829,7 @@ export default {
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage,
+        defaultLanguage: this.videoInfo.defaultAudioLanguage+".".substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1163,7 +1212,7 @@ export default {
     },
     sleep(t) {
       return new Promise(resolve => setTimeout(resolve, t));
-    }
+    },
     // async getOption() {                                     //현재 재생되고 있는 영상 자막이있는지 없는지 판별 가능
     //    var promise =this.player.getOptions();
     //    promise
@@ -1184,6 +1233,134 @@ export default {
     // var temp = await this.player.getOption( "captions" , 'track');
     //  console.log(temp.languageCode);
     // },
+    // 퀴즈
+    onQuiz() {
+      // this.$store.state.videoText = this.nowText;
+      if (!this.usedQuiz) {
+        this.quizMounted();
+        this.usedQuiz = true;
+      } else if (this.usedQuiz) {
+        this.quizBox = [];
+        this.quizMounted();
+      }
+    },
+    quizMounted() {
+      this.onMove();
+      if (this.nowText) {
+        axios.post(
+          `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
+          ).then(res => { 
+            this.answer = res.data.answer;
+            console.log('이게 res.data')
+            console.log(res.data);
+            // this.quizBox = res.data.quizeText;
+            var quizInput = res.data.inputTextArray;
+            this.keyword = res.data.keyword;
+            var j = 1;
+            for (var i=0; i<quizInput.length; i++) {
+              if (quizInput[i] === '______') { 
+                  this.quizBox.push({index: j++, quiz: 'blank'});
+              } else if (quizInput[i].startsWith('______')) {
+                  this.quizBox.push({index: j++, quiz: 'blank'})
+                  this.quizBox.push({index: 0, quiz: quizInput[i].slice(6)})
+              } else {
+                this.quizBox.push({index: 0, quiz: quizInput[i]})    
+              }
+            }
+        })
+      }
+    },
+    checkAnswer() {
+      if (this.score === Object.keys(this.keyword).length) {
+        Swal.fire(
+          {
+            // title: "정답!",
+            width: 500,
+            background: '#fff url(@/assets/img/answer.gif)',
+            text: "정답입니다!",
+            timer: 1700,
+            icon: "success",
+            iconColor: 'red',
+            showConfirmButton: false,
+          })
+      }
+    },
+    onMove() {
+      this.isMove = true; 
+    },
+    dragstart(ans, i) {
+      this.keyIdx = `k${i}`;
+      if (!this.keywordWidth[[this.keyIdx]]) {
+        this.keywordWidth[[this.keyIdx]] = $(`.${this.keyIdx}`).width();
+      } 
+      let posX = event.pageX;
+      let posY = event.pageY;
+      this.distX = event.srcElement.offsetLeft - posX;
+      this.distY = event.srcElement.offsetTop - posY;
+      event.target.classList.add(`${this.classId}`)
+      this.classId += '0'
+      this.targetClass = event.target.classList[2]
+      this.targetClass2 = event.target.classList[1]
+      this.userAns = ans;
+    },
+    ondragover(idx) {
+      var bIdx = idx.slice(1);
+      this.blankIdx = $(`#blank${bIdx}`)
+      if (!this.blankIdx.hasClass("checked")) {
+          this.keyIdxWidth = $(`.${this.keyIdx}`).width() - 5;
+          $(`.${idx}`).css("width", `${this.keyIdxWidth}`);
+       } else if ($(`.${this.keyIdx}`).width() === 0) {
+        this.keyIdxWidth = this.keywordWidth[[this.keyIdx]];    
+      }
+    },
+    dragover(event) {
+      event.stopPropagation();
+      event.preventDefault();
+    },
+    drop(idx) {
+      event.stopPropagation();
+      event.preventDefault();
+      if (idx !== this.userAns) {
+        $(`.b${idx}`).css("border", "red solid 2px");
+        Swal.fire(
+          {
+            width: 320,
+            text: "😢 다시 생각해보세요! 😢",
+            timer: 1550,
+            background: 'white',
+            // icon: "success",
+            showConfirmButton: false,
+          })
+    }
+    if (idx === this.userAns && !this.rightAns.includes(idx)) {
+        this.score += 1;
+        // console.log(this.score);
+        this.rightAns.push(idx);
+        // 드롭
+        // 클래스 추가
+        var idIdx = 'keyword' + this.keyIdx.slice(1);
+        var keyId = document.getElementById(idIdx);
+        // console.log(keyId);
+        this.blankIdx = document.getElementById(`blank${idx}`);
+        if (!$(`#blank${idx}`).hasClass("checked")) {
+          this.blankIdx.appendChild(keyId);
+        };
+        this.blankIdx.classList.add('checked');
+        // if (posX >= 300 && posX <= 1450) {
+          // if (posY >= 113 && posY <= 520) {
+
+      if(event.target.classList && event.target.classList.contains("droppable")){
+          const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
+          for (let i=0; i<CLONE.length; i++) {
+            if (CLONE[i].classList.length == 2) {
+              this.targetFlag = false;
+            } else {
+              this.targetFlag = true;
+            }
+          }
+        };
+      }
+    }
   },
 
   watch: {
@@ -1201,7 +1378,6 @@ export default {
     nowText: function() {
       this.translated = "";
       this.audioURL = "";
-      this.onQuiz();
     }
   },
   computed: {
@@ -1233,7 +1409,7 @@ export default {
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage,
+        defaultLanguage: this.videoInfo.defaultAudioLanguage+".".substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1284,7 +1460,7 @@ export default {
       }
     });
 
-    setTimeout(() => {
+    this.timeout=setTimeout(() => {
       if (this.items != undefined && this.paid == false) {
         this.dialog4 = true;
         this.pauseVideo();
@@ -1310,10 +1486,10 @@ export default {
             // closeOnClickOutside: false,
             // allowOutsideClick: false,
             showCancelButton: true,
-            cancelButtonText: "Close",
+            cancelButtonText: "창닫기",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes",
+            confirmButtonText: "결제하기",
             allowOutsideClick: false,
           }).then(result => {
             if (result.isConfirmed) {
@@ -1328,6 +1504,8 @@ export default {
                   // footer: "<a href>Why do I have this issue?</a>"
                 });
               }
+            }else{
+               window.close();
             }
             else {
               window.close()
@@ -1351,6 +1529,9 @@ export default {
     // temp.style.display = "none";
     // }
     // });
+  },
+  beforeDestroy(){
+    clearTimeout(this.timeout);
   }
 };
 
@@ -1443,5 +1624,79 @@ ul li {
 
 .white {
   /* background: #fff; */
+}
+/* quiz */
+.code-block-container .unity-box {
+  width: 80%;
+  margin-right: 1%;
+}
+.code-block-container .code-box {
+  position: relative;
+}
+.play-box {
+  width: 100%;
+  padding: 8px;
+}
+.code-box {
+  width: 95%;
+  height: 70%;
+  border-radius: 7px;
+}
+.block-box .block-menu-bar {
+  width: 30%;
+}
+.block-box {
+  width: 100%;
+  padding: 10px;
+  margin: 0 2px;
+  border-radius: 7px;
+}
+.block-box .block-menu-bar .on-menu-bar {
+  background-color: black;
+  font-weight: 700;
+}
+.block-box .block-menu-bar .menu {
+  justify-content: center;
+  align-items: center;
+  padding-left: 5px;
+  height: 50px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color .5s ease;
+}
+ .block-list .block {
+  padding: 2px 7px;
+  margin-right: 8px;
+  border-radius: 3px;
+  background-color: #D32F2F;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+}
+.play-box .play {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 50px;
+}
+.code-block-container {
+  width: 100%;
+  height: 100%;
+}
+.blank {
+  border-radius: 3px;
+  background-color: lightgrey;
+  width: 50px;
+  height: 25px;
+}
+.checked {
+  text-align: center;
+  /* padding-left: 10px; */
+  background-color: #D32F2F;
+  color: white;
 }
 </style>

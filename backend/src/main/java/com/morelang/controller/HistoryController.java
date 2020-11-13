@@ -44,7 +44,12 @@ public class HistoryController {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<List<HistoryVideo>>(historyService.myVideoList(accessToken, pageable.videoTime()),HttpStatus.OK);
 	}
-	
+	@GetMapping("/user/myvideosize")
+	@ApiOperation(value="[결제한 동영상 크기] 내가 결제한 동영상 size를 가져옵니다.")
+	public ResponseEntity<Integer> myVideo(HttpServletResponse response){
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<Integer>(historyService.myVideoListSize(accessToken),HttpStatus.OK);
+	}
 	@PostMapping("/user/iswatched")
 	@ApiOperation(value="[결제한 동영상- 페이징 처리] 내가 본 동영상인지 아닌지 true/false return, 조회수 증가 여기서 처리했음")
 	public ResponseEntity<Boolean> iswatched(HttpServletResponse response, @RequestBody HistoryVideo video){
@@ -52,9 +57,9 @@ public class HistoryController {
 		return new ResponseEntity<Boolean>(historyService.is_view(accessToken, video),HttpStatus.OK);
 	}
 	@GetMapping("/newuser/recommend-list")
-	@ApiOperation(value="[국가별 추천채널- 페이징 처리] 국가 코드를 주면 해당 국가의 추천채널들을 return")
-	public ResponseEntity<Page<recommendChannel>> recommend(@RequestParam(required=false) String country, PageRequest pageable){
-		return new ResponseEntity<Page<recommendChannel>>(historyService.recommendList(country, pageable.channelId()),HttpStatus.OK);
+	@ApiOperation(value="[국가별 추천채널] 국가 코드를 주면 해당 국가의 추천채널들을 random 하게 return")
+	public ResponseEntity<List<recommendChannel>> recommend(@RequestParam(required=false) String country){
+		return new ResponseEntity<List<recommendChannel>>(historyService.recommendList(country),HttpStatus.OK);
 	}
 	@GetMapping("/newuser/highcount")
 	@ApiOperation(value="[조회수 높은 동영상 찾기] defaultlang 값에 따라 분류 가능")

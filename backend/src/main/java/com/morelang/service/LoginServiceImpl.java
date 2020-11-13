@@ -83,6 +83,7 @@ public class LoginServiceImpl implements LoginService{
 			pc.setCharge(true);
 			pc.setChargeAmount(1000);
 			pc.setMember(member);
+			pc.setRemainPoint(member.getPoint());
 			chargeRepository.save(pc);
 			map.put("success", true); 
 			memberRepository.save(member); 

@@ -24,6 +24,7 @@
                   placeholder="morelang@naver.com"
                   label="이메일"
                   required
+                  color="red"
                   @keypress.enter="onSubmit()"
                 ></v-text-field>
                 <v-text-field
@@ -31,6 +32,7 @@
                   v-model="loginData.password"
                   label="비밀번호"
                   required
+                  color="red"
                   @keypress.enter="onSubmit()"
                 ></v-text-field>
                 <v-card-text style="padding: 0;">

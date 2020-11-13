@@ -1,6 +1,7 @@
 <template>
-  <v-container>
-    <h3 class="title" style="color: white">스크랩한 문장</h3>
+  <v-container style="margin-top: 15px;">
+    <h1 >스크랩한 문장</h1>
+    <br>
     <v-expansion-panels style=" width:70%;">
       <v-expansion-panel
         v-for="(sentence, i) in setences"
@@ -67,6 +68,11 @@ export default {
       .then((res) => {
         console.log(res)
         console.log("삭제완료!")
+        axios.get(`/user/myscrap?direction=ASC&page=0&size=10`).then(res => {
+        console.log("여기요!");
+        console.log(res.data.content);
+        this.setences = res.data.content;
+        });
       })
     }
   }

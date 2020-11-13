@@ -1,6 +1,7 @@
 package com.morelang.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,10 +71,10 @@ public class HistoryServiceImpl implements HistoryService{
 				pc.setChargeAmount(100);
 				pc.setMember(m.get());
 				History h = new History();
-				
 				h.setMember(m.get());
 				h.setVideo(info);
 				m.get().setPoint(m.get().getPoint()-POINT_VALUE);
+				pc.setRemainPoint(m.get().getPoint());
 				memberRepository.save(m.get());
 				chargeRepository.save(pc);
 				historyRepository.save(h);
@@ -104,6 +105,21 @@ public class HistoryServiceImpl implements HistoryService{
 	}
 	
 	@Override
+	public Integer myVideoListSize(String accessToken){
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			List<History> history = historyRepository.findByMember_id(m.get().getId());
+			List<Integer> viewId = new ArrayList<>();
+			System.out.println(history.size());
+			for(int i=0; i<history.size(); i++) {
+				viewId.add(Integer.valueOf(history.get(i).getVideo().getVid()));
+			}
+			 return historyVideoRepository.findByVidIn(viewId).size();
+		}
+		return null;
+	}
+	
+	@Override
 	public Boolean is_view(String accessToken,HistoryVideo watched) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
@@ -129,12 +145,20 @@ public class HistoryServiceImpl implements HistoryService{
 	}
 	
 	@Override
-	public Page<recommendChannel> recommendList(String country,Pageable pageable){
+	public List<recommendChannel> recommendList(String country){
+		List<recommendChannel> list = null;
 		if(country == null) {
-			return recommendRepository.findAll(pageable);
+			list = recommendRepository.findAll();
 		}else {
-			return recommendRepository.findByCountry(country, pageable);
+			list = recommendRepository.findByCountry(country);
 		}
+		Collections.shuffle(list);
+		int size = list.size()>=10? 10: list.size();
+		List<recommendChannel> subList = new ArrayList<>();
+		for(int i=0; i<size; i++) {
+			subList.add(list.get(i));
+		}
+		return subList;
 	}
 	
 	@Override

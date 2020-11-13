@@ -43,5 +43,7 @@ public class pointCharge {
 	@Column
 	private boolean isCharge;
 	
+	@Column
+	private int remainPoint;
 	
 }

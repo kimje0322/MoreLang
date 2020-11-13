@@ -21,7 +21,7 @@
         <!-- {{ channelInfo.imgUrl }} -->
         <!-- <h2 class="intro">{{ channelInfo.title }}</h2> -->
         <div class="img-cover">
-          <div class="title" style="margin-top:150px;">
+          <div class="title" style="margin-top:130px;">
           <v-avatar
               style="margin-left: 260px;width: 150px; height: 150px; display: inline-block;"
             >
@@ -54,7 +54,7 @@
                         video.imgUrl.substring(0, 35) + 'mqdefault.jpg'
                     " -->
                 <div style="margin-bottom: 15px;">
-                  <img :src="video.imgUrl" alt="" width="280" @error="aaa" />
+                  <v-img class="Shine" :src="video.imgUrl" alt="" width="280" @error="aaa" />
                 </div>
                 <!-- id="video_img" -->
                 <!-- <h3 v-if="video.title.length > 15" style="">
@@ -320,5 +320,47 @@ export default {
 }
 .channelDetail {
   font-family: 'KyoboHand', sans-serif;
+}
+
+
+/* Shine */
+.Shine {
+  position: relative;
+}
+.Shine::before {
+  position: absolute;
+  top: 0;
+  left: -75%;
+  z-index: 2;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+  background: -webkit-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  -webkit-transform: skewX(-25deg);
+  transform: skewX(-25deg);
+}
+.Shine:hover::before {
+  -webkit-animation: shine 0.75s;
+  animation: shine 0.75s;
+}
+@-webkit-keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
 }
 </style>

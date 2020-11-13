@@ -279,6 +279,7 @@ export default {
       language: [
         { ko: "전체", lang: null },
         { ko: "영어", lang: "en" },
+        { ko: "일본어", lang: "jp" },
         { ko: "중국어", lang: "cn" },
         { ko: "프랑스어", lang: "fr" },
         { ko: "스페인어", lang: "es" },
