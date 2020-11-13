@@ -16,10 +16,10 @@
               <p class="mb-0 categoryTag">{{lang}}</p>
             </v-card>
           </v-col> -->
-        <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
-          <v-chip color="green" text-color="white" @click="wordList(lang)">
+        <v-col class="mx-2" v-for="(lang, i) in langLst" :key="i" cols=2>
+          <v-btn color="white" large outlined text-color="white" @click="wordList(lang)">
             {{ lang }}
-          </v-chip>
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -39,7 +39,7 @@
         <h2 class="mt-5 mb-3">{{selectlang}}</h2>
         <div style="display: table; width: 100%;">
           <div style="display: table-cell; width: 40%">
-            <h4>학습중</h4>
+            <!-- <h4>학습중</h4> -->
             <!-- <v-row no-gutters style="text-align:center; width:70%;">
               <v-col v-for="(word, i) in wlist" :key="i" cols="12" md="10"> -->
             <!-- <div v-if="!word.isLearn"> -->
@@ -120,7 +120,7 @@
             </v-row> -->
           </div>
 
-          <div style="display: table-cell; width: 40%;">
+          <!-- <div style="display: table-cell; width: 40%;">
             <h4>학습완료</h4>
             <v-expansion-panels accordion style=" width:70%;">
                 <v-expansion-panel
@@ -138,7 +138,7 @@
                   </v-expansion-panel-content>
               </draggable>
                 </v-expansion-panel>
-            </v-expansion-panels>
+            </v-expansion-panels> -->
 
             <!-- <v-row no-gutters style="text-align:center; width:70%;"> -->
               <!-- <p>word</p> -->
@@ -168,7 +168,7 @@
                 </v-card>
               </v-col> -->
             <!-- </v-row> -->
-          </div>
+          <!-- </div> -->
         </div>
       </v-container>
     </v-row>
