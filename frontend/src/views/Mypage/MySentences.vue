@@ -1,6 +1,7 @@
 <template>
-  <v-container>
-    <h3 class="title" style="color: white">스크랩한 문장</h3>
+  <v-container style="margin-top: 15px;">
+    <h1 >스크랩한 문장</h1>
+    <br>
     <v-expansion-panels style=" width:70%;">
       <v-expansion-panel
         v-for="(sentence, i) in setences"
