@@ -37,7 +37,7 @@
         <span v-else-if= "item.charge==false"> <v-icon size="17" style="color: #64B5F6">mdi-minus-circle-outline</v-icon> {{item.chargeAmount}} P</span>
       </template>
       <template v-slot:[`item.restpoint`]="{ item }">
-        <span>{{ item.member.point }} P</span>
+        <span>{{ item.remainPoint }} P</span>
       </template>
       </v-data-table>
       
