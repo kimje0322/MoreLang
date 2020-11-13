@@ -6,7 +6,7 @@
     <v-col cols="4" v-for="(video, i) in videoLst" :key="i" @click="selectVideo(video.youtubeVideoid)">
         <v-hover v-slot="{ hover }">
      <v-card
-    max-width="200"
+    max-width="220"
     elevation="10"
   >
     <v-img

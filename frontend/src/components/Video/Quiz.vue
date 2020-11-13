@@ -110,8 +110,6 @@ export default {
               }
             }
         })
-        console.log('이게퀴즈박스');
-        console.log(this.quizBox);
       }
     },
     checkAnswer() {
@@ -241,12 +239,8 @@ export default {
 .code-block-container .unity-box {
   width: 80%;
   margin-right: 1%;
-  /* height: 0px; */
-  /* background-color: grey; */
 }
 .code-block-container .code-box {
-  /* height: 450px; */
-  /* display: flex; */
   position: relative;
 }
 .play-box {
@@ -263,11 +257,8 @@ export default {
 }
 .block-box {
   width: 100%;
-  /* height: 350px; */
   padding: 10px;
   margin: 0 2px;
-  /* border: solid white 2px; */
-  /* background-color: #def5df; */
   border-radius: 7px;
 }
 .block-box .block-menu-bar .on-menu-bar {
@@ -275,7 +266,6 @@ export default {
   font-weight: 700;
 }
 .block-box .block-menu-bar .menu {
-  /* display: flex; */
   justify-content: center;
   align-items: center;
   padding-left: 5px;

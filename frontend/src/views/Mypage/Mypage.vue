@@ -47,21 +47,21 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-card-text style="margin-left:35px">
+              <v-card-text style="margin-left:17px">
                 <VideoLearning />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text style="margin-left:35px">
+              <v-card-text style="margin-left:27px">
                 <MyWords />
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text style="margin-left:35px">
+              <v-card-text style="margin-left:27px">
                 <MySentences />
                 <!-- <Quiz /> -->
               </v-card-text>
@@ -69,7 +69,7 @@
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text style="margin-left:35px">
+              <v-card-text style="margin-left:27px">
                 <MyPoint />
                 <!-- <Quiz /> -->
               </v-card-text>
