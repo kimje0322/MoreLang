@@ -159,7 +159,7 @@
                           </span></strong
                         >생성</v-btn
                       >
-                      <div class="code-box mx-auto" @dragover="dragover">
+                      <div class="code-box mx-auto font" @dragover="dragover">
                         <div v-if="loadingBar" class="text-center">
                           <v-progress-circular
                             class="mt-5"
@@ -180,7 +180,7 @@
                               style="
                                 margin-bottom: 10px;
                                 color: white;
-                                font-size: 16px;
+                                font-size: 20px;
                               "
                             >
                               {{ item.quiz }}
@@ -1262,7 +1262,6 @@ export default {
     // 퀴즈
     onQuiz() {
       // this.$store.state.videoText = this.nowText;
-      console.log('퀴즈야 무슨일이니');
       this.loadingBar = true;
       if (!this.usedQuiz) {
         this.usedQuiz = true;
@@ -1318,7 +1317,6 @@ export default {
     checkAnswer() {
       if (this.score !== 0  && this.score === Object.keys(this.keyword).length) {
         Swal.fire({
-          // title: "정답!",
           width: 500,
           background: "#fff url(@/assets/img/answer.gif)",
           text: "정답입니다!",
@@ -1333,6 +1331,7 @@ export default {
         }, 1750);
         this.keyword = [];
         this.quizBox = [];
+        this.changeMode(1);
       }
     },
     onMove() {
@@ -1381,6 +1380,7 @@ export default {
           showConfirmButton: false,
         });
       } else if (idx === this.userAns && !this.rightAns.includes(idx)) {
+        $(`.b${idx}`).css("font-size", "18px");
         this.score += 1;
         // console.log(this.score);
         this.rightAns.push(idx);
@@ -1736,7 +1736,7 @@ ul li {
   margin-bottom: 10px;
   cursor: pointer;
   color: white;
-  font-size: 14px;
+  font-size: 19px;
 }
 .play-box .play {
   position: absolute;
