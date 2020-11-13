@@ -50,14 +50,14 @@
                 cols="12"
                 md="10"
               >
-                <draggable class="list-group" :list="wlist" group="people" @change="logtoCompleted(word)">
+                <!-- <draggable class="list-group" :list="wlist" group="people" @change="logtoCompleted(word)"> -->
                   <v-expansion-panel-header>
                     {{ word.eachVoca }}
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     {{ word.eachMean }}
                   </v-expansion-panel-content>
-                </draggable>
+                <!-- </draggable> -->
               </v-expansion-panel>
             </v-expansion-panels>
 
@@ -185,14 +185,14 @@
 </template>
 <script>
 import axios from "@/plugins/axios";
-import draggable from "vuedraggable";
+// import draggable from "vuedraggable";
 
 export default {
   name: "two-lists",
   display: "Two Lists",
   order: 1,
   components: {
-    draggable
+    // draggable
   },
   data() {
     return {
