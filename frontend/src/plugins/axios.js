@@ -2,8 +2,7 @@ import axios from 'axios'
 import router from "@/router";
 import store from "@/store";
 const instance = axios.create({
-    baseURL: 'https://morelang.gq/api',
-    timeout: 5000
+    baseURL: 'https://morelang.gq/api'
   });
 
 /*
