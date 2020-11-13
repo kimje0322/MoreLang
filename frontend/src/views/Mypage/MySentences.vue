@@ -67,6 +67,11 @@ export default {
       .then((res) => {
         console.log(res)
         console.log("삭제완료!")
+        axios.get(`/user/myscrap?direction=ASC&page=0&size=10`).then(res => {
+        console.log("여기요!");
+        console.log(res.data.content);
+        this.setences = res.data.content;
+        });
       })
     }
   }
