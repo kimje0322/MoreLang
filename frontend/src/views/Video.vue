@@ -159,9 +159,17 @@
                       <!-- <Quiz /> -->
 
                       <div class="code-box mx-auto" @dragover="dragover">
-                      <v-btn @click="onQuiz">Quiz 생성</v-btn>
+                      <v-btn class="mt-3" @click="onQuiz"><strong><span style="color: red; padding-right:2px;">Quiz </span></strong>생성</v-btn>
+                      <div v-if="loadingBar" class="text-center">
+                       <v-progress-circular
+                        class="mt-5"
+                        :width="3"
+                        color="red"
+                        indeterminate
+                      ></v-progress-circular>
+                      </div>
                       <!-- 퀴즈 Content -->
-                      <div class="play-box mx-auto mt-5">
+                      <div class="play-box mx-auto mt-3">
                         <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
                           <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
                             {{item.quiz}}
@@ -803,6 +811,7 @@ export default {
       keyIdx: '',
       keyIdxWidth: 0,
       keywordWidth: {},
+      loadingBar: false,
       // drag
       blankIdx: '',
       idx: '',
@@ -1236,11 +1245,13 @@ export default {
     // 퀴즈
     onQuiz() {
       // this.$store.state.videoText = this.nowText;
+      this.loadingBar = true;
       if (!this.usedQuiz) {
-        this.quizMounted();
         this.usedQuiz = true;
+        this.quizMounted();
       } else if (this.usedQuiz) {
         this.quizBox = [];
+        this.keyword = [];
         this.quizMounted();
       }
     },
@@ -1248,11 +1259,9 @@ export default {
       this.onMove();
       if (this.nowText) {
         axios.post(
-          `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
+          `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
           ).then(res => { 
             this.answer = res.data.answer;
-            console.log('이게 res.data')
-            console.log(res.data);
             // this.quizBox = res.data.quizeText;
             var quizInput = res.data.inputTextArray;
             this.keyword = res.data.keyword;
@@ -1267,6 +1276,21 @@ export default {
                 this.quizBox.push({index: 0, quiz: quizInput[i]})    
               }
             }
+            if (this.quizBox) {
+              this.hide = false;
+              this.changeMode(3);
+              this.loadingBar = false;
+            }
+        })
+        .catch(err => {
+          this.loadingBar = false;
+          Swal.fire({
+            icon: "warning",
+            text: "해당 언어는 퀴즈 서비스 개발중입니다..",
+            timer: 1550,
+            background: 'white',
+            showConfirmButton: false,
+          })
         })
       }
     },
@@ -1283,7 +1307,13 @@ export default {
             iconColor: 'red',
             showConfirmButton: false,
           })
-      }
+        this.hide = true;
+        setTimeout(() => {
+          this.playVideo();
+        }, 1750)
+        this.keyword = [];
+        this.quizBox = [];
+      } 
     },
     onMove() {
       this.isMove = true; 
@@ -1371,6 +1401,7 @@ export default {
         var temp = axios.defaults.headers.common;
         axios.defaults.headers.common = null;
         this.getCaption();
+        this.nowText = '';
         axios.defaults.headers.common = temp;
       },
       deep: true
@@ -1378,7 +1409,11 @@ export default {
     nowText: function() {
       this.translated = "";
       this.audioURL = "";
-    }
+    },
+    // quiz
+    score: function () {
+      this.checkAnswer();
+    },
   },
   computed: {
     player() {
@@ -1693,5 +1728,8 @@ ul li {
   /* padding-left: 10px; */
   background-color: #D32F2F;
   color: white;
+}
+.v-progress-circular {
+  margin: 1rem;
 }
 </style>
