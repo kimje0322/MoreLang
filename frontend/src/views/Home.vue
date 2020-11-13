@@ -23,7 +23,7 @@
     </div>
 
     <!-- 언어 필터링 -->
-    <div>
+    <div class="mt-16">
       <div style="width: 20%; position: absolute; right: 20px;">
         <v-select
           :items="language"

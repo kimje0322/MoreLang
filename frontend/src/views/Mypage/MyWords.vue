@@ -17,7 +17,7 @@
             </v-card>
           </v-col> -->
         <v-col class="mx-2" v-for="(lang, i) in langLst" :key="i" cols=2>
-          <v-btn color="white" miduam width=120 class="truncate" outlined text-color="white" @click="wordList(lang)" id="btnlang">
+          <v-btn color="white" miduam width=120 class="truncate" outlined text-color="white" @click="wordList(lang, i)" id="btnlang" :style="{backgroundColor : index[i] ? 'red' : 'black'}">
             {{ lang.substring(0, 8)  }}
           </v-btn>
         </v-col>
@@ -197,6 +197,7 @@ export default {
   },
   data() {
     return {
+      index: [],
       show: true,
       wordlist: [],
       selectlang: "",
@@ -253,17 +254,19 @@ export default {
       word.isLearn = true;
       console.log(word);
     },
-    wordList(lang) {
-      var btn = document.getElementById("btnlang")
+    wordList(lang, idx) {
+      // var btn = document.getElementById("btnlang")
+      for(var i=0; i < this.index.length; i ++ ) {
+        if(i == idx) {
+          this.index[i] = !this.index[i]
+        }
+        else {
+          this.index[i] = false
+        }
+      }
       if (lang == this.selectlang) {
         console.log("여기");
         this.wordlang = !this.wordlang;
-        if (!this.wordlang) {
-          btn.style.backgroundColor = "black"
-        }
-        else {
-          btn.style.backgroundColor = "red"
-        };
       } else {
         this.wordlang = true;
       }
@@ -282,6 +285,12 @@ export default {
         console.log("단어장에 저장된 국가들");
         console.log(res);
         this.langLst = res.data;
+        console.log("길이")
+        console.log(res.data.length)
+        for (var i=0; i< res.data.length; i++ ) {
+          this.index.push(false)
+        }
+        console.log(this.index)
       });
     },
 };
