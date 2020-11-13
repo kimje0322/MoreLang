@@ -286,7 +286,7 @@ export default {
         { ko: "독일어", lang: "de" },
         { ko: "이탈리아어", lang: "it" },
         { ko: "포르투갈어", lang: "pt" },
-        { ko: "러시아", lang: "ru" }
+        { ko: "러시아어", lang: "ru" }
       ]
     };
   },
