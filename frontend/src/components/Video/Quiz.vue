@@ -3,18 +3,15 @@
     <!-- 퀴즈 Content -->
     <div class="play-box mx-auto mt-5">
       <div style="display:inline-block" class="pr-1" v-for="(item, i) in quizBox" :key=i>
-        <!-- 퀴즈 내용 -->
         <div v-if="item.quiz!='blank'" style="margin-bottom: 10px; color: white; font-size:16px;">
           {{item.quiz}}
         </div>
-        <!-- 퀴즈 빈칸 -->
         <div 
           @dragover="ondragover(`b${item.index}`)" v-else :id="`blank${item.index}`" :class="`b${item.index}`" class="blank droppable" @drop="drop(item.index)">
         </div>
       </div>
     </div>
     <!-- 퀴즈 키워드 -->
-    <!-- <h4 class="ml-1 mb-2">키워드</h4> -->
     <div v-if="nowText" class="block-box">
       <div class="block-list mt-2 droppable" @drop="drop">
         <div class="droppable">
@@ -28,7 +25,6 @@
     </div>
   </div>
 </template>
-<!-- <div v-for="(item, index) in items.block0" :key="`a+${index}`" class="block block0" draggable="true" @dragstart="dragstart" >keynote</div> -->
 
 <script>
 // import axios from "axios";
@@ -94,7 +90,7 @@ export default {
       console.log('여기는 quiz'+this.nowText);
       if (this.nowText) {
         axios.post(
-          `https://morelang.gq/api/newuser/puzzle?inputText=${this.nowText}`  
+          `https://morelang.gq/api/newuser/puzzletest?inputText=${this.nowText}`  
           ).then(res => { 
             this.answer = res.data.answer;
             console.log('이게 res.data')
@@ -207,8 +203,6 @@ export default {
         // console.log(this.score);
         this.rightAns.push(idx);
         // 드롭
-        let posX = event.pageX;
-        let posY = event.pageY;
         // 클래스 추가
         var idIdx = 'keyword' + this.keyIdx.slice(1);
         var keyId = document.getElementById(idIdx);
@@ -222,11 +216,6 @@ export default {
           // if (posY >= 113 && posY <= 520) {
 
       if(event.target.classList && event.target.classList.contains("droppable")){
-          document.querySelector(`.${this.targetClass}`).style.position = 'absolute';
-          document.querySelector(`.${this.targetClass}`).style.top = 0;
-          document.querySelector(`.${this.targetClass}`).style.left = 0;
-          document.querySelector(`.${this.targetClass}`).style.marginLeft = posX + this.distX + 'px';
-          document.querySelector(`.${this.targetClass}`).style.marginTop = posY + this.distY + 'px';
           const CLONE = document.querySelectorAll(`.${this.targetClass2}`)
           for (let i=0; i<CLONE.length; i++) {
             if (CLONE[i].classList.length == 2) {
