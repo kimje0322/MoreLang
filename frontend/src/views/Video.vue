@@ -1503,7 +1503,13 @@ export default {
                   icon: "error",
                   title: "Oops...",
                   text: "포인트 충전이 필요합니다.",
+                  confirmButtonText: "충전하기",
                   // footer: "<a href>Why do I have this issue?</a>"
+                }).then(result =>{
+                  // console.log("충전이 필요할때 result=",result);
+                  if(result.isConfirmed){
+                    this.charge();
+                  }
                 });
               }
             }else{
