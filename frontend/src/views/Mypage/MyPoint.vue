@@ -1,6 +1,6 @@
 <template>
   <v-container style="margin-top: 15px;">      
-    <h2 class="mb-2">포인트 충전</h2>
+    <h1 class="mb-2">포인트 충전</h1>
     <p class="ml-1" style="font-size: 15px;">10원당 100포인트로 전환됩니다.</p>
       <v-row no-gutters style="text-align:center; width:98%;">
         <v-col v-for="i in 4" :key="i">
@@ -37,7 +37,7 @@
         <span v-else-if= "item.charge==false"> <v-icon size="17" style="color: #64B5F6">mdi-minus-circle-outline</v-icon> {{item.chargeAmount}} P</span>
       </template>
       <template v-slot:[`item.restpoint`]="{ item }">
-        <span>{{ item.member.point }} P</span>
+        <span>{{ item.remainPoint }} P</span>
       </template>
       </v-data-table>
       

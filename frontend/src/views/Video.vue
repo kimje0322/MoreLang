@@ -836,9 +836,10 @@ export default {
     async pay() {
       console.log("결제진행");
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
+      var temp2 = this.videoInfo.defaultAudioLanguage+".";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage+".".substring(0,2),
+        defaultLanguage: temp2.substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1190,12 +1191,19 @@ export default {
       axios.defaults.headers.common = temp;
     },
     async getCaption() {
+      var temp =null;
+      if(this.selectedLang.name !=""){
+        temp =this.selectedLang.name;
+
+      }
       await Raxios.get("https://video.google.com/timedtext", {
         params: {
           v: this.videoId,
-          lang: this.selectedLang.lang_code
+          lang: this.selectedLang.lang_code,
+          name : temp
         }
       }).then(res => {
+        console.log(res);
         var xml = res.data;
         var json = convert.xml2json(xml, { compact: true });
         this.caption = JSON.parse(json).transcript.text;
@@ -1442,9 +1450,10 @@ export default {
         this.point = res.data;
       });
       var temp = "https://i.ytimg.com/vi/" + this.videoId + "/mqdefault.jpg";
+       var temp2 = this.videoInfo.defaultAudioLanguage+".";
       const params = {
         title: this.videoInfo.title,
-        defaultLanguage: this.videoInfo.defaultLanguage+".".substring(0,2),
+        defaultLanguage: temp2.substring(0,2),
         youtubeVideoid: this.videoId,
         thumbnail: temp
       };
@@ -1521,10 +1530,10 @@ export default {
             // closeOnClickOutside: false,
             // allowOutsideClick: false,
             showCancelButton: true,
-            cancelButtonText: "Close",
+            cancelButtonText: "창닫기",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes",
+            confirmButtonText: "결제하기",
             allowOutsideClick: false,
           }).then(result => {
             if (result.isConfirmed) {
@@ -1536,9 +1545,17 @@ export default {
                   icon: "error",
                   title: "Oops...",
                   text: "포인트 충전이 필요합니다.",
+                  confirmButtonText: "충전하기",
                   // footer: "<a href>Why do I have this issue?</a>"
+                }).then(result =>{
+                  // console.log("충전이 필요할때 result=",result);
+                  if(result.isConfirmed){
+                    this.charge();
+                  }
                 });
               }
+            }else{
+               window.close();
             }
           });
         }

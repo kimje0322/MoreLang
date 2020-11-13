@@ -16,10 +16,10 @@
               <p class="mb-0 categoryTag">{{lang}}</p>
             </v-card>
           </v-col> -->
-        <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
-          <v-chip color="green" text-color="white" @click="wordList(lang)">
-            {{ language[lang] }}
-          </v-chip>
+        <v-col class="mx-2" v-for="(lang, i) in langLst" :key="i" cols=2>
+          <v-btn color="white" miduam width=120 class="truncate" outlined text-color="white" @click="wordList(lang)">
+            {{ lang.substring(0, 8)  }}
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -36,10 +36,10 @@
             </v-card>
           </v-col>
         </v-row> -->
-        <h2 class="mt-5 mb-3">{{ language[selectlang] }}</h2>
+        <h2 class="mt-5 mb-3">{{selectlang}}</h2>
         <div style="display: table; width: 100%;">
           <div style="display: table-cell; width: 40%">
-            <h4>학습중</h4>
+            <!-- <h4>학습중</h4> -->
             <!-- <v-row no-gutters style="text-align:center; width:70%;">
               <v-col v-for="(word, i) in wlist" :key="i" cols="12" md="10"> -->
             <!-- <div v-if="!word.isLearn"> -->
@@ -120,7 +120,7 @@
             </v-row> -->
           </div>
 
-          <div style="display: table-cell; width: 40%;">
+          <!-- <div style="display: table-cell; width: 40%;">
             <h4>학습완료</h4>
             <v-expansion-panels accordion style=" width:70%;">
                 <v-expansion-panel
@@ -138,7 +138,7 @@
                   </v-expansion-panel-content>
               </draggable>
                 </v-expansion-panel>
-            </v-expansion-panels>
+            </v-expansion-panels> -->
 
             <!-- <v-row no-gutters style="text-align:center; width:70%;"> -->
               <!-- <p>word</p> -->
@@ -168,7 +168,7 @@
                 </v-card>
               </v-col> -->
             <!-- </v-row> -->
-          </div>
+          <!-- </div> -->
         </div>
       </v-container>
     </v-row>
@@ -201,26 +201,26 @@ export default {
       selectlang: "",
       wordlang: false,
       langLst: [],
-      language: {
-        en: "영어",
-        jp: "일본어",
-        cn: "중국어",
-        vi: "베트남어",
-        id: "인도네시아어",
-        ar: "아랍어",
-        bn: "뱅갈어",
-        de: "독일어",
-        es: "스페인어",
-        fr: "프랑스어",
-        hi: "힌디어",
-        it: "이탈리아어",
-        ms: "말레이시아어",
-        nl: "네덜란드어",
-        pt: "포르투갈어",
-        ru: "러시아",
-        th: "태국어",
-        tr: "터키어"
-      }
+      // language: {
+      //   en: "영어",
+      //   jp: "일본어",
+      //   cn: "중국어",
+      //   vi: "베트남어",
+      //   id: "인도네시아어",
+      //   ar: "아랍어",
+      //   bn: "뱅갈어",
+      //   de: "독일어",
+      //   es: "스페인어",
+      //   fr: "프랑스어",
+      //   hi: "힌디어",
+      //   it: "이탈리아어",
+      //   ms: "말레이시아어",
+      //   nl: "네덜란드어",
+      //   pt: "포르투갈어",
+      //   ru: "러시아",
+      //   th: "태국어",
+      //   tr: "터키어"
+      // }
     };
   },
   computed: {
@@ -305,4 +305,12 @@ export default {
 /* transform: translateX(10px);
   opacity: 0;
 } */
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 </style>

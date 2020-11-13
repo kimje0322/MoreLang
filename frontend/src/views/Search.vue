@@ -196,6 +196,7 @@
             <!-- <router-link :to="{ name: 'Video', params: { vid: video.id } }"> -->
             <div style="margin-bottom: 0px;" @click="selectVideo(video.id)">
               <v-img
+              class="Shine"
                 :elevation="hover ? 16 : 2"
                 :class="{ 'on-hover': hover }"
                 :src="video.imgUrl"
@@ -357,6 +358,18 @@ export default {
     }
   },
   methods: {
+      changeRoute(name) {
+      // console.log(this.$route.name === name);
+      if (this.$route.name === name) {
+        this.$router.go({ name });
+      } else {
+        this.$router.push({ name });
+      }
+    },
+     onSearch(word) {
+      this.videolst=[];
+      this.videoSearch(word);
+    },
     userMenu(idx) {
       if (idx === 0) {
         // console.log("userid = " + this.$store.state.userid)
@@ -597,5 +610,47 @@ a {
 }
 .trans {
   font-family: 'paybooc-Medium', sans-serif;
+}
+
+
+/* Shine */
+.Shine {
+  position: relative;
+}
+.Shine::before {
+  position: absolute;
+  top: 0;
+  left: -75%;
+  z-index: 2;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+  background: -webkit-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  -webkit-transform: skewX(-25deg);
+  transform: skewX(-25deg);
+}
+.Shine:hover::before {
+  -webkit-animation: shine 0.75s;
+  animation: shine 0.75s;
+}
+@-webkit-keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
 }
 </style>

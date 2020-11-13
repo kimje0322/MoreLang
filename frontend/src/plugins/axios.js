@@ -2,8 +2,7 @@ import axios from 'axios'
 import router from "@/router";
 import store from "@/store";
 const instance = axios.create({
-    baseURL: 'https://morelang.gq/api',
-    timeout: 5000
+    baseURL: 'https://morelang.gq/api'
   });
 
 /*
@@ -41,7 +40,7 @@ instance.interceptors.response.use(
         if (401 === error.response.status) {
             console.log("401 error 발생!")
             window.localStorage.removeItem('vuex');
-            axios.post(`/user/out`);
+            axios.post(`/user/out`).then(()=>{
             store.commit("LOGOUT");
             store.commit("ShowAlert", {
                 flag: true,
@@ -57,6 +56,7 @@ instance.interceptors.response.use(
             }, 1000);
             axios.defaults.headers.common.Authorization = null;
             router.push({name: "Login"})
+        });
         }
         return error;
     }

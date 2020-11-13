@@ -28,25 +28,29 @@ public class VocaServiceImpl implements VocaService{
 	MemberRepository memberRepository;
 	
 	@Override
-	public void registVoca(String accessToken,Voca input) {
+	public String registVoca(String accessToken,Voca input) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
 			Member member = m.get();
 			Voca s = input;
 			s.setMember(member);
 			vocaRepository.save(s);
+			return "success";
 		}
+		return "fail";
 	}
 	
 	@Override
-	public void DeleteVoca(String accessToken, Long vocaId) {
+	public String DeleteVoca(String accessToken, Long vocaId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
 			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), vocaId);
 			if(voca.isPresent()) {
 				vocaRepository.delete(voca.get());
+				return "success";
 			}
 		}
+		return "fail";
 	}
 	
 	@Override
@@ -66,14 +70,16 @@ public class VocaServiceImpl implements VocaService{
 	}
 	
 	@Override
-	public void updateVoca(String accessToken, Voca updateVoca) {
+	public String updateVoca(String accessToken, Voca updateVoca) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
 			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), (long)(updateVoca.getVocaId()));
 			if(voca.isPresent()) {
 				vocaRepository.save(updateVoca);
+				return "success";
 			}
 		}
+		return "fail";
 	}
 	@Override
 	public String changeMean(String accessToken, Integer vocaId, String mean) {
@@ -100,10 +106,10 @@ public class VocaServiceImpl implements VocaService{
 		}
 	}
 	@Override
-	public void makeLearn(String accessToken, Long VocaId) {
+	public String makeLearn(String accessToken, Long VocaId) {
 		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
 		if(m.isPresent()) {
-			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), VocaId);
+			Optional<Voca> voca = vocaRepository.findByMember_idAndVocaId(m.get().getId(), Long.valueOf(VocaId));
 			if(voca.isPresent()) {
 				Voca v1 = voca.get();
 				if(v1.isLearn()) {
@@ -112,34 +118,9 @@ public class VocaServiceImpl implements VocaService{
 					v1.setLearn(true);
 				}
 				vocaRepository.save(v1);
+				return "success";
 			}
 		}
-	}
-	@Override
-	public List<String> vocaQuize(String accessToken,String country) {
-		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
-		if(m.isPresent()) {
-			List<VocaSub> voca;
-			if(country == null) {
-				voca = vocaRepository.findByMember_idAndIsLearnAndCountry(m.get().getId(),false,country);
-			}else {
-				voca = vocaRepository.findByMember_idAndIsLearn(m.get().getId(), false);
-			}
-			Collections.shuffle(voca);
-			List<String> result = new ArrayList<>();
-			int size = result.size();
-			if(size >10){ size = 10;}
-			for(int i=0; i<size; i++) {
-				result.add(voca.get(i).getEachVoca());
-			}
-			return result;
-		}
-		return null;
-	}
-	public void vocaMean(String voca) throws IOException {
-		String url = "https://en.dict.naver.com/#/search?range=word&query="+voca;
-		Connection conn = Jsoup.connect(url);
-		Document html = conn.get();
-		System.out.println(html);
+		return "fail";
 	}
 }

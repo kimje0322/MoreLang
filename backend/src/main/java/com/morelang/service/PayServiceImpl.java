@@ -105,6 +105,7 @@ public class PayServiceImpl implements PayService {
 			Member my = m.get();
 			my.setPoint(my.getPoint()+amount);
 			pointCharge pc = new pointCharge();
+			pc.setRemainPoint(my.getPoint());
 			pc.setMember(my);
 			pc.setChargeAmount(amount);
 			pc.setCharge(true);
