@@ -18,7 +18,7 @@
           </v-col> -->
         <v-col v-for="(lang, i) in langLst" :key="i" sm="1">
           <v-chip color="green" text-color="white" @click="wordList(lang)">
-            {{ language[lang] }}
+            {{ lang }}
           </v-chip>
         </v-col>
       </v-row>
@@ -36,7 +36,7 @@
             </v-card>
           </v-col>
         </v-row> -->
-        <h2 class="mt-5 mb-3">{{ language[selectlang] }}</h2>
+        <h2 class="mt-5 mb-3">{{selectlang}}</h2>
         <div style="display: table; width: 100%;">
           <div style="display: table-cell; width: 40%">
             <h4>학습중</h4>
@@ -201,26 +201,26 @@ export default {
       selectlang: "",
       wordlang: false,
       langLst: [],
-      language: {
-        en: "영어",
-        jp: "일본어",
-        cn: "중국어",
-        vi: "베트남어",
-        id: "인도네시아어",
-        ar: "아랍어",
-        bn: "뱅갈어",
-        de: "독일어",
-        es: "스페인어",
-        fr: "프랑스어",
-        hi: "힌디어",
-        it: "이탈리아어",
-        ms: "말레이시아어",
-        nl: "네덜란드어",
-        pt: "포르투갈어",
-        ru: "러시아",
-        th: "태국어",
-        tr: "터키어"
-      }
+      // language: {
+      //   en: "영어",
+      //   jp: "일본어",
+      //   cn: "중국어",
+      //   vi: "베트남어",
+      //   id: "인도네시아어",
+      //   ar: "아랍어",
+      //   bn: "뱅갈어",
+      //   de: "독일어",
+      //   es: "스페인어",
+      //   fr: "프랑스어",
+      //   hi: "힌디어",
+      //   it: "이탈리아어",
+      //   ms: "말레이시아어",
+      //   nl: "네덜란드어",
+      //   pt: "포르투갈어",
+      //   ru: "러시아",
+      //   th: "태국어",
+      //   tr: "터키어"
+      // }
     };
   },
   computed: {
