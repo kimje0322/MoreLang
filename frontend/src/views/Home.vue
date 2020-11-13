@@ -18,7 +18,7 @@
         autoplay
         loop
         playsinline
-        src="../assets/video/투잡.mp4"
+        src="../assets/video/몰랑_intro_01.mp4"
       ></video>
     </div>
 
