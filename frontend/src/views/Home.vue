@@ -44,7 +44,7 @@
       >
         <h3>
           <span
-            style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
+            style="display: block; font-size: 30px; font-weight: 550; font-family: 'SilkSerif'; color: red;"
             >Recommend</span
           >
           <strong
@@ -147,7 +147,7 @@
       >
         <h3>
           <span
-            style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif';"
+            style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif'; color: red; font-weight: bold;"
             >Hot</span
           >
           <strong
