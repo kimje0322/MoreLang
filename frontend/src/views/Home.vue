@@ -44,7 +44,7 @@
       >
         <h3>
           <span
-            style="display: block; font-size: 30px; font-weight: 550; font-family: 'SilkSerif'; color: red;"
+            style="display: block; font-size: 30px; font-weight: 550; font-family: 'SilkSerif'; color: #EF5350;"
             >Recommend</span
           >
           <strong
