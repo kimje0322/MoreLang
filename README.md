@@ -10,67 +10,127 @@
 > 영어 퀴즈 및 발음 측정 등 다양한 컨텐츠를 통한 재밌는 언어학습 서비스 **🎉MoreLang** 입니다.
 
 ---
-### ✔ 주요기능(구현 예정)
+### ✔ 주요기능
 
 <details>
 <summary>1. 로그인 / 로그아웃 ✔</summary>
 
-  - *Google Api를 활용한 구글 로그인 구현예정 ( 관심 영상을 파악하기 위해)*
+![로그인](resource/img/화면캡쳐/1_로그인.png)
+
+  - *MoreLang 계정 로그인 및 SNS 로그인 제공*
 </details>
 <details>
-<summary>2. 단어 배열</summary>
+<summary>2. 추천 채널 & 영상</summary>
 
-  - *주요 문장의 영어 단어 배열 퀴즈를 통한 학습력 향상*
+![추천](resource/img/화면캡쳐/2_추천.png)
+
+
+  - *언어별 추천 채널 및 조회수 높은 영상 제공*
 </details>
 <details>
-<summary>3. 발음 교정</summary>
+<summary>3. 검색</summary>
 
-  - *발음 녹음 뒤 해당 발음이 얼마나 표준 발음과 유사한지 점수제공*
+
+![영상검색](resource/img/화면캡쳐/8_영상검색.png)
+
+
+  - *유튜브 영상 검색 기능*
+
+![검색어번역](resource/img/화면캡쳐/7_검색어번역.png)
+
+
+  - *검색어 번역 기능 제공*
+
+  </details>
+<details>
+<summary>4. 채널</summary>
+
+![채널](resource/img/화면캡쳐/3_채널.png)
+
+
+  - *유튜브 채널 정보 및 비디오 리스트 제공*
 </details>
 <details>
-<summary>4. 번역</summary>
+<summary>5. 결제</summary>
 
-  - *영상 영어 자막 및 한글 번역 제공*
+![결제창](resource/img/화면캡쳐/4_결제창.png)
+
+![결제](resource/img/화면캡쳐/5_결제.png)
+
+
+  - *포인트를 사용하여 영상 학습 가능*
 </details>     
 <details>
-<summary>5. 단어장</summary>
+<summary>6. 자막선택</summary>
 
-  - *자막 단어 Hover 시 사전 모달 우측상단에 단어장 스크랩 버튼을 통한 간단한 단어장 만들기 기능*
+![자막선택](resource/img/화면캡쳐/6_자막선택.png)
+
+
+  - *영상에서 제공하는 자막 선택 가능*
 </details>
 <details>
-<summary>6. 사전</summary>
+<summary>7. 스크립트</summary>
 
-  - *단어 클릭 시 해당 단어 사전 검색 정보 제공*
+![영상](resource/img/화면캡쳐/9_영상.png)
+
+
+  - *유튜브 영상의 자막 스크립트를 이용하여 학습 가능*
 </details>
 <details>
-<summary>7. 쉐도잉(Shadowing)</summary>
+<summary>8. 문장 번역</summary>
 
-  - *영상의 문장단위 구간 반복 재생*
+![문장번역](resource/img/화면캡쳐/10_문장번역.png)
+
+
+  - *영상의 문장을 한글로 번역하는 기능 제공*
 </details>
 <details>
-<summary>8. 영상 스크랩</summary>
+<summary>9. 문장 스크랩</summary>
 
-  - *학습할 영상(To-do list)과 학습한 영상(Review list) 제공*
+![문장스크랩](resource/img/화면캡쳐/11_문장스크랩.png)
+
+
+  - *영상의 문장을 스크랩하는 기능 제공*
 </details>
 <details>
-<summary>9. 영상 검색</summary>
+<summary>10. 단어 퀴즈</summary>
 
-  - *상단 검색바 자막 잇는 유튜브 영상(필터링) 검색*
+![단어퀴즈](resource/img/화면캡쳐/12_단어퀴즈.png)
+
+
+  - *영상의 문장을 이용한 단어 퀴즈 생성*
 </details>
 <details>
-<summary>10 .학습 코스 (튜토리얼)</summary>
+<summary>11 .녹음</summary>
 
-  - *영상 학습에 대한 튜토리얼 제공*
+![녹음](resource/img/화면캡쳐/13_녹음.png)
+
+
+  - *녹음을 통하여 자신의 발음 확인 가능*
 </details>
 <details>
-<summary>11. 포인트 제도</summary>
+<summary>12. 재생 컨트롤러</summary>
 
-  - *발음 점수 및 단어 순서 맞추기를 통해 얻은 포인트를 발음 교정 포인트로 전환*
+![컨트롤러](resource/img/화면캡쳐/14_컨트롤러.png)
+
+
+  - *좌측 하단의 컨트롤러를 이용하여 재생 조작 가능*
 </details>     
 <details>
-<summary>12. 좋아요</summary>
+<summary>13. 단어 사전검색 & 스크랩</summary>
 
-  - *학습 영상에 대해 좋아요 수 및 버튼 제공*
+![드래그](resource/img/화면캡쳐/15_드래그.png)
+
+
+  - *단어를 드래그하여 선택하면 부가기능 표시*
+
+![사전검색](resource/img/화면캡쳐/16_사전검색.png)
+
+- *선택된 단어 사전검색 기능 제공*
+
+![단어장추가](resource/img/화면캡쳐/17_단어장추가.png)
+
+- *단어장추가 기능 제공*
 </details>
 
 ---
@@ -150,6 +210,7 @@
 │	│	│	├── 📁config
 │	│	│	├── 📁controller
 │	│	│	├── 📁dto
+│	│	│	├── 📁jwt
 │	│	│	├── 📁util
 │	│	│	├── 📁repository
 │	│	│	└── 📁service
