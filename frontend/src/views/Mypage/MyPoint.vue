@@ -17,7 +17,7 @@
           </v-card>
         </v-col>
       </v-row>
-    <h2 class="mt-5 mb-2">포인트 이용내역</h2>
+    <h1 class="mt-5 mb-2">포인트 이용내역</h1>
       <v-data-table
         :headers="headers"
         :items="point"
