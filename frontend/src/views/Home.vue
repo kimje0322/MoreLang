@@ -44,12 +44,7 @@
       >
         <h3>
           <span
-            style="
-              display: block;
-              font-size: 30px;
-              font-weight: 300;
-              font-family: 'SilkSerif';
-            "
+            style="display: block; font-size: 30px; font-weight: 550; font-family: 'SilkSerif'; color: #EF5350;"
             >Recommend</span
           >
           <strong
@@ -161,12 +156,7 @@
       >
         <h3>
           <span
-            style="
-              display: block;
-              font-size: 30px;
-              font-weight: 300;
-              font-family: 'SilkSerif';
-            "
+            style="display: block; font-size: 30px; font-weight: 300; font-family: 'SilkSerif'; color: red; font-weight: bold;"
             >Hot</span
           >
           <strong
@@ -241,6 +231,8 @@ import axios from "axios";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 import "swiper/swiper-bundle.css";
+// import "@/../public/css/home.scss";
+
 // import { directive } from 'vue/types/umd';
 
 // 상단 네브바 고정
@@ -315,8 +307,8 @@ export default {
         { ko: "독일어", lang: "de" },
         { ko: "이탈리아어", lang: "it" },
         { ko: "포르투갈어", lang: "pt" },
-        { ko: "러시아", lang: "ru" },
-      ],
+        { ko: "러시아어", lang: "ru" }
+      ]
     };
   },
   mounted() {
@@ -494,4 +486,5 @@ export default {
 //   width: 100%;
 //   top: 0;
 // }
+
 </style>

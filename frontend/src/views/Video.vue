@@ -152,15 +152,14 @@
                   <v-card flat>
                     <v-card-text>
                       <!-- <Quiz /> -->
-
-                      <div class="code-box mx-auto" @dragover="dragover">
-                        <v-btn class="mt-3" @click="onQuiz"
-                          ><strong
-                            ><span style="color: red; padding-right: 2px"
-                              >Quiz
-                            </span></strong
-                          >생성</v-btn
-                        >
+                      <v-btn class="mt-3" @click="onQuiz"
+                        ><strong
+                          ><span style="color: red; padding-right: 2px"
+                            >Quiz
+                          </span></strong
+                        >생성</v-btn
+                      >
+                      <div class="code-box mx-auto font" @dragover="dragover">
                         <div v-if="loadingBar" class="text-center">
                           <v-progress-circular
                             class="mt-5"
@@ -169,7 +168,6 @@
                             indeterminate
                           ></v-progress-circular>
                         </div>
-                        <!-- 퀴즈 Content -->
                         <div class="play-box mx-auto mt-3">
                           <div
                             style="display: inline-block"
@@ -182,7 +180,7 @@
                               style="
                                 margin-bottom: 10px;
                                 color: white;
-                                font-size: 16px;
+                                font-size: 20px;
                               "
                             >
                               {{ item.quiz }}
@@ -197,7 +195,6 @@
                             ></div>
                           </div>
                         </div>
-                        <!-- 퀴즈 키워드 -->
                         <div v-if="nowText" class="block-box">
                           <div class="block-list mt-2 droppable" @drop="drop">
                             <div class="droppable">
@@ -1268,12 +1265,14 @@ export default {
       this.loadingBar = true;
       if (!this.usedQuiz) {
         this.usedQuiz = true;
-        this.quizMounted();
       } else if (this.usedQuiz) {
         this.quizBox = [];
         this.keyword = [];
-        this.quizMounted();
+        this.userAns = 0;
+        this.rightAns = [];
+        this.score = 0;
       }
+      this.quizMounted();
     },
     quizMounted() {
       this.onMove();
@@ -1284,7 +1283,6 @@ export default {
           )
           .then((res) => {
             this.answer = res.data.answer;
-            // this.quizBox = res.data.quizeText;
             var quizInput = res.data.inputTextArray;
             this.keyword = res.data.keyword;
             var j = 1;
@@ -1317,9 +1315,8 @@ export default {
       }
     },
     checkAnswer() {
-      if (this.score === Object.keys(this.keyword).length) {
+      if (this.score !== 0  && this.score === Object.keys(this.keyword).length) {
         Swal.fire({
-          // title: "정답!",
           width: 500,
           background: "#fff url(@/assets/img/answer.gif)",
           text: "정답입니다!",
@@ -1334,6 +1331,7 @@ export default {
         }, 1750);
         this.keyword = [];
         this.quizBox = [];
+        this.changeMode(1);
       }
     },
     onMove() {
@@ -1381,8 +1379,8 @@ export default {
           // icon: "success",
           showConfirmButton: false,
         });
-      }
-      if (idx === this.userAns && !this.rightAns.includes(idx)) {
+      } else if (idx === this.userAns && !this.rightAns.includes(idx)) {
+        $(`.b${idx}`).css("font-size", "18px");
         this.score += 1;
         // console.log(this.score);
         this.rightAns.push(idx);
@@ -1396,9 +1394,6 @@ export default {
           this.blankIdx.appendChild(keyId);
         }
         this.blankIdx.classList.add("checked");
-        // if (posX >= 300 && posX <= 1450) {
-        // if (posY >= 113 && posY <= 520) {
-
         if (
           event.target.classList &&
           event.target.classList.contains("droppable")
@@ -1741,7 +1736,7 @@ ul li {
   margin-bottom: 10px;
   cursor: pointer;
   color: white;
-  font-size: 14px;
+  font-size: 19px;
 }
 .play-box .play {
   position: absolute;

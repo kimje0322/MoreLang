@@ -2,6 +2,7 @@ package com.morelang.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,16 +64,30 @@ public class VocaController {
 	}
 	@PutMapping("/user/change-mean")
 	@ApiOperation(value = "[단어 의미 바꾸기] 해당 단어에 대한 의미를 변경합니다.")
-	public ResponseEntity<?> vocaQuize(HttpServletResponse response,@RequestParam("vocaid") Integer vocaId,@RequestParam("mean") String mean) throws IOException {
+	public ResponseEntity<?> changeMean(HttpServletResponse response,@RequestParam("vocaid") Integer vocaId,@RequestParam("mean") String mean) throws IOException {
 		String accessToken = response.getHeader("accessToken");	
 		return new ResponseEntity<String>(vocaService.changeMean(accessToken, vocaId, mean),HttpStatus.OK);
 	}
 	
 	@GetMapping("/user/myvoca-country")
 	@ApiOperation(value = "[내 단어장에 저장된 국가들] 내 단어장에 저장된 국가 보기")
-	public ResponseEntity<?> vocaQuize(HttpServletResponse response)  {
+	public ResponseEntity<?> vocaCountry(HttpServletResponse response)  {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<List<String>>(vocaService.myVocaCountry(accessToken),HttpStatus.OK);
-
+	}
+	
+	@GetMapping("/user/myvoca-quize")
+	@ApiOperation(value = "[내 단어장에 저장된 국가들을 활용한 퀴즈] 내 단어장에 저장된 국가를 활용해 퀴즈내기")
+	public ResponseEntity<?> vocaQuize(HttpServletResponse response, @RequestParam(required=false) String country, @RequestParam("index") Integer index) throws IOException {
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<Map<String,Object>>(vocaService.vocaQuize(accessToken, "English", 0),HttpStatus.OK);
+	}
+	
+	@GetMapping("/newuser/test")
+	@ApiOperation(value = "[내 단어장에 저장된 국가들을 활용한 퀴즈] 내 단어장에 저장된 국가를 활용해 퀴즈내기")
+	public ResponseEntity<?> test(HttpServletResponse response) throws IOException  {
+		String accessToken = response.getHeader("accessToken");
+		vocaService.vocaMean("こんにちは");
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

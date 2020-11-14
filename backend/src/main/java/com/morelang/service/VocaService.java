@@ -1,6 +1,8 @@
 package com.morelang.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +18,6 @@ public interface VocaService {
 	public String makeLearn(String accessToken, Long VocaId);
 	public List<String> myVocaCountry(String accessToken);
 	public String changeMean(String accessToken, Integer vocaId, String mean);
+	public Map<String,Object> vocaQuize(String accessToken, String country, Integer idx) throws IOException;
+	public String vocaMean(String voca) throws IOException;
 }

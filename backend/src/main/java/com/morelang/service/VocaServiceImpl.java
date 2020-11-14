@@ -3,17 +3,22 @@ package com.morelang.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.google.auth.oauth2.AccessToken;
 import com.morelang.dto.Member;
 import com.morelang.dto.Voca;
 import com.morelang.dto.VocaSub;
@@ -123,4 +128,71 @@ public class VocaServiceImpl implements VocaService{
 		}
 		return "fail";
 	}
+	@Override
+	public Map<String,Object> vocaQuize(String accessToken, String country, Integer idx) throws IOException {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		Map<String, Object> map = new HashMap<>();
+		List<Voca> vocaList = null;
+		List<Voca> meanList = null;
+		if(m.isPresent()) {
+			if(idx == 0) {
+				vocaRepository.updateStatus(m.get().getId());
+			}
+			if(country == null) {
+				vocaList = vocaRepository.findByMember_idAndUsed(m.get().getId(), false);
+			}else {
+				vocaList = vocaRepository.findByMember_idAndUsedAndCountry(m.get().getId(), false, country);
+			}
+			Integer maxIdx = vocaList.size() >=10?10:vocaList.size();
+			if(vocaList.size() == 0) {
+				map.put("result", "not exist");
+				return map;
+			}else {
+				Map<String, Object> ma = new HashMap<>();
+				List<String> answer_list = new ArrayList<>();
+				ma.put("num", idx);
+				ma.put("maxIdx", maxIdx);
+				Collections.shuffle(vocaList);
+				Voca v1 = vocaList.get(0);
+				ma.put("problem", v1.getEachVoca());
+				String answer = vocaMean(v1.getEachMean());
+				answer_list.add(answer);
+				meanList = vocaRepository.distinctMean(v1.getEachMean());
+				Collections.shuffle(meanList);
+				for(int i=0; i<3;i++) {
+					answer_list.add(meanList.get(i).getEachMean());
+				}
+				Collections.shuffle(answer_list);
+				ma.put("answer", answer_list.indexOf(answer));
+				ma.put("answer_list", answer_list);
+				map.put("result", ma);
+				if(idx == maxIdx) {
+					vocaRepository.updateStatus(m.get().getId());
+				}
+				return map;
+			}
+		}else {
+			map.put("result", "fail");
+			return map;
+		}
+		
+	}
+	
+	public String vocaMean(String voca) throws IOException {
+		List<Voca> list = vocaRepository.distinctMean("탐구");
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i).getEachMean());
+		}
+		System.out.println(list.size());
+		String url = "https://dic.daum.net/search.do?q="+voca;
+		Connection conn = Jsoup.connect(url);
+		Document html = conn.get();
+		Element element = html.body();
+		Elements el = element.select(".txt_search");
+		String element1 = el.get(0).text();
+		System.out.println(element1);
+		return element1;
+	}
+
+
 }
