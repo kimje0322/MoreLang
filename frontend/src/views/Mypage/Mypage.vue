@@ -34,6 +34,12 @@
           </v-tab>
           <v-tab class="tabs">
             <v-icon left size="25">
+              mdi-file-document-edit-outline
+            </v-icon>
+            단어테스트
+          </v-tab>
+          <v-tab class="tabs">
+            <v-icon left size="25">
               mdi-book-open
             </v-icon>
             문장모음
@@ -62,8 +68,14 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text style="margin-left:27px">
+                <MyTest />
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text style="margin-left:27px">
                 <MySentences />
-                <!-- <Quiz /> -->
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -71,7 +83,6 @@
             <v-card flat>
               <v-card-text style="margin-left:27px">
                 <MyPoint />
-                <!-- <Quiz /> -->
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -88,6 +99,7 @@ import VideoLearning from "@/views/Mypage/VideoLearning";
 import MyWords from "@/views/Mypage/MyWords";
 import MySentences from "@/views/Mypage/MySentences";
 import MyPoint from "@/views/Mypage/MyPoint";
+import MyTest from "@/views/Mypage/MyTest";
 import Navbar from "@/components/Navbar";
 import "@/../public/css/Mypage.scss";
 
@@ -97,7 +109,8 @@ export default {
     VideoLearning,
     MyWords,
     MySentences,
-    MyPoint
+    MyPoint,
+    MyTest,
   },
   data() {
     return {
