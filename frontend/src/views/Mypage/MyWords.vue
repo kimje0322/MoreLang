@@ -8,7 +8,6 @@
           <swiper style="width: 95%" :options="swiperOption">
             <swiper-slide v-for="(lang, i) in langLst" :key="i" cols="2">
               <v-btn
-                color="white"
                 miduam
                 width="120"
                 class="truncate"
@@ -16,7 +15,7 @@
                 text-color="white"
                 @click="wordList(lang, i)"
                 id="btnlang"
-                :style="{ backgroundColor: index[i] ? 'red' : 'black' }"
+                :style="{ backgroundColor: index[i] ? 'white' : 'black' , color: index[i] ? 'black' : 'white'}"
               >
                 {{ lang.substring(0, 8) }}
               </v-btn>
