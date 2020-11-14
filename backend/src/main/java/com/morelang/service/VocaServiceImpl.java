@@ -135,9 +135,6 @@ public class VocaServiceImpl implements VocaService{
 		List<Voca> vocaList = null;
 		List<Voca> meanList = null;
 		if(m.isPresent()) {
-			if(idx == 0) {
-				vocaRepository.updateStatus(m.get().getId());
-			}
 			if(country == null) {
 				vocaList = vocaRepository.findByMember_idAndUsed(m.get().getId(), false);
 			}else {
@@ -151,7 +148,7 @@ public class VocaServiceImpl implements VocaService{
 				Map<String, Object> ma = new HashMap<>();
 				List<String> answer_list = new ArrayList<>();
 				ma.put("num", idx);
-				ma.put("maxIdx", maxIdx);
+				ma.put("maxIdx", maxIdx-1);
 				Collections.shuffle(vocaList);
 				Voca v1 = vocaList.get(0);
 				ma.put("problem", v1.getEachVoca());
@@ -166,9 +163,8 @@ public class VocaServiceImpl implements VocaService{
 				ma.put("answer", answer_list.indexOf(answer));
 				ma.put("answer_list", answer_list);
 				map.put("result", ma);
-				if(idx == maxIdx) {
-					vocaRepository.updateStatus(m.get().getId());
-				}
+				v1.setUsed(true);
+				vocaRepository.save(v1);
 				return map;
 			}
 		}else {
