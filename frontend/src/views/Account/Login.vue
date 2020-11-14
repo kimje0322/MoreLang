@@ -13,7 +13,7 @@
                 <v-icon>mdi-home-outline</v-icon>
               </v-btn> -->
             </v-card-title>
-            <div style="display: table; width: 100%; margin-bottom: 5%;">
+            <div style="display: table; width: 100%; margin-bottom: 3.5%;">
               <v-form
                 ref="form"
                 style="display: table-cell;  width: 45%; padding: 0 30px; border-right: 1px solid rgba(0, 0, 0, 0.1);"
@@ -124,7 +124,7 @@
               </v-form>
             </div>
 
-            <div style="display: table; width: 95%; border: 1px solid #ccc; padding: 30px 47px">
+            <div style="display: table; width: 95%; border: 1px solid #ccc; padding: 20px 47px">
               <div style="display: table-cell; width: 45%;position: relative;">
                 <div style="font-size: 22px; color: #777; text-align: left; position: absolute; top: 35%;">
                   아직 회원이 아니신가요?
@@ -136,7 +136,7 @@
                   회원가입 <br>포인트를 받으실 수 있습니다.
                 </div>
                 <div style="padding-bottom: 20px; text-align: center; ">
-                  <v-btn class="logo" @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #333; font-size: 14px; font-weight: 500; padding: 8px 35px; border-radius: 25px;">
+                  <v-btn class="logo" @click="toRegister()" style="width: 50%; border: 1px solid #282d41; background: #333; font-size: 14px; font-weight: 500; padding: 20px 35px; border-radius: 25px;">
                     <b><span>
                     <v-icon style="margin-right: 5%;">
                       mdi-account-circle-outline

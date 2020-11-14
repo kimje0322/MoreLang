@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-    <div style="width: 100%;">
+    <div style="width: 100%">
       <Navbar />
 
       <!-- 메뉴바 -->
@@ -11,9 +11,9 @@
     </div>
 
     <!-- 소개 영상 -->
-    <div style="width: 100%; height: 48%; display: block; margin-top: 50px;">
+    <div style="width: 100%; height: 48%; display: block; margin-top: 50px">
       <video
-        style="width: 100%;"
+        style="width: 100%"
         muted
         autoplay
         loop
@@ -23,8 +23,8 @@
     </div>
 
     <!-- 언어 필터링 -->
-    <div>
-      <div style="width: 20%; position: absolute; right: 20px;">
+    <div class="mt-16">
+      <div style="width: 20%; position: absolute; right: 20px">
         <v-select
           :items="language"
           item-text="ko"
@@ -35,9 +35,9 @@
       </div>
     </div>
     <!-- 추천 채널 -->
-    <div style="margin-top: 80px; padding: 0; display: block;">
+    <div style="margin-top: 80px; padding: 0; display: block">
       <div
-        style="margin: 0 100px;"
+        style="margin: 0 100px"
         data-aos="slide-right"
         aos-offset="300"
         data-aos-duration="1500"
@@ -48,7 +48,12 @@
             >Recommend</span
           >
           <strong
-            style="font-size: 40px; font-weight: 900; font-family: 'Calibre', sans-serif; line-height: 0.5;"
+            style="
+              font-size: 40px;
+              font-weight: 900;
+              font-family: 'Calibre', sans-serif;
+              line-height: 0.5;
+            "
             >CHANNEL</strong
           >
         </h3>
@@ -60,7 +65,7 @@
         data-scroll-offset="100"
         data-scroll-speed="2"
         data-scroll-direction="horizontal"
-        style="position: relative; height: 240px;"
+        style="position: relative; height: 240px"
       >
         <!-- 채널 좌우바 -->
         <!-- <div
@@ -89,7 +94,7 @@
         <!-- <div style="margin: 0 auto; transform: translate3d(-2160px, 0px, 0px); transition: all 0ms ease 0s;"> -->
         <!-- style="margin: 20px 150px;" -->
         <swiper
-          style="width: 90%; margin-top: 40px;"
+          style="width: 90%; margin-top: 40px"
           class="swiper"
           :options="swiperOption"
           data-aos="slide-left"
@@ -103,22 +108,26 @@
             <!-- <img src="../assets/img/channel0.jpg" alt="" /> -->
             <v-avatar
               class="Shine"
-              style="width: 150px; height: 150px; display: inline-block;"
+              style="width: 150px; height: 150px; display: inline-block"
               @click="
                 $router.push({
                   name: 'Channel',
-                  params: { id: item.youtubeVideoid }
+                  params: { id: item.youtubeVideoid },
                 })
               "
             >
               <img :src="item.thumbnail" alt="" />
             </v-avatar>
             <v-row
-              style="font-family: 'Calibre', sans-serif; font-weight: 600; font-size: 18px;"
+              style="
+                font-family: 'Calibre', sans-serif;
+                font-weight: 600;
+                font-size: 18px;
+              "
               @click="
                 $router.push({
                   name: 'Channel',
-                  params: { id: item.youtubeVideoid }
+                  params: { id: item.youtubeVideoid },
                 })
               "
               align="center"
@@ -138,9 +147,9 @@
     </div>
 
     <!-- 인기 영상 -->
-    <div style="padding: 50px 0; display: block; background: black;">
+    <div style="padding: 50px 0; display: block; background: black">
       <div
-        style="margin: 0 100px;"
+        style="margin: 0 100px"
         data-aos="slide-right"
         aos-offset="300"
         data-aos-duration="1000"
@@ -151,14 +160,19 @@
             >Hot</span
           >
           <strong
-            style="font-size: 40px; font-weight: 900; font-family:  'Calibre',sans-serif; line-height: 0.5;"
+            style="
+              font-size: 40px;
+              font-weight: 900;
+              font-family: 'Calibre', sans-serif;
+              line-height: 0.5;
+            "
             >VIDEO</strong
           >
         </h3>
       </div>
       <div class="example-3d">
         <swiper
-          style="width: 90%;"
+          style="width: 90%"
           class="swiper"
           :options="swiperOption"
           data-aos="slide-left"
@@ -183,7 +197,12 @@
               class="mt-5"
               align="center"
               justify="center"
-              style="margin: 0;font-family: 'Calibre', sans-serif; font-weight: 600; font-size: 18px;"
+              style="
+                margin: 0;
+                font-family: 'Calibre', sans-serif;
+                font-weight: 600;
+                font-size: 18px;
+              "
               >{{ item.title }}</v-row
             >
           </swiper-slide>
@@ -231,10 +250,10 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    Navbar
+    Navbar,
   },
   directives: {
-    mySwiperRef: directive
+    mySwiperRef: directive,
   },
   data() {
     return {
@@ -255,11 +274,11 @@ export default {
           stretch: 0,
           depth: 100,
           modifier: 1,
-          slideShadows: true
+          slideShadows: true,
         },
         pagination: {
-          el: ".swiper-pagination-video"
-        }
+          el: ".swiper-pagination-video",
+        },
       },
       swiperOption: {
         // navigation: {
@@ -271,12 +290,12 @@ export default {
         // centeredSlides: true,
         pagination: {
           el: ".swiper-pagination",
-          clickable: true
+          clickable: true,
         },
         navigation: {
           nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
+          prevEl: ".swiper-button-prev",
+        },
       },
       language: [
         { ko: "전체", lang: null },
@@ -297,17 +316,17 @@ export default {
     this.getHotVideos();
   },
   watch: {
-    selectlang: function() {
+    selectlang: function () {
       // console.log(this.selectlang);
       this.getHotChannels(this.selectlang);
       this.getHotVideos(this.selectlang);
-    }
+    },
   },
   methods: {
     selectVideo(vid) {
       let routeData = this.$router.resolve({
         name: "Video",
-        params: { vid: vid }
+        params: { vid: vid },
       });
       window.open(routeData.href, "_blank");
     },
@@ -323,10 +342,10 @@ export default {
       await axios
         .get("https://morelang.gq/api/newuser/recommend-list", {
           params: {
-            country: lang
-          }
+            country: lang,
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log("핫채널들정보");
           this.hotChannels = res.data;
           console.log(this.hotChannels);
@@ -339,17 +358,17 @@ export default {
             direction: "DESC",
             page: 1,
             size: 10,
-            defaultlang: lang
-          }
+            defaultlang: lang,
+          },
         })
-        .then(res => {
-           console.log("핫비디오들정보");
-           console.log(res.data.content);
-           this.hotVideos = res.data.content;
-           console.log(this.hotVideos);
+        .then((res) => {
+          console.log("핫비디오들정보");
+          console.log(res.data.content);
+          this.hotVideos = res.data.content;
+          console.log(this.hotVideos);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

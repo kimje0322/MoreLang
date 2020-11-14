@@ -18,7 +18,7 @@
           <div
             v-if="hover"
             class="d-flex transition-fast-in-fast-out red v-card--reveal  white--text"
-            style="height: 50%;"
+            style="text-align: center; height: 50%;"
           >
            {{video.title}}
           </div>
