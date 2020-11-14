@@ -179,11 +179,6 @@ public class VocaServiceImpl implements VocaService{
 	}
 	
 	public String vocaMean(String voca) throws IOException {
-		List<Voca> list = vocaRepository.distinctMean("탐구");
-		for(int i=0; i<list.size(); i++) {
-			System.out.println(list.get(i).getEachMean());
-		}
-		System.out.println(list.size());
 		String url = "https://dic.daum.net/search.do?q="+voca;
 		Connection conn = Jsoup.connect(url);
 		Document html = conn.get();
@@ -194,5 +189,14 @@ public class VocaServiceImpl implements VocaService{
 		return element1;
 	}
 
-
+	@Override
+	public String initQuiz(String accessToken) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			vocaRepository.updateStatus(m.get().getId());
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 }

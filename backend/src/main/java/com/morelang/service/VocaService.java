@@ -20,4 +20,5 @@ public interface VocaService {
 	public String changeMean(String accessToken, Integer vocaId, String mean);
 	public Map<String,Object> vocaQuize(String accessToken, String country, Integer idx) throws IOException;
 	public String vocaMean(String voca) throws IOException;
+	public String initQuiz(String accessToken);
 }

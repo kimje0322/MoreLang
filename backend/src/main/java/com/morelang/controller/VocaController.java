@@ -83,11 +83,10 @@ public class VocaController {
 		return new ResponseEntity<Map<String,Object>>(vocaService.vocaQuize(accessToken, "English", 0),HttpStatus.OK);
 	}
 	
-	@GetMapping("/newuser/test")
-	@ApiOperation(value = "[내 단어장에 저장된 국가들을 활용한 퀴즈] 내 단어장에 저장된 국가를 활용해 퀴즈내기")
+	@GetMapping("/newuser/init-quiz")
+	@ApiOperation(value = "[퀴즈 시작 전] 퀴즈 시작 전 초기화")
 	public ResponseEntity<?> test(HttpServletResponse response) throws IOException  {
 		String accessToken = response.getHeader("accessToken");
-		vocaService.vocaMean("こんにちは");
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>(vocaService.initQuiz(accessToken),HttpStatus.OK);
 	}
 }
