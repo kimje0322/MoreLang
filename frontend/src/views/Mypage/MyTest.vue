@@ -2,8 +2,12 @@
   <v-container style="margin-top: 15px;">      
     <h1 class="mb-2">단어 테스트</h1>
     <span>단어모음에 저장된 단어들로 자가 테스트를 합니다.</span>
-    
-    <v-card
+    <div v-if="!quizVoca" style="margin-top: 100px; text-align:center;">
+      <v-icon size="70">mdi-file-document-edit-outline</v-icon>
+      <p style="font-size: 20px; margin-top: 7px"> 단어장 추가를 하면 단어 테스트를 이용할 수 있습니다. </p>
+    </div>
+    <v-card 
+    v-if="quizVoca"
     class="mt-5 px-5"
     color="white"
     max-width="620px"
@@ -15,7 +19,7 @@
       <div style=" margin-top: 5px !important;" >
         <div v-for="(ans, i) in answerLst" :key="i" class="pretty p-icon p-round p-jelly my-5 mx-5" style="display:block;">
             <input :class="ans" type="radio" v-model="checkedAns" :value="i" />
-            <div style="font-size: 25px;" class="state p-primary">
+            <div style="font-size: 22px;" class="state p-primary">
               <i class="icon mdi mdi-check"></i>
               <label :class="`${ans}`">{{ans}}</label>
             </div>
@@ -23,17 +27,35 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        
-        text
-        color="red accent-4"
+      <v-dialog
+        v-model="dialog2"
+        width="30%"
+        hide-overlay
+        transition="dialog-bottom-transition"
       >
-        Learn More
-      </v-btn>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs" 
+          v-on="on"
+          text
+          color="red accent-4"
+          style="font-size: 18px;"
+        >
+          Learn More
+        </v-btn>
+      </template>
+      <v-card>
+      <iframe width="100%" height="500px" :src="dictUrl + quizVoca"></iframe>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="dialog2 = false"> close </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
       <v-btn
         v-if="!ifChecked"
         class="ml-auto"
-        style="font-size: 17px;"
+        style="font-size: 18px;"
         text
         color="blue accent-4"
         @click="checkAnswer(ans)"
@@ -43,7 +65,7 @@
       <v-btn
         v-else
         class="ml-auto"
-        style="font-size: 17px;"
+        style="font-size: 18px;"
         text
         color="blue accent-4"
         @click="nextQuiz"
@@ -64,6 +86,7 @@ import $ from 'jquery';
 export default {
   data() {
     return {
+      dictUrl: "https://m.dic.daum.net/search.do?q=",
       quizVoca: '',
       answer: '',
       answerLst: [],
@@ -71,11 +94,11 @@ export default {
       nextIdx: 0,
       checkedAns: '',
       ifChecked: false,
+      dialog2: false,
     };
   },
   methods: {
     checkAnswer(ans) {
-      // console.log(typeof(this.checkedAns));
       this.ifChecked = true;
       if (this.checkedAns == this.answer) {
         Swal.fire({

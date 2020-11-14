@@ -308,7 +308,7 @@ export default {
 .logo b{
   /* font: 300 4vh "Vibur"; */
   color: #fdd;
-  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000, 0 0 0.1em #ff0000, 0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ee6f6f, 0 0 0.5em #f17474, 0 0 0.1em #ff0000, 0 10px 3px #000;
 }
 .logo b span{
   animation: blink linear infinite 2s;
