@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.morelang.dto.PageRequest;
 import com.morelang.dto.Voca;
+import com.morelang.dto.VocaQuizLog;
+import com.morelang.dto.VocaQuizLogSub;
 import com.morelang.dto.VocaSub;
 import com.morelang.service.VocaService;
 
@@ -80,13 +82,26 @@ public class VocaController {
 	@ApiOperation(value = "[내 단어장에 저장된 국가들을 활용한 퀴즈] 내 단어장에 저장된 국가를 활용해 퀴즈내기")
 	public ResponseEntity<?> vocaQuize(HttpServletResponse response, @RequestParam(required=false) String country, @RequestParam("index") Integer index) throws IOException {
 		String accessToken = response.getHeader("accessToken");
-		return new ResponseEntity<Map<String,Object>>(vocaService.vocaQuize(accessToken, "English", 0),HttpStatus.OK);
+		return new ResponseEntity<Map<String,Object>>(vocaService.vocaQuize(accessToken, country, 0),HttpStatus.OK);
 	}
 	
 	@GetMapping("/user/init-quiz")
 	@ApiOperation(value = "[퀴즈 시작 전] 퀴즈 시작 전 초기화")
-	public ResponseEntity<?> test(HttpServletResponse response) throws IOException  {
+	public ResponseEntity<?> initQuiz(HttpServletResponse response) {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<String>(vocaService.initQuiz(accessToken),HttpStatus.OK);
+	}
+	
+	@PostMapping("/user/end-quiz")
+	@ApiOperation(value = "[퀴즈 종료] 퀴즈 종료 하고 기록")
+	public ResponseEntity<?> endQuiz(HttpServletResponse response, @RequestParam(required=false) String country,@RequestParam("answer_cnt") Integer answer_cnt , @RequestParam("all_cnt") Integer all_cnt){
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<String>(vocaService.QuizResult(accessToken,country, answer_cnt, all_cnt),HttpStatus.OK);
+	}
+	@GetMapping("/user/quiz-log")
+	@ApiOperation(value = "[퀴즈 그래프용] 대상자에 대한 퀴즈 기록 정보들 국가별로 줌")
+	public ResponseEntity<?> QuizLog(HttpServletResponse response){
+		String accessToken = response.getHeader("accessToken");
+		return new ResponseEntity<Map<String,Object>>(vocaService.QuizLogData(accessToken),HttpStatus.OK);
 	}
 }

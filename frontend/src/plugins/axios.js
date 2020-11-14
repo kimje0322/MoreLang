@@ -41,6 +41,7 @@ instance.interceptors.response.use(
             console.log("401 error 발생!")
             window.localStorage.removeItem('vuex');
             axios.post(`/user/out`).then(()=>{
+            });
             store.commit("LOGOUT");
             store.commit("ShowAlert", {
                 flag: true,
@@ -56,7 +57,6 @@ instance.interceptors.response.use(
             }, 1000);
             axios.defaults.headers.common.Authorization = null;
             router.push({name: "Login"})
-        });
         }
         return error;
     }

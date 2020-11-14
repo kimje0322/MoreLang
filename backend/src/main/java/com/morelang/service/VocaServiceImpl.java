@@ -16,13 +16,17 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.google.auth.oauth2.AccessToken;
 import com.morelang.dto.Member;
 import com.morelang.dto.Voca;
+import com.morelang.dto.VocaQuizLog;
+import com.morelang.dto.VocaQuizLogSub;
 import com.morelang.dto.VocaSub;
 import com.morelang.repository.MemberRepository;
+import com.morelang.repository.VocaQuizRepository;
 import com.morelang.repository.VocaRepository;
 
 @Service
@@ -31,6 +35,8 @@ public class VocaServiceImpl implements VocaService{
 	VocaRepository vocaRepository;
 	@Autowired
 	MemberRepository memberRepository;
+	@Autowired
+	VocaQuizRepository vocaQuizRepository;
 	
 	@Override
 	public String registVoca(String accessToken,Voca input) {
@@ -193,6 +199,45 @@ public class VocaServiceImpl implements VocaService{
 			return "success";
 		}else {
 			return "fail";
+		}
+	}
+	@Override
+	public String QuizResult(String accessToken, String country, Integer answer_cnt, Integer all_cnt) {
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			VocaQuizLog logs = new VocaQuizLog();
+			Double acc = (double)answer_cnt/(all_cnt);
+			logs.setAnswerCnt(answer_cnt);
+			logs.setWrongCnt(all_cnt-answer_cnt);
+			logs.setMember(m.get());
+			logs.setAccRate(Math.round(acc*100)/100.0);
+			logs.setAllCnt(all_cnt);
+			if(country == null) {
+				logs.setCountry("all");
+			}else {
+				logs.setCountry(country);
+			}
+			vocaQuizRepository.save(logs);
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	@Override
+	public Map<String,Object> QuizLogData(String accessToken){
+		Optional<Member> m = memberRepository.findByAccessToken(accessToken);
+		if(m.isPresent()) {
+			Map<String, Object> map = new HashMap<>();
+			List<VocaQuizLogSub> list = new ArrayList<>();
+			List<String> alist = vocaRepository.findDistinctCountry(m.get().getId());
+			map.put("all", vocaQuizRepository.findByCountry("all",(Sort.by(Sort.Direction.ASC, "quizTime"))));
+			for(int i=0; i<alist.size(); i++) {
+				list = vocaQuizRepository.findByCountry(alist.get(i),(Sort.by(Sort.Direction.ASC, "quizTime")));
+				map.put(alist.get(i), list);
+			}
+			return map;
+		}else {
+			return null;
 		}
 	}
 }

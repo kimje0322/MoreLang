@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.morelang.dto.Voca;
+import com.morelang.dto.VocaQuizLog;
+import com.morelang.dto.VocaQuizLogSub;
 import com.morelang.dto.VocaSub;
 
 public interface VocaService {
@@ -21,4 +23,6 @@ public interface VocaService {
 	public Map<String,Object> vocaQuize(String accessToken, String country, Integer idx) throws IOException;
 	public String vocaMean(String voca) throws IOException;
 	public String initQuiz(String accessToken);
+	public String QuizResult(String accessToken, String country,Integer answer_cnt, Integer all_cnt);
+	public Map<String,Object> QuizLogData(String accessToken);
 }
