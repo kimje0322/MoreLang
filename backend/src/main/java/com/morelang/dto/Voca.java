@@ -41,6 +41,8 @@ public class Voca {
 	@Column
 	private boolean isLearn;
 
+	@Column
+	private boolean used;
 	public Voca(String eachVoca, String eachMean, String country, boolean isLearn) {
 		super();
 		this.eachVoca = eachVoca;
