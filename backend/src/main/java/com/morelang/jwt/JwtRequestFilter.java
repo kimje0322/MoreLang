@@ -24,6 +24,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.morelang.repository.MemberRepository;
+
 import io.jsonwebtoken.ExpiredJwtException;
 
 
@@ -32,7 +34,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-
+	@Autowired
+	private MemberRepository memberRepository;
 	@Autowired
 	JwtTokenUtil jtu;
 
@@ -97,6 +100,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			}
 			if (username == null) {
 				logger.info("token maybe expired: username is null.");
+			}else if (!memberRepository.findByAccessToken(jwtToken).isPresent()) {
+				logger.warn("this token already logout!");
 			} else {
 				//DB access 대신에 파싱한 정보로 유저 만들기!
 				Authentication authen =  getAuthentication(jwtToken);
