@@ -4,26 +4,51 @@
     <span>단어모음에 저장된 단어들로 자가 테스트를 합니다.</span>
     
     <v-card
-    class=" mt-5"
+    class="mt-5 px-5"
     color="white"
-    max-width="344"
+    max-width="620px"
+
   >
-    <v-card-text style="color:black">
-      <div>English</div>
-      <h2 class="display-1 my-2" style="text-align:center; font-weight: bold;">benefit</h2>
-        <div id="container">
-        <div class="button-4">
-          <div class="eff-4"></div>
-          <a href="#"> 이익 </a>
+    <v-card-text style="color:black" >
+      <!-- <div>English</div> -->
+      <h2 class="display-1 my-3 mx-auto" style="text-align:center; font-weight: bold;">{{quizVoca}}</h2>
+      <div style=" margin-top: 5px !important;" >
+        <div v-for="(ans, i) in answerLst" :key="i" class="pretty p-icon p-round p-jelly my-5 mx-5" style="display:block;">
+            <input :class="ans" type="radio" v-model="checkedAns" :value="i" />
+            <div style="font-size: 25px;" class="state p-primary">
+              <i class="icon mdi mdi-check"></i>
+              <label :class="`${ans}`">{{ans}}</label>
+            </div>
         </div>
-        </div>
+      </div>
     </v-card-text>
     <v-card-actions>
       <v-btn
+        
         text
         color="red accent-4"
       >
         Learn More
+      </v-btn>
+      <v-btn
+        v-if="!ifChecked"
+        class="ml-auto"
+        style="font-size: 17px;"
+        text
+        color="blue accent-4"
+        @click="checkAnswer(ans)"
+      >
+        채점하기
+      </v-btn>
+      <v-btn
+        v-else
+        class="ml-auto"
+        style="font-size: 17px;"
+        text
+        color="blue accent-4"
+        @click="nextQuiz"
+      >
+        다음 문제
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -31,176 +56,94 @@
 </template>
 
 <script>
-// import axios from "@/plugins/axios";
+import axios from "@/plugins/axios";
+import "@/../public/css/MyTest.scss";
+import Swal from "sweetalert2";
+import $ from 'jquery';
 
 export default {
   data() {
     return {
-      degrees: 0,
-      point: [],
+      quizVoca: '',
+      answer: '',
+      answerLst: [],
+      maxIdx: 0,
+      nextIdx: 0,
+      checkedAns: '',
+      ifChecked: false,
     };
   },
   methods: {
+    checkAnswer(ans) {
+      // console.log(typeof(this.checkedAns));
+      this.ifChecked = true;
+      if (this.checkedAns == this.answer) {
+        Swal.fire({
+            width: 430,
+            text: "정답입니다!",
+            timer: 1675,
+            icon: "success",
+            iconColor: "red",
+            showConfirmButton: false,
+          });
+      } else {
+          this.checkedAns = this.answer;
+          $(`.${ans}`).css("color", "#F44336");
+          // selectAns
+          Swal.fire({
+            width: 430,
+            text: "😢 틀렸습니다.",
+            timer: 1675,
+            icon: "error",
+            iconColor: "red",
+            showConfirmButton: false,
+        });
+      }
+    },
+    nextQuiz() {
+      this.checkedAns = '';
+      this.ifChecked = false;
+      if (this.nextIdx <= this.maxIdx) {
+        axios.get(`user/myvoca-quize?index=${this.nextIdx}`
+        ).then(res => {
+          var quiz = res.data.result;
+          this.quizVoca = quiz.problem;
+          this.answerLst = quiz.answer_list;
+          this.answer = quiz.answer;
+          this.nextIdx = this.nextIdx + 1;
+        })
+      } 
+    },
   },
   mounted() {
-
-  }
+    axios.get(`user/init-quiz`);
+    axios.get(
+      `user/myvoca-quize?index=0`
+    ).then(res => {
+      var quiz = res.data.result;
+      console.log(res.data.result);
+      this.quizVoca = quiz.problem;
+      this.answerLst = quiz.answer_list;
+      this.answer = quiz.answer;
+      this.maxIdx = quiz.maxIdx;
+      this.nextIdx = 1;
+      })
+    },
+  updated() {
+  },
 };
 </script>
 
 
 <style>
-.intro{
-  width:100%;
-  height:30px;
-}
-.intro h1{
-  font-family:'Oswald', sans-serif;
-  letter-spacing:2px;
-  font-weight:normal;
-  font-size:14px;
-  color:#222;
-  text-align:center;
-  margin-top:10px;
-}
-.intro a{
-  color:#e74c3c;
-  font-weight:bold;
-  letter-spacing:0;
-}
-.intro img{
-  width:20px;
-  height:20px;
-  margin-left:5px;
-  margin-right:5px;
-  position:relative;
-  top:5px;
-}
-
 *{margin:0;padding:0;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}
 #container{
-  width:715px;
   height:230px;
-  margin:50px auto;
-}
-.button-1{
-  width:140px;
-  height:50px;
-  border:2px solid #34495e;
-  float:left;
-  text-align:center;
-  cursor:pointer;
-  position:relative;
-  box-sizing:border-box;
-  overflow:hidden;
-  margin:0 0 40px 0;
-}
-.button-1 a{
-  font-family:arial;
-  font-size:16px;
-  color:#34495e;
-  text-decoration:none;
-  line-height:50px;
-  transition:all .5s ease;
-  z-index:2;
-  position:relative;
-}
-.eff-1{
-  width:140px;
-  height:50px;
-  top:-2px;
-  right:-140px;
-  background:#34495e;
-  position:absolute;
-  transition:all .5s ease;
-  z-index:1;
-}
-.button-1:hover .eff-1{
-  right:0;
-}
-.button-1:hover a{
-  color:#fff;
-}
-
-.button-2{
-  width:140px;
-  height:50px;
-  border:2px solid #34495e;
-  float:left;
-  text-align:center;
-  cursor:pointer;
-  position:relative;
-  box-sizing:border-box;
-  overflow:hidden;
-  margin:0 0 40px 50px;
-}
-.button-2 a{
-  font-family:arial;
-  font-size:16px;
-  color:#34495e;
-  text-decoration:none;
-  line-height:50px;
-  transition:all .5s ease;
-  z-index:2;
-  position:relative;
-}
-.eff-2{
-  width:140px;
-  height:50px;
-  top:-50px;
-  background:#34495e;
-  position:absolute;
-  transition:all .5s ease;
-  z-index:1;
-}
-.button-2:hover .eff-2{
-  top:0;
-}
-.button-2:hover a{
-  color:#fff;
-}
-
-.button-3{
-  width:140px;
-  height:50px;
-  border:2px solid #34495e;
-  float:left;
-  text-align:center;
-  cursor:pointer;
-  position:relative;
-  box-sizing:border-box;
-  overflow:hidden;
-  margin:0 0 40px 50px;
-}
-.button-3 a{
-  font-family:arial;
-  font-size:16px;
-  color:#34495e;
-  text-decoration:none;
-  line-height:50px;
-  transition:all .5s ease;
-  z-index:2;
-  position:relative;
-}
-.eff-3{
-  width:140px;
-  height:50px;
-  bottom:-50px;
-  background:#34495e;
-  position:absolute;
-  transition:all .5s ease;
-  z-index:1;
-}
-.button-3:hover .eff-3{
-  bottom:0;
-}
-.button-3:hover a{
-  color:#fff;
 }
 
 .button-4{
-  width:170px;
-  height:38px;
+  width:250px;
+  height:50px;
   border:2px solid black;
   float:left;
   text-align:center;
@@ -208,7 +151,7 @@ export default {
   position:relative;
   box-sizing:border-box;
   overflow:hidden;
-  margin:0 0 40px 50px;
+  /* margin:0 0 40px 50px; */
 }
 .button-4 a{
   font-family:arial;
