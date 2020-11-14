@@ -83,7 +83,7 @@ public class VocaController {
 		return new ResponseEntity<Map<String,Object>>(vocaService.vocaQuize(accessToken, "English", 0),HttpStatus.OK);
 	}
 	
-	@GetMapping("/newuser/init-quiz")
+	@GetMapping("/user/init-quiz")
 	@ApiOperation(value = "[퀴즈 시작 전] 퀴즈 시작 전 초기화")
 	public ResponseEntity<?> test(HttpServletResponse response) throws IOException  {
 		String accessToken = response.getHeader("accessToken");
