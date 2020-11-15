@@ -1,7 +1,8 @@
 <template>
+  <div>
   <v-container style="margin-top: 15px;">      
     <v-select
-      v-if="`quizVoca`"
+      v-if="`quizVoca` && !testStart"
       style="float:right; max-width:220px; margin-right: 50px"
       :items="language"
       label="Language"
@@ -12,34 +13,43 @@
     <h1 class="mb-3">단어 테스트</h1>
     <span>단어모음에 저장된 단어들로 자가 테스트를 합니다.</span>
 
-
-    <div v-if="!quizVoca && !testCompleted" style="margin-top: 100px; text-align:center;">
+    
+    <div v-if="testStart && !quizVoca && !testCompleted" style="margin-top: 100px; text-align:center;">
       <v-icon size="70">mdi-file-document-edit-outline</v-icon>
       <p style="font-size: 20px; margin-top: 7px"> 단어장 추가를 하면 테스트를 이용할 수 있습니다. </p>
     </div>
-    <div v-else-if="!nextVoca && testCompleted">
+    <div v-else-if="testStart && !nextVoca && testCompleted" style="text-align:center;">
       <p style="font-size: 20px; margin-top: 110px; text-align:center;"> 단어장의 모든 단어 테스트를 완료하였습니다. </p>
+      <v-btn style="text-align:center;" color="blue" @click="End()">다시 보기</v-btn>
     </div>
     <v-card 
       v-if="quizVoca && !testCompleted"
       class="mt-5 px-5"
       color="white"
-      max-width="620px"
+      max-width="700px"
+      min-height="250px"
+      style= "margin-left: 10px"
     >
-    <v-card-text style="color:black" >
+    <div v-if="!testStart" style="text-align:center; padding-top: 100px;">
+      <p style="color:black; margin-bottom: 8px; font-size: 18px">버튼을 누르면 테스트가 시작됩니다.</p>
+      <v-btn color="blue" @click="Start()">테스트 시작</v-btn>
+    </div>
+    <v-card-text v-if="testStart" style="color:black" >
       <div v-if="selectlang != 'All'">{{this.selectlang}}</div>
+      <span style="float:right">{{nextIdx}}/{{maxIdx+1}}</span>
+      
       <h2 class="display-1 my-3 mx-auto" style="text-align:center; font-weight: bold;">{{quizVoca}}</h2>
-      <div style=" margin-top: 5px !important;" >
+      <div style=" margin-top: 30px !important;" >
         <div v-for="(ans, i) in answerLst" :key="i" class="pretty p-icon p-round p-jelly my-5 mx-5" style="display:block;">
-            <input :class="ans" type="radio" v-model="checkedAns" :value="i" />
-            <div style="font-size: 22px;" class="state p-primary">
-              <i class="icon mdi mdi-check"></i>
+            <input type="radio" v-model="checkedAns" :value="i" />
+            <div :id="i" style="font-size: 22px;" class="state p-primary ">
+              <i class="icon mdi mdi-check" ></i>
               <label :class="`${ans}`">{{ans}}</label>
             </div>
         </div>
       </div>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions v-if="testStart">
       <v-dialog
         v-model="dialog2"
         width="30%"
@@ -85,16 +95,28 @@
       >
         다음 문제
       </v-btn>
+      <v-btn
+        v-if="ifChecked && !nextVoca"
+        class="ml-auto"
+        style="font-size: 18px;"
+        text
+        color="blue accent-4"
+        @click="nextQuiz"
+      >
+        퀴즈 종료
+      </v-btn>
     </v-card-actions>
   </v-card>
   </v-container>
+  <p style="text-align:center; margin-top: 15px; margin-bottom: 3px; font-size: 16px;">맞은 개수 {{answerCnt}}/ 총 푼 개수 {{allCnt}}</p>
+  </div>
 </template>
 
 <script>
 import axios from "@/plugins/axios";
 import "@/../public/css/MyTest.scss";
 import Swal from "sweetalert2";
-// import $ from 'jquery';
+import $ from 'jquery';
 
 export default {
   data() {
@@ -112,35 +134,56 @@ export default {
       dialog2: false,
       nextVoca: false,
       testCompleted: false,
+      answerCnt:0,
+      allCnt:0,
+      testStart:false,
     };
   },
   watch: {
     selectlang: function () {
-      this.selectlanguage(this.selectlang);
+      this.selectlanguage();
     },
-    nextIdx: function() {
-      if (this.nextIdx > this.maxIdx + 1) {
-        this.nextVoca = false;
-        this.testCompleted = true;
-        this.quizVoca = false;
-      }
-    }
+    // nextIdx: function() {
+    //   if (this.nextIdx > this.maxIdx + 1) {
+    //     this.nextVoca = false;
+    //     this.testCompleted = true;
+    //     this.quizVoca = false;
+    //   }
+    // }
   },
   methods: {
-    selectlanguage() {
+    Start(){
+      this.testStart = true;
+    },
+    End(){
+      this.testStart=false;
+      this.answerCnt = 0;
+      this.allCnt = 0;
+      this.nextIdx=1;
+      this.nextVoca = true;
+      this.testCompleted = false;
+      this.quizVoca = true;
+      this.selectlanguage();
+    },
+    async init(){
+      await axios.get(`user/init-quiz`);
+    },
+    async selectlanguage() {
+      await this.init();
+      console.log("lang? = = " + this.selectlang)
       // if (this.nextIdx <= this.maxIdx) {
       //   this.nextVoca = false;
       // } else if (this.nextIdx > this.maxIdx) {
       //   this.nextVoca = true;
       // }
       if (this.selectlang == 'All') {
-        axios.get(
+        await axios.get(
         `user/myvoca-quize?index=0`
       ).then(res => {
         if (res.data.result == 'not exist') {
             console.log('data == not exist??')
             this.testCompleted = true;
-          } else {
+        } else {
         console.log('여기 퀴즈 전체로 mounted됐을때');
         console.log(res.data.result);
         var quiz = res.data.result;
@@ -148,11 +191,12 @@ export default {
         this.answerLst = quiz.answer_list;
         this.answer = quiz.answer;
         this.maxIdx = quiz.maxIdx;
+        this.allCnt = 0;
         this.nextIdx = 1;
           }
         })
       } else {
-        axios.get(
+        await axios.get(
           `user/myvoca-quize?country=${this.selectlang}&index=0`
         ).then(res => {
           if (res.data.result == 'not exist') {
@@ -165,6 +209,7 @@ export default {
           this.answerLst = quiz.answer_list;
           this.answer = quiz.answer;
           this.maxIdx = quiz.maxIdx;
+          this.allCnt = 0;
           this.nextIdx = 1;
             }
           })
@@ -178,6 +223,9 @@ export default {
         this.nextVoca = true;
       };
       if (this.checkedAns == this.answer) {
+        $(`#${this.answer}`).addClass("p-success");
+        this.answerCnt++;
+        this.allCnt++;
         Swal.fire({
             width: 430,
             text: "정답입니다!",
@@ -188,8 +236,8 @@ export default {
           });
       } else {
         this.checkedAns = this.answer;
-        // $(`.${ans}`).css("color", "#F44336");
-        // selectAns
+        $(`#${this.checkedAns}`).addClass("p-danger");
+        this.allCnt++;
         Swal.fire({
           width: 430,
           text: "😢 틀렸습니다.",
@@ -201,6 +249,8 @@ export default {
       }
     },
     nextQuiz() {
+      $(`#${this.checkedAns}`).removeClass("p-success");
+      $(`#${this.checkedAns}`).removeClass("p-danger");
       this.checkedAns = '';
       this.ifChecked = false;
 
@@ -208,7 +258,6 @@ export default {
       console.log("maxIdx " +this.maxIdx);
     
       if (this.nextIdx <= this.maxIdx) {
-        console.log('여기로 와야지 다음 맥ㄳ그 퀴즈 가지ㅠ')
         if (this.selectlang == 'All') {
           console.log('다음퀴즈// nextIdx ' + this.nextIdx);
           axios.get(`user/myvoca-quize?index=${this.nextIdx}`)
@@ -224,7 +273,6 @@ export default {
             this.answer = quiz.answer;
             this.maxIdx = quiz.maxIdx;
             this.nextIdx += 1;
-            console.log(this.nextIdx);
             }
           })
         } else {
@@ -232,37 +280,46 @@ export default {
           ).then(res => {
             if (res.data.result == 'not exist') {
               console.log(res.data.result);
-
               this.testCompleted = true;
             } else {
             var quiz = res.data.result;
             this.quizVoca = quiz.problem;
             this.answerLst = quiz.answer_list;
             this.answer = quiz.answer;
+            this.maxIdx = quiz.maxIdx;
             this.nextIdx += 1;
             }
           })
         }
-      // } else if (this.nextIdx > this.maxIdx) {
-      //   this.nextVoca = false;
-      //   this.testCompleted = true;
-      }
+      } else if (this.nextIdx > this.maxIdx) {
+        this.nextVoca = false;
+        this.testCompleted = true;
+        const fd = new FormData();
+        fd.append("all_cnt", this.allCnt);
+        fd.append("answer_cnt", this.answerCnt);
+        fd.append("country", this.selectlang);
+        axios.post("/user/end-quiz", fd)
+        .then((res)=>{
+          console.log(res);
+
+        });
+       }
     },
   },
   mounted() {
-    axios.get(`user/init-quiz`);
     axios.get(
-      `user/myvoca-country`
-    ).then(res => {
-      var lang = res.data;
-      for (var i=0; i < lang.length; i++) {
-        this.language.push(lang[i]);
-      }
-      console.log(this.language);
+        `user/myvoca-country`
+      ).then(res => {
+        var lang = res.data;
+        console.log(res.data);
+        for (var i=0; i < lang.length; i++) {
+          this.language.push(lang[i]);
+        }
+        console.log(this.language);
       if (lang.length != 0) {
-        this.selectlanguage();
+         this.selectlanguage();
       }
-    })
+      })
     // axios.get(
     //     `user/myvoca-quize?index=0`
     //   ).then(res => {
