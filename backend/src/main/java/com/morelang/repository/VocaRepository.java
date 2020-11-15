@@ -25,7 +25,7 @@ public interface VocaRepository extends JpaRepository<Voca, Long>{
 	public List<Voca> findByMember_idAndUsed(Integer userid, boolean used);
 	public List<Voca> findByCountryAndUsed(String country, boolean used);
 	public List<Voca> findByUsed(boolean used);
-	
+	public List<VocaSub> findByMember_idAndCountry(Integer userid, String Country);
 	@Query(value = "select distinct * from vocas  where each_mean not like CONCAT('%',:mean,'%') and used = false", nativeQuery = true)
 	public List<Voca> distinctMean(String mean);
 	
