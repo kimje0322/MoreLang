@@ -213,7 +213,7 @@ public class VocaServiceImpl implements VocaService{
 			logs.setAnswerCnt(answer_cnt);
 			logs.setWrongCnt(all_cnt-answer_cnt);
 			logs.setMember(m.get());
-			logs.setAccRate(Math.round(acc*1000)/10);
+			logs.setAccRate(Math.round(acc*1000)/10.0);
 			logs.setAllCnt(all_cnt);
 			if(country == null) {
 				logs.setCountry("all");
