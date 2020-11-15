@@ -166,6 +166,7 @@ public class HistoryServiceImpl implements HistoryService{
 		if(Defaultlang == null) {
 			return historyVideoRepository.findAll(pageable);
 		}else {
+			System.out.println(Defaultlang);
 			return historyVideoRepository.findByDefaultLanguage(Defaultlang, pageable);
 		}
 	}
