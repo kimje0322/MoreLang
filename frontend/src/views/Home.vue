@@ -11,18 +11,18 @@
     </div>
 
     <!-- 소개 영상 -->
-    <!-- <div style="background-color: white; width: 100%; height: 34%; display: block; margin-top: 10px; text-align: center"> -->
-      <!-- <video
+    <div style="margin-bottom: 14%; background-color: white; width: 100%; height: 34%; display: block; margin-top: 10px; text-align: center">
+      <video
         style="width: 100%"
         muted
         autoplay
         loop
         playsinline
-        src="../assets/video/몰랑_intro_01.mp4"
-      ></video> -->
-        <!-- <img width="80%" src="../../../resource/img/화면캡쳐/9_영상.png" alt="">
-        <h2 style="color: black;" class="mt-3">설명dfdfd</h2>
-    </div> -->
+        src="../assets/video/몰랑_ucc.mp4"
+      ></video>
+        <!-- <img width="80%" src="../../../resource/img/화면캡쳐/9_영상.png" alt=""> -->
+        <!-- <h2 style="color: black;" class="mt-3">설명dfdfd</h2> -->
+    </div>
 
     <!-- 언어 필터링 -->
     <div class="mt-16">
