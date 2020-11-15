@@ -184,22 +184,6 @@ export default {
       await axios.delete(`/user/delete-voca?vocaId=${wid}`);
       this.Next(country);
     },
-    clone: function (el) {
-      console.log("clone함수");
-      return {
-        name: el.name + " cloned",
-      };
-    },
-    logtoProgress: function (word) {
-      console.log("logto Progess함수");
-      word.isLearn = false;
-      console.log(word);
-    },
-    logtoCompleted: function (word) {
-      console.log("logtoCompleted함수");
-      word.isLearn = true;
-      console.log(word);
-    },
     wordList(lang, idx) {
       this.wlist = [];
       this.wlist2 = [];
