@@ -39,6 +39,13 @@
             단어테스트
           </v-tab>
           <v-tab class="tabs">
+            <i class="fas fa-chart-line fa-1x mr-2"></i>
+            <!-- <v-icon left size="25">
+              mdi-book-open
+            </v-icon> -->
+            학습 그래프
+          </v-tab>
+          <v-tab class="tabs">
             <v-icon left size="25">
               mdi-book-open
             </v-icon>
@@ -72,6 +79,17 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
+           <v-tab-item>
+            <v-card flat>
+              <v-card-text style="margin-left:27px">
+                <line-chart
+                  style ="background-color: black; width: 97%; "
+                  v-if="loaded"
+                  :chartdata="chartdata"
+                  :options="options"/>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
           <v-tab-item>
             <v-card flat>
               <v-card-text style="margin-left:27px">
@@ -102,6 +120,7 @@ import MyPoint from "@/views/Mypage/MyPoint";
 import MyTest from "@/views/Mypage/MyTest";
 import Navbar from "@/components/Navbar";
 import "@/../public/css/Mypage.scss";
+import LineChart from '@/components/Chart.vue'
 
 export default {
   components: {
@@ -111,6 +130,7 @@ export default {
     MySentences,
     MyPoint,
     MyTest,
+    LineChart
   },
   data() {
     return {
@@ -126,7 +146,55 @@ export default {
         "mdi-alphabetical-variant",
         "mdi-book-play-outline"
       ],
-      point: null
+      point: null,
+      // graph
+        loaded: false,
+    chartdata:  {
+        datasets: []
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: '퀴즈 성장률',
+            fontColor:"white"
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                ticks: {
+                  stepSize : 1,
+                  fontColor : "white",
+                     },
+                scaleLabel: {
+                    display: true,
+                    labelString: '회차'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                        min: 0,
+                  max: 100,
+                  stepSize : 10,
+                  fontColor : "white",
+                     },
+                scaleLabel: {
+                    display: true,
+                    labelString: '점수(%)',
+                    
+                }
+            }]
+        }
+      }
     };
   },
   mounted() {
@@ -137,6 +205,42 @@ export default {
       .then(res => {
         this.point = res.data;
       });
+    // graph
+    this.loaded = false
+    var myColor = ['rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64,0.8)']
+    try {
+      var t = 1;
+      axios
+        .get("/user/quiz-log").
+        then((res)=> {
+          console.log(res);
+          for (const [key,value] of Object.entries(res.data)) {
+            var temp = {}
+            var sdata=[];
+            var k = 1;
+            
+            for(const [,value2] of Object.entries(value)){
+              sdata.push({x: k++,y:value2.accRate})
+            }
+            temp["label"] = key;
+            temp["data"] = sdata;
+            temp["fill"] = false;
+            temp["lineTension"] = 0;
+            temp["borderColor"] = myColor[(t++)%6];
+            temp["showLine"] = true;
+            this.chartdata.datasets.push(temp);
+          }
+        })
+      console.log(this.chartdata.datasets);
+      this.loaded = true
+    } catch (e) {
+      console.error(e)
+    }
   },
   methods: {
     onCharge() {
