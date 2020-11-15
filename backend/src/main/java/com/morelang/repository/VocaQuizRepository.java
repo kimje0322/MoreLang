@@ -10,5 +10,8 @@ import com.morelang.dto.VocaQuizLog;
 import com.morelang.dto.VocaQuizLogSub;
 
 public interface VocaQuizRepository extends JpaRepository<VocaQuizLog, Long>{
-	List<VocaQuizLogSub> findByCountry(String country,Sort sort);
+	List<VocaQuizLogSub> findByMember_idAndCountry(Integer userid,String country,Sort sort);
+	
+	@Query(value = "SELECT DISTINCT country FROM vocaquiz_logs where member_id=:userid",nativeQuery = true)
+	public List<String> findDistinctCountry(Integer userid);
 }

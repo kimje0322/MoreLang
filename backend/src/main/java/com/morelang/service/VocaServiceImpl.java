@@ -213,7 +213,7 @@ public class VocaServiceImpl implements VocaService{
 			logs.setAnswerCnt(answer_cnt);
 			logs.setWrongCnt(all_cnt-answer_cnt);
 			logs.setMember(m.get());
-			logs.setAccRate(Math.round(acc*100)/100.0);
+			logs.setAccRate(Math.round(acc*1000)/10);
 			logs.setAllCnt(all_cnt);
 			if(country == null) {
 				logs.setCountry("all");
@@ -232,11 +232,11 @@ public class VocaServiceImpl implements VocaService{
 		if(m.isPresent()) {
 			Map<String, Object> map = new HashMap<>();
 			List<VocaQuizLogSub> list = new ArrayList<>();
-			List<String> alist = vocaRepository.findDistinctCountry(m.get().getId());
-			map.put("0", vocaQuizRepository.findByCountry("all",(Sort.by(Sort.Direction.ASC, "quizTime"))));
+			List<String> alist = vocaQuizRepository.findDistinctCountry(m.get().getId());
+			map.put("All", vocaQuizRepository.findByMember_idAndCountry(m.get().getId(),"All",(Sort.by(Sort.Direction.ASC, "quizTime"))));
 			for(int i=0; i<alist.size(); i++) {
-				list = vocaQuizRepository.findByCountry(alist.get(i),(Sort.by(Sort.Direction.ASC, "quizTime")));
-				map.put(String.valueOf(i+1), list);
+				list = vocaQuizRepository.findByMember_idAndCountry(m.get().getId(),alist.get(i),(Sort.by(Sort.Direction.ASC, "quizTime")));
+				map.put(alist.get(i), list);
 			}
 			return map;
 		}else {

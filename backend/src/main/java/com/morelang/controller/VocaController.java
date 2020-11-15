@@ -98,10 +98,10 @@ public class VocaController {
 		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<String>(vocaService.QuizResult(accessToken,country, answer_cnt, all_cnt),HttpStatus.OK);
 	}
-	@GetMapping("/newuser/quiz-log")
+	@GetMapping("/user/quiz-log")
 	@ApiOperation(value = "[퀴즈 그래프용] 대상자에 대한 퀴즈 기록 정보들 국가별로 줌")
 	public ResponseEntity<?> QuizLog(HttpServletResponse response){
-		String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDE1MjQ3Njc5Mjk3NzU3MzcxNDgiLCJyb2xlIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2MDU0Mzg5NzIsImlhdCI6MTYwNTM1MjU3Mn0.KDfS_SweOuQE35DBp5Ee_XN0q8m8IRq0NiiYsCsn40fmwM-EufOBCewpk1i-7SZC7-2oqEbxjEl8VZ2rLhBJ-w";//response.getHeader("accessToken");
+		String accessToken = response.getHeader("accessToken");
 		return new ResponseEntity<Map<String,Object>>(vocaService.QuizLogData(accessToken),HttpStatus.OK);
 	}
 }
