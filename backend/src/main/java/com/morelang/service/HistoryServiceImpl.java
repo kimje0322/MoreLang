@@ -165,8 +165,11 @@ public class HistoryServiceImpl implements HistoryService{
 	public Page<HistoryVideo> highCountVideo(String Defaultlang, Pageable pageable) {
 		if(Defaultlang == null) {
 			return historyVideoRepository.findAll(pageable);
-		}else {
-			System.out.println(Defaultlang);
+		} else {
+			if (Defaultlang.equals("jp"))
+				Defaultlang = "ja";
+			else if (Defaultlang.equals("cn"))
+				Defaultlang = "zh";
 			return historyVideoRepository.findByDefaultLanguage(Defaultlang, pageable);
 		}
 	}
