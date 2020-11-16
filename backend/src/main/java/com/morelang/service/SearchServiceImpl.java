@@ -30,15 +30,18 @@ public class SearchServiceImpl implements SearchService {
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
 		WebDriver driver = new ChromeDriver(options);
+		System.out.println(1);
 
 		try {
 			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q
 					+ " site:youtube.com";
 			driver.get(url);
+			System.out.println(2);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);
 			Elements videos = d.getElementsByClass("rc");
 
+			System.out.println(3);
 			for (Element e : videos) {
 				Search s = new Search();
 
