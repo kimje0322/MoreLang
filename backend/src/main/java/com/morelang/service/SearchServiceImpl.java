@@ -30,19 +30,15 @@ public class SearchServiceImpl implements SearchService {
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
 		WebDriver driver = new ChromeDriver(options);
-		System.out.println(1);
 
 		try {
 			String url = "https://www.google.com/search?tbm=vid&tbs=cc:1&start=" + start + "&q=" + q
 					+ " site:youtube.com";
 			driver.get(url);
-			System.out.println(2);
 			String html = driver.getPageSource();
 			Document d = Jsoup.parse(html);
 			Elements videos = d.getElementsByClass("rc");
 
-			System.out.println(3);
-			System.out.println(html);
 			for (Element e : videos) {
 				Search s = new Search();
 
@@ -52,9 +48,14 @@ public class SearchServiceImpl implements SearchService {
 				videoUrl = "https://www.youtube.com/watch?v=" + id;
 				String imgUrl = "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
-				String publishedAt = e.child(1).child(1).child(1).ownText();
-				publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
-				String channelTitle = e.child(1).child(1).child(1).getElementsByTag("span").text();
+				String publishedAt = null;
+				String channelTitle = null;
+				try {
+					publishedAt = e.child(1).child(1).child(1).ownText();
+					publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
+					channelTitle = e.child(1).child(1).child(1).getElementsByTag("span").text();
+				} catch (Exception e2) {
+				}
 
 				List<Caption> captions = new ArrayList<>();
 				try {
