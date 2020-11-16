@@ -1,20 +1,16 @@
 package com.morelang.util;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
-
-import org.springframework.core.io.ClassPathResource;
 
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.language.v1beta2.LanguageServiceSettings;
 import com.google.cloud.language.v1beta2.AnalyzeSyntaxRequest;
 import com.google.cloud.language.v1beta2.AnalyzeSyntaxResponse;
 import com.google.cloud.language.v1beta2.Document;
 import com.google.cloud.language.v1beta2.EncodingType;
 import com.google.cloud.language.v1beta2.LanguageServiceClient;
+import com.google.cloud.language.v1beta2.LanguageServiceSettings;
 import com.google.cloud.language.v1beta2.Token;
 
 public class NLAnalyze {

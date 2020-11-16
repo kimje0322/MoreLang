@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.google.auth.oauth2.AccessToken;
 import com.morelang.dto.Member;
 import com.morelang.dto.Voca;
 import com.morelang.dto.VocaQuizLog;

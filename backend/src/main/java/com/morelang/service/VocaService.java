@@ -8,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.morelang.dto.Voca;
-import com.morelang.dto.VocaQuizLog;
-import com.morelang.dto.VocaQuizLogSub;
 import com.morelang.dto.VocaSub;
 
 public interface VocaService {

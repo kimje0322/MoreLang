@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.morelang.dto.PageRequest;
 import com.morelang.dto.Voca;
-import com.morelang.dto.VocaQuizLog;
-import com.morelang.dto.VocaQuizLogSub;
 import com.morelang.dto.VocaSub;
 import com.morelang.service.VocaService;
 

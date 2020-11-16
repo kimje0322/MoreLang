@@ -292,7 +292,7 @@
 </details>
 
 ---
-## ⏰ 프로젝트 진행 현황
+<!-- ## ⏰ 프로젝트 진행 현황
 <details>
 <summary>Week 1 :  2020.10.12(월) ~ 2020.10.18(일)</summary>
 
@@ -338,7 +338,7 @@
 - AWS 서버 구축
 - Docker를 활용한 무중단 배포 구현
 - NGINX, Jenkins 설정
-- 임시 도메인 주소 획득 및 HTTPS를 위한 SSL 설정
+- 임시 도메인 주소 획득 및 HTTPS를 위한 SSL 설정 -->
 
 ### API 찾기
 - [API 조회](./resource/file/API정리.md)

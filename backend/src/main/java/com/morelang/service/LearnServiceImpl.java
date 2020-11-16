@@ -22,7 +22,7 @@ public class LearnServiceImpl implements LearnService{
 	@Autowired
 	LearnRepository learnRepository;
 	private String text = "Google, headquartered in Mountain View, unveiled the new Android phone at the Consumer Electronic Show. Sundar Pichai said in his keynote that users love their new Android phones.";
-	private String text2 = "だから みなさんに 僕の経験を共有したい";
+	//private String text2 = "だから みなさんに 僕の経験を共有したい";
 	@Override
 	public Map<String,Object> WordPuzzle(String input) {
 		List<Token> LearnList =  NLAnalyze.getInstance().analyzeSyntax(input);//learnRepository.findAll();
