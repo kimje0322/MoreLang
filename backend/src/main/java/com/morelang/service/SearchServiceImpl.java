@@ -42,6 +42,7 @@ public class SearchServiceImpl implements SearchService {
 			Elements videos = d.getElementsByClass("rc");
 
 			System.out.println(3);
+			System.out.println(html);
 			for (Element e : videos) {
 				Search s = new Search();
 
