@@ -2,12 +2,25 @@
   <!-- 상단 -->
   <div
     class="Navbar"
-    style="padding-top: 0px; top: 0; left: 0; z-index: 40; width: 100%; position: fixed;"
+    style="
+      padding-top: 0px;
+      top: 0;
+      left: 0;
+      z-index: 40;
+      width: 100%;
+      position: fixed;
+    "
   >
-    <div class="navigation" id="header" >
-      <div style="padding: 0;" >
-        <v-card-title style="padding: 0px 30px; margin-top:6px; margin-bottom: 5px; background-color:black;" >
-         
+    <div class="navigation" id="header">
+      <div style="padding: 0">
+        <v-card-title
+          style="
+            padding: 0px 30px;
+            margin-top: 6px;
+            margin-bottom: 5px;
+            background-color: black;
+          "
+        >
           <router-link to="/">
             <div class="logo"><b>M<span>OR</span>EL<span>AN</span>G</b></div>
             <!-- <img style="height:63px;" src="@/assets/img/logo.png" alt=""> -->
@@ -17,7 +30,7 @@
           </router-link>
           <div class="mx-auto mt-2">
             <v-text-field
-              style="display: inline-block;"
+              style="display: inline-block"
               autocomplete="off"
               v-model="keyword"
               @keyup.enter="onSearch(keyword)"
@@ -30,7 +43,7 @@
               color="white"
               @click:append="onSearch(keyword)"
             />
-            <div class="mx-1" style="display:inline-block">
+            <div class="mx-1" style="display: inline-block">
               <v-btn
                 @click="beforeTrans"
                 class="py-4 mb-2"
@@ -67,9 +80,7 @@
                 <v-card color="transparent" v-bind="attrs" v-on="on" flat>
                   <v-row no-gutters>
                     <v-col>
-                      <v-icon style="float: right;">
-                        mdi-menu
-                      </v-icon>
+                      <v-icon style="float: right"> mdi-menu </v-icon>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -102,7 +113,7 @@
         class="flex"
         justify="space-between"
       > -->
-        <v-col cols="12" class="mt-2" style="height: 0px!important;">
+        <v-col cols="12" class="mt-2" style="height: 0px !important">
           <v-tooltip v-model="errSnackbar" top>
             <template v-slot:activator="{ on, attrs }">
               <v-btn class="snackbar" icon v-bind="attrs" v-on="on"> </v-btn>
@@ -126,18 +137,22 @@
             <v-toolbar-title class="toolbarTitle">
               <p
                 class="my-auto title"
-                style="margin-left: 83px; text-align:center!important"
+                style="margin-left: 83px; text-align: center !important"
               >
-                <b><span style="font-size: 22px;" class="trans">검색어 번역</span></b>
+                <b
+                  ><span style="font-size: 22px" class="trans"
+                    >검색어 번역</span
+                  ></b
+                >
               </p>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon> </v-btn>
           </v-toolbar>
-          <v-card-text style="height: 300px;">
+          <v-card-text style="height: 300px">
             <v-card class="mx-auto mt-5" max-width="500" flat>
               <v-row justify="center">
-                <v-container class="language" style="text-align:center;">
+                <v-container class="language" style="text-align: center">
                   <v-row no-gutters>
                     <!-- 언어 선택 -->
                     <v-col
@@ -162,7 +177,7 @@
           </v-card-text>
           <v-divider class="mb-0"></v-divider>
           <v-card-actions class="mx-auto">
-            <v-btn color="red"  @click="onSearch(keyword)">검색</v-btn>
+            <v-btn color="red" @click="onSearch(keyword)">검색</v-btn>
             <!-- <v-btn color="black" text @click="transDialog = false">닫기</v-btn> -->
             <!-- <v-btn
               color="black"
@@ -225,24 +240,25 @@ export default {
         pt: "포르투갈어",
         ru: "러시아",
         th: "태국어",
-        tr: "터키어"
+        tr: "터키어",
       },
-      items: ["Mypage", "Logout"]
+      items: ["Mypage", "Logout"],
     };
   },
   computed: mapState(["userThumbnail", "nickname", "accessToken"]),
   methods: {
     onSearch(word) {
-      // store.state.target = word
-      // console.log("target")
-      // console.log(store.state.target)
-      // if (window.location.href.indexOf("search") > -1) {
-      //   console.log("현재페이지")
-      // }
-      // else {
-      this.$router.push({ name: "Search", params: { target: word } });
-      // }
-      this.keyword = word;
+      if (word.indexOf("v=") > -1) {
+        console.log("야아아아");
+        var tmp = word.indexOf("v=");
+        var id = word.slice(tmp + 2, word.length);
+        console.log(tmp);
+        console.log(id);
+        this.$router.push({ name: "Video", params: { vid: id } });
+      } else {
+        this.$router.push({ name: "Search", params: { target: word } });
+        this.keyword = word;
+      }
     },
     beforeTrans() {
       if (this.keyword) {
@@ -256,7 +272,7 @@ export default {
         .get(
           `/newuser/translate?query=${this.keyword}&src_lang=kr&target_lang=${lang}`
         )
-        .then(res => {
+        .then((res) => {
           this.keyword = res.data;
         });
     },
@@ -271,7 +287,7 @@ export default {
         // console.log("userid = " + this.$store.state.userid)
         this.$router.push({
           name: "Mypage",
-          params: { userid: this.$store.state.userid }
+          params: { userid: this.$store.state.userid },
         });
         // } else if (idx === 1) {
         //   this.$router.push({name: "Home"});
@@ -287,8 +303,8 @@ export default {
       } else {
         this.$router.push({ name });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -337,12 +353,14 @@ a {
   top: 0;
 }
 
-.logo, .title{
+.logo,
+.title {
   user-select: none;
   margin-top: 10px;
 }
 
-.logo b, .title b{
+.logo b,
+.title b {
   font: 300 4vh "Vibur";
   color: #fdd;
   text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff0000, 0 0 0.5em #ff0000,
@@ -388,31 +406,34 @@ a {
 }
 
 /* follow me @nodws */
-#btn-twtr{
-  clear:both;
-  color:#fff;
-  border:2px solid;
-  border-radius:3px;
-  text-align:center;
-  text-decoration:none;
-  display:block;
-  font-family:sans-serif;
-  font-size:14px;
-  width:13em;
-  padding:5px 10px;
-  font-weight:600;
-  position:absolute;
-  bottom:20px;
-  left:0;
-  right:0;
-  margin:0 auto;
-  background:rgba(0,0,0,0.2);
-  box-shadow:0 0 0px 3px rgba(0,0,0,0.2);
-  opacity:0.4
-}#btn-twtr:hover{color:#fff;opacity:1}
-
-.trans {
-  font-family: 'paybooc-Medium', sans-serif;
+#btn-twtr {
+  clear: both;
+  color: #fff;
+  border: 2px solid;
+  border-radius: 3px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-family: sans-serif;
+  font-size: 14px;
+  width: 13em;
+  padding: 5px 10px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0px 3px rgba(0, 0, 0, 0.2);
+  opacity: 0.4;
+}
+#btn-twtr:hover {
+  color: #fff;
+  opacity: 1;
 }
 
+.trans {
+  font-family: "paybooc-Medium", sans-serif;
+}
 </style>
