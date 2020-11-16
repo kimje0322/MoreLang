@@ -48,7 +48,7 @@ const routes = [{
         component: Quiz,
     },
     {
-        path: "/search",
+        path: "/search/:vid?",
         name: "Search",
         component: Search,
     },

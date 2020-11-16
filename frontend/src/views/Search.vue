@@ -345,12 +345,7 @@ export default {
     };
   },
   mounted: function() {
-    // if(store.state.target != null) {
-    //   this.videoSearch(store.state.target)
-    //   // store.state.target = null
-    // }
     if (this.$route.params.target != null) {
-      // console.log("parmas 받아옴")
       this.search_word = this.$route.params.target;
       this.keyword = this.search_word;
       this.videoSearch(this.search_word);
@@ -361,7 +356,6 @@ export default {
   },
   methods: {
       changeRoute(name) {
-      // console.log(this.$route.name === name);
       if (this.$route.name === name) {
         this.$router.go({ name });
       } else {
@@ -369,19 +363,23 @@ export default {
       }
     },
      onSearch(word) {
+      if (word.indexOf("v=") > -1) {
+        console.log("야아아아")
+        var tmp = word.indexOf("v=")
+        var id = word.slice(tmp + 2, word.length)
+        console.log(tmp)
+        console.log(id)
+        this.$router.push({name: "Video", params: {vid: id}});
+      }
       this.videolst=[];
       this.videoSearch(word);
     },
     userMenu(idx) {
       if (idx === 0) {
-        // console.log("userid = " + this.$store.state.userid)
         this.$router.push({
           name: "Mypage",
           params: { userid: this.$store.state.userid }
         });
-        // } else if (idx === 1) {
-        //   this.$router.push({name: "Home"});
-        // }
       } else {
         this.$store.dispatch("LOGOUT");
       }
@@ -392,47 +390,6 @@ export default {
         params: { vid: vid }
       });
       window.open(routeData.href, "_blank");
-
-      // Swal.fire(
-      //   {
-      //     title: "영상을 구매하시겠습니까?",
-      //     text: "10 Point 결제 부탁드립니다.",
-      //     imageUrl: vimg,
-      //     imageWidth: 400,
-      //     imageHeight: 200,
-      //     imageAlt: "Video image",
-
-      //     showCancelButton: true,
-
-      //     // closeOnConfirm: false,
-      //     // showLoaderOnConfirm: true
-      //     confirmButtonColor: "#3085d6",
-      //     cancelButtonColor: "#d33",
-      //     confirmButtonText: "Buy it!"
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       Swal.fire({
-      //         title: "결제 성공!",
-      //         text: "해당 영상 학습 페이지로 이동합니다.",
-      //         icon: "success",
-      //         confirmButtonColor: "#3085d6",
-      //         confirmButtonText: "OK",
-
-      //         // "success"
-      //       }) .then((result) => {
-      //         if (result.isConfirmed) {
-      //           this.$router.push({ name: "Video", params: { vid: vid } });
-      //         }
-      //       })
-      //     }
-      //   })
-      // function() {
-      //   setTimeout(function() {
-      //     Swal("결제가 완료되었습니다!");
-      //   }, 2000);
-      // }
-
-      // setTimeout(function() {}, 500);
     },
     beforeTrans() {
       if (this.keyword) {
