@@ -318,9 +318,9 @@ export default {
 .video:hover {
   cursor: pointer;
 }
-.channelDetail {
+/* .channelDetail {
   font-family: 'KyoboHand', sans-serif;
-}
+} */
 
 
 /* Shine */
