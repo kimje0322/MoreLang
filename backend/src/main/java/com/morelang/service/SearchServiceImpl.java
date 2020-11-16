@@ -48,9 +48,14 @@ public class SearchServiceImpl implements SearchService {
 				videoUrl = "https://www.youtube.com/watch?v=" + id;
 				String imgUrl = "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
 				String title = e.getElementsByTag("h3").tagName("span").text();
-				String publishedAt = e.child(1).child(1).child(1).ownText();
-				publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
-				String channelTitle = e.child(1).child(1).child(1).getElementsByTag("span").text();
+				String publishedAt = null;
+				String channelTitle = null;
+				try {
+					publishedAt = e.child(1).child(1).child(1).ownText();
+					publishedAt = publishedAt.substring(0, publishedAt.length() - 2);
+					channelTitle = e.child(1).child(1).child(1).getElementsByTag("span").text();
+				} catch (Exception x) {
+				}
 
 				List<Caption> captions = new ArrayList<>();
 				try {
